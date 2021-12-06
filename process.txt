@@ -1,0 +1,35 @@
+This is a project that will create an accounting and logging system for my trading business.  
+Previously, I utilized MS Excel to log trades and conduct simple accounting.  
+However, Excel has limitations and is not very scalable.  
+The goal is to automate this process to the fullest extent possible and have all of the trade logs 
+and accounting information in a relational database that is accessible, scalable, searchable, flexible, 
+and limits manual entry.  This project will start very simple by utilizing python and sqlite3.  
+The project will grow over time to incorporate more sophisticated databases such as postgreSQL 
+and web applications (e.g. Flask and Django). 
+
+
+Phase 0
+	• The goal of phase 0 is to evaluate the underlying data that you will need to extract, transform, and load (ETL). 
+		– The .csv files from your broker are the tools and data sources you will need to evaluate. 
+		1. Examine and assess the data structure and formats since this will guide the design of the relational database. 
+		2. Write out the process. 
+Phase I
+	• The goal of phase I is to create the basic structure of the system. 
+		– Python and sqlite3 / postgreSQL are the two primary tools for this phase. 
+		1. Create a git repository called "trade accounting and log system" and the associated files.
+		2. Create a visual layout of the ETL process.  
+		3. Use python to create the database, tables, datatypes, etc. 
+
+Phase II
+	• The goal of phase II is to create the relations between the tables that will produce the output. 
+		– Sqlite3 and / or postgreSQL are the primary tools for this phase. 
+		1. Build your foreign key relationships.
+		2. Insert dummy data and test the output.
+
+Phase III
+	• The goal of phase III is to build the initial Extract, Transform, and Load (ETL) process.
+		– Python will be the primary tool for this phase. 
+		– Use Pandas and / or the csv library modules.
+		1. Download some sample .csv files.
+		2. Create a program to format the .csv files for the desired output and ingest the .csv files into the database. 
+		3. Perform the necessary testing to ensure everything works properly. 
