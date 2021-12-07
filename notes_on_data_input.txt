@@ -1,5 +1,5 @@
-1. I will need to create additional tables 
-2. The tables needed are time entry logs, strategy performance, and monetary performance by asset class.
-3. The data currently reside in excel, it is internally generated, and not dependent on an outside source.
-4. I do not anticipate a need for extensive data wrangling although some of the formatting is not clean. 
-5. I will need to use a combination of Python and manual entry to import data.
+I will need to create additional tables 
+The tables needed are time entry logs, strategy performance, and monetary performance by asset class.
+The data currently reside in excel, it is internally generated, and not dependent on an outside source.
+I do not anticipate a need for extensive data wrangling although some of the formatting is not clean. 
+I will need to use a combination of Python and manual entry to import data.
