@@ -1,5 +1,0 @@
-I will need to create additional tables 
-The tables needed are time entry logs, income-expense, strategy performance, and monetary performance by asset class.
-The data currently reside in excel, it is internally generated, and not dependent on an outside source.
-I do not anticipate a need for extensive data wrangling although some of the formatting is not clean. 
-I will need to use a combination of Python and manual entry to import data.
