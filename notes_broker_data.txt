@@ -42,4 +42,5 @@ Equity Options Broker Data 2:
 
 Futures / Options on Futures Broker Data
 1. The data is only accessible via .pdf files.  
-2. I will need to find a solution to convert it into an .xls or .csv format. 
+2. I will need to find a solution to convert it into an .xls or .csv format.
+3. See the following link for a possible solution https://opensource.com/article/21/12/edit-pdf-linux-pdftk 
