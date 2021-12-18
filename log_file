@@ -1,0 +1,84 @@
+commit 10f801dc11c22f5bc6925503e4f7a48fe896be24
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Dec 18 12:12:44 2021 -0500
+
+    completed the basic etl diagram
+    started the diagram of the tabels in the transactions database
+    created diagram layouts of the following tables:
+    time_log, brokers, orders_filled, and activity_log
+
+commit 93d4449519b4bb8d893bd384a3c377eedab24e30
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Dec 18 09:57:54 2021 -0500
+
+    modified the notes_broker_data.txt file to include a link for editing
+    PDFs to grab the data needed
+
+commit d4957b05a7768c07625858f961a49b35150131bf
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Tue Dec 14 13:12:26 2021 -0500
+
+    created the initial ETL diagram flowchart
+
+commit 839ddf858d1525e2739e6000834199b77bb0be79
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Tue Dec 14 09:39:41 2021 -0500
+
+    removed some files
+
+commit 7563657686d1351e38c2561cc5f9843ec1e4becc
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Tue Dec 14 09:37:21 2021 -0500
+
+    updated the file name for the notes on the broker data
+
+commit 79ab5fc1a4d3cfa06338d36af979131cb528fb0e
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Tue Dec 14 09:28:05 2021 -0500
+
+    renamed the file "notes_other_data_input.txt" to
+    notes_self_generated_data.txt
+
+commit b85e4c3d1c1cd123ec9a4eb397e3d2bb8dede595
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Tue Dec 7 12:25:36 2021 -0500
+
+    minor modification to the notes on the data
+
+commit 9804301fb542e15fac4d880e923d575264be8a3a
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Tue Dec 7 11:13:32 2021 -0500
+
+    minor edit to the file to remove the numbering
+
+commit 4d7c60d39a35ee94e528abc65fd7e3ed0add88e9
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Tue Dec 7 11:08:16 2021 -0500
+
+    renamed a file and added a new file that discusses the underlying data
+
+commit 90b8334e800dadf47915bcdf2f87e0518a0faaaf
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Tue Dec 7 10:29:47 2021 -0500
+
+    added a new file about the underlying data and solutions to clean
+    the data
+
+commit f629ee96dafae84b203430bcb906e39630905cfc
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Tue Dec 7 10:13:39 2021 -0500
+
+    removed duplicate README file
+
+commit 4e940811e779b92308b3511b7983d43c2305cbb8
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Mon Dec 6 15:51:07 2021 -0500
+
+    Added the README.md file in markdown format.
+
+commit bfcbb41ab61c717668ba68ec7e441f88402d58ba
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Mon Dec 6 14:52:53 2021 -0500
+
+    This is the first commit of the project.
+    I uploaded the README and the file that describes the process.
