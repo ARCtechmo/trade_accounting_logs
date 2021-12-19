@@ -1,3 +1,16 @@
+commit 545a2a4cd2b35bb5da3cbae88f84df2a155ba12d
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Dec 19 16:26:31 2021 -0500
+
+    continued work on the diagram of the tables within the transactions
+    database; added multiple tables
+
+commit f4cc591fedd5eded9ea6e12d93f6c7cfd741062a
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Dec 18 12:36:00 2021 -0500
+
+    created a log_file to upload based on git log
+
 commit 10f801dc11c22f5bc6925503e4f7a48fe896be24
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sat Dec 18 12:12:44 2021 -0500
