@@ -1,3 +1,17 @@
+commit d887ab00c0510afd7ad945f5363352602a2f58e6
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Fri Dec 24 14:07:45 2021 -0500
+
+    finalized the transaction.db diagram
+    The basic layout is basically complete
+    Time to start coding!!!
+
+commit b02f4a8c06d559fed92155e1e58474dec62041da
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Fri Dec 24 11:54:51 2021 -0500
+
+    updated the log_file
+
 commit 566ffe1d3badcdfa64c6118fff7de14de3ef08d8
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Fri Dec 24 11:51:21 2021 -0500
