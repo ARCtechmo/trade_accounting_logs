@@ -1,3 +1,19 @@
+commit 566ffe1d3badcdfa64c6118fff7de14de3ef08d8
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Fri Dec 24 11:51:21 2021 -0500
+
+    continued to build the transactions database diagram
+    there is one final table diagram to complete
+    also modifiied the the notes_self_generated_data.txt file to note
+    that I will need two separate databases: transactions.db and
+    strategy_performance.db
+
+commit 239f373a108912b39bf9af789d64446a8b956eed
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Dec 19 16:28:07 2021 -0500
+
+    updated the log_file
+
 commit 545a2a4cd2b35bb5da3cbae88f84df2a155ba12d
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sun Dec 19 16:26:31 2021 -0500
