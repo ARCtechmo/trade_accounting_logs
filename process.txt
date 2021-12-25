@@ -19,14 +19,15 @@ Python and sqlite3 / postgreSQL are the two primary tools for this phase.
 1. Create a git repository called "trade accounting and log system" and the associated files.
 2. Create a visual layout of the ETL process.  
 3. Use python to create the database, tables, datatypes, etc. 
-4. Both the app and database will be in development mode.
-5. Name the app ex_app_dev_mode.py and transactions_dev_mode.db
+4. The database is in development mode during this stage.
+5. Name the database_dev_mode.py
 
 
 Phase II: The goal of phase II is to create the relations between the tables that will produce the output. 
 Sqlite3 and / or postgreSQL are the primary tools for this phase. 
-1. Build your foreign key relationships.
-2. Insert dummy data and test the output.
+1. The database_dev_mode.py file is still in development during this stage.
+2. Build your foreign key relationships.
+3. Insert dummy data and test the output.
 
 
 Phase III: The goal of phase III is to build the initial Extract, Transform, and Load (ETL) process.
