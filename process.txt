@@ -14,13 +14,15 @@ The .csv files from your broker are the tools and data sources you will need to 
 2. Write out the process. 
 
 
-Phase I: The goal of phase I is to create the basic structure of the system. 
+Phase I: The goal of phase I is to create the basic structure of the database. 
 Python and sqlite3 / postgreSQL are the two primary tools for this phase. 
 1. Create a git repository called "trade accounting and log system" and the associated files.
 2. Create a visual layout of the ETL process.  
 3. Use python to create the database, tables, datatypes, etc. 
 4. The database is in development mode during this stage.
-5. Name the database_dev_mode.py
+5. Create the database_dev_mode.py and the logs_metrics_app_dev_mode.py file.
+6. Create the first three tables: activity_log, brokers, and time_log.
+7. Test input data into the these first three tables using the logs_metrics_app_dev_mode.py. 
 
 
 Phase II: The goal of phase II is to create the relations between the tables that will produce the output. 
