@@ -1,3 +1,53 @@
+commit 72ed0b8a6734dfbbed4e22c910d039ac04fcab30
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Dec 26 13:40:54 2021 -0500
+
+    created the firt three tables in the transactions.db database and
+    tested inputing data from the python files into the brokers and
+    activity log tables; the brokers and activity_log tables are set
+    the next step is test inputting data into the time_log table and
+    test the primary key associations
+
+commit 6bc7c9a1cf802bcef88388195c72e37e02224bf9
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Dec 26 10:34:10 2021 -0500
+
+    wrote the starter code to form the transaction.db database
+    created the first three tables activity_log, brokers, time_log
+    modified the transactions_db_diagram to replace "foreign_key"
+    with "primary_key" in the time_log table
+
+commit 1f296ed9caeceb572f2dd721d7934f703a176567
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Dec 25 12:06:22 2021 -0500
+
+    created the database_dev_mode.py file
+    updated the process.txt file
+
+commit 788f71b7002f54860f4e25c90ec9aba95fd14f45
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Dec 25 12:02:11 2021 -0500
+
+    accidentally added a file that should not be there
+
+commit 6a2098035ff5f5f845f312ead5ce83c6ff5d66e5
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Dec 25 11:53:56 2021 -0500
+
+    added the ex_app_dev_mode.py file
+
+commit 308a0ef77c88d63a1980a35ef65469a879c250e9
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Dec 25 11:03:23 2021 -0500
+
+    made a few minor edits to the transactions.db diagram
+
+commit 54fc85f57606a171a4c083f661b57c7c448642c6
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Fri Dec 24 14:08:52 2021 -0500
+
+    updated the log_file
+
 commit d887ab00c0510afd7ad945f5363352602a2f58e6
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Fri Dec 24 14:07:45 2021 -0500
