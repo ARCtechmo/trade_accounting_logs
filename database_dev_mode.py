@@ -6,7 +6,7 @@ conn = sqlite3.connect(":memory:")
 cur = conn.cursor()
 # cur.execute("DROP TABLE IF EXISTS activity_log")
 # cur.execute("DROP TABLE IF EXISTS brokers")
-# cur.execute("DROP TABLE IF EXISTS time_log")
+cur.execute("DROP TABLE IF EXISTS time_log")
 cur.executescript('''
 CREATE TABLE IF NOT EXISTS brokers(
     broker_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
@@ -17,17 +17,16 @@ CREATE TABLE IF NOT EXISTS activity_log(
     activity_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
     activity TEXT NOT NULL UNIQUE
     );
-/*start with the time_log tabel next; test the primary keys */
-/* CREATE TABLE IF NOT EXISTS time_log(
+
+CREATE TABLE IF NOT EXISTS time_log(
     start_time TEXT NOT NULL,
     end_time TEXT NOT NULL,
     activity_log_id INTEGER,
     brokers_id INTEGER,
     PRIMARY KEY(activity_log_id, brokers_id)
-    ) */
+    )
 ''')
 print("---------------------table creation successful----------------------")
-
 # brokers_table_functions
 def broker_add_many(bk_name):
     with conn:
@@ -77,5 +76,26 @@ print("-------------activity_log_show_all_func created successfully-------------
 
 ### START HERE NEXT ###
 # insert data into the time_log_table
+def time_log_add_many(log_entry):
+    with conn:
+        cur.executemany("INSERT INTO time_log VALUES(?,?,?,?)", (log_entry), )
+        print("-------------add_many executed successfully-----------------")
+        conn.commit()
+print("-------------time_log_add_many_func created successfully----------------")
+print("record added successfully--------------")
+def time_log_delete_one(log_entry):
+    with conn:
+        cur.execute("DELETE FROM time_log WHERE rowid=? ",(log_entry,) )
+        conn.commit()
+print("-------------time_log_delete_one_func created successfully----------------")
+print("record deleted successfully--------------")
+def time_log_show_all():
+    with conn:
+        cur.execute("SELECT * FROM time_log")
+        print("-----------------show_all func executed successfully---------------")
+        items = cur.fetchall()
+        for item in items:
+            print(item)
+print("-------------time_log_show_all_func created successfully----------------")
 conn.commit()
-conn.close()
+# conn.close()
