@@ -1,29 +1,32 @@
 ### This code is under development ###
 # this is the database_dev_mode.py file that builds the transactions_dev_mode.db database
 import sqlite3
-conn = sqlite3.connect(":memory:")
-# conn = sqlite3.connect('transactions.db')
+# conn = sqlite3.connect(":memory:")
+conn = sqlite3.connect('transactions.db')
 cur = conn.cursor()
 # cur.execute("DROP TABLE IF EXISTS activity_log")
 # cur.execute("DROP TABLE IF EXISTS brokers")
-cur.execute("DROP TABLE IF EXISTS time_log")
+# cur.execute("DROP TABLE IF EXISTS time_log")
 cur.executescript('''
 CREATE TABLE IF NOT EXISTS brokers(
-    broker_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    broker_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     broker TEXT NOT NULL UNIQUE
     );
 
 CREATE TABLE IF NOT EXISTS activity_log(
-    activity_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    activity_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     activity TEXT NOT NULL UNIQUE
     );
 
 CREATE TABLE IF NOT EXISTS time_log(
     start_time TEXT NOT NULL,
     end_time TEXT NOT NULL,
-    activity_log_id INTEGER,
-    brokers_id INTEGER,
-    PRIMARY KEY(activity_log_id, brokers_id)
+    activity_id INTEGER NOT NULL,
+    broker_id INTEGER NOT NULL,
+    FOREIGN KEY(activity_id) REFERENCES activity_log (activity_id)
+        ON UPDATE CASCADE,
+    FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
+        ON UPDATE CASCADE
     )
 ''')
 print("---------------------table creation successful----------------------")
@@ -98,4 +101,4 @@ def time_log_show_all():
             print(item)
 print("-------------time_log_show_all_func created successfully----------------")
 conn.commit()
-# conn.close()
+conn.close()

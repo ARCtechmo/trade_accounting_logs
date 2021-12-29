@@ -14,7 +14,6 @@ bk_name = [
             (3, 'Interactive_Broker'),
             (4, 'TD_Ameritrade'),
             (5, 'Tradestation')
-
           ]
 activity_name = [ (1,'trading_analysis'),
                   (2,'accounting_logging'),
@@ -26,9 +25,9 @@ activity_name = [ (1,'trading_analysis'),
                   (8,'backtesting')
                 ]
 # add broker records
-# database_dev_mode.broker_add_many(bk_name)
-# print("---------------successfully added records to the db------------------\n")
-# database_dev_mode.broker_show_all()
+database_dev_mode.broker_add_many(bk_name)
+print("---------------successfully added records to the db------------------\n")
+database_dev_mode.broker_show_all()
 
 # delete broker record
 # database_dev_mode.broker_delete_one(6)
@@ -37,24 +36,30 @@ activity_name = [ (1,'trading_analysis'),
 
 
 # add activity_log records
-# database_dev_mode.activity_add_many(activity_name)
-# print("---------------successfully added records to the db------------------\n")
-# database_dev_mode.activity_show_all()
+database_dev_mode.activity_add_many(activity_name)
+print("---------------successfully added records to the db------------------\n")
+database_dev_mode.activity_show_all()
 
 # delete activity_log record
 # database_dev_mode.activity_delete_one(9)
 # print("---------------successfully deleted record to the db------------------\n")
 # database_dev_mode.activity_show_all()
 
-
 ### START HERE NEXT ###
-# successfully added time_log records
-# test adding and deleting a few records
-# input records then test foreign key relationships using the SELECT command
-log_entry = [('12/27/2021 16:00','12/27/2021 16:30',1,1)]
+# solved the UNIQUE CONSTRAINT error issue and successfully added time_log records
+# continue to test adding and deleting a few records
+# test foreign key relationships to ensure it returns the correct data
+log_entry = [
+            ('12/27/2021 16:00','12/27/2021 16:30',1,1),
+            ('12/28/2021 16:00','12/28/2021 16:30',1,1),
+            ('12/27/2021 16:00','12/27/2021 16:30',1,1),
+            ('12/28/2021 16:00','12/28/2021 16:30',2,1),
+            ('12/27/2021 16:00','12/27/2021 16:30',2,1),
+            ('12/28/2021 16:00','12/28/2021 16:30',2,1),
+            ('12/28/2021 16:00','12/28/2021 16:30',3,1),
+            ('12/27/2021 16:00','12/27/2021 16:30',3,1),
+            ('12/28/2021 16:00','12/28/2021 16:30',3,1)
+            ]
 database_dev_mode.time_log_add_many(log_entry)
 print("---------------successfully added records to the db------------------\n")
 database_dev_mode.time_log_show_all()
-
-
-#  optional - create a function to get user input for the log entry
