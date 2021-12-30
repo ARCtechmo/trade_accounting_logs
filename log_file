@@ -1,3 +1,12 @@
+commit cefcac2ab9494770e922755b6faa87c6554f6807
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Wed Dec 29 16:51:16 2021 -0500
+
+    had issues with a UNIQUE CONSTRAINT error
+    successfully identified and solved the issue
+    next, continue to test uploading dummy data into the time_log table
+    next, test the foreign key relationships to return the correct data
+
 commit 2a258edc5b8d33ea048cf1ea67d514411dc425e3
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Tue Dec 28 16:49:56 2021 -0500

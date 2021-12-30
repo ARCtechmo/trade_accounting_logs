@@ -37,4 +37,6 @@ Python will be the primary tool for this phase.
 Use Pandas and / or the csv library modules.
 1. Download some sample .csv files.
 2. Create a program to format the .csv files for the desired output and ingest the .csv files into the database. 
-3. Perform the necessary testing to ensure everything works properly. 
+
+Phase IV: Testing
+1. Perform unit tests on all python files to ensure everything works properly.
