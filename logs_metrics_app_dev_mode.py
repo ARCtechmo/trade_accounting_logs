@@ -25,20 +25,23 @@ activity_name = [ (1,'trading_analysis'),
                   (8,'backtesting')
                 ]
 # add broker records
-database_dev_mode.broker_add_many(bk_name)
-print("---------------successfully added records to the db------------------\n")
-database_dev_mode.broker_show_all()
+
+# database_dev_mode.broker_add_many(bk_name)
+# print("---------------successfully added records to the db------------------\n")
+# database_dev_mode.broker_show_all()
 
 # delete broker record
+
 # database_dev_mode.broker_delete_one(6)
 # print("---------------successfully deleted record to the db------------------\n")
 # database_dev_mode.broker_show_all()
 
 
 # add activity_log records
-database_dev_mode.activity_add_many(activity_name)
-print("---------------successfully added records to the db------------------\n")
-database_dev_mode.activity_show_all()
+
+# database_dev_mode.activity_add_many(activity_name)
+# print("---------------successfully added records to the db------------------\n")
+# database_dev_mode.activity_show_all()
 
 # delete activity_log record
 # database_dev_mode.activity_delete_one(9)
@@ -60,6 +63,65 @@ log_entry = [
             ('12/27/2021 16:00','12/27/2021 16:30',3,1),
             ('12/28/2021 16:00','12/28/2021 16:30',3,1)
             ]
-database_dev_mode.time_log_add_many(log_entry)
-print("---------------successfully added records to the db------------------\n")
-database_dev_mode.time_log_show_all()
+
+# database_dev_mode.time_log_add_many(log_entry)
+# print("---------------successfully added records to the db------------------\n")
+# database_dev_mode.time_log_show_all()
+
+
+# connect to the database
+import sqlite3
+conn = sqlite3.connect('transactions.db')
+cur = conn.cursor()
+
+# query the database
+# cur.execute('SELECT * FROM time_log')
+# items = cur.fetchall()
+# for item in items:
+#     print(item)
+
+
+# query the database
+# this works
+# data = cur.execute('''
+# SELECT
+#  time_log.start_time as start,
+#  time_log.end_time as end,
+#  time_log.activity_id as activity,
+#  time_log.broker_id as broker
+# FROM time_log
+# WHERE activity = 3
+# ''')
+# for row in data:
+#     print(row)
+
+
+# query the database
+# test foreign keys
+# test note:  successful test of two foreign key with the LEFT JOIN ON  -
+print("\n----------test result: ???------------")
+data = cur.execute('''
+SELECT
+ time_log.start_time as start,
+ time_log.end_time as end,
+ time_log.activity_id,
+ activity,
+ time_log.broker_id,
+ broker
+FROM time_log
+
+    LEFT JOIN activity_log
+    ON time_log.activity_id = activity_log.activity_id
+
+    LEFT JOIN brokers
+    ON time_log.broker_id = brokers.broker_id
+''')
+for row in data:
+    print(row)
+
+### START HERE NEXT ###
+# query the database
+# test foreign keys
+# test two foreign keys with the WHERE clause conditional
+
+conn.close()

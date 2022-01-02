@@ -1,3 +1,12 @@
+commit bbe38f1ab258c57f8bbca8117137641789066753
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Thu Dec 30 16:35:02 2021 -0500
+
+    mostly worked on querying the time_log table
+    I had some trouble with getting the proper output from the
+    foreign key relationships; it returns the numbers but not the
+    broker / activity column names; need to figure this out
+
 commit cefcac2ab9494770e922755b6faa87c6554f6807
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Wed Dec 29 16:51:16 2021 -0500
