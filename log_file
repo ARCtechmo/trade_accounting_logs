@@ -1,3 +1,11 @@
+commit 2d4cd895e5aed75965fe8e07615c2d6df12acc2f
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Jan 1 20:17:51 2022 -0500
+
+    continued testing of the foreign key relationships in the time_log
+    table; successfully created the SQL statements to return the correct
+    resuls; next time continue testing the foreign keys with conditionals
+
 commit bbe38f1ab258c57f8bbca8117137641789066753
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Thu Dec 30 16:35:02 2021 -0500

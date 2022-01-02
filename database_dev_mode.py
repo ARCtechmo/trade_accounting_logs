@@ -2,19 +2,19 @@
 # this is the database_dev_mode.py file that builds the transactions_dev_mode.db database
 import sqlite3
 # conn = sqlite3.connect(":memory:")
-conn = sqlite3.connect('transactions.db')
+conn = sqlite3.connect('transactions_dev_mode.db')
 cur = conn.cursor()
 # cur.execute("DROP TABLE IF EXISTS activity_log")
 # cur.execute("DROP TABLE IF EXISTS brokers")
 # cur.execute("DROP TABLE IF EXISTS time_log")
 cur.executescript('''
 CREATE TABLE IF NOT EXISTS brokers(
-    broker_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    broker_id INTEGER NOT NULL PRIMARY KEY,
     broker TEXT NOT NULL UNIQUE
     );
 
 CREATE TABLE IF NOT EXISTS activity_log(
-    activity_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    activity_id INTEGER NOT NULL PRIMARY KEY,
     activity TEXT NOT NULL UNIQUE
     );
 
