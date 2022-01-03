@@ -1,3 +1,15 @@
+commit 2917fbaedf632832647b48da5bc2d1f07cd952dc
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Jan 2 12:57:40 2022 -0500
+
+    contined test the foreign key relationships in the time_log table
+    removed the AUTOINCREMENT from schema in the brokers and
+    activity_tables based on sqlit3 documentation
+    tests for foreign keys, LEFT JOIN ON, conditional WHERE OR clausses
+    and LIKE case insensitivity were successful
+    next input dummy data using the correct YYYY-MM-DD HH:MM format
+    and test the data
+
 commit 2d4cd895e5aed75965fe8e07615c2d6df12acc2f
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sat Jan 1 20:17:51 2022 -0500

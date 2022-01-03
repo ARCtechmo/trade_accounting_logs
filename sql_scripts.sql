@@ -127,8 +127,36 @@ OR activity LIKE 'TRADING%'
 
 
 
+/* two foreign keyS, LEFT JOIN ON, conditional WHERE IN clauses, YYYY-MM-DD HH:MM */
+SELECT
+ time_log.start_time as start,
+ time_log.end_time as end,
+ time_log.activity_id,
+ activity,
+ time_log.broker_id,
+ broker
+FROM time_log
+    LEFT JOIN activity_log
+    ON time_log.activity_id = activity_log.activity_id
 
+    LEFT JOIN brokers
+    ON time_log.activity_id = brokers.broker_id
+WHERE '2022-01-04 10:00' IN (start)
 
+/* two foreign keyS, LEFT JOIN ON, conditional WHERE NOT IN clauses, YYYY-MM-DD HH:MM */
+ time_log.start_time as start,
+ time_log.end_time as end,
+ time_log.activity_id,
+ activity,
+ time_log.broker_id,
+ broker
+FROM time_log
+    LEFT JOIN activity_log
+    ON time_log.activity_id = activity_log.activity_id
+
+    LEFT JOIN brokers
+    ON time_log.activity_id = brokers.broker_id
+WHERE '2022-01-04 10:00' NOT IN (start)
 
 
 

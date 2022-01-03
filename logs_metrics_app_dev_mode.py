@@ -8,22 +8,26 @@ if __name__ == "__main__":
     print('app module is being run directly')
 else:
     print('database module is being imported into the app module')
-bk_name = [
-            (1, 'Archer_Daniel_Midland'),
-            (2, 'FOREX_com'),
-            (3, 'Interactive_Broker'),
-            (4, 'TD_Ameritrade'),
-            (5, 'Tradestation')
-          ]
-activity_name = [ (1,'trading_analysis'),
-                  (2,'accounting_logging'),
-                  (3,'market_research'),
-                  (4,'performance_review'),
-                  (5,'business_plan_development'),
-                  (6,'trade_plan_development'),
-                  (7,'professional_development'),
-                  (8,'backtesting')
-                ]
+
+### START HERE NEXT ###
+# bk_name = [
+#             (1, 'No_Broker'),
+#             (2, 'Archer_Daniel_Midland'),
+#             (3, 'FOREX_com'),
+#             (4, 'Interactive_Brokers'),
+#             (5, 'TD_Ameritrade'),
+#             (6, 'Tradestation'),
+#             (7, 'Tradingview')
+#           ]
+# activity_name = [ (1,'trading_analysis'),
+#                   (2,'accounting_logging'),
+#                   (3,'market_research'),
+#                   (4,'performance_review'),
+#                   (5,'business_plan_development'),
+#                   (6,'trade_plan_development'),
+#                   (7,'professional_development'),
+#                   (8,'backtesting')
+#                 ]
 # add broker records
 # database_dev_mode.broker_add_many(bk_name)
 # print("---------------successfully added records to the db------------------\n")
@@ -46,22 +50,10 @@ activity_name = [ (1,'trading_analysis'),
 
 # add records
 # log_entry = [
-#             ('1/03/2022 16:00','1/03/2022 16:30',1,1),
-#             ('1/03/2022 16:00','1/03/2022 16:30',1,1),
-#             ('1/03/2022 16:00','1/03/2022 16:30',1,1),
-#             ('1/04/2022 16:00','1/04/2022 16:30',2,2),
-#             ('1/04/2022 16:00','1/04/2022 16:30',2,2),
-#             ('1/04/2022 16:00','1/04/2022 16:30',2,2),
-#             ('1/05/2022 16:00','1/05/2022 16:30',3,3),
-#             ('1/05/2022 16:00','1/05/2022 16:30',3,3),
-#             ('1/05/2022 16:00','1/05/2022 16:30',3,3)
+#             ('2022-01-03 10:00','2022-01-03 11:00',1,1),
+#             ('2022-01-04 10:00','2022-01-04 11:00',2,2),
+#             ('2022-01-05 10:00','2022-01-05 11:00',3,3)
 #             ]
-
-log_entry = [
-            ('1/03/2022 16:00','1/03/2022 16:30',1,1),
-            ('1/04/2022 16:00','1/04/2022 16:30',2,2),
-            ('1/05/2022 16:00','1/05/2022 16:30',3,3)
-            ]
 
 
 # database_dev_mode.time_log_add_many(log_entry)
@@ -98,18 +90,11 @@ FROM time_log
 
     LEFT JOIN brokers
     ON time_log.activity_id = brokers.broker_id
-WHERE broker LIKE 'forex%'
-OR activity LIKE 'TRADING%'
+WHERE '2022-01-04 10:00' NOT IN (start)
 ''')
 for row in data:
     print(row)
 
 ### START HERE NEXT ###
-# date and time format
-# read the tutorial on sqlite3 date and time
-# insert dummy data with the correct date and time format
-# build on the previous command statemrns to query the year, month, and day
-print("\n----------test result: ???------------")
-
 
 conn.close()

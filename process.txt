@@ -14,7 +14,7 @@ The .csv files from your broker are the tools and data sources you will need to 
 2. Write out the process. 
 
 
-Phase I: The goal of phase I is to create the basic structure of the database. 
+Phase I: The goal of phase I is to create the basic structure of the database and the first three tables. 
 Python and sqlite3 / postgreSQL are the two primary tools for this phase. 
 1. Create a git repository called "trade accounting and log system" and the associated files.
 2. Create a visual layout of the ETL process.  
@@ -25,18 +25,29 @@ Python and sqlite3 / postgreSQL are the two primary tools for this phase.
 7. Test input data into the these first three tables using the logs_metrics_app_dev_mode.py. 
 
 
-Phase II: The goal of phase II is to create the relations between the tables that will produce the output. 
-Sqlite3 and / or postgreSQL are the primary tools for this phase. 
-1. The database_dev_mode.py file is still in development during this stage.
-2. Build your foreign key relationships.
-3. Insert dummy data and test the output.
+Phase II: The goal of phase II is to build the initial Extract, Transform, and Load (ETL) process. 
+1. Sqlite3 and / or postgreSQL are the primary tools for this phase. 
+2. The database_dev_mode.py file is still in development during this stage.
+3. Create the fx_log table. 
+4. Insert dummy data and test the foreign key relationship in the fx_log table.
+5. Create the python file fx.py that will extract, clean, and import data from the fx broker .csv file. 
+6. The python fx.py file will load the cleaned data into the logs_metrics_app_dev_mode.py.
+7. The logs_metrics_app_dev_mode.py file should successfully load the .csv data into the database. 
+8. Test using the csv module, pandas, and the sqlite3 import csv feature to compare the most efficient methods.
 
 
-Phase III: The goal of phase III is to build the initial Extract, Transform, and Load (ETL) process.
-Python will be the primary tool for this phase. 
-Use Pandas and / or the csv library modules.
-1. Download some sample .csv files.
-2. Create a program to format the .csv files for the desired output and ingest the .csv files into the database. 
+Phase III: The goal of phase III is to continue to build the Extract, Transform, and Load (ETL) process.
+1. Sqlite3 and / or postgreSQL are the primary tools for this phase.
+2. The database_dev_mode.py file is still in development during this stage.
+3. Create the options_log table.
+4. Insert dummy data and test the foreign key relationships in the options_log table.
+5. Create the python files td.py and ib.py that will extract, clean, and import data from the fx broker .csv file.
+6. The python td.py ib.py files will load the cleaned data into the logs_metrics_app_dev_mode.py.
+7. The logs_metrics_app_dev_mode.py file should successfully load the .csv data into the database.
 
-Phase IV: Testing
+
+Phase IV: place holder - create the final tables
+
+
+Phase V: The goal of phase V is to perform successful tests of the entire ETL process.
 1. Perform unit tests on all python files to ensure everything works properly.
