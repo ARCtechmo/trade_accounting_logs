@@ -7,6 +7,7 @@ cur = conn.cursor()
 # cur.execute("DROP TABLE IF EXISTS activity_log")
 # cur.execute("DROP TABLE IF EXISTS brokers")
 # cur.execute("DROP TABLE IF EXISTS time_log")
+# cur.execute("DROP TABLE IF EXISTS fx_log")
 cur.executescript('''
 CREATE TABLE IF NOT EXISTS brokers(
     broker_id INTEGER NOT NULL PRIMARY KEY,
@@ -25,6 +26,28 @@ CREATE TABLE IF NOT EXISTS time_log(
     broker_id INTEGER NOT NULL,
     FOREIGN KEY(activity_id) REFERENCES activity_log (activity_id)
         ON UPDATE CASCADE,
+    FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
+        ON UPDATE CASCADE
+    );
+CREATE TABLE IF NOT EXISTS fx_log(
+    entry_date TEXT NOT NULL,
+    entry_year INTEGER NOT NULL,
+    entry_month INTEGER NOT NULL,
+    entry_day INTEGER NOT NULL,
+    entry_time TEXT NOT NULL,
+    exit_date TEXT NOT NULL,
+    exit_year INTEGER NOT NULL,
+    exit_month INTEGER NOT NULL,
+    exit_day INTEGER NOT NULL,
+    exit_time TEXT NOT NULL,
+    market TEXT NOT NULL,
+    buy_sell TEXT NOT NULL,
+    trade_size INTEGER NOT NULL,
+    open_price REAL NOT NULL,
+    close_price REAL NOT NULL,
+    gross REAL NOT NULL,
+    net REAL NOT NULL,
+    broker_id INTEGER NOT NULL,
     FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
         ON UPDATE CASCADE
     )
@@ -77,7 +100,6 @@ def activity_show_all():
             print(item)
 print("-------------activity_log_show_all_func created successfully----------------")
 
-### START HERE NEXT ###
 # insert data into the time_log_table
 def time_log_add_many(log_entry):
     with conn:
@@ -100,5 +122,22 @@ def time_log_show_all():
         for item in items:
             print(item)
 print("-------------time_log_show_all_func created successfully----------------")
+# insert data into the fx_log_table
+def fx_log_add_many(log_entry):
+    with conn:
+        cur.executemany("INSERT INTO fx_log VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
+        print("-------------add_many executed successfully-----------------")
+        conn.commit()
+print("-------------fx_log_add_many_func created successfully----------------")
+print("record added successfully--------------")
+def fx_log_show_all():
+    with conn:
+        cur.execute("SELECT * FROM fx_log")
+        print("-----------------show_all func executed successfully---------------")
+        items = cur.fetchall()
+        for item in items:
+            print(item)
+print("-------------fx_log_show_all_func created successfully----------------")
+
 conn.commit()
 conn.close()

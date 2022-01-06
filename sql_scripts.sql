@@ -2,12 +2,10 @@
 SELECT time_log.activity_id as activity, time_log.broker_id as broker
 FROM time_log; 
 
-
 /* WHERE clause */ 
 SELECT  time_log.activity_id as activity, time_log.broker_id as broker
 FROm time_log
 WHERE activity = 3; 
-
 
 /* aliases and WHERE clause */
 SELECT 
@@ -17,7 +15,6 @@ SELECT
  time_log.broker_id as broker 
  FROM time_log
 WHERE activity = 1 OR  activity = 3;
-
 
 /* foreign key relationshipts */
 SELECT
@@ -38,7 +35,6 @@ SELECT
 FROM time_log
     LEFT JOIN activity_log
     ON time_log.activity_id = activity_log.activity_id
-
 
 /*two foreign keys and two LEFT JOIN ON */
 SELECT
@@ -88,7 +84,6 @@ FROM time_log
 WHERE activity LIKE 'trading%'
 OR activity LIKE 'accounting%'
 
-
 /*two foreign keys, two LEFT JOIN ON, two conditional WHERE OR clauses */
 SELECT
  time_log.start_time as start,
@@ -123,10 +118,6 @@ FROM time_log
 WHERE broker LIKE 'forex%'
 OR activity LIKE 'TRADING%'
 
-
-
-
-
 /* two foreign keyS, LEFT JOIN ON, conditional WHERE IN clauses, YYYY-MM-DD HH:MM */
 SELECT
  time_log.start_time as start,
@@ -158,8 +149,29 @@ FROM time_log
     ON time_log.activity_id = brokers.broker_id
 WHERE '2022-01-04 10:00' NOT IN (start)
 
+/* fx_log foreign key WHERE conditional */
+SELECT *
+FROM fx_log
+    LEFT JOIN brokers
+    ON fx_log.broker_id = brokers.broker_id
+WHERE broker LIKE 'forex%'
 
+/* fx_log negative /  positive numbers WHERE conditional */
+SELECT *
+FROM fx_log
+    LEFT JOIN brokers
+    ON fx_log.broker_id = brokers.broker_id
+WHERE gross_gain <0
 
+/* fx_log queries */
+SELECT *
+FROM fx_log
+    LEFT JOIN brokers
+    ON fx_log.broker_id = brokers.broker_id
+/* WHERE gross <0 */
+/* WHERE gross >0 */
+/* WHERE broker LIKE 'interactive%' */
+/* WHERE entry_time > '10:00' */
 
 
 

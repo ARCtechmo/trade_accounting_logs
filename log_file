@@ -1,3 +1,12 @@
+commit 7f54f157be10305aed44031a78590faaabaf2748
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Mon Jan 3 11:23:01 2022 -0500
+
+    made a minor modification to the db schema tables
+    completed testing of the time_log table to include foreign keys
+    and the date format; next create the fx_log table and start the
+    ETL process
+
 commit 2917fbaedf632832647b48da5bc2d1f07cd952dc
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sun Jan 2 12:57:40 2022 -0500
