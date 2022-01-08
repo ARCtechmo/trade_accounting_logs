@@ -1,3 +1,21 @@
+commit fde919306e1af4364cf5a0dc68aa4323bb311b07
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Fri Jan 7 14:26:37 2022 -0500
+
+    created the fx.py file to extract, clean, and load the data from
+    a .csv file; made progress on extracting; created sections to alert
+    the user if there is missing data; worked on inserting dates into
+    a list of extracted rows and this is what needs to be completed next
+
+commit 6c095ebb789623eb10374bb04467288a6a19152d
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Thu Jan 6 14:30:30 2022 -0500
+
+    created the fx_log table; successfully tested the foreign_key
+    successfully queried the fx_log table with conditionals using
+    dummy data; next build the fx_log.py file that will extract,
+    clean, and load the data into the logs_metrics_app_dev_mode.py file
+
 commit 7f54f157be10305aed44031a78590faaabaf2748
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Mon Jan 3 11:23:01 2022 -0500

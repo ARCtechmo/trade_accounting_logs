@@ -53,40 +53,48 @@ for key,value in di.items():
         matching_id = key
         matched_lst.append(matching_id)
         print('open_transaction_id_matched:', matching_id)
-
-### GOAL: each row needs both the entry and exit date; all other data is there ###
-# insert the opening date from the opening transaction id into the the fxlist
-## Task 1) print each row where the "opening transaction id"  in column 3 is in matched_lst
-
-
 print("\n-------------------test: list of matched ids--------------------------")
 # print(matched_lst)
 
-# extract the entry_date transaction_id to the matched_id in the match_lst
-entry_exit_lst = []
+### fxlst is the list that contains the transactions but may have missing data
+# print(fxlst)
+# for s in fxlst:
+#     print(s)
+
+# remove the missing data from fxlst
+# only include entry_date transaction_id to the matched_id in the match_lst
+fxlst2 = []
 for row in fxlst:
     open_id = row[3]
-    # print(row[3])
     # print(open_id)
     if open_id in matched_lst:
-        # entry_exit_lst.append(row)
-        # print(row)
-        if row[2] == '000000000':
-            entry_date = row[0]
-            entry_exit_lst.append(entry_date)
-            # print(entry_date,row)
+        fxlst2.append(row)
+
+### Refine fxlst2
+# fxlst2 contains matching opening transactions
+# extract dates from the rows that have the opening date and ...
+# ...insert into the rows
+# print(fxlst2)
+opentrans = []
+for item in fxlst2:
+    # print(item)
+    if item[2] == '000000000':
+        entry_date = item[0]
+        opentrans.append((entry_date, item[3]))
     else:
         pass
-### START HERE NEXT ###
-# the code below is not quite correct
-# get the entry dates inserted and matched with the open close
-for row in fxlst:
-    if row[2] == '000000000':
-        pass
-    else:
+# opentrans is a list of tuples with the entry dates and transaction ids
+# this extracts the columns with closing date '000000000'
+fxlst3 = []
+for tup in opentrans:
+    # print(tup)
+    for x in fxlst2:
+        if x[2] != '000000000' and tup[1] == x[3]:
+            fxlst3.append([tup[0],x])
+# fxlst3 is an array witth the opening date,[column data as a list]
+for y in fxlst3:
+    print(y)
 
-        for row in entry_exit_lst:
-            entry_exit_lst.append(row)
-print(entry_exit_lst)
+### task: split the fxlst3 into a new lst; the goals is to get one list
 
-### GOAL: clean and format the data in each column
+### task: clean and format the data in each column
