@@ -1,3 +1,11 @@
+commit 4cc2f91a4969b45373033c0d52b59e036efc09c8
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Jan 8 11:01:44 2022 -0500
+
+    continued work on the fx_dev_mode.py app; successfully extracted
+    the necessary data into lists where I can now begin to clean the
+    data
+
 commit fde919306e1af4364cf5a0dc68aa4323bb311b07
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Fri Jan 7 14:26:37 2022 -0500
