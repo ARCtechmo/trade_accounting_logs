@@ -12,7 +12,8 @@ import csv
 # extract rows only with open and closed trades (e.g. no commission or financing rows)
 # append the data to a list where to do further cleaning
 fxlst = []
-with open('fx_account_test2.csv',newline='') as csvfile:
+filename = input("enter the .csv filename: ")
+with open(filename, newline='') as csvfile:
     reader = csv.reader(csvfile)
     next(csvfile) # removes the header - comment out if .csv file has no header
     for row in reader:
@@ -88,11 +89,8 @@ for tup in opentrans:
         if x[2] != '000000000' and tup[1] == x[3]:
             fxlst3.append([tup[0],x])
 
-### task: clean and format the data in each column
-# format the date YYY-MM-DD-HH:MM
-# for y in fxlst3:
-    # print(y)
-    # print(y[0])
+# extract and format the entry date to YYYY-MM-DD-HH:MM
+fxlst4 = []
 for dmy in fxlst3:
     # print(dmy[0])
     if dmy[0][2] == '/' and dmy[0][5] =='/':
@@ -101,8 +99,14 @@ for dmy in fxlst3:
         entry_mo = dmy[0][3:5]
         entry_day = dmy[0][:2]
         entry_time = dmy[0][11:16]
-        formatted_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
-        print(formatted_date)
+        if len(entry_time) < 5:
+            entry_time = f'0{dmy[0][11:16]}'
+            formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
+            fxlst4.append(formatted_entry_date)
+        elif len(entry_time) == 5:
+            entry_time = dmy[0][11:16]
+            formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
+            fxlst4.append(formatted_entry_date)
     elif dmy[0][2] == '/' and dmy[0][4] =='/':
         # print(dmy[0])
         entry_yr = dmy[0][5:9]
@@ -110,8 +114,14 @@ for dmy in fxlst3:
         entry_mo = f'0{entry_mo}'
         entry_day = dmy[0][:2]
         entry_time = dmy[0][10:15]
-        formatted_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
-        print(formatted_date)
+        if len(entry_time) < 5:
+            entry_time = f'0{dmy[0][10:15]}'
+            formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
+            fxlst4.append(formatted_entry_date)
+        elif len(entry_time) == 5:
+            entry_time = dmy[0][10:15]
+            formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
+            fxlst4.append(formatted_entry_date)
     elif dmy[0][1] == '/' and dmy[0][4] =='/':
         # print(dmy[0])
         entry_yr = dmy[0][5:9]
@@ -119,8 +129,14 @@ for dmy in fxlst3:
         entry_day = dmy[0][0]
         entry_day = f'0{entry_day}'
         entry_time = dmy[0][10:14]
-        formatted_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
-        print(formatted_date)
+        if len(entry_time) < 5:
+            entry_time = f'0{dmy[0][10:14]}'
+            formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
+            fxlst4.append(formatted_entry_date)
+        elif len(entry_time) == 5:
+            entry_time = dmy[0][10:14]
+            formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
+            fxlst4.append(formatted_entry_date)
     elif dmy[0][1] == '/' and dmy[0][3] =='/':
         # print(dmy[0])
         entry_yr = dmy[0][4:8]
@@ -129,8 +145,104 @@ for dmy in fxlst3:
         entry_day = dmy[0][0]
         entry_day = f'0{entry_day}'
         entry_time = dmy[0][9:13]
-        formatted_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
-        print(formatted_date)
+        if len(entry_time) < 5:
+            entry_time = f'0{dmy[0][9:13]}'
+            formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
+            fxlst4.append(formatted_entry_date)
+        elif len(entry_time) == 5:
+            entry_time = dmy[0][9:13]
+            formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
+            fxlst4.append(formatted_entry_date)
+
+# extract and format the exit date to YYYY-MM-DD-HH:MM
+fxlst5 = []
+for dmy in fxlst3:
+    # print(dmy[0])
+    if dmy[1][0][2] == '/' and dmy[1][0][5] =='/':
+        # print(dmy[0])
+        exit_yr = dmy[1][0][6:10]
+        exit_mo = dmy[1][0][3:5]
+        exit_day = dmy[1][0][:2]
+        exit_time = dmy[1][0][11:16]
+        if len(exit_time) < 5:
+            exit_time = f'0{dmy[1][0][11:16]}'
+            formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
+            fxlst5.append(formatted_exit_date)
+        elif len(exit_time) == 5:
+            exit_time = dmy[1][0][11:16]
+            formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
+            fxlst5.append(formatted_exit_date)
+    elif dmy[1][0][2] == '/' and dmy[1][0][4] =='/':
+        # print(dmy[0])
+        exit_yr = dmy[1][0][5:9]
+        exit_mo = dmy[1][0][3]
+        exit_mo = f'0{exit_mo}'
+        exit_day = dmy[1][0][:2]
+        exit_time = dmy[1][0][10:15]
+        if len(exit_time) < 5:
+            exit_time = f'0{dmy[1][0][10:15]}'
+            formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
+            fxlst5.append(formatted_exit_date)
+        elif len(exit_time) == 5:
+            exit_time = dmy[1][0][10:15]
+            formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
+            fxlst5.append(formatted_exit_date)
+    elif dmy[1][0][1] == '/' and dmy[1][0][4] =='/':
+        # print(dmy[0])
+        exit_yr = dmy[1][0][5:9]
+        exit_mo = dmy[1][0][2:4]
+        exit_day = dmy[1][0][0]
+        exit_day = f'0{exit_day}'
+        exit_time = dmy[1][0][10:14]
+        if len(exit_time) < 5:
+            exit_time = f'0{dmy[1][0][10:14]}'
+            formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
+            fxlst5.append(formatted_exit_date)
+        elif len(exit_time) == 5:
+            exit_time = dmy[1][0][10:14]
+            formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
+            fxlst5.append(formatted_exit_date)
+    elif dmy[1][0][1] == '/' and dmy[1][0][3] =='/':
+        # print(dmy[0])
+        exit_yr = dmy[1][0][4:8]
+        exit_mo = dmy[1][0][2]
+        exit_mo = f'0{exit_mo}'
+        exit_day = dmy[1][0][0]
+        exit_day = f'0{exit_day}'
+        exit_time = dmy[1][0][9:13]
+        if len(exit_time) < 5:
+            exit_time = f'0{dmy[1][0][9:13]}'
+            formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
+            fxlst5.append(formatted_exit_date)
+        elif len(exit_time) == 5:
+            exit_time = dmy[1][0][9:13]
+            formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
+            fxlst5.append(formatted_exit_date)
 
 
-## task: clean and format the data in each column
+### START HERE NEXT ###
+# the entry and exit dates appear to be properly formatted
+# download more .csv files and run them through the program to test
+# compare the original entry date format to the formatted entry dates
+print("---------Unformatted Entry Dates-------------------")
+for y in fxlst3:
+    print(y[0])
+print("----------------------------------------------\n")
+
+# fxlst4 is a list of clean and properly formatted entry dates
+print("---------Formatted Entry Dates-------------------")
+for item in fxlst4:
+    print(item)
+print("------------------------------------------------\n")
+
+# compare the original exit date format to the formatted exit dates
+print("---------Unformatted Exit Dates-------------------")
+for y in fxlst3:
+    print(y[1][0])
+print("------------------------------------------------\n")
+
+
+# fxlst5 is a list of clean and properly formatted entry dates
+print("---------Formatted Exit Dates-------------------")
+for item in fxlst5:
+    print(item)

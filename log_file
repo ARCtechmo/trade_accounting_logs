@@ -1,3 +1,17 @@
+commit be055659b5c59148635240faef727bcf5ae2441c
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Jan 9 10:44:17 2022 -0500
+
+    continued formatting the data in the fx.py file successfully
+    got the date format correct in column 1; next fix column 2
+
+commit a6c4479a873f24adf2548cabd4c8f12dac96b8b0
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Jan 8 13:15:29 2022 -0500
+
+    continued work on data formatting; working on the dates in the list
+    the dates are a mess from the .csv file so it requires a bit of work
+
 commit 4cc2f91a4969b45373033c0d52b59e036efc09c8
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sat Jan 8 11:01:44 2022 -0500
