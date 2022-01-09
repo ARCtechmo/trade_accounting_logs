@@ -32,8 +32,10 @@ Phase II: The goal of phase II is to build the initial Extract, Transform, and L
 4. Insert dummy data and test the foreign key relationship in the fx_log table.
 5. Create the python file fx.py that will extract, clean, and import data from the fx broker .csv file. 
 6. The python fx.py file will load the cleaned data into the logs_metrics_app_dev_mode.py.
-7. The logs_metrics_app_dev_mode.py file should successfully load the .csv data into the database. 
-8. Test using the csv module, pandas, and the sqlite3 import csv feature to compare the most efficient methods.
+7. The logs_metrics_app_dev_mode.py file should successfully load the .csv data into the database.
+8. Dowload .csv files (at least six different months) and test  the app to ensure it returns the proper results.  
+9. Upload the monthly results to the logs_metrics_app_dev_mode.py file then into the database.
+10. Run queries on the uploaded monthly data.  The gain / loss should match the broker statements.
 
 
 Phase III: The goal of phase III is to continue to build the Extract, Transform, and Load (ETL) process.

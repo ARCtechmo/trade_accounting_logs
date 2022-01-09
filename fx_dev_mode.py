@@ -12,7 +12,7 @@ import csv
 # extract rows only with open and closed trades (e.g. no commission or financing rows)
 # append the data to a list where to do further cleaning
 fxlst = []
-with open('fx_account_test.csv',newline='') as csvfile:
+with open('fx_account_test2.csv',newline='') as csvfile:
     reader = csv.reader(csvfile)
     next(csvfile) # removes the header - comment out if .csv file has no header
     for row in reader:
@@ -90,26 +90,45 @@ for tup in opentrans:
 
 ### task: clean and format the data in each column
 # format the date YYY-MM-DD-HH:MM
-for y in fxlst3:
+# for y in fxlst3:
     # print(y)
-    print(y[0])
-
-### START HERE NEXT ###
-### task: split the fxlst3
-## re-evaluated the fx data; *** the broker uses DD-MM-YYYY HH:MM:SS format
-# need to account for various date formats and length (see my excel sheet in projects folder on Windows)
-# 1) need to account for seconds HH:MM:SS
-# 2) there are many different combinations so the key is to differentiate by character
-# 3) DD/MM/YYYY   DD/M/YYYY  D/MM/YYYY
-# 4) if y[0][1] == '/' and y[0][5] == '/'    if y[0][2] == '/' and y[0][4] == '/'
-# if you do it this way the seconds should not matter becuase it captures the date correctly
-# do not set the conditions based on length (redo the code below)
-for y in fxlst3:
-    if len(y[0]) == 15:
-        entry_yr = y[0][5:10]
-        entry_mo = y[0][2:5]
-        entry_day = y[0][:1]
-        entry_time = y[0][8:]
+    # print(y[0])
+for dmy in fxlst3:
+    # print(dmy[0])
+    if dmy[0][2] == '/' and dmy[0][5] =='/':
+        # print(dmy[0])
+        entry_yr = dmy[0][6:10]
+        entry_mo = dmy[0][3:5]
+        entry_day = dmy[0][:2]
+        entry_time = dmy[0][11:16]
+        formatted_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
+        print(formatted_date)
+    elif dmy[0][2] == '/' and dmy[0][4] =='/':
+        # print(dmy[0])
+        entry_yr = dmy[0][5:9]
+        entry_mo = dmy[0][3]
+        entry_mo = f'0{entry_mo}'
+        entry_day = dmy[0][:2]
+        entry_time = dmy[0][10:15]
+        formatted_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
+        print(formatted_date)
+    elif dmy[0][1] == '/' and dmy[0][4] =='/':
+        # print(dmy[0])
+        entry_yr = dmy[0][5:9]
+        entry_mo = dmy[0][2:4]
+        entry_day = dmy[0][0]
+        entry_day = f'0{entry_day}'
+        entry_time = dmy[0][10:14]
+        formatted_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
+        print(formatted_date)
+    elif dmy[0][1] == '/' and dmy[0][3] =='/':
+        # print(dmy[0])
+        entry_yr = dmy[0][4:8]
+        entry_mo = dmy[0][2]
+        entry_mo = f'0{entry_mo}'
+        entry_day = dmy[0][0]
+        entry_day = f'0{entry_day}'
+        entry_time = dmy[0][9:13]
         formatted_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
         print(formatted_date)
 
