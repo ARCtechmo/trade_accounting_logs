@@ -1,3 +1,12 @@
+commit 33b26ea24ae0e6bda49389fd19d5ef9dba1cc55f
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Jan 9 13:19:02 2022 -0500
+
+    successfully cleaned the formatting of the first two columns with the
+    entry and exit dates; next test the process with more data from the broker
+    test at one full year month by month to ensure the program captures
+    missing data and formats the dates correctly
+
 commit be055659b5c59148635240faef727bcf5ae2441c
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sun Jan 9 10:44:17 2022 -0500

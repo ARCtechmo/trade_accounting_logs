@@ -1,9 +1,11 @@
 ### UNDER DEVELOPMENT ###
 # this app will import and clean the forex broker data from a .csv file
 import csv
+import re
 
 # read the .csv data
-# with open('fx_account_test.csv',newline='') as csvfile:
+# filename = input("enter the .csv filename: ")
+# with open(filename, newline='') as csvfile:
 #     reader = csv.reader(csvfile)
 #     next(csvfile) # removes the header - comment out if .csv file has no header
 #     for row in reader:
@@ -15,7 +17,7 @@ fxlst = []
 filename = input("enter the .csv filename: ")
 with open(filename, newline='') as csvfile:
     reader = csv.reader(csvfile)
-    next(csvfile) # removes the header - comment out if .csv file has no header
+    # next(csvfile) # removes the header - comment out if .csv file has no header
     for row in reader:
         if row[4] != "":
             fxlst.append(row)
@@ -219,30 +221,62 @@ for dmy in fxlst3:
             formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
             fxlst5.append(formatted_exit_date)
 
-
-### START HERE NEXT ###
-# the entry and exit dates appear to be properly formatted
-# download more .csv files and run them through the program to test
-# compare the original entry date format to the formatted entry dates
-print("---------Unformatted Entry Dates-------------------")
-for y in fxlst3:
-    print(y[0])
-print("----------------------------------------------\n")
+# tested the entry and exit dates for one one year of data and the code works
+# print("---------Unformatted Entry Dates-------------------")
+# for y in fxlst3:
+#     print(y[0])
+# print("----------------------------------------------\n")
 
 # fxlst4 is a list of clean and properly formatted entry dates
-print("---------Formatted Entry Dates-------------------")
-for item in fxlst4:
-    print(item)
-print("------------------------------------------------\n")
+# print("---------Formatted Entry Dates-------------------")
+# for item in fxlst4:
+#     print(item)
+# print("------------------------------------------------\n")
 
 # compare the original exit date format to the formatted exit dates
-print("---------Unformatted Exit Dates-------------------")
-for y in fxlst3:
-    print(y[1][0])
-print("------------------------------------------------\n")
-
+# print("---------Unformatted Exit Dates-------------------")
+# for y in fxlst3:
+#     print(y[1][0])
+# print("------------------------------------------------\n")
 
 # fxlst5 is a list of clean and properly formatted entry dates
-print("---------Formatted Exit Dates-------------------")
-for item in fxlst5:
-    print(item)
+# print("---------Formatted Exit Dates-------------------\n")
+# for item in fxlst5:
+#     print(item)
+
+# marketlst contains the formatted market (e.g. EURUSD, AUDJPY, etc...)
+marketlst = []
+for mkt in fxlst2:
+    print(mkt)
+    if mkt[2] != '000000000':
+        market = mkt[1][4:]
+        market2 = re.split(' ',market)
+        market3 = market2[2]
+        marketlst.append(market3)
+# print(marketlst)
+
+# extract the closing transaction ids
+print("\n------------closing transaction ids---------------------\n")
+close_id_lst = []
+for elements in fxlst2:
+    if elements[2] != '000000000':
+        close_id = elements[2]
+        close_id_lst.append(close_id)
+print(close_id_lst)
+
+# extract the closing transaction ids
+print("\n----------opening transaction ids---------------------\n")
+open_id_lst = []
+for elements in fxlst2:
+    if elements[2] != '000000000':
+        open_id = elements[3]
+        open_id_lst.append(open_id)
+print(open_id_lst)
+
+### START HERE NEXT ###
+# fxloglst will contain the finalized formatted list to imported into the app
+# the closing dates are not matched to the correct opening transaction id
+# there is something wrong about the order in which the dates are iterated and matched
+print("\n-----------test of complete fxloglst----------------")
+for entry, exit, market, close, open in zip(fxlst4,fxlst5,marketlst,close_id_lst,open_id_lst):
+    print(entry,exit,market,close,open)
