@@ -95,16 +95,15 @@ for item in fxlst2:
 # step 5 matches inserts the opening date to the row with the matching closed date
 # extract the columns with closing date '000000000'
 # fxlst3 contains all rows with the needed data now ready for formatting
-print("---------------fxlst3: matched open-close transactions--------------------")
+# print("---------------fxlst3: matched open-close transactions--------------------")
 fxlst3 = []
 for x in fxlst:
     for tup in opentrans:
         if x[2] != '000000000' and x[3] == tup[1]:
             fxlst3.append([tup[0],x])
-
-for row in fxlst3:
-    print(row)
-print("---------------fxlst3: matched open-close transactions--------------------\n")
+# for row in fxlst3:
+#     print(row)
+# print("---------------fxlst3: matched open-close transactions--------------------\n")
 
 # extract and format the entry date to YYYY-MM-DD-HH:MM
 fxlst4 = []
@@ -362,3 +361,17 @@ for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, g
 for log in fxlog:
     print(log)
 print("\n-----------complete fxloglst----------------")
+
+### START HERE NEXT ###
+# test all the .csv files to ensure the fxlog returns the correct results
+# update the fx_log table with open_id, close_id fields
+# update the etl_diagram.drawio to add the new fields in the fx_log
+# import fx_dev_mode.py module into the logs_metrics_app_dev_mode.py app
+# test importing data from fx_dev_mode.p into app_dev_mode.py app
+
+### next task: missing transaction items
+# create a new table in the database to upload missing transaction items
+# write new code in the database_dev_mode.py and logs_metrics_app_dev_mode.py app
+# I want to be able to query the database for missing transaction_id, and.....
+# if there are matching open_ids then grab the entry date from the table and...
+# add the entry date to the row with the matched closed / open transaction id.
