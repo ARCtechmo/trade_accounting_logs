@@ -273,6 +273,7 @@ for mkt in fxlst3:
 close_id_lst = []
 for elements in fxlst3:
     close_id = elements[1][2]
+    close_id = int(close_id)
     close_id_lst.append(close_id)
 
 # extract the opening transaction ids from fxlst3
@@ -280,12 +281,69 @@ for elements in fxlst3:
 open_id_lst = []
 for elements in fxlst3:
     open_id = elements[1][3]
+    open_id = int(open_id)
     open_id_lst.append(open_id)
+
+# extract the buy / sell from fxlst3
+# buy_sell_lst contains buy or sell transactions
+buy_sell_lst = []
+for action in fxlst3:
+    buy_sell = action[1][4]
+    buy_sell_lst.append(buy_sell)
+
+# extract the trade_size from fxlst3
+# trade_size_lst contains the size of the trades taken
+trade_size_lst = []
+for size in fxlst3:
+    trade_size = size[1][6]
+    trade_size = trade_size.split('.')
+    trade_size = trade_size[0]
+    trade_size = int(trade_size)
+    trade_size_lst.append(trade_size)
+
+# extract the open_price from fxlst3
+# open_price_lst contains the opening price
+open_price_lst = []
+for openpr in fxlst3:
+    openpr = openpr[1][8]
+    openpr = float(openpr)
+    open_price_lst.append(openpr)
+
+# extract the close_price from fxlst3
+# close_price_lst contains the closing price
+close_price_lst = []
+for closepr in fxlst3:
+    closepr = closepr[1][9]
+    closepr = float(closepr)
+    close_price_lst.append(closepr)
+
+# extract the gross from fxlst3
+# gross_lst contains the gross profit / loss
+gross_lst = []
+for gross in fxlst3:
+    gross = gross[1][12]
+    gross = float(gross)
+    gross_lst.append(gross)
+
+# extract the net from fxlst3
+# net_lst contains the gross profit / loss
+net_lst = []
+for net in fxlst3:
+    net = net[1][12]
+    net = float(net)
+    net_lst.append(net)
 
 # fxloglst will contain the finalized formatted list to import into the app
 fxlog = []
-print("\n-----------test of complete fxloglst----------------")
-for entry, exit, market, close_id, open_id in zip(fxlst4,fxlst5,marketlst,close_id_lst,open_id_lst):
+print("\n-----------complete fxloglst----------------")
+for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, gross, net in zip(
+    fxlst4, fxlst5, marketlst,
+    close_id_lst, open_id_lst,
+    buy_sell_lst, trade_size_lst,
+    open_price_lst, close_price_lst,
+    gross_lst, net_lst
+    ):
+
     entry_yr = entry[0:4]
     entry_mo = entry[5:7]
     entry_day = entry[8:10]
@@ -299,9 +357,8 @@ for entry, exit, market, close_id, open_id in zip(fxlst4,fxlst5,marketlst,close_
     fxlog.append(
                 [entry, entry_yr, entry_mo, entry_day, entry_time,
                 exit, exit_yr, exit_mo, exit_day, exit_time,
-                market,
-                close_id, open_id]
+                market, close_id, open_id, buy_sell, trade_size, open, close, gross, net]
                 )
 for log in fxlog:
     print(log)
-print("\n-----------test of complete fxloglst----------------")
+print("\n-----------complete fxloglst----------------")
