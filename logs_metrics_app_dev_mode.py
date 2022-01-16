@@ -1,6 +1,7 @@
 ### This code is under development ###
 # this is the file that will interact with the database.py file
 import database_dev_mode
+import fx_dev_mode
 from datetime import date
 from datetime import datetime
 
@@ -49,30 +50,26 @@ else:
 # database_dev_mode.activity_show_all()
 ################################# BROKER / ACTIVITY TABLES #########################
 
-################################ ADD RECORDS #########################################
+################################ ADD time_log RECORDS #########################################
 # add records
 # log_entry = [
-#             ('2022-01-03 10:00','2022-01-03 11:00',1,1),
-#             ('2022-01-04 10:00','2022-01-04 11:00',2,2),
-#             ('2022-01-05 10:00','2022-01-05 11:00',3,3)
+#             ('2022-01-04 00:00','2022-00-00 00:00',2,2),
+#             ('2022-01-05 00:00','2022-00-00 00:00',3,3)
 #             ]
 
 
 # database_dev_mode.time_log_add_many(log_entry)
 # print("---------------successfully added records to the db------------------\n")
 # database_dev_mode.time_log_show_all()
-################################# ADD RECORDS #######################################
+################################# ADD time_log RECORDS #######################################
 
 
+### START HERE NEXT ###
+### getting an error when attempt to import the fxlog data ###
+### the error is on this app not the fx_dev_mode.py app (I think)
 ################################# ADD fx_log RECORDS #######################################
 # add fx_log records
-# log_entry = [
-#             ('2022-01-06 10:00',2022,1,6,'10:00','2022-01-06 11:00',2022,1,6,'11:00','GBPUSD','buy',60000,1.3550,1.3650,550.00,500.00,3),
-#             ('2022-01-07 03:00',2022,1,7,'03:00','2022-01-07 04:00',2022,1,7,'04:00','GBPUSD','sell',60000,1.3500,1.3600,-550.00,-600.00,3),
-#             ('2022-01-07 22:00',2022,1,7,'22:00','2022-01-07 22:50',2022,1,7,'22:50','GBPUSD','buy',100000,1.3550,1.3450,-550.00,-610.00,4),
-#             ('2022-01-08 15:00',2022,1,8,'15:00','2022-01-08 16:00',2022,1,8,'16:00','GBPUSD','sell',100000,1.3500,1.3400,500.00,445.75,4)
-#             ]
-#
+# log_entry = fx_dev_mode.fxlog_add_records()
 # database_dev_mode.fx_log_add_many(log_entry)
 # print("---------------successfully added fx_log records to the db------------------\n")
 # database_dev_mode.fx_log_show_all()

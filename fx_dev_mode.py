@@ -14,6 +14,15 @@ import re
 # extract rows containing commission and financing
 # fxlst is a list of trades only (no commission or fee data is included)
 fxlst = []
+broker_id = int(input("enter the broker_id from the database (2-7): "))
+### come back to this later ###
+# embed the entire program under a while loop to catch incorrect broker_id entry
+# while True:
+#     if broker_id <=1 or broker_id >7:
+#         print("you must enter a digit between 2-7")
+#         break
+#     else:
+#         break
 filename = input("enter the .csv filename: ")
 if filename == '':
     filename = 'fx_oct_test.csv'
@@ -41,7 +50,7 @@ for item in fxlst:
     transfxlst.append(item[3])
 # print(transfxlst)
 
-# step to to match the open / closed transaction ids
+# step 2 to to match the open / closed transaction ids
 # dictionary gets a count of the transaction ids
 # matched_lst contains all transaction ids that have open and close ids
 matched_lst = []
@@ -334,40 +343,63 @@ for net in fxlst3:
 
 # fxloglst will contain the finalized formatted list to import into the app
 fxlog = []
-print("\n-----------complete fxloglst----------------")
-for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, gross, net in zip(
+count = 0
+
+# the broker_id is a list to make it iterable to add the broker key during the loop
+broker_id_lst = [broker_id]
+
+
+# print("\n-----------complete fxloglst----------------")
+for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, gross, net, broker in zip(
     fxlst4, fxlst5, marketlst,
     close_id_lst, open_id_lst,
     buy_sell_lst, trade_size_lst,
     open_price_lst, close_price_lst,
-    gross_lst, net_lst
+    gross_lst, net_lst, broker_id_lst
     ):
 
     entry_yr = entry[0:4]
+    entry_yr = int(entry_yr)
     entry_mo = entry[5:7]
+    entry_mo = int(entry_mo)
     entry_day = entry[8:10]
+    entry_day = int(entry_day)
     entry_time = entry[11:]
 
     exit_yr = exit[0:4]
+    exit_yr = int(exit_yr)
     exit_mo = exit[5:7]
+    exit_mo = int(exit_mo)
     exit_day = exit[8:10]
+    exit_day = int(exit_day)
     exit_time = exit[11:]
 
+    # the zip() function will loop based on the shortest list
+    # the broker_id_lst length is one so append the broker_id with each loop
+    # oterwise it will only loop one time and return one row
+    broker_id_lst.append(broker_id)
     fxlog.append(
                 [entry, entry_yr, entry_mo, entry_day, entry_time,
                 exit, exit_yr, exit_mo, exit_day, exit_time,
-                market, close_id, open_id, buy_sell, trade_size, open, close, gross, net]
+                market, close_id, open_id, buy_sell, trade_size, open, close, gross, net,
+                broker]
                 )
-for log in fxlog:
-    print(log)
-print("\n-----------complete fxloglst----------------")
+########################### print all rows #################################
+# def fxlog_add_records(fxlog):
+#     for log in fxlog:
+#         print(log)
+# fxlog_add_records(fxlog)
+########################### print all rows #################################
 
 ### START HERE NEXT ###
-# test all the .csv files to ensure the fxlog returns the correct results
-# update the fx_log table with open_id, close_id fields
-# update the etl_diagram.drawio to add the new fields in the fx_log
-# import fx_dev_mode.py module into the logs_metrics_app_dev_mode.py app
-# test importing data from fx_dev_mode.p into app_dev_mode.py app
+### next task ###
+# import data from fx_dev_mode.py into app_dev_mode.py app
+# create a function to call in the log_metrics_app to import the fx_log records
+def fxlog_add_records(fxlog):
+    print("-----test of fxlog_add_records function()------------")
+    return fxlog
+fxlog_add_records(fxlog)
+
 
 ### next task: missing transaction items
 # create a new table in the database to upload missing transaction items

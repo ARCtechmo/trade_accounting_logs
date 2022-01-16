@@ -41,7 +41,9 @@ CREATE TABLE IF NOT EXISTS fx_log(
     exit_day INTEGER NOT NULL,
     exit_time TEXT NOT NULL,
     market TEXT NOT NULL,
-    buy_sell TEXT NOT NULL,
+    close_id INTEGER NOT NULL UNIQUE,
+    open_id INTEGER NOT NULL UNIQUE,
+    close_buy_sell TEXT NOT NULL,
     trade_size INTEGER NOT NULL,
     open_price REAL NOT NULL,
     close_price REAL NOT NULL,
@@ -125,7 +127,7 @@ print("-------------time_log_show_all_func created successfully----------------"
 # insert data into the fx_log_table
 def fx_log_add_many(log_entry):
     with conn:
-        cur.executemany("INSERT INTO fx_log VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
+        cur.executemany("INSERT INTO fx_log VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
         print("-------------add_many executed successfully-----------------")
         conn.commit()
 print("-------------fx_log_add_many_func created successfully----------------")
