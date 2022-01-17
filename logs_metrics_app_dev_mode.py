@@ -4,7 +4,6 @@ import database_dev_mode
 import fx_dev_mode
 from datetime import date
 from datetime import datetime
-
 if __name__ == "__main__":
     print('app module is being run directly')
 else:
@@ -63,18 +62,13 @@ else:
 # database_dev_mode.time_log_show_all()
 ################################# ADD time_log RECORDS #######################################
 
-
-### START HERE NEXT ###
-### getting an error when attempt to import the fxlog data ###
-### the error is on this app not the fx_dev_mode.py app (I think)
-################################# ADD fx_log RECORDS #######################################
+################################# ADD fx_log RECORDS ######################################
 # add fx_log records
 # log_entry = fx_dev_mode.fxlog_add_records()
 # database_dev_mode.fx_log_add_many(log_entry)
 # print("---------------successfully added fx_log records to the db------------------\n")
 # database_dev_mode.fx_log_show_all()
 ################################# ADD fx_log RECORDS #######################################
-
 
 ################################# DELETE RECORDS #######################################
 ### problem: if you delete record "1" repeatedly it will not delete all of the records...

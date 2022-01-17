@@ -391,16 +391,15 @@ for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, g
 # fxlog_add_records(fxlog)
 ########################### print all rows #################################
 
+########################### export records #################################
+# function exports the records into the import the log_metrics_app.py app
+# def fxlog_add_records():
+#     print("-----test of fxlog_add_records function()------------")
+#     return fxlog
+########################### export records #################################
+
+
 ### START HERE NEXT ###
-### next task ###
-# import data from fx_dev_mode.py into app_dev_mode.py app
-# create a function to call in the log_metrics_app to import the fx_log records
-def fxlog_add_records(fxlog):
-    print("-----test of fxlog_add_records function()------------")
-    return fxlog
-fxlog_add_records(fxlog)
-
-
 ### next task: missing transaction items
 # create a new table in the database to upload missing transaction items
 # write new code in the database_dev_mode.py and logs_metrics_app_dev_mode.py app

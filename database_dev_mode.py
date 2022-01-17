@@ -142,4 +142,8 @@ def fx_log_show_all():
 print("-------------fx_log_show_all_func created successfully----------------")
 
 conn.commit()
+
+############################# CLOSE THE DATABASE ##############################
+print("\n-------------database closed---------------------")
 conn.close()
+############################# CLOSE THE DATABASE ##############################
