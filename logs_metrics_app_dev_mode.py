@@ -9,6 +9,11 @@ if __name__ == "__main__":
 else:
     print('database module is being imported into the app module')
 
+# connect to the database
+import sqlite3
+conn = sqlite3.connect('transactions_dev_mode.db')
+cur = conn.cursor()
+
 ################################# BROKER / ACTIVITY TABLES #########################
 # bk_name = [
 #             (1, 'No_Broker'),
@@ -68,24 +73,34 @@ else:
 # database_dev_mode.fx_log_add_many(log_entry)
 # print("---------------successfully added fx_log records to the db------------------\n")
 # database_dev_mode.fx_log_show_all()
+
+
+### START HERE NEXT ###
+## process ##
+# 1) import unmatched records from fx_dev_mode.py via a function
+#  - unmatched records consists of records with only open_id
+#  - unmatched records consists of records with both close_id and open_id
+
+# 2) export the unmatched records into the fx_unmatched table
+#  - export the unmatched rows via tha database_dev_mode.[function name]
+
+# 3) query the fx_log table for matching open_ids
+#  - returned rows consists of the following:
+#  - opening transactions with the entry dates and open_ids
+#  - closing transactions with the exit dates and both close_id and open_ids
+
+# 4) insert the entry YYYY-MM-DD HH:MM, YY, MM, DD, HH:MM into the matched row
+#  - identify rows with matching open_ids (there should only be two rows)
+#  - insert the entry YYYY-MM-DD HH:MM, YY, MM, DD, HH:MM into the closing transaction row
+#  - the insert is accomplished via an SQL INSERT statement via the database_dev_mode.[function_name]
+
+
+
+
+
 ################################# ADD fx_log RECORDS #######################################
 
-################################# DELETE RECORDS #######################################
-### problem: if you delete record "1" repeatedly it will not delete all of the records...
-### ... in other words the rowid may say "1" but the original record is row "5" and it will not delete
-# delete time_log record
-# database_dev_mode.time_log_delete_one(3)
-# print("---------------successfully deleted record to the db------------------\n")
-# database_dev_mode.time_log_show_all()
-################################# DELETE RECORDS #######################################
-
-
 ############################## QUERY THE DATABASE ##################################
-# connect to the database
-import sqlite3
-conn = sqlite3.connect('transactions_dev_mode.db')
-cur = conn.cursor()
-
 ######  query the time_log table ######
 # print("\n----------test result: successful------------")
 # data = cur.execute('''

@@ -8,6 +8,7 @@ cur = conn.cursor()
 # cur.execute("DROP TABLE IF EXISTS brokers")
 # cur.execute("DROP TABLE IF EXISTS time_log")
 # cur.execute("DROP TABLE IF EXISTS fx_log")
+# cur.execute("DROP TABLE IF EXISTS fx_unmatched")
 cur.executescript('''
 CREATE TABLE IF NOT EXISTS brokers(
     broker_id INTEGER NOT NULL PRIMARY KEY,
@@ -52,7 +53,33 @@ CREATE TABLE IF NOT EXISTS fx_log(
     broker_id INTEGER NOT NULL,
     FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
         ON UPDATE CASCADE
+    );
+
+CREATE TABLE IF NOT EXISTS fx_unmatched(
+    entry_date TEXT,
+    entry_year INTEGER,
+    entry_month INTEGER,
+    entry_day INTEGER,
+    entry_time TEXT,
+    exit_date TEXT,
+    exit_year INTEGER,
+    exit_month INTEGER,
+    exit_day INTEGER,
+    exit_time TEXT,
+    market TEXT NOT NULL,
+    close_id INTEGER UNIQUE,
+    open_id INTEGER NOT NULL,
+    close_buy_sell TEXT,
+    trade_size INTEGER NOT NULL,
+    open_price REAL,
+    close_price REAL,
+    gross REAL,
+    net REAL,
+    broker_id INTEGER NOT NULL,
+    FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
+        ON UPDATE CASCADE
     )
+
 ''')
 print("---------------------table creation successful----------------------")
 # brokers_table_functions

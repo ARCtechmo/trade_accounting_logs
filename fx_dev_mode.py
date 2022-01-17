@@ -25,7 +25,7 @@ broker_id = int(input("enter the broker_id from the database (2-7): "))
 #         break
 filename = input("enter the .csv filename: ")
 if filename == '':
-    filename = 'fx_oct_test.csv'
+    filename = 'fx_sept_test.csv'
 with open(filename, newline='') as csvfile:
     reader = csv.reader(csvfile)
     # next(csvfile) # removes the header - comment out if .csv file has no header
@@ -400,9 +400,14 @@ for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, g
 
 
 ### START HERE NEXT ###
-### next task: missing transaction items
-# create a new table in the database to upload missing transaction items
-# write new code in the database_dev_mode.py and logs_metrics_app_dev_mode.py app
-# I want to be able to query the database for missing transaction_id, and.....
-# if there are matching open_ids then grab the entry date from the table and...
-# add the entry date to the row with the matched closed / open transaction id.
+############################ export unmatched records #########################
+## process ##
+# 1) fx_dev_mode.py identifies the unmatched record open_ids,
+# 2) fx_dev_mode.py formats and extracts the unmatched record
+# 3) fx_dev_mode.py exports the unmatched records into logs_metrics_app_dev_mode.py
+
+# fxlst is the original list
+for row in fxlst:
+    print(row)
+
+############################ export unmatched records #########################
