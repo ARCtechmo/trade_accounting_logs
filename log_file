@@ -1,3 +1,38 @@
+commit 3ef8f1f9af7357707ef1330f6e16383c4945e455
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Tue Jan 18 13:39:51 2022 -0500
+
+    added in a section of the code to capture rows with unmatched transactions
+
+commit 1755321af2bb6efbabdb3383051a4b0ea8a50c43
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Mon Jan 17 12:46:01 2022 -0500
+
+    began the process to identify, extract, and export the unmatched
+    transactions from the fx data; added a table fx_unmatched to the
+    database; next work on the fx_dev_mode.py to extract the rows
+    with unmatched only open_ids and export it into the
+    logs_metrics_app_dev_mode.py app
+
+commit ffdc5351190e2e4d6668f9e150e3741f577fd4d7
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Mon Jan 17 10:36:38 2022 -0500
+
+    sucessfully exported the data from fx_dev_mode.py into the
+    logs_metrics_app_dev_mode.py app and into the database;
+    the next thing to do is account for unmatched recrods and
+    to match them
+
+commit 3401419dc72f90382974f6b5b927001084e72288
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Jan 16 13:00:09 2022 -0500
+
+    successfully tested  the code in fx_dev_mode.py that returns
+    the correct data and added a couple of lines to fx_dev_mode.py
+    to add the broker_id; the code works; the next task is to
+    integrate fx_dev_mode.py functions into logs_metrics_app_dev_mode.py
+    that will pull the rows into the database
+
 commit f8ac7109b0debdaa31b48f865f0f4b273b36c399
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sat Jan 15 13:15:44 2022 -0500

@@ -401,11 +401,11 @@ for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, g
 ########################### export records #################################
 
 
-### START HERE NEXT ###
 ############################ export unmatched records #########################
 ## process ##
-# 2) fx_dev_mode.py formats and extracts the unmatched record
-# ***NOTE: ensure to account for both situations: open_id only or open_id / close_id only
+
+#### START HERE NEXT ####
+# 2) run the code on all .csv files to ensure the unmatched records are properly formatted and extracted
 # 3) fx_dev_mode.py exports the unmatched records into logs_metrics_app_dev_mode.py
 
 # fxlst is the original list
@@ -417,8 +417,6 @@ for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, g
 #     print(id)
 
 
-### NOTE TO SELF: adjustment may be necessary if you have an unmatched close transaction item #####
-### NOTE TO SELF: look for unmatched close transactions in the .csv files and adjust the code
 # unmatched_fxlst contains rows with open transactionns only (no open and close)
 print("\n----------------rows with an unmatched transaction-------------")
 unmatched_fxlst = []
@@ -492,34 +490,49 @@ for openpr in unmatched_fxlst:
 # unmatched_close_price_lst contains the close prices
 unmatched_close_price_lst = []
 for closepr in unmatched_fxlst:
-    unmatched_closepr = '000000000'
-    unmatched_closepr = float(unmatched_closepr)
-    unmatched_close_price_lst.append(unmatched_closepr)
+    if closepr[2] == '000000000':
+        closepr = float(0)
+        unmatched_close_price_lst.append(closepr)
+    else:
+        closepr = float(closepr[9])
+        unmatched_close_price_lst.append(closepr)
 
 # unmatched_gross_lst contains the gross gain / loss
 unmatched_gross_lst = []
 for gross in unmatched_fxlst:
-    gross = 0
-    gross = float(gross)
-    unmatched_gross_lst.append(gross)
+    if gross[2] == '000000000':
+        gross = 0
+        gross = float(gross)
+        unmatched_gross_lst.append(gross)
+    else:
+        gross = gross[12]
+        gross = float(gross)
+        unmatched_gross_lst.append(gross)
 
 # unmatched_net_lst contains the gross gain / loss
 unmatched_net_lst = []
 for net in unmatched_fxlst:
-    net = 0
-    net = float(gross)
-    unmatched_net_lst.append(gross)
-
+    if net[2] == '000000000':
+        net = 0
+        net = float(net)
+        unmatched_net_lst.append(net)
+    else:
+        net = net[12]
+        net = float(net)
+        unmatched_net_lst.append(net)
 
 unmatched_fxlog = []
-for entry, exit, market, close, broker in zip(
+for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, gross, net, broker in zip(
     unmatched_open_date_lst, unmatched_close_date_lst, unmatched_marketlst,
-    unmatched_close_id_lst,
-    broker_id_lst
+    unmatched_close_id_lst, unmatched_open_id_lst, unmatched_buy_sell_lst,
+    unmatched_trade_size_lst, unmatched_open_price_lst, unmatched_close_price_lst,
+    unmatched_gross_lst, unmatched_net_lst, broker_id_lst
     ):
-    unmatched_fxlog.append([entry, exit, market, close, broker])
+    unmatched_fxlog.append(
+        [entry, exit, market, close_id, open_id, buy_sell,
+        trade_size, open, close, gross, net, broker]
+        )
     broker_id_lst.append(broker_id)
-
 
 ########################### print unmatched rows #################################
 def fxlog_add_unmatched_records(unmatched_fxlog):
