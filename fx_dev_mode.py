@@ -25,7 +25,7 @@ broker_id = int(input("enter the broker_id from the database (2-7): "))
 #         break
 filename = input("enter the .csv filename: ")
 if filename == '':
-    filename = 'fx_sept_test.csv'
+    filename = 'fx_feb_test.csv'
 with open(filename, newline='') as csvfile:
     reader = csv.reader(csvfile)
     # next(csvfile) # removes the header - comment out if .csv file has no header
@@ -54,6 +54,7 @@ for item in fxlst:
 # dictionary gets a count of the transaction ids
 # matched_lst contains all transaction ids that have open and close ids
 matched_lst = []
+unmatched_lst = []
 di = dict()
 for num in transfxlst:
     di[num] = di.get(num,0) + 1
@@ -63,6 +64,7 @@ for key,value in di.items():
     # alert the user when there are missing opening transaction ids
     if value <2:
         missing_id = key
+        unmatched_lst.append(missing_id)
         print('missing open transaction id data for: ', missing_id)
     else:
         matching_id = key
@@ -402,12 +404,128 @@ for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, g
 ### START HERE NEXT ###
 ############################ export unmatched records #########################
 ## process ##
-# 1) fx_dev_mode.py identifies the unmatched record open_ids,
 # 2) fx_dev_mode.py formats and extracts the unmatched record
+# ***NOTE: ensure to account for both situations: open_id only or open_id / close_id only
 # 3) fx_dev_mode.py exports the unmatched records into logs_metrics_app_dev_mode.py
 
 # fxlst is the original list
+# for row in fxlst:
+#     print(row)
+
+# unmatched open_ids
+# for id in unmatched_lst:
+#     print(id)
+
+
+### NOTE TO SELF: adjustment may be necessary if you have an unmatched close transaction item #####
+### NOTE TO SELF: look for unmatched close transactions in the .csv files and adjust the code
+# unmatched_fxlst contains rows with open transactionns only (no open and close)
+print("\n----------------rows with an unmatched transaction-------------")
+unmatched_fxlst = []
 for row in fxlst:
+    unmatched_open_id = row[3]
+    if unmatched_open_id in unmatched_lst:
+        unmatched_fxlst.append(row)
+for row in unmatched_fxlst:
     print(row)
+print("----------------unmatched rows with no closing transaction-------------\n")
+
+# format the items in unmatched_fxlst
+# unmatched_open_date_lst contains the open date
+unmatched_open_date_lst = []
+for item in unmatched_fxlst:
+    if item[2] == '000000000':
+        unmatched_open_date_lst.append(item[0])
+    else:
+        unmatched_open_date_lst.append('0000-00-00 00:00')
+
+# unmatched_close_date_lst is a place holder YYYY:MM:DD HH:MM for the close date
+unmatched_close_date_lst = []
+for item in unmatched_fxlst:
+    if item[2] != '000000000':
+        unmatched_close_date_lst.append(item[0])
+    else:
+        unmatched_close_date_lst.append('0000-00-00 00:00')
+
+# unmatched_marketlst contains the currency pair
+unmatched_marketlst = []
+for mkt in unmatched_fxlst:
+    unmatched_market = mkt[1][6:13]
+    unmatched_marketlst.append(unmatched_market)
+
+# unmatched_close_id_lst is a place holder for the close_id
+unmatched_close_id_lst = []
+for elements in unmatched_fxlst:
+    unmatched_close_id = elements[2]
+    unmatched_close_id = int(unmatched_close_id)
+    unmatched_close_id_lst.append(unmatched_close_id)
+
+# unmatched_open_id_lst is a place holder for the close_id
+unmatched_open_id_lst = []
+for elements in unmatched_fxlst:
+    unmatched_open_id = elements[3]
+    unmatched_open_id = int(unmatched_open_id)
+    unmatched_open_id_lst.append(unmatched_open_id)
+
+# unmatched_buy_sell_lst contains the action taken
+unmatched_buy_sell_lst = []
+for action in unmatched_fxlst:
+    unmatched_buy_sell = action[4]
+    unmatched_buy_sell_lst.append(unmatched_buy_sell)
+
+# unmatched_trade_size_lst contains the trade size
+unmatched_trade_size_lst = []
+for size in unmatched_fxlst:
+    unmatched_trade_size = size[6]
+    unmatched_trade_size = unmatched_trade_size.split('.')
+    unmatched_trade_size = unmatched_trade_size[0]
+    unmatched_trade_size = int(unmatched_trade_size)
+    unmatched_trade_size_lst.append(unmatched_trade_size)
+
+# unmatched_open_price_lst contains the open price
+unmatched_open_price_lst = []
+for openpr in unmatched_fxlst:
+    unmatched_openpr = openpr[8]
+    unmatched_openpr = float(unmatched_openpr)
+    unmatched_open_price_lst.append(unmatched_openpr)
+
+# unmatched_close_price_lst contains the close prices
+unmatched_close_price_lst = []
+for closepr in unmatched_fxlst:
+    unmatched_closepr = '000000000'
+    unmatched_closepr = float(unmatched_closepr)
+    unmatched_close_price_lst.append(unmatched_closepr)
+
+# unmatched_gross_lst contains the gross gain / loss
+unmatched_gross_lst = []
+for gross in unmatched_fxlst:
+    gross = 0
+    gross = float(gross)
+    unmatched_gross_lst.append(gross)
+
+# unmatched_net_lst contains the gross gain / loss
+unmatched_net_lst = []
+for net in unmatched_fxlst:
+    net = 0
+    net = float(gross)
+    unmatched_net_lst.append(gross)
+
+
+unmatched_fxlog = []
+for entry, exit, market, close, broker in zip(
+    unmatched_open_date_lst, unmatched_close_date_lst, unmatched_marketlst,
+    unmatched_close_id_lst,
+    broker_id_lst
+    ):
+    unmatched_fxlog.append([entry, exit, market, close, broker])
+    broker_id_lst.append(broker_id)
+
+
+########################### print unmatched rows #################################
+def fxlog_add_unmatched_records(unmatched_fxlog):
+    for log in unmatched_fxlog:
+        print(log)
+fxlog_add_unmatched_records(unmatched_fxlog)
+########################### print unmatched rows #################################
 
 ############################ export unmatched records #########################
