@@ -1,3 +1,12 @@
+commit ed4cfc3894c9dc5fc84ace560e02698dc43fc8bd
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Tue Jan 18 14:47:33 2022 -0500
+
+    added a section of code to extract and format with unmatched
+    transaction close_ids and open_ids; successfully extracted and
+    formatted the unmatched recotds; next this is ready for testing
+    on multiple .csv files
+
 commit 3ef8f1f9af7357707ef1330f6e16383c4945e455
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Tue Jan 18 13:39:51 2022 -0500
