@@ -395,17 +395,10 @@ for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, g
 
 ########################### export records #################################
 # function exports the records into the import the log_metrics_app.py app
-# def fxlog_add_records():
-#     print("-----test of fxlog_add_records function()------------")
-#     return fxlog
+def fxlog_add_records():
+    print("-----test of fxlog_add_records function()------------")
+    return fxlog
 ########################### export records #################################
-
-
-############################ export unmatched records #########################
-### START HERE NEXT ###
-# - Note: see the process notes in logs_metrics_app_dev_mode.py file
-## process ##
-# 3) export the unmatched records into logs_metrics_app_dev_mode.py
 
 # fxlst is the original list
 # for row in fxlst:
@@ -414,7 +407,6 @@ for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, g
 # unmatched open_ids
 # for id in unmatched_lst:
 #     print(id)
-
 
 # unmatched_fxlst contains rows with open transactionns only (no open and close)
 # print("\n----------------rows with an unmatched transaction-------------")
@@ -571,12 +563,17 @@ for unmatched_entry, unmatched_exit, unmatched_market, unmatched_close_id, \
              unmatched_open, unmatched_close, unmatched_gross, unmatched_net, broker]
             )
 print("\n-------------------formatted unmatched logs-----------------------------")
-########################### print unmatched rows #################################
-def fxlog_add_unmatched_records(unmatched_fxlog):
-    for log in unmatched_fxlog:
-        print(log)
-fxlog_add_unmatched_records(unmatched_fxlog)
-print("-------------------formatted unmatched logs-----------------------------")
+# ########################### print unmatched rows #################################
+# def fxlog_add_unmatched_records(unmatched_fxlog):
+#     for log in unmatched_fxlog:
+#         print(log)
+# fxlog_add_unmatched_records(unmatched_fxlog)
+# print("-------------------formatted unmatched logs-----------------------------")
 ########################### print unmatched rows #################################
 
-############################ export unmatched records #########################
+########################### export unmatched records #################################
+# function exports the records into the import the log_metrics_app.py app
+def fx_unmatched_add_records():
+    print("-----test of fxlog_add_records function()------------")
+    return unmatched_fxlog
+########################### export unmatched records #################################

@@ -1,3 +1,14 @@
+commit 66d75327be49e30b8289d71823da4a184d314923
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Jan 22 13:31:47 2022 -0500
+
+    made more modifications to the code to properly format the dates
+    for the unmatched records; successfully completed all of the
+    formatting; succesfully tested the modifications on multiple .csv
+    files and the code reutnred the correct results; next task is to
+    develop the functions that will send  the formatted data to the
+     log_metrics_dev_mode.py app
+
 commit ed4cfc3894c9dc5fc84ace560e02698dc43fc8bd
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Tue Jan 18 14:47:33 2022 -0500

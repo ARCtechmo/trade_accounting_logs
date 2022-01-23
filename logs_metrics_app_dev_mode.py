@@ -73,18 +73,23 @@ cur = conn.cursor()
 # database_dev_mode.fx_log_add_many(log_entry)
 # print("---------------successfully added fx_log records to the db------------------\n")
 # database_dev_mode.fx_log_show_all()
+################################# ADD fx_log RECORDS ######################################
+
+
+################################# ADD fx_unmatched RECORDS ######################################
+# add fx_unmatched records to the database
+# log_entry = fx_dev_mode.fx_unmatched_add_records()
+# database_dev_mode.fx_unmatched_add_many(log_entry)
+# print("---------------successfully added fx_log records to the db------------------\n")
+# database_dev_mode.fx_unmatched_show_all()
+################################# ADD fx_unmatched RECORDS ######################################
 
 
 ### START HERE NEXT ###
 ## process ##
-# 1) import unmatched records from fx_dev_mode.py via a function
-#  - unmatched records consists of records with only open_id
-#  - unmatched records consists of records with both close_id and open_id
 
-# 2) export the unmatched records into the fx_unmatched table
-#  - export the unmatched rows via tha database_dev_mode.[function name]
-
-# 3) query the fx_log table for matching open_ids
+# there are 4 records (jan and feb with unamtched records) in the DB to work with
+# 3) query the fx_unmatched table for matching open_ids
 #  - returned rows consists of the following:
 #  - opening transactions with the entry dates and open_ids
 #  - closing transactions with the exit dates and both close_id and open_ids
@@ -94,11 +99,6 @@ cur = conn.cursor()
 #  - insert the entry YYYY-MM-DD HH:MM, YY, MM, DD, HH:MM into the closing transaction row
 #  - the insert is accomplished via an SQL INSERT statement via the database_dev_mode.[function_name]
 
-
-
-
-
-################################# ADD fx_log RECORDS #######################################
 
 ############################## QUERY THE DATABASE ##################################
 ######  query the time_log table ######

@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS fx_unmatched(
     exit_day INTEGER,
     exit_time TEXT,
     market TEXT NOT NULL,
-    close_id INTEGER UNIQUE,
+    close_id INTEGER NOT NULL,
     open_id INTEGER NOT NULL,
     close_buy_sell TEXT,
     trade_size INTEGER NOT NULL,
@@ -167,7 +167,22 @@ def fx_log_show_all():
         for item in items:
             print(item)
 print("-------------fx_log_show_all_func created successfully----------------")
-
+# insert data into the fx_unmatched table
+def fx_unmatched_add_many(log_entry):
+    with conn:
+        cur.executemany("INSERT INTO fx_unmatched VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
+        print("-------------add_many executed successfully-----------------")
+        conn.commit()
+print("-------------fx_unmatched_add_many func created successfully----------------")
+print("record added successfully--------------")
+def fx_unmatched_show_all():
+    with conn:
+        cur.execute("SELECT * FROM fx_unmatched")
+        print("-----------------show_all func executed successfully---------------")
+        items = cur.fetchall()
+        for item in items:
+            print(item)
+print("------------- fx_unmatched_show_all func created successfully----------------")
 conn.commit()
 
 ############################# CLOSE THE DATABASE ##############################
