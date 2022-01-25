@@ -94,6 +94,22 @@ cur = conn.cursor()
 #  - opening transactions with the entry dates and open_ids
 #  - closing transactions with the exit dates and both close_id and open_ids
 
+# ideas to solve the problem;
+# (1) use the use a UNIQUE CONSTRAINT then use REPLACE the date on the violation
+# (2) use iterators, generators, CASE WHEN, use a count with a modulo operator
+data = cur.execute(
+'''
+SELECT  entry_date,
+        exit_date,
+        close_id,
+        open_id
+FROM fx_unmatched
+GROUP BY open_id, close_id
+'''
+)
+for row in data:
+    print(row)
+
 # 4) insert the entry YYYY-MM-DD HH:MM, YY, MM, DD, HH:MM into the matched row
 #  - identify rows with matching open_ids (there should only be two rows)
 #  - insert the entry YYYY-MM-DD HH:MM, YY, MM, DD, HH:MM into the closing transaction row

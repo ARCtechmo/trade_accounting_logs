@@ -572,8 +572,9 @@ print("\n-------------------formatted unmatched logs----------------------------
 ########################### print unmatched rows #################################
 
 ########################### export unmatched records #################################
+### NOTE TO SELF: add a condition with user input to enter or exit the program ###
 # function exports the records into the import the log_metrics_app.py app
-def fx_unmatched_add_records():
-    print("-----test of fxlog_add_records function()------------")
-    return unmatched_fxlog
+# def fx_unmatched_add_records():
+#     print("-----test of fxlog_add_records function()------------")
+#     return unmatched_fxlog
 ########################### export unmatched records #################################
