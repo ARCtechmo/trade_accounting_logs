@@ -78,43 +78,75 @@ cur = conn.cursor()
 
 ################################# ADD fx_unmatched RECORDS ######################################
 # add fx_unmatched records to the database
-# log_entry = fx_dev_mode.fx_unmatched_add_records()
-# database_dev_mode.fx_unmatched_add_many(log_entry)
-# print("---------------successfully added fx_log records to the db------------------\n")
-# database_dev_mode.fx_unmatched_show_all()
+log_entry = fx_dev_mode.fx_unmatched_add_records()
+database_dev_mode.fx_unmatched_add_many(log_entry)
+print("---------------successfully added fx_log records to the db------------------\n")
+database_dev_mode.fx_unmatched_show_all()
 ################################# ADD fx_unmatched RECORDS ######################################
 
+############################ ADD matched RECORDS TO fx_log RECORDS #########################
+print("\n---------------------rows from fx_unmatched ready to be imported into fx_log-----------------")
+# 4) add the fx_log function to export the matched rows into fx_log table
+
+# matched_lst contains the combined matched entry and exit into one row
+matched_lst = []
+
+# function combines rows in fx_unmatched table with the same open_id into a single row
+def match():
+    data = cur.execute(
+    '''
+    SELECT *
+    FROM fx_unmatched
+    GROUP BY open_id, close_id
+    '''
+    )
+    # entry_lst contains rows with only open_ids
+    # exit_lst contains rows with only close_id
+    entry_lst = []
+    exit_lst = []
+    for row in data:
+        if row[11] == 0:
+            entry_lst.append(row)
+        else:
+            exit_lst.append(row)
+
+    for item in zip(entry_lst, exit_lst):
+        if item[0][12] == item[1][12]:
+            matched_lst.append(
+            (item[0][0],item[0][1],item[0][2],item[0][3],item[0][4], \
+            item[1][5],item[1][6],item[1][7],item[1][8],item[1][9], \
+            item[1][10],item[1][11],item[1][12],item[1][13],item[1][14], \
+            item[1][15],item[1][16],item[1][17],item[1][18],item[1][19])
+            )
+    return matched_lst
 
 ### START HERE NEXT ###
-## process ##
+# clean up and test this function
+# the goal is to avoid a UNIQUE CONSTRAINT ERROR
+# the function identifies and removes rows in fx_unmatched that are in fx_table
+def check_constraint():
+    print("--------------check_constraint function test -------------")
+    fx_log_rows_lst = []
+    log_entry = match()
+    fx_log_data = cur.execute(''' SELECT * FROM fx_log ''')
+    for row in fx_log_data:
+        fx_log_rows_lst.append(row)
+    for item in log_entry:
+        if item in fx_log_rows_lst:
+            return print("-----TRUE TEST FOR UNIQUE CONSRAINT------")
+            pass
+        else:
+            database_dev_mode.fx_log_add_many(item)
+            return database_dev_mode.fx_log_show_all()
+check_constraint()
 
-# there are 4 records (jan and feb with unamtched records) in the DB to work with
-# 3) query the fx_unmatched table for matching open_ids
-#  - returned rows consists of the following:
-#  - opening transactions with the entry dates and open_ids
-#  - closing transactions with the exit dates and both close_id and open_ids
+## extract and export the matched transactions from fx_unmatched into fx_log table ##
 
-# ideas to solve the problem;
-# (1) use the use a UNIQUE CONSTRAINT then use REPLACE the date on the violation
-# (2) use iterators, generators, CASE WHEN, use a count with a modulo operator
-data = cur.execute(
-'''
-SELECT  entry_date,
-        exit_date,
-        close_id,
-        open_id
-FROM fx_unmatched
-GROUP BY open_id, close_id
-'''
-)
-for row in data:
-    print(row)
-
-# 4) insert the entry YYYY-MM-DD HH:MM, YY, MM, DD, HH:MM into the matched row
-#  - identify rows with matching open_ids (there should only be two rows)
-#  - insert the entry YYYY-MM-DD HH:MM, YY, MM, DD, HH:MM into the closing transaction row
-#  - the insert is accomplished via an SQL INSERT statement via the database_dev_mode.[function_name]
-
+# log_entry = match()
+# database_dev_mode.fx_log_add_many(log_entry)
+# print("---------successfully added fx_log records to the db from the fx_unmatched--------\n")
+# database_dev_mode.fx_log_show_all()
+############################ ADD matched RECORDS TO fx_log RECORDS #########################
 
 ############################## QUERY THE DATABASE ##################################
 ######  query the time_log table ######
