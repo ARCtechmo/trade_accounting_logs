@@ -75,13 +75,12 @@ cur = conn.cursor()
 # database_dev_mode.fx_log_show_all()
 ################################# ADD fx_log RECORDS ######################################
 
-
 ################################# ADD fx_unmatched RECORDS ######################################
 # add fx_unmatched records to the database
-log_entry = fx_dev_mode.fx_unmatched_add_records()
-database_dev_mode.fx_unmatched_add_many(log_entry)
-print("---------------successfully added fx_log records to the db------------------\n")
-database_dev_mode.fx_unmatched_show_all()
+# log_entry = fx_dev_mode.fx_unmatched_add_records()
+# database_dev_mode.fx_unmatched_add_many(log_entry)
+# print("---------------successfully added fx_log records to the db------------------\n")
+# database_dev_mode.fx_unmatched_show_all()
 ################################# ADD fx_unmatched RECORDS ######################################
 
 ############################ ADD matched RECORDS TO fx_log RECORDS #########################
@@ -121,27 +120,36 @@ def match():
     return matched_lst
 
 ### START HERE NEXT ###
-# clean up and test this function
-# the goal is to avoid a UNIQUE CONSTRAINT ERROR
-# the function identifies and removes rows in fx_unmatched that are in fx_table
+# 1) test the function on all of the .csv files
+# function used to avoid a UNIQUE CONSTRAINT ERROR
+# function identifies and removes rows in fx_unmatched that are in fx_table
 def check_constraint():
     print("--------------check_constraint function test -------------")
+
+    # fx_log_rows_lst contains all rows from the fx_log table
     fx_log_rows_lst = []
+
+    # export_matched_rows_lst contains rows with matched open / close transactions
+    export_matched_rows_lst = []
     log_entry = match()
     fx_log_data = cur.execute(''' SELECT * FROM fx_log ''')
     for row in fx_log_data:
         fx_log_rows_lst.append(row)
     for item in log_entry:
         if item in fx_log_rows_lst:
-            return print("-----TRUE TEST FOR UNIQUE CONSRAINT------")
+            print("\n-------------TRUE TEST FOR UNIQUE CONSRAINT------------")
             pass
         else:
-            database_dev_mode.fx_log_add_many(item)
-            return database_dev_mode.fx_log_show_all()
-check_constraint()
+            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
+            export_matched_rows_lst.append(item)
+
+        print("\n---------------ROWS EXPORTED TO fx_log table---------------")
+        print(export_matched_rows_lst)
+        return database_dev_mode.fx_log_add_many(export_matched_rows_lst)
+
+# check_constraint()
 
 ## extract and export the matched transactions from fx_unmatched into fx_log table ##
-
 # log_entry = match()
 # database_dev_mode.fx_log_add_many(log_entry)
 # print("---------successfully added fx_log records to the db from the fx_unmatched--------\n")
