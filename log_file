@@ -1,3 +1,21 @@
+commit 4b729e47345b9d79f6e433cb5b7e315ebfb79abc
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Jan 29 14:26:17 2022 -0500
+
+    successfully matched entry and exit transactions in the fx_unmatched table;
+    succesfully exported the matched entry and exit transaction from
+    fx_unmatched table into the fx_log; added a function to check and
+    for remove duplicate rows in the fx_unmatched table and fx_log table;
+    next task is to continue work on the function
+
+commit 86d2d1adc419dfb8ccc1e9d5f339c5fd93e85943
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Tue Jan 25 16:00:19 2022 -0500
+
+    created a query to for fx_unmatched table; started the process
+    to find a method query, match the open_ids to the close_id, and
+    replace insert the entry_date
+
 commit d3aa9282032d5a1b53d3ce192b3eb2e34f71c85d
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sun Jan 23 15:04:51 2022 -0500

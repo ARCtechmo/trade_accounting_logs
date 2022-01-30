@@ -25,7 +25,7 @@ broker_id = int(input("enter the broker_id from the database (2-7): "))
 #         break
 filename = input("enter the .csv filename: ")
 if filename == '':
-    filename = 'fx_oct_test.csv'
+    filename = 'fx_feb_test.csv'
 with open(filename, newline='') as csvfile:
     reader = csv.reader(csvfile)
     # next(csvfile) # removes the header - comment out if .csv file has no header
@@ -395,9 +395,9 @@ for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, g
 
 ########################### export records #################################
 # function exports the records into the import the log_metrics_app.py app
-def fxlog_add_records():
-    print("-----test of fxlog_add_records function()------------")
-    return fxlog
+# def fxlog_add_records():
+#     print("-----test of fxlog_add_records function()------------")
+#     return fxlog
 ########################### export records #################################
 
 # fxlst is the original list
@@ -574,7 +574,7 @@ print("\n-------------------formatted unmatched logs----------------------------
 ########################### export unmatched records #################################
 ### NOTE TO SELF: add a condition with user input to enter or exit the program ###
 # function exports the records into the import the log_metrics_app.py app
-# def fx_unmatched_add_records():
-#     print("-----test of fxlog_add_records function()------------")
-#     return unmatched_fxlog
+def fx_unmatched_add_records():
+    print("-----test of fxlog_add_records function()------------")
+    return unmatched_fxlog
 ########################### export unmatched records #################################
