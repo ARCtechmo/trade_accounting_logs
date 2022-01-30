@@ -53,3 +53,8 @@ Phase IV: place holder - create the final tables
 
 Phase V: The goal of phase V is to perform successful tests of the entire ETL process.
 1. Perform unit tests on all python files to ensure everything works properly.
+
+
+phase placeholder: create a database for the log files
+1. create a BASH script to exract the information from the log_file
+2. export the logs into a sqlite3 database.
