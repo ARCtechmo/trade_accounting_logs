@@ -77,15 +77,15 @@ cur = conn.cursor()
 
 ################################# ADD fx_unmatched RECORDS ######################################
 # add fx_unmatched records to the database
-# log_entry = fx_dev_mode.fx_unmatched_add_records()
-# database_dev_mode.fx_unmatched_add_many(log_entry)
-# print("---------------successfully added fx_log records to the db------------------\n")
-# database_dev_mode.fx_unmatched_show_all()
+def export_unmatched_records():
+    log_entry = fx_dev_mode.fx_unmatched_add_records()
+    database_dev_mode.fx_unmatched_add_many(log_entry)
+    print("---------------successfully added fx_log records to the db------------------\n")
+export_unmatched_records()
 ################################# ADD fx_unmatched RECORDS ######################################
 
 ############################ ADD matched RECORDS TO fx_log RECORDS #########################
 print("\n---------------------rows from fx_unmatched ready to be imported into fx_log-----------------")
-# 4) add the fx_log function to export the matched rows into fx_log table
 
 # matched_lst contains the combined matched entry and exit into one row
 matched_lst = []
@@ -119,10 +119,10 @@ def match():
             )
     return matched_lst
 
-### START HERE NEXT ###
-# 1) test the function on all of the .csv files
-# function used to avoid a UNIQUE CONSTRAINT ERROR
-# function identifies and removes rows in fx_unmatched that are in fx_table
+
+
+# function avoids a UNIQUE CONSTRAINT ERROR
+# function identifies and removes rows in fx_unmatched that are in the fx_log table
 def check_constraint():
     print("--------------check_constraint function test -------------")
 
@@ -131,6 +131,7 @@ def check_constraint():
 
     # export_matched_rows_lst contains rows with matched open / close transactions
     export_matched_rows_lst = []
+
     log_entry = match()
     fx_log_data = cur.execute(''' SELECT * FROM fx_log ''')
     for row in fx_log_data:
@@ -143,17 +144,20 @@ def check_constraint():
             print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
             export_matched_rows_lst.append(item)
 
-        print("\n---------------ROWS EXPORTED TO fx_log table---------------")
+        print("\n---------------ROWS TO EXPORT TO fx_log table---------------\n")
         print(export_matched_rows_lst)
-        return database_dev_mode.fx_log_add_many(export_matched_rows_lst)
+        return export_matched_rows_lst
+check_constraint()
 
-# check_constraint()
+## export the matched transactions from fx_unmatched into fx_log table ##
+def export_matched_record():
+    log_entry = check_constraint()
+    print("---------exported matched records to the fx_log table--------\n")
+    for row in log_entry:
+        print(row)
+    # return database_dev_mode.fx_log_add_many(log_entry)
+# export_matched_record()
 
-## extract and export the matched transactions from fx_unmatched into fx_log table ##
-# log_entry = match()
-# database_dev_mode.fx_log_add_many(log_entry)
-# print("---------successfully added fx_log records to the db from the fx_unmatched--------\n")
-# database_dev_mode.fx_log_show_all()
 ############################ ADD matched RECORDS TO fx_log RECORDS #########################
 
 ############################## QUERY THE DATABASE ##################################
@@ -204,6 +208,6 @@ def check_constraint():
 ############################## QUERY THE DATABASE ##################################
 
 ############################## CLOSE THE DATABASE ##################################
-conn.close()
-print("app closed....")
+# conn.close()
+# print("app closed....")
 ############################## QUERY THE DATABASE ##################################
