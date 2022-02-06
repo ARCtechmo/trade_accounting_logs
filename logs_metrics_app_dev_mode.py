@@ -81,7 +81,7 @@ def export_unmatched_records():
     log_entry = fx_dev_mode.fx_unmatched_add_records()
     database_dev_mode.fx_unmatched_add_many(log_entry)
     print("---------------successfully added fx_log records to the db------------------\n")
-# export_unmatched_records()
+export_unmatched_records()
 ################################# ADD fx_unmatched RECORDS ######################################
 
 ############################ ADD matched RECORDS TO fx_log RECORDS #########################
@@ -121,33 +121,53 @@ def match():
 
 ### START HERE NEXT ###
 # 1) test the export_matched_record() function on all .csv files
-## export the matched transactions from fx_unmatched into fx_log table ##
-# function avoids a UNIQUE CONSTRAINT ERROR
-# function identifies and removes rows in fx_unmatched that are in the fx_log table
+
+# function exports the matched transactions from fx_unmatched table to fx_log table
+# function removes duplicates to avoid a UNIQUE CONSTRAINT ERROR
 def export_matched_record():
     print("--------------check_constraint function test -------------")
 
-    # fx_log_rows_lst contains all rows from the fx_log table
-    fx_log_rows_lst = []
+    # matched_rows_lst contains rows with matched open / close transactions
+    # however, some of these rows are duplicates in the fx_log table...
+    # and cause a UNIQUE CONSTRAINT ERROR
+    matched_rows_lst = []
 
-    # export_matched_rows_lst contains rows with matched open / close transactions
+    # export_matched_rows_lst filters out the duplicate matched open / close transactions
+    # these rows are exported into fx_log table
     export_matched_rows_lst = []
 
-    log_entry = match()
+    # new_lst is a list that contains the fx_log rows
+    new_lst = []
+
+    print("\n---------rows in fx_log table----------")
     fx_log_data = cur.execute(''' SELECT * FROM fx_log ''')
     for row in fx_log_data:
-        fx_log_rows_lst.append(row)
+        new_lst.append(row)
+        fx_log_data = new_lst
+    print(fx_log_data)
+
+    print("\n------------matched rows-----------")
+    log_entry = match()
     for item in log_entry:
-        if item in fx_log_rows_lst:
+        matched_rows_lst.append(item)
+    print(matched_rows_lst)
+
+    for entry in matched_rows_lst:
+        if entry in fx_log_data:
             print("\n-------------TRUE TEST FOR UNIQUE CONSRAINT------------")
+            print(entry)
             pass
         else:
             print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
-            export_matched_rows_lst.append(item)
+            print(entry)
+            export_matched_rows_lst.append(entry)
 
-    print("\n---------------exported matched rows to fx_log table---------------")
-    return database_dev_mode.fx_log_add_many(log_entry)
-# export_matched_record()
+    print("\n-----test of list to export---------")
+    print(export_matched_rows_lst)
+    log_entry = export_matched_rows_lst
+    database_dev_mode.fx_log_add_many(log_entry)
+
+export_matched_record()
 ############################ ADD matched RECORDS TO fx_log RECORDS #########################
 
 ############################## QUERY THE DATABASE ##################################
