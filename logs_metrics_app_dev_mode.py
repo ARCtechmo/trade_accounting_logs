@@ -81,7 +81,7 @@ def export_unmatched_records():
     log_entry = fx_dev_mode.fx_unmatched_add_records()
     database_dev_mode.fx_unmatched_add_many(log_entry)
     print("---------------successfully added fx_log records to the db------------------\n")
-export_unmatched_records()
+# export_unmatched_records()
 ################################# ADD fx_unmatched RECORDS ######################################
 
 ############################ ADD matched RECORDS TO fx_log RECORDS #########################
@@ -119,11 +119,12 @@ def match():
             )
     return matched_lst
 
-
-
+### START HERE NEXT ###
+# 1) test the export_matched_record() function on all .csv files
+## export the matched transactions from fx_unmatched into fx_log table ##
 # function avoids a UNIQUE CONSTRAINT ERROR
 # function identifies and removes rows in fx_unmatched that are in the fx_log table
-def check_constraint():
+def export_matched_record():
     print("--------------check_constraint function test -------------")
 
     # fx_log_rows_lst contains all rows from the fx_log table
@@ -144,20 +145,9 @@ def check_constraint():
             print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
             export_matched_rows_lst.append(item)
 
-        print("\n---------------ROWS TO EXPORT TO fx_log table---------------\n")
-        print(export_matched_rows_lst)
-        return export_matched_rows_lst
-check_constraint()
-
-## export the matched transactions from fx_unmatched into fx_log table ##
-def export_matched_record():
-    log_entry = check_constraint()
-    print("---------exported matched records to the fx_log table--------\n")
-    for row in log_entry:
-        print(row)
-    # return database_dev_mode.fx_log_add_many(log_entry)
+    print("\n---------------exported matched rows to fx_log table---------------")
+    return database_dev_mode.fx_log_add_many(log_entry)
 # export_matched_record()
-
 ############################ ADD matched RECORDS TO fx_log RECORDS #########################
 
 ############################## QUERY THE DATABASE ##################################
@@ -208,6 +198,6 @@ def export_matched_record():
 ############################## QUERY THE DATABASE ##################################
 
 ############################## CLOSE THE DATABASE ##################################
-# conn.close()
-# print("app closed....")
+conn.close()
+print("app closed....")
 ############################## QUERY THE DATABASE ##################################
