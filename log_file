@@ -1,3 +1,42 @@
+commit 3bfb08d6701b80be604def11c6edd1ba8db49c31
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Feb 5 22:27:56 2022 -0500
+
+    modified the function that exports matched rows to the fx_log table;
+    next just test the function on all .csv files
+
+commit 1430f975d4a4e185254d293800c26772dd6a3120
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Feb 5 12:24:13 2022 -0500
+
+    added functions to the the code for clarity but there is a bug to
+    fix in the for loops
+
+commit ca9a9eec44ab7cfc92851f80da09b6a0a9d3137b
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Jan 30 10:37:02 2022 -0500
+
+    updated the process.txt file to add a section for moving the log
+    files of the project into a sqlite3 database
+
+commit cf51c47bd841028e45e9cd9f1e5b9c48a190a2b7
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Jan 30 10:31:30 2022 -0500
+
+    successfully added the function to test for potential UNIQUE CONSTRAINT
+    violations in the fx_unmatched table before those matched rows are
+    exported to the fx_log table;  next I need to test the function
+    to ensure all output is correct
+
+commit a4d831d83e7448c1f669cc20bfcaa3b5366aa1c8
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Jan 30 10:25:17 2022 -0500
+
+    successfully added the function to test for potential UNIQUE CONSTRAINT
+    violations in the fx_unmatched table before those matched rows are
+    exported to the fx_log table;  next I need to test the function
+    to ensure all output is correct
+
 commit 4b729e47345b9d79f6e433cb5b7e315ebfb79abc
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sat Jan 29 14:26:17 2022 -0500
