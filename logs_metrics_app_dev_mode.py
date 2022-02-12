@@ -55,6 +55,7 @@ cur = conn.cursor()
 ################################# BROKER / ACTIVITY TABLES #########################
 
 ################################ ADD time_log RECORDS #########################################
+### update this section with user input and pass user input to a variable ##
 # add records
 # log_entry = [
 #             ('2022-01-04 00:00','2022-00-00 00:00',2,2),
@@ -69,10 +70,48 @@ cur = conn.cursor()
 
 ################################# ADD fx_log RECORDS ######################################
 # add fx_log records
-# log_entry = fx_dev_mode.fxlog_add_records()
-# database_dev_mode.fx_log_add_many(log_entry)
-# print("---------------successfully added fx_log records to the db------------------\n")
-# database_dev_mode.fx_log_show_all()
+
+# fx_log_rows contains a list of the rows in the fx_log table
+fx_log_rows = []
+
+# export_fx_log_entry_lst contains a list of the rows that will be exported into the fx_log table
+export_fx_log_entry_lst = []
+
+# export_fx_log_records function check for UNIQUE CONSTRANT ERRORS
+# exports fx_log records into the fx_log table
+def export_fx_log_records():
+    fx_log_data = cur.execute(''' SELECT * FROM fx_log ''')
+    print("\n--------------TEST: export_fx_log_records: log_entry records------------------------")
+    for row in fx_log_data:
+        fx_log_rows.append(row)
+    print(fx_log_rows)
+
+    ### START HERE NEXT ###
+    # keep working on this function #
+    print("\n--------------TEST: export_fx_log_records: log_entry records------------------------")
+    log_entry = fx_dev_mode.fxlog_add_records()
+    print(type(log_entry[0])) ### FIX the BUG:  this should be a tuple; not a list of lists
+    for row in log_entry:
+        row = tuple(row)
+        if row in fx_log_rows:
+            print("\n-------------TRUE TEST FOR UNIQUE CONSRAINT------------")
+            print(row)
+            pass
+
+        else:
+            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
+            print(row)
+            export_fx_log_entry_lst.append(row)
+
+        # print("\n-----test of list to export---------")
+        # print(export_fx_log_entry_lst)
+        # log_entry = export_fx_log_entry_lst
+        # database_dev_mode.fx_log_add_many(log_entry)
+
+    # database_dev_mode.fx_log_add_many(log_entry)
+    print("---------------successfully added fx_log records to the db------------------\n")
+# export_fx_log_records()
+
 ################################# ADD fx_log RECORDS ######################################
 
 ################################# ADD fx_unmatched RECORDS ######################################
@@ -81,7 +120,7 @@ def export_unmatched_records():
     log_entry = fx_dev_mode.fx_unmatched_add_records()
     database_dev_mode.fx_unmatched_add_many(log_entry)
     print("---------------successfully added fx_log records to the db------------------\n")
-export_unmatched_records()
+# export_unmatched_records()
 ################################# ADD fx_unmatched RECORDS ######################################
 
 ############################ ADD matched RECORDS TO fx_log RECORDS #########################
@@ -92,13 +131,7 @@ matched_lst = []
 
 # function combines rows in fx_unmatched table with the same open_id into a single row
 def match():
-    data = cur.execute(
-    '''
-    SELECT *
-    FROM fx_unmatched
-    GROUP BY open_id, close_id
-    '''
-    )
+    data = cur.execute(''' SELECT * FROM fx_unmatched GROUP BY open_id, close_id ''' )
     # entry_lst contains rows with only open_ids
     # exit_lst contains rows with only close_id
     entry_lst = []
@@ -118,9 +151,6 @@ def match():
             item[1][15],item[1][16],item[1][17],item[1][18],item[1][19])
             )
     return matched_lst
-
-### START HERE NEXT ###
-# 1) test the export_matched_record() function on all .csv files
 
 # function exports the matched transactions from fx_unmatched table to fx_log table
 # function removes duplicates to avoid a UNIQUE CONSTRAINT ERROR
@@ -167,8 +197,15 @@ def export_matched_record():
     log_entry = export_matched_rows_lst
     database_dev_mode.fx_log_add_many(log_entry)
 
-export_matched_record()
+# export_matched_record()
 ############################ ADD matched RECORDS TO fx_log RECORDS #########################
+
+
+######################### Show All Rows in the fx_log table #########################
+def show_all():
+    database_dev_mode.fx_log_show_all()
+# show_all()
+######################### Show All Rows in the fx_log table #########################
 
 ############################## QUERY THE DATABASE ##################################
 ######  query the time_log table ######

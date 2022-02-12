@@ -1,3 +1,17 @@
+commit e46b2e7f04eacf4790f8ad146e652284ab95729e
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Feb 6 12:52:03 2022 -0500
+
+    updated the log file
+
+commit cfb4164610d663cf1b2bde1280a5a31005db2234
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Feb 6 12:49:17 2022 -0500
+
+    continued work on the export_matched_rows function to fix a bug;
+    successfully fixed the bug; next time test the function on all
+    .csv files to enusre I get the correct output
+
 commit 3bfb08d6701b80be604def11c6edd1ba8db49c31
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sat Feb 5 22:27:56 2022 -0500
