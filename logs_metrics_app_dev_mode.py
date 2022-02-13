@@ -81,16 +81,19 @@ export_fx_log_entry_lst = []
 # exports fx_log records into the fx_log table
 def export_fx_log_records():
     fx_log_data = cur.execute(''' SELECT * FROM fx_log ''')
-    print("\n--------------TEST: export_fx_log_records: log_entry records------------------------")
+    print("\n--------------TEST: export_fx_log_records function: log_entry records----------------")
     for row in fx_log_data:
         fx_log_rows.append(row)
     print(fx_log_rows)
 
     ### START HERE NEXT ###
-    # keep working on this function #
-    print("\n--------------TEST: export_fx_log_records: log_entry records------------------------")
+    ### Bug in the data: edge case where there are dupicate close_id transaction number (see July .csv file)
+    ### create a function to identify a duplicate, and modify the number
+    ### add an extra zero to make it a nine digit unique number
+
+    print("\n--------------TEST: export_fx_log_records function: log_entry records--------------------")
     log_entry = fx_dev_mode.fxlog_add_records()
-    print(type(log_entry[0])) ### FIX the BUG:  this should be a tuple; not a list of lists
+    print(type(log_entry[0]))
     for row in log_entry:
         row = tuple(row)
         if row in fx_log_rows:
@@ -103,12 +106,11 @@ def export_fx_log_records():
             print(row)
             export_fx_log_entry_lst.append(row)
 
-        # print("\n-----test of list to export---------")
-        # print(export_fx_log_entry_lst)
-        # log_entry = export_fx_log_entry_lst
-        # database_dev_mode.fx_log_add_many(log_entry)
+    print("\n--------------TEST: rows to export into fx_log table-------------------")
+    print(export_fx_log_entry_lst)
+    log_entry = export_fx_log_entry_lst
+    database_dev_mode.fx_log_add_many(log_entry)
 
-    # database_dev_mode.fx_log_add_many(log_entry)
     print("---------------successfully added fx_log records to the db------------------\n")
 # export_fx_log_records()
 
@@ -152,6 +154,9 @@ def match():
             )
     return matched_lst
 
+
+### Potential Bug: edge case with broker data ###
+### see the solution in the first section and modify it to fit the function below ###
 # function exports the matched transactions from fx_unmatched table to fx_log table
 # function removes duplicates to avoid a UNIQUE CONSTRAINT ERROR
 def export_matched_record():
