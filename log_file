@@ -1,3 +1,25 @@
+commit 871445bbb04de32cfed248f06ecbe4bc5643c51b
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Feb 13 11:27:17 2022 -0500
+
+    continued tessing the function in logs_metrics_app_dev_mode.py and
+    discovered an edge case in the broker data where there are duplicate
+    transaction close_ids that will cause a UNIQUE CONSTRAINT ERROR;
+    I will need to make modifications likely by adding a new function
+    to account for edge cases in the data such as this one
+
+commit 8d4b7ac79f19e4229e5e376ecc756341583c1282
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Feb 12 14:13:54 2022 -0500
+
+    successfully tested the export_matched_record function in the
+    logs_metrics_app_dev_mode.py file on all .csv files;
+    successfully tested the export_unmatched_records and
+    export_matched_record functions in the logs_metrics_app_dev_mode.py files;
+    modified the logs_metrics_app_dev_mode.py file  to add a export_fx_log_records
+    function that will check for UNIQUE CONSTRAINT ERRORS before exporting the
+    fx_log into the fx_log table;
+
 commit e46b2e7f04eacf4790f8ad146e652284ab95729e
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sun Feb 6 12:52:03 2022 -0500
