@@ -57,4 +57,8 @@ Phase V: The goal of phase V is to perform successful tests of the entire ETL pr
 
 phase placeholder: create a database for the log files
 1. create a BASH script to exract the information from the log_file
-2. export the logs into a sqlite3 database.
+2. export the logs into a sqlite3 database
+
+phase placeholder: add logging to check the performance of the programs.
+1. put the log files into a database
+2. use the Python logging module
