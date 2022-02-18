@@ -66,9 +66,59 @@ cur = conn.cursor()
 # database_dev_mode.time_log_add_many(log_entry)
 # print("---------------successfully added records to the db------------------\n")
 # database_dev_mode.time_log_show_all()
-################################# ADD time_log RECORDS #######################################
+################################# Add time_log RECORDS #######################################
 
-################################# ADD fx_log RECORDS ######################################
+
+################################# Add corrected duplicates to fx_log table ##########################
+#### START HERE NEXT (1) ####
+# correct the duplicate then export the function
+
+# the dictionary contains a count of duplicate close_id or open_id in the broker data
+# the count in the dictionary is used to identify duplicate transaction ids
+di = dict()
+
+# duplicate_close_id_lst is a list that contains the duplicate close_ids
+duplicate_close_id_lst = []
+
+# duplicate_open_id_lst is a list that contains the duplicate open_ids
+duplicate_open_id_lst = []
+
+# list contains modified close / open transaction ids
+modified_duplicate_lst = []
+
+# function corrects duplicate close_ids / open_ids and exports the rows into the fx_log table
+def corrected_duplicates():
+    print("--------------------------------test of corrected_duplicates() function--------------------------------")
+    log_entry = fx_dev_mode.fxlog_add_records()
+    for row in log_entry:
+        row = row[11]
+        di[row] = di.get(row,0) + 1
+    for key,value in di.items():
+        if value > 1:
+            print("duplicate id: ", key)
+            for row in log_entry:
+                if row[11] == key:
+                    print("\n---------------------TEST: duplicate close_id error in broker data----------------------")
+                    row = tuple(row)
+                    print(row)
+                    duplicate_close_id_lst.append(row)
+                elif row[12] == key:
+                    print("\n---------------------TEST: duplicate open_id error in broker data----------------------\n")
+                    row = tuple(row)
+                    print(row)
+                    duplicate_open_id_lst.append(row)
+
+    print("\n----------------------TEST: list of rows with duplicate close_id not exported--------------------------")
+    for row in duplicate_close_id_lst:
+        print(row)
+
+    print("\n-----------------------TEST: list of rows with duplicate open_id not exported--------------------------")
+    for row in duplicate_open_id_lst:
+        print(row)
+# corrected_duplicates()
+################################# Add corrected duplicates to fx_log table ##############################
+
+################################# Add fx_log RECORDS ######################################
 # add fx_log records
 
 # fx_log_rows contains a list of the rows in the fx_log table
@@ -86,18 +136,28 @@ def export_fx_log_records():
         fx_log_rows.append(row)
     print(fx_log_rows)
 
-    ### START HERE NEXT ###
-    ### Bug in the data: edge case where there are dupicate close_id transaction number (see July .csv file)
-    ### create a function to identify a duplicate, and modify the number
-    ### add an extra zero to make it a nine digit unique number
-
     print("\n--------------TEST: export_fx_log_records function: log_entry records--------------------")
-    log_entry = fx_dev_mode.fxlog_add_records()
-    print(type(log_entry[0]))
     for row in log_entry:
         row = tuple(row)
         if row in fx_log_rows:
-            print("\n-------------TRUE TEST FOR UNIQUE CONSRAINT------------")
+            print("\n-------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row------------")
+            print(row)
+            pass
+
+        ### START HERE NEXT (2) ###
+        #### TEST ####
+        # test the corrected_duplicates function on this part of the loop
+        elif row in duplicate_close_id_lst:
+            print("\n-------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate close_id------------")
+            print(row)
+            pass
+
+        ### START HERE NEXT (3) ###
+        #### TEST ####
+        # test the corrected_duplicates function on this part of the loop
+        # create a modified .csv file for july and add in duplicate open_ids to test this
+        elif row in duplicate_open_id_lst:
+            print("\n-------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate open_id------------")
             print(row)
             pass
 
@@ -112,20 +172,20 @@ def export_fx_log_records():
     database_dev_mode.fx_log_add_many(log_entry)
 
     print("---------------successfully added fx_log records to the db------------------\n")
+
 # export_fx_log_records()
+################################# Add fx_log RECORDS ################################################
 
-################################# ADD fx_log RECORDS ######################################
-
-################################# ADD fx_unmatched RECORDS ######################################
+################################# Add fx_unmatched RECORDS ######################################
 # add fx_unmatched records to the database
 def export_unmatched_records():
     log_entry = fx_dev_mode.fx_unmatched_add_records()
     database_dev_mode.fx_unmatched_add_many(log_entry)
     print("---------------successfully added fx_log records to the db------------------\n")
 # export_unmatched_records()
-################################# ADD fx_unmatched RECORDS ######################################
+################################# Add fx_unmatched RECORDS ######################################
 
-############################ ADD matched RECORDS TO fx_log RECORDS #########################
+############################ Add matched RECORDS TO fx_log RECORDS #########################
 print("\n---------------------rows from fx_unmatched ready to be imported into fx_log-----------------")
 
 # matched_lst contains the combined matched entry and exit into one row
@@ -203,14 +263,14 @@ def export_matched_record():
     database_dev_mode.fx_log_add_many(log_entry)
 
 # export_matched_record()
-############################ ADD matched RECORDS TO fx_log RECORDS #########################
+############################ Add matched records to fx_log table #########################
 
 
-######################### Show All Rows in the fx_log table #########################
+######################### Show all rows in the fx_log table #########################
 def show_all():
     database_dev_mode.fx_log_show_all()
 # show_all()
-######################### Show All Rows in the fx_log table #########################
+######################### Show all rows in the fx_log table #########################
 
 ############################## QUERY THE DATABASE ##################################
 ######  query the time_log table ######
