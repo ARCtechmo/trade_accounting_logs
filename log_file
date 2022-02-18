@@ -1,3 +1,15 @@
+commit 2bcf47c6b4d8a6a5f90bee8a822e3d88940e1baf
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Tue Feb 15 19:53:25 2022 -0500
+
+    added logging to the process.txt file
+
+commit 8cb5ced62e63d194fa622fcc88d299e2c29f0623
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Feb 13 11:32:10 2022 -0500
+
+    updated the log file
+
 commit 871445bbb04de32cfed248f06ecbe4bc5643c51b
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sun Feb 13 11:27:17 2022 -0500
