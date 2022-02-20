@@ -70,52 +70,82 @@ cur = conn.cursor()
 
 
 ################################# Add corrected duplicates to fx_log table ##########################
-#### START HERE NEXT (1) ####
-# correct the duplicate then export the function
-
-# the dictionary contains a count of duplicate close_id or open_id in the broker data
-# the count in the dictionary is used to identify duplicate transaction ids
-di = dict()
-
 # duplicate_close_id_lst is a list that contains the duplicate close_ids
 duplicate_close_id_lst = []
 
 # duplicate_open_id_lst is a list that contains the duplicate open_ids
 duplicate_open_id_lst = []
 
-# list contains modified close / open transaction ids
-modified_duplicate_lst = []
+# function identifieds and removes duplicate rows of matching close_ids / open_ids
+def compile_dupicate_rows_ids():
+    print("--------------------------------TEST: compile_dupicate_rows_ids() function--------------------------------")
 
-# function corrects duplicate close_ids / open_ids and exports the rows into the fx_log table
-def corrected_duplicates():
-    print("--------------------------------test of corrected_duplicates() function--------------------------------")
+    # duplicate_log_entry_rows is a list that contains duplicate rows with duplicate close_ids / open_ids
+    duplicate_log_entry_rows = []
+
+    # non_duplicate_log_entry_rows is a list that contains rows with duplicate close_ids / open_ids
+    non_duplicate_log_entry_rows = []
+
+    # function casts the rows into tuples and removes duplicates from the list of tuples
     log_entry = fx_dev_mode.fxlog_add_records()
-    for row in log_entry:
+    def remove_duplicates(log_entry):
+        for row in log_entry:
+            row = tuple(row)
+            duplicate_log_entry_rows.append(row)
+        non_duplicate_log_entry_rows = list(set([i for i in duplicate_log_entry_rows]))
+        return non_duplicate_log_entry_rows
+
+    # the dictionary contains a count of duplicate close_id in the broker data
+    # the count in the dictionary is used to identify duplicate transaction ids
+    di = dict()
+    for row in remove_duplicates(log_entry):
         row = row[11]
         di[row] = di.get(row,0) + 1
     for key,value in di.items():
         if value > 1:
-            print("duplicate id: ", key)
-            for row in log_entry:
+            print("duplicate id: ", key, value)
+            for row in remove_duplicates(log_entry):
                 if row[11] == key:
                     print("\n---------------------TEST: duplicate close_id error in broker data----------------------")
                     row = tuple(row)
                     print(row)
                     duplicate_close_id_lst.append(row)
-                elif row[12] == key:
-                    print("\n---------------------TEST: duplicate open_id error in broker data----------------------\n")
+
+    # the dictionary contains a count of duplicate or open_id in the broker data
+    # the count in the dictionary is used to identify duplicate transaction ids
+    di = dict()
+    for row in remove_duplicates(log_entry):
+        row = row[12]
+        di[row] = di.get(row,0) + 1
+    for key,value in di.items():
+        if value > 1:
+            print("duplicate id: ", key, value)
+            for row in remove_duplicates(log_entry):
+                if row[12] == key:
+                    print("\n---------------------TEST: duplicate open_id error in broker data----------------------")
                     row = tuple(row)
                     print(row)
                     duplicate_open_id_lst.append(row)
 
-    print("\n----------------------TEST: list of rows with duplicate close_id not exported--------------------------")
-    for row in duplicate_close_id_lst:
-        print(row)
+compile_dupicate_rows_ids()
 
-    print("\n-----------------------TEST: list of rows with duplicate open_id not exported--------------------------")
-    for row in duplicate_open_id_lst:
-        print(row)
-# corrected_duplicates()
+#### START HERE NEXT (1) ####
+# correct the duplicate then export the function
+print("\n----------------------TEST: list of rows with duplicate close_id not exported--------------------------")
+for row in duplicate_close_id_lst:
+    print(row)
+print("\n-----------------------TEST: list of rows with duplicate open_id not exported--------------------------")
+for row in duplicate_open_id_lst:
+    print(row)
+
+# list contains modified close / open transaction ids
+corrected_duplicate_lst = []
+
+# function corrects the duplicate open / close ids and exports the rows into the fx_log table
+def awesome_function():
+    pass
+
+
 ################################# Add corrected duplicates to fx_log table ##############################
 
 ################################# Add fx_log RECORDS ######################################
@@ -146,7 +176,7 @@ def export_fx_log_records():
 
         ### START HERE NEXT (2) ###
         #### TEST ####
-        # test the corrected_duplicates function on this part of the loop
+        # test the compile_dupicate_rows_ids function on this part of the loop
         elif row in duplicate_close_id_lst:
             print("\n-------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate close_id------------")
             print(row)
@@ -154,7 +184,7 @@ def export_fx_log_records():
 
         ### START HERE NEXT (3) ###
         #### TEST ####
-        # test the corrected_duplicates function on this part of the loop
+        # test the compile_dupicate_rows_ids function on this part of the loop
         # create a modified .csv file for july and add in duplicate open_ids to test this
         elif row in duplicate_open_id_lst:
             print("\n-------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate open_id------------")
@@ -320,6 +350,6 @@ def show_all():
 ############################## QUERY THE DATABASE ##################################
 
 ############################## CLOSE THE DATABASE ##################################
-conn.close()
-print("app closed....")
+# conn.close()
+# print("app closed....")
 ############################## QUERY THE DATABASE ##################################
