@@ -127,7 +127,7 @@ def compile_dupicate_rows_ids():
                     print(row)
                     duplicate_open_id_lst.append(row)
 
-compile_dupicate_rows_ids()
+# compile_dupicate_rows_ids()
 
 # list contains modified close / open transaction ids
 export_corrected_duplicate_lst = []
@@ -136,30 +136,41 @@ export_corrected_duplicate_lst = []
 def export_corrected_duplicate_id():
     print("\n----------------------TEST: export_corrected_duplicate_id() func--------------------------")
     print("\n----------------------TEST: list of rows with duplicate close_id not exported--------------------------")
-    count = 0
+    count = .0
     for row in duplicate_close_id_lst:
         row = list(row)
         row[11] = row[11] + count
-        count +=1
+        count +=.1
         export_corrected_duplicate_lst.append(tuple(row[:20]))
     print("\n-----------------------TEST: list of rows with duplicate open_id not exported--------------------------")
-    count = 0
+    count = .0
     for row in duplicate_open_id_lst:
         row = list(row)
         row[12] = row[12] + count
-        count +=1
+        count +=.1
         export_corrected_duplicate_lst.append(tuple(row[:20]))
 
     print("\n-----------------------TEST: list of rows to export into the fx_log table--------------------------")
     for row in export_corrected_duplicate_lst:
         print(row)
 
-    log_entry = export_corrected_duplicate_lst
-    database_dev_mode.fx_log_add_many(log_entry)
-export_corrected_duplicate_id()
+    ### START HERE NEXT ###
+    # fx_log_data = cur.execute(''' SELECT * FROM fx_log ''')
+    # log_entry = export_corrected_duplicate_lst
+    # for row in log_entry:
+    #     if row in fx_log_data:
+    #         print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+    #         print(row)
+    #         pass
+    #     else:
+    #         print("\n----------------FALSE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+    #         print(row)
+    #         database_dev_mode.fx_log_add_many(log_entry)
+
+# export_corrected_duplicate_id()
 ################################# Add corrected duplicates to fx_log table ##############################
 
-################################# Add fx_log RECORDS ######################################
+################################## Add fx_log RECORDS ################################################
 # add fx_log records
 
 # fx_log_rows contains a list of the rows in the fx_log table
@@ -181,7 +192,7 @@ def export_fx_log_records():
     for row in log_entry:
         row = tuple(row)
         if row in fx_log_rows:
-            print("\n-------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row------------")
+            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
             print(row)
             pass
 
@@ -361,6 +372,6 @@ def show_all():
 ############################## QUERY THE DATABASE ##################################
 
 ############################## CLOSE THE DATABASE ##################################
-# conn.close()
-# print("app closed....")
+conn.close()
+print("app closed....")
 ############################## QUERY THE DATABASE ##################################
