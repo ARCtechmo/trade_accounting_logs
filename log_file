@@ -1,3 +1,26 @@
+commit 41e5d8227b035b34e9e5bdd249cb97c2ec632480
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Feb 20 12:08:27 2022 -0500
+
+    added functions to identify and remove duplicate rows with duplicate
+    close or open ids and place them into separate lists; next I need
+    to create a new function to correct the duplicate ids
+
+commit 940a7d53a64efcee1e1a29826f102b38936fb8dd
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Fri Feb 18 17:16:59 2022 -0500
+
+    updated the log file
+
+commit 6989ccde363704be55a0b4c815e70155d1bc2e4b
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Fri Feb 18 17:15:08 2022 -0500
+
+    created a function to identify the edge cases in the broker data;
+    the function identifies duplicate close and open transaction ids;
+    continue work on the function that will correct and modify the
+    duplicate and export the corrected row into the fx_log table
+
 commit 2bcf47c6b4d8a6a5f90bee8a822e3d88940e1baf
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Tue Feb 15 19:53:25 2022 -0500
