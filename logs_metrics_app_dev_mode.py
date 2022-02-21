@@ -129,23 +129,34 @@ def compile_dupicate_rows_ids():
 
 compile_dupicate_rows_ids()
 
-#### START HERE NEXT (1) ####
-# correct the duplicate then export the function
-print("\n----------------------TEST: list of rows with duplicate close_id not exported--------------------------")
-for row in duplicate_close_id_lst:
-    print(row)
-print("\n-----------------------TEST: list of rows with duplicate open_id not exported--------------------------")
-for row in duplicate_open_id_lst:
-    print(row)
-
 # list contains modified close / open transaction ids
-corrected_duplicate_lst = []
+export_corrected_duplicate_lst = []
 
 # function corrects the duplicate open / close ids and exports the rows into the fx_log table
-def awesome_function():
-    pass
+def export_corrected_duplicate_id():
+    print("\n----------------------TEST: export_corrected_duplicate_id() func--------------------------")
+    print("\n----------------------TEST: list of rows with duplicate close_id not exported--------------------------")
+    count = 0
+    for row in duplicate_close_id_lst:
+        row = list(row)
+        row[11] = row[11] + count
+        count +=1
+        export_corrected_duplicate_lst.append(tuple(row[:20]))
+    print("\n-----------------------TEST: list of rows with duplicate open_id not exported--------------------------")
+    count = 0
+    for row in duplicate_open_id_lst:
+        row = list(row)
+        row[12] = row[12] + count
+        count +=1
+        export_corrected_duplicate_lst.append(tuple(row[:20]))
 
+    print("\n-----------------------TEST: list of rows to export into the fx_log table--------------------------")
+    for row in export_corrected_duplicate_lst:
+        print(row)
 
+    log_entry = export_corrected_duplicate_lst
+    database_dev_mode.fx_log_add_many(log_entry)
+export_corrected_duplicate_id()
 ################################# Add corrected duplicates to fx_log table ##############################
 
 ################################# Add fx_log RECORDS ######################################
