@@ -1,3 +1,19 @@
+commit 0f1f2998b06757a2ef93f54ed18431312502e8ee
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Mon Feb 21 10:44:39 2022 -0500
+
+    create an additional function as part of the process to to correct
+    the edge cases where the broker data has duplicate close / open ids;
+    successfully tested the functions on a modified .csv file that contains
+    intentional errors; corrected errors and exported the rows into
+    fx_log table
+
+commit 87d8f312752fa14b6156c3f295ad4791ced0ca66
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Mon Feb 21 10:44:09 2022 -0500
+
+    updated the log file
+
 commit 41e5d8227b035b34e9e5bdd249cb97c2ec632480
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sun Feb 20 12:08:27 2022 -0500
