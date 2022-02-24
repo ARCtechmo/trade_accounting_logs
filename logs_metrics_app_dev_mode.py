@@ -129,7 +129,13 @@ def compile_dupicate_rows_ids():
 
 # compile_dupicate_rows_ids()
 
+# fx_log_rows contains a list of the rows in the fx_log table
+fx_log_rows = []
+
 # list contains modified close / open transaction ids
+corrected_duplicate_lst = []
+
+# list contains modified close / open transaction ids to be exported into fx_log table
 export_corrected_duplicate_lst = []
 
 # function corrects the duplicate open / close ids and exports the rows into the fx_log table
@@ -141,31 +147,35 @@ def export_corrected_duplicate_id():
         row = list(row)
         row[11] = row[11] + count
         count +=.1
-        export_corrected_duplicate_lst.append(tuple(row[:20]))
+        corrected_duplicate_lst.append(tuple(row[:20]))
     print("\n-----------------------TEST: list of rows with duplicate open_id not exported--------------------------")
     count = .0
     for row in duplicate_open_id_lst:
         row = list(row)
         row[12] = row[12] + count
         count +=.1
-        export_corrected_duplicate_lst.append(tuple(row[:20]))
+        corrected_duplicate_lst.append(tuple(row[:20]))
 
     print("\n-----------------------TEST: list of rows to export into the fx_log table--------------------------")
-    for row in export_corrected_duplicate_lst:
-        print(row)
 
     ### START HERE NEXT ###
-    # fx_log_data = cur.execute(''' SELECT * FROM fx_log ''')
-    # log_entry = export_corrected_duplicate_lst
-    # for row in log_entry:
-    #     if row in fx_log_data:
-    #         print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
-    #         print(row)
-    #         pass
-    #     else:
-    #         print("\n----------------FALSE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
-    #         print(row)
-    #         database_dev_mode.fx_log_add_many(log_entry)
+    ## I believe this part works correctly but the .csv files again to be sure ###
+    fx_log_data = cur.execute(''' SELECT * FROM fx_log ''')
+    for row in fx_log_data:
+        fx_log_rows.append(row)
+    for row in corrected_duplicate_lst:
+        if row in fx_log_rows:
+            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print(row)
+        else:
+            print("\n----------------FALSE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print(row)
+            export_corrected_duplicate_lst.append(row)
+
+    print("\n--------------TEST: rows to export into fx_log table-------------------")
+    print(export_corrected_duplicate_lst)
+    log_entry = export_corrected_duplicate_lst
+    database_dev_mode.fx_log_add_many(log_entry)
 
 # export_corrected_duplicate_id()
 ################################# Add corrected duplicates to fx_log table ##############################
@@ -189,6 +199,7 @@ def export_fx_log_records():
     print(fx_log_rows)
 
     print("\n--------------TEST: export_fx_log_records function: log_entry records--------------------")
+    #### possible error here  where do you define the variable log_entry??? #####
     for row in log_entry:
         row = tuple(row)
         if row in fx_log_rows:
