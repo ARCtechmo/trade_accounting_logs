@@ -108,7 +108,7 @@ def compile_dupicate_rows_ids():
                 if row[11] == key:
                     print("\n---------------------TEST: duplicate close_id error in broker data----------------------")
                     row = tuple(row)
-                    print(row)
+                    # print(row)
                     duplicate_close_id_lst.append(row)
 
     # the dictionary contains a count of duplicate or open_id in the broker data
@@ -124,7 +124,7 @@ def compile_dupicate_rows_ids():
                 if row[12] == key:
                     print("\n---------------------TEST: duplicate open_id error in broker data----------------------")
                     row = tuple(row)
-                    print(row)
+                    # print(row)
                     duplicate_open_id_lst.append(row)
 
 # compile_dupicate_rows_ids()
@@ -141,14 +141,12 @@ export_corrected_duplicate_lst = []
 # function corrects the duplicate open / close ids and exports the rows into the fx_log table
 def export_corrected_duplicate_id():
     print("\n----------------------TEST: export_corrected_duplicate_id() func--------------------------")
-    print("\n----------------------TEST: list of rows with duplicate close_id not exported--------------------------")
     count = .0
     for row in duplicate_close_id_lst:
         row = list(row)
         row[11] = row[11] + count
         count +=.1
         corrected_duplicate_lst.append(tuple(row[:20]))
-    print("\n-----------------------TEST: list of rows with duplicate open_id not exported--------------------------")
     count = .0
     for row in duplicate_open_id_lst:
         row = list(row)
@@ -156,26 +154,34 @@ def export_corrected_duplicate_id():
         count +=.1
         corrected_duplicate_lst.append(tuple(row[:20]))
 
-    print("\n-----------------------TEST: list of rows to export into the fx_log table--------------------------")
 
     ### START HERE NEXT ###
-    ## I believe this part works correctly but the .csv files again to be sure ###
+    # there is a discrepancy between the corrected_duplicate_lst and the fx_log_data
+    # the close_id / open_id are mismatatched in the corrected_duplicate_lst which is causing a problem
+    # give the previous section a relook
+    print("-\n-----------------TEST: corrected dupliates list-----------------------------------")
+    for row in corrected_duplicate_lst:
+        print(row) ## BUG:  mismatched close_id / open_ids
+
     fx_log_data = cur.execute(''' SELECT * FROM fx_log ''')
     for row in fx_log_data:
         fx_log_rows.append(row)
-    for row in corrected_duplicate_lst:
-        if row in fx_log_rows:
-            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
-            print(row)
-        else:
-            print("\n----------------FALSE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
-            print(row)
-            export_corrected_duplicate_lst.append(row)
+    print("\n----------------------------------TEST: fx_log table rows-----------------------------")
+    for row in fx_log_rows:
+        print(row)
 
-    print("\n--------------TEST: rows to export into fx_log table-------------------")
-    print(export_corrected_duplicate_lst)
-    log_entry = export_corrected_duplicate_lst
-    database_dev_mode.fx_log_add_many(log_entry)
+        ### BUG: I get two different outputs each time I run this part in the console (output 1 and output 2)
+        # if row in fx_log_rows:
+        #     print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+        #     print(row)
+
+        # else:
+        #     print("\n-------------------FALSE TEST FOR UNIQUE CONSRAINT--------------------------")
+        #     print(row)
+        #     export_corrected_duplicate_lst.append(row)
+        #
+        #     log_entry = export_corrected_duplicate_lst
+        #     database_dev_mode.fx_log_add_many(log_entry)
 
 # export_corrected_duplicate_id()
 ################################# Add corrected duplicates to fx_log table ##############################
