@@ -1,3 +1,26 @@
+commit 7c605816e4b7dc0dba858dc51a2772afceb17963
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Thu Feb 24 13:40:38 2022 -0500
+
+    there are still bugs with the export_corrected_duplicate_id function
+    in sections 130 - 160; I will need to relook at the prevous section
+    from 98 - 128 that formed the corrected_dupliacte_lst;
+
+commit 9966f4402a61bcd6a15730997ed49cba6213db12
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Thu Feb 24 11:24:37 2022 -0500
+
+    updated the log_file
+
+commit c5b6e641ffebd169067c82687fca6f1199e97355
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Thu Feb 24 11:22:38 2022 -0500
+
+    upated section 157-171 that contains the export_corrected_duplicate()
+    function; the function successfully exported the corrected edge cases
+    where there are duplicate close / open transaction ids in the broker
+    data; next continue to test the function
+
 commit b1b4a6b8a6caf201e6a1df297bbd3a15d42409e3
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Mon Feb 21 11:22:59 2022 -0500
