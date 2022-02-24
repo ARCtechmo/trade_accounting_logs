@@ -1,3 +1,19 @@
+commit b1b4a6b8a6caf201e6a1df297bbd3a15d42409e3
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Mon Feb 21 11:22:59 2022 -0500
+
+    modified the function that corrects the edge cases where the broker
+    data has duplicate close / open ids; modified the actual number to
+    add a decimal and counter .01 .02 to distinguish the dupllicate ids
+    while retaining the original transaction ids; started writing the code
+    to export the data into the fx_log table;
+
+commit abce3b07248ae8055d7cb3da42614990f8288bdc
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Mon Feb 21 11:22:34 2022 -0500
+
+    updated log file
+
 commit 0f1f2998b06757a2ef93f54ed18431312502e8ee
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Mon Feb 21 10:44:39 2022 -0500
