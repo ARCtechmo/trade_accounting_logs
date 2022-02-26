@@ -4,6 +4,7 @@ import database_dev_mode
 import fx_dev_mode
 from datetime import date
 from datetime import datetime
+import itertools
 if __name__ == "__main__":
     print('app module is being run directly')
 else:
@@ -78,7 +79,7 @@ duplicate_open_id_lst = []
 
 # function identifieds and removes duplicate rows of matching close_ids / open_ids
 def compile_dupicate_rows_ids():
-    print("--------------------------------TEST: compile_dupicate_rows_ids() function--------------------------------")
+    # print("--------------------------------TEST: compile_dupicate_rows_ids() function--------------------------------")
 
     # duplicate_log_entry_rows is a list that contains duplicate rows with duplicate close_ids / open_ids
     duplicate_log_entry_rows = []
@@ -99,14 +100,16 @@ def compile_dupicate_rows_ids():
     # the count in the dictionary is used to identify duplicate transaction ids
     di = dict()
     for row in remove_duplicates(log_entry):
+        # print("\n-----------------TEST: remove_duplicates() function-----------------")
+        # print(row)
         row = row[11]
         di[row] = di.get(row,0) + 1
     for key,value in di.items():
         if value > 1:
-            print("duplicate id: ", key, value)
+            # print("duplicate id: ", key, value)
             for row in remove_duplicates(log_entry):
                 if row[11] == key:
-                    print("\n---------------------TEST: duplicate close_id error in broker data----------------------")
+                    # print("\n---------------------TEST: duplicate close_id error in broker data----------------------")
                     row = tuple(row)
                     # print(row)
                     duplicate_close_id_lst.append(row)
@@ -119,15 +122,15 @@ def compile_dupicate_rows_ids():
         di[row] = di.get(row,0) + 1
     for key,value in di.items():
         if value > 1:
-            print("duplicate id: ", key, value)
+            # print("duplicate id: ", key, value)
             for row in remove_duplicates(log_entry):
                 if row[12] == key:
-                    print("\n---------------------TEST: duplicate open_id error in broker data----------------------")
+                    # print("\n---------------------TEST: duplicate open_id error in broker data----------------------")
                     row = tuple(row)
                     # print(row)
                     duplicate_open_id_lst.append(row)
 
-# compile_dupicate_rows_ids()
+compile_dupicate_rows_ids()
 
 # fx_log_rows contains a list of the rows in the fx_log table
 fx_log_rows = []
@@ -138,6 +141,10 @@ corrected_duplicate_lst = []
 # list contains modified close / open transaction ids to be exported into fx_log table
 export_corrected_duplicate_lst = []
 
+
+## START HERE NEXT: This function works but there is one remaining item to test
+## I imported the itertools module to use the the zip_longest() function
+## test the ip_longest() function where there are lots of exisiting row; i.e. uneven rows
 # function corrects the duplicate open / close ids and exports the rows into the fx_log table
 def export_corrected_duplicate_id():
     print("\n----------------------TEST: export_corrected_duplicate_id() func--------------------------")
@@ -154,36 +161,34 @@ def export_corrected_duplicate_id():
         count +=.1
         corrected_duplicate_lst.append(tuple(row[:20]))
 
-
-    ### START HERE NEXT ###
-    # there is a discrepancy between the corrected_duplicate_lst and the fx_log_data
-    # the close_id / open_id are mismatatched in the corrected_duplicate_lst which is causing a problem
-    # give the previous section a relook
-    print("-\n-----------------TEST: corrected dupliates list-----------------------------------")
-    for row in corrected_duplicate_lst:
-        print(row) ## BUG:  mismatched close_id / open_ids
-
     fx_log_data = cur.execute(''' SELECT * FROM fx_log ''')
     for row in fx_log_data:
         fx_log_rows.append(row)
-    print("\n----------------------------------TEST: fx_log table rows-----------------------------")
-    for row in fx_log_rows:
-        print(row)
 
-        ### BUG: I get two different outputs each time I run this part in the console (output 1 and output 2)
-        # if row in fx_log_rows:
-        #     print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
-        #     print(row)
+    if len(fx_log_rows) == 0:
+        log_entry = corrected_duplicate_lst
+        database_dev_mode.fx_log_add_many(log_entry)
+    else:
+        print("\n----------------------------------TEST: fx_log table rows-----------------------------")
+        for row in fx_log_rows:
+            print(row)
+        for x, y in itertools.zip_longest(corrected_duplicate_lst, fx_log_rows):
+            if x[11] == y[11]:
+                print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate rows----------------------")
+                print(x,y)
+            elif x[12] == y[12]:
+                print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate rows----------------------")
+                print(x,y)
+            else:
+                export_corrected_duplicate_lst.append(x)
 
-        # else:
-        #     print("\n-------------------FALSE TEST FOR UNIQUE CONSRAINT--------------------------")
-        #     print(row)
-        #     export_corrected_duplicate_lst.append(row)
-        #
-        #     log_entry = export_corrected_duplicate_lst
-        #     database_dev_mode.fx_log_add_many(log_entry)
+        print("\n\n-----------------TEST: corrected duplicates exported into fx_log table-------------------")
+        log_entry = export_corrected_duplicate_lst
+        for row in log_entry:
+            print(row)
+        database_dev_mode.fx_log_add_many(log_entry)
 
-# export_corrected_duplicate_id()
+export_corrected_duplicate_id()
 ################################# Add corrected duplicates to fx_log table ##############################
 
 ################################## Add fx_log RECORDS ################################################
@@ -389,6 +394,6 @@ def show_all():
 ############################## QUERY THE DATABASE ##################################
 
 ############################## CLOSE THE DATABASE ##################################
-conn.close()
-print("app closed....")
+# conn.close()
+# print("app closed....")
 ############################## QUERY THE DATABASE ##################################
