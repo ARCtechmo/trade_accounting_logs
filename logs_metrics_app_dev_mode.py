@@ -79,7 +79,7 @@ duplicate_open_id_lst = []
 
 # function identifieds and removes duplicate rows of matching close_ids / open_ids
 def compile_dupicate_rows_ids():
-    # print("--------------------------------TEST: compile_dupicate_rows_ids() function--------------------------------")
+    print("--------------------------------TEST: compile_dupicate_rows_ids() function--------------------------------")
 
     # duplicate_log_entry_rows is a list that contains duplicate rows with duplicate close_ids / open_ids
     duplicate_log_entry_rows = []
@@ -130,7 +130,7 @@ def compile_dupicate_rows_ids():
                     # print(row)
                     duplicate_open_id_lst.append(row)
 
-compile_dupicate_rows_ids()
+# compile_dupicate_rows_ids()
 
 # fx_log_rows contains a list of the rows in the fx_log table
 fx_log_rows = []
@@ -146,6 +146,7 @@ export_corrected_duplicate_lst = []
 ## I imported the itertools module to use the the zip_longest() function
 ## test the ip_longest() function where there are lots of exisiting row; i.e. uneven rows
 # function corrects the duplicate open / close ids and exports the rows into the fx_log table
+# make sure it iterates over all rows in the table to check for duplicates
 def export_corrected_duplicate_id():
     print("\n----------------------TEST: export_corrected_duplicate_id() func--------------------------")
     count = .0
@@ -172,15 +173,38 @@ def export_corrected_duplicate_id():
         print("\n----------------------------------TEST: fx_log table rows-----------------------------")
         for row in fx_log_rows:
             print(row)
+            print(type(row))
+
+        print("\n------------------------TEST: corrected_duplicate_lst type-------------------------")
+        for row in corrected_duplicate_lst:
+            print(row)
+            print(type(row))
+
+        ### START HERE NEXT ###
+        # keep all of the records in the database becuase I need to run the loop on each row in the fx_log table
+        # zip will not work on the tuples and not subscriptable; i need another solution
         for x, y in itertools.zip_longest(corrected_duplicate_lst, fx_log_rows):
-            if x[11] == y[11]:
+            print(type(x), type(y))
+            if x == y:
                 print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate rows----------------------")
                 print(x,y)
-            elif x[12] == y[12]:
+            elif x == y:
                 print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate rows----------------------")
                 print(x,y)
             else:
                 export_corrected_duplicate_lst.append(x)
+        # traceback not subscriptable error because the rows are tuples
+        # the code works on lists but not on the tuples
+        # for x, y in itertools.zip_longest(corrected_duplicate_lst, fx_log_rows):
+        #     print(type(x), type(y))
+        #     if x[11] == y[11]:
+        #         print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate rows----------------------")
+        #         print(x,y)
+        #     elif x[12] == y[12]:
+        #         print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate rows----------------------")
+        #         print(x,y)
+        #     else:
+        #         export_corrected_duplicate_lst.append(x)
 
         print("\n\n-----------------TEST: corrected duplicates exported into fx_log table-------------------")
         log_entry = export_corrected_duplicate_lst
@@ -188,7 +212,7 @@ def export_corrected_duplicate_id():
             print(row)
         database_dev_mode.fx_log_add_many(log_entry)
 
-export_corrected_duplicate_id()
+# export_corrected_duplicate_id()
 ################################# Add corrected duplicates to fx_log table ##############################
 
 ################################## Add fx_log RECORDS ################################################
@@ -210,7 +234,7 @@ def export_fx_log_records():
     print(fx_log_rows)
 
     print("\n--------------TEST: export_fx_log_records function: log_entry records--------------------")
-    #### possible error here  where do you define the variable log_entry??? #####
+    log_entry = fx_dev_mode.fxlog_add_records()
     for row in log_entry:
         row = tuple(row)
         if row in fx_log_rows:
@@ -394,6 +418,6 @@ def show_all():
 ############################## QUERY THE DATABASE ##################################
 
 ############################## CLOSE THE DATABASE ##################################
-# conn.close()
-# print("app closed....")
+conn.close()
+print("app closed....")
 ############################## QUERY THE DATABASE ##################################
