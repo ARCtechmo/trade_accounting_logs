@@ -130,7 +130,7 @@ def compile_dupicate_rows_ids():
                     # print(row)
                     duplicate_open_id_lst.append(row)
 
-# compile_dupicate_rows_ids()
+compile_dupicate_rows_ids()
 
 # fx_log_rows contains a list of the rows in the fx_log table
 fx_log_rows = []
@@ -141,12 +141,7 @@ corrected_duplicate_lst = []
 # list contains modified close / open transaction ids to be exported into fx_log table
 export_corrected_duplicate_lst = []
 
-
-## START HERE NEXT: This function works but there is one remaining item to test
-## I imported the itertools module to use the the zip_longest() function
-## test the ip_longest() function where there are lots of exisiting row; i.e. uneven rows
 # function corrects the duplicate open / close ids and exports the rows into the fx_log table
-# make sure it iterates over all rows in the table to check for duplicates
 def export_corrected_duplicate_id():
     print("\n----------------------TEST: export_corrected_duplicate_id() func--------------------------")
     count = .0
@@ -162,37 +157,55 @@ def export_corrected_duplicate_id():
         count +=.1
         corrected_duplicate_lst.append(tuple(row[:20]))
 
+
+    print("\n----------------------------------TEST: display fx_log table rows-----------------------------")
     fx_log_data = cur.execute(''' SELECT * FROM fx_log ''')
     for row in fx_log_data:
         fx_log_rows.append(row)
+    for row in fx_log_rows:
+        print(row)
 
     if len(fx_log_rows) == 0:
         log_entry = corrected_duplicate_lst
         database_dev_mode.fx_log_add_many(log_entry)
     else:
-        print("\n----------------------------------TEST: fx_log table rows-----------------------------")
-        for row in fx_log_rows:
-            print(row)
-            print(type(row))
-
-        print("\n------------------------TEST: corrected_duplicate_lst type-------------------------")
-        for row in corrected_duplicate_lst:
-            print(row)
-            print(type(row))
+        print("\n\n-------------------------------TEST: corrected_duplicate_lst------------------------")
+        dup_temp_lst = []
+        for item in corrected_duplicate_lst:
+            item = list(item)
+            dup_temp_lst.append(item)
 
         ### START HERE NEXT ###
-        # keep all of the records in the database becuase I need to run the loop on each row in the fx_log table
-        # zip will not work on the tuples and not subscriptable; i need another solution
-        for x, y in itertools.zip_longest(corrected_duplicate_lst, fx_log_rows):
-            print(type(x), type(y))
-            if x == y:
-                print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate rows----------------------")
-                print(x,y)
-            elif x == y:
-                print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate rows----------------------")
-                print(x,y)
+        # continue true / false test
+        # you must loop over the fx_log_rows list first and compare what is in the duplicates list
+        count = 0
+        for item in dup_temp_lst:
+            if item[11] == fx_log_rows[count][11]:
+                print("true: duplicate close_id:",item[11],fx_log_rows[count][11])
+                count +=1
+            elif item[12] == fx_log_rows[count][12]:
+                print("true: dupicate open_id:",item[12],fx_log_rows[count][12])
             else:
-                export_corrected_duplicate_lst.append(x)
+                print("false")
+
+
+        # temp_lst contains matched rows in the fx_log_rows and corrected_duplicate_lst lists
+        # temp_lst = []
+        # for row in fx_log_rows:
+        #     if row in corrected_duplicate_lst:
+        #          temp_lst.append(row)
+        #
+        # print("\n\nTEST: duplicate rows already in fx_log")
+        # for row in temp_lst:
+        #     print(row)
+        # for item in corrected_duplicate_lst:
+        #     if item in temp_lst:
+        #      print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row entry----------------------")
+        #      print(item)
+        #     else:
+        #         export_corrected_duplicate_lst.append(item)
+
+
         # traceback not subscriptable error because the rows are tuples
         # the code works on lists but not on the tuples
         # for x, y in itertools.zip_longest(corrected_duplicate_lst, fx_log_rows):
@@ -210,9 +223,9 @@ def export_corrected_duplicate_id():
         log_entry = export_corrected_duplicate_lst
         for row in log_entry:
             print(row)
-        database_dev_mode.fx_log_add_many(log_entry)
+        # database_dev_mode.fx_log_add_many(log_entry)
 
-# export_corrected_duplicate_id()
+export_corrected_duplicate_id()
 ################################# Add corrected duplicates to fx_log table ##############################
 
 ################################## Add fx_log RECORDS ################################################
