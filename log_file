@@ -1,3 +1,32 @@
+commit a388fc6f31cb393ee2d2e1226b8b7f778fbc4801
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Feb 27 13:06:57 2022 -0500
+
+    corrected an error in the export_fx_log_records() function;
+    the export_corrected_duplicate_id() function will need further work;
+    the datatypes are tuples and not subscriptable when using for loops
+    to compare with existing records in the fx_log table;
+
+commit 13737c12deb89b16a329d7d2b295cb711464b9c6
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Feb 26 13:39:40 2022 -0500
+
+    continued work on the export_corrected_duplicate_id function;
+    successfully modified the export_corrected_duplicate_id to correct the
+    duplicate close / open ids in the broker data, exported the data, and
+    filtered any rows to avoid a UNIQUE CONSTRAINT error; I added the
+    itertools module with the zip_longest function to loop over two lists
+    to filter duplicate rows and thereby avoiding UNIQUE CONSTRAINT ERRORS;
+    there is one remaining item to test on the export_corrected_duplicate_id
+    function; ensure the zip_longest function works on the uneven rows;
+    so next time import more rows into the fx_log table then retest the function
+
+commit c04885c81fecd7da60cdd69591d27b4d9840c824
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Feb 26 13:39:24 2022 -0500
+
+    updated the log file
+
 commit d3cf57f3958a74143f31f0b13f97513a6ce37125
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Thu Feb 24 13:46:15 2022 -0500
