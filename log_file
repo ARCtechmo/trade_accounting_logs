@@ -1,3 +1,17 @@
+commit 982b6cefa08f2529911904ff96a816e52b83dab9
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Mar 5 12:02:43 2022 -0500
+
+    continued work on the export_corrected_duplicate_id() function;
+    I need to find a solution to loop over all the rows in the fx_log table
+    and compare if the duplicates are in fx_log table; contine work on this
+
+commit 0a2b155cc9cf1259e85627d6b597ec6defd5bb89
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Mar 5 12:01:42 2022 -0500
+
+    updated the log file
+
 commit a388fc6f31cb393ee2d2e1226b8b7f778fbc4801
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sun Feb 27 13:06:57 2022 -0500
