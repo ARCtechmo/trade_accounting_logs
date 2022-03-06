@@ -170,41 +170,54 @@ def export_corrected_duplicate_id():
         database_dev_mode.fx_log_add_many(log_entry)
     else:
         print("\n\n-------------------------------TEST: corrected_duplicate_lst------------------------")
+
+        # temporary list for testing
+        # dup_lst is an array of lists  with the duplicate close / open ids
         dup_temp_lst = []
         for item in corrected_duplicate_lst:
             item = list(item)
             dup_temp_lst.append(item)
 
-        ### START HERE NEXT ###
-        # continue true / false test
-        # you must loop over the fx_log_rows list first and compare what is in the duplicates list
-        count = 0
-        for item in dup_temp_lst:
-            if item[11] == fx_log_rows[count][11]:
-                print("true: duplicate close_id:",item[11],fx_log_rows[count][11])
-                count +=1
-            elif item[12] == fx_log_rows[count][12]:
-                print("true: dupicate open_id:",item[12],fx_log_rows[count][12])
-            else:
-                print("false")
+        # temporary list for testing
+        # temp_lst is an array of lists with the rows in the fx_log table
+        temp_fx_log_lst = []
+        for row in fx_log_rows:
+            row = list(row)
+            temp_fx_log_lst.append(row)
 
-
-        # temp_lst contains matched rows in the fx_log_rows and corrected_duplicate_lst lists
-        # temp_lst = []
-        # for row in fx_log_rows:
-        #     if row in corrected_duplicate_lst:
-        #          temp_lst.append(row)
-        #
-        # print("\n\nTEST: duplicate rows already in fx_log")
-        # for row in temp_lst:
-        #     print(row)
-        # for item in corrected_duplicate_lst:
-        #     if item in temp_lst:
-        #      print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row entry----------------------")
-        #      print(item)
+        # temporary loop for testing
+        # This loop may not yield the correct result
+        # count = 0
+        # for item in dup_temp_lst:
+        #     if item[11] == fx_log_rows[count][11]:
+        #         print("UNIQUE CONSTRAINT ERROR: duplicate close_id:",item[11],fx_log_rows[count][11])
+        #         count +=1
+        #     elif item[12] == fx_log_rows[count][12]:
+        #         print("UNIQUE CONSTRAINT ERROR: dupicate open_id:",item[12],fx_log_rows[count][12])
+        #         count +=1
         #     else:
-        #         export_corrected_duplicate_lst.append(item)
+        #         item = tuple(item)
+                # export_corrected_duplicate_lst.append(item)
 
+        ## START HERE NEXT ##
+        # temporary loop for testing
+        ## true / false test scenarios:
+        # 1) dupllicates at the topof the table result:
+        # 2) dupllicates in the middle of the table result:
+        # 3) dupllicates at the bottom of the table result:  correct output
+        count = 0
+        while count < len(dup_temp_lst): # this should solve the problem but it does not
+            for row in temp_fx_log_lst:
+                if row[11] == dup_temp_lst[count][11]:
+                    print("UNIQUE CONSTRAINT ERROR: duplicate close_id:",row[11],dup_temp_lst[count][11])
+                    count +=1
+                    print(count)
+                elif row[12] == dup_temp_lst[count][12]:
+                    print("UNIQUE CONSTRAINT ERROR: duplicate open_id:",row[12],dup_temp_lst[count][12])
+                    count +=1
+                    print(count)
+                else:
+                    print("false")
 
         # traceback not subscriptable error because the rows are tuples
         # the code works on lists but not on the tuples
@@ -431,6 +444,6 @@ def show_all():
 ############################## QUERY THE DATABASE ##################################
 
 ############################## CLOSE THE DATABASE ##################################
-conn.close()
 print("app closed....")
+conn.close()
 ############################## QUERY THE DATABASE ##################################
