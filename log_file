@@ -1,3 +1,19 @@
+commit 1da58c0c3ac7356d358d34024c5b2658649c687c
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Mar 6 11:06:14 2022 -0500
+
+    updated the log file
+
+commit 6a74fcb97b6fb140e7f7cb235e2cfafc545650a4
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Mar 6 11:02:44 2022 -0500
+
+    continued worked on the export_corrected_duplicate_id() function
+    sections 188-220; built loops and true / false test to test for
+    duplicates in the fx_log table and the dupliates list; need to test
+    when the duplicates are either at the top, middle, or bottom to enusure
+    the alogo identifies the duplicates regardless of position;
+
 commit 982b6cefa08f2529911904ff96a816e52b83dab9
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sat Mar 5 12:02:43 2022 -0500
