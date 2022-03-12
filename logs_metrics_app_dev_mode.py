@@ -130,7 +130,7 @@ def compile_dupicate_rows_ids():
                     # print(row)
                     duplicate_open_id_lst.append(row)
 
-compile_dupicate_rows_ids()
+# compile_dupicate_rows_ids()
 
 # fx_log_rows contains a list of the rows in the fx_log table
 fx_log_rows = []
@@ -185,7 +185,8 @@ def export_corrected_duplicate_id():
             row = list(row)
             temp_fx_log_lst.append(row)
 
-        # temporary loop for testing
+        ## DO NOT DELETE: use this to import the modified duplicates into the fx_log table
+        # temporary loop for testing: loop compares duplicates to fx_log records
         # This loop may not yield the correct result
         # count = 0
         # for item in dup_temp_lst:
@@ -197,27 +198,47 @@ def export_corrected_duplicate_id():
         #         count +=1
         #     else:
         #         item = tuple(item)
-                # export_corrected_duplicate_lst.append(item)
+        #         export_corrected_duplicate_lst.append(item)
 
-        ## START HERE NEXT ##
-        # temporary loop for testing
-        ## true / false test scenarios:
-        # 1) dupllicates at the topof the table result:
-        # 2) dupllicates in the middle of the table result:
-        # 3) dupllicates at the bottom of the table result:  correct output
+        ### START HERE NEXT ###
+        # the code works to identify any duplicates already in the fx_log table
+        # next you need to figure out the following:
+            # 1) cast the rows in the dup_temp_lst into tuples
+            # 2) export the tuples into the fx_log table
         count = 0
-        while count < len(dup_temp_lst): # this should solve the problem but it does not
-            for row in temp_fx_log_lst:
+        for row in temp_fx_log_lst:
+            if count < len(dup_temp_lst):
                 if row[11] == dup_temp_lst[count][11]:
                     print("UNIQUE CONSTRAINT ERROR: duplicate close_id:",row[11],dup_temp_lst[count][11])
                     count +=1
-                    print(count)
                 elif row[12] == dup_temp_lst[count][12]:
                     print("UNIQUE CONSTRAINT ERROR: duplicate open_id:",row[12],dup_temp_lst[count][12])
                     count +=1
-                    print(count)
                 else:
                     print("false")
+            else:
+                print("false")
+
+        ## DO NOT DELETE OR ALTER (until there is a final solution to this section) ##
+        # temporary loop for testing: loop compares fx_log records to duplicates
+        # duplicates at the top of the table with no other records below: result correct output
+        # duplicates at the top of the table with records below result: correct output
+        # dupllicates in the middle of the table result: correct output
+        # duplicates at the bottom of the table result: correct output
+        # infinite loop test: no infinite loops
+        # count = 0
+        # for row in temp_fx_log_lst:
+        #     if count < len(dup_temp_lst):
+        #         if row[11] == dup_temp_lst[count][11]:
+        #             print("UNIQUE CONSTRAINT ERROR: duplicate close_id:",row[11],dup_temp_lst[count][11])
+        #             count +=1
+        #         elif row[12] == dup_temp_lst[count][12]:
+        #             print("UNIQUE CONSTRAINT ERROR: duplicate open_id:",row[12],dup_temp_lst[count][12])
+        #             count +=1
+        #         else:
+        #             print("false")
+        #     else:
+        #         print("false")
 
         # traceback not subscriptable error because the rows are tuples
         # the code works on lists but not on the tuples
@@ -238,7 +259,7 @@ def export_corrected_duplicate_id():
             print(row)
         # database_dev_mode.fx_log_add_many(log_entry)
 
-export_corrected_duplicate_id()
+# export_corrected_duplicate_id()
 ################################# Add corrected duplicates to fx_log table ##############################
 
 ################################## Add fx_log RECORDS ################################################
@@ -268,16 +289,14 @@ def export_fx_log_records():
             print(row)
             pass
 
-        ### START HERE NEXT (2) ###
-        #### TEST ####
+        #### NEED TO TEST ####
         # test the compile_dupicate_rows_ids function on this part of the loop
         elif row in duplicate_close_id_lst:
             print("\n-------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate close_id------------")
             print(row)
             pass
 
-        ### START HERE NEXT (3) ###
-        #### TEST ####
+        #### NEED TO TEST ####
         # test the compile_dupicate_rows_ids function on this part of the loop
         # create a modified .csv file for july and add in duplicate open_ids to test this
         elif row in duplicate_open_id_lst:
