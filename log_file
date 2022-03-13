@@ -1,3 +1,21 @@
+commit 28037a9ada06e3ea45eeb340063541d1b926f62b
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Mar 12 14:40:20 2022 -0500
+
+    continued work on the export_fx_log_records function;
+    added code in sections 222 - 241 to get the function to avoid UNIQUE
+    CONTRAINT ERRORS when  corrected duplicates are placed into the fx_log
+    table; the code now correctly identifies any potential duplicates;
+    next I need to cast the corrected_dupliates into tuples and export
+    them into the fx_log table if those rows are not already present in
+    the fx_log table
+
+commit a20426bb4f0b8a8640766cafc2f49ec717196996
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Mar 12 14:39:06 2022 -0500
+
+    updated the log file
+
 commit 1da58c0c3ac7356d358d34024c5b2658649c687c
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sun Mar 6 11:06:14 2022 -0500
