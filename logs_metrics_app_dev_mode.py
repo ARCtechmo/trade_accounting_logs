@@ -130,7 +130,7 @@ def compile_dupicate_rows_ids():
                     # print(row)
                     duplicate_open_id_lst.append(row)
 
-# compile_dupicate_rows_ids()
+compile_dupicate_rows_ids()
 
 # fx_log_rows contains a list of the rows in the fx_log table
 fx_log_rows = []
@@ -185,6 +185,7 @@ def export_corrected_duplicate_id():
             row = list(row)
             temp_fx_log_lst.append(row)
 
+        ###################################################################################
         ## DO NOT DELETE: use this to import the modified duplicates into the fx_log table
         # temporary loop for testing: loop compares duplicates to fx_log records
         # This loop may not yield the correct result
@@ -199,29 +200,52 @@ def export_corrected_duplicate_id():
         #     else:
         #         item = tuple(item)
         #         export_corrected_duplicate_lst.append(item)
+        ###################################################################################
 
         ### START HERE NEXT ###
         # the code works to identify any duplicates already in the fx_log table
-        # next you need to figure out the following:
-            # 1) cast the rows in the dup_temp_lst into tuples
-            # 2) export the tuples into the fx_log table
+        # the two else conditions within the loop are not generating the correct output
         count = 0
         for row in temp_fx_log_lst:
             if count < len(dup_temp_lst):
                 if row[11] == dup_temp_lst[count][11]:
                     print("UNIQUE CONSTRAINT ERROR: duplicate close_id:",row[11],dup_temp_lst[count][11])
                     count +=1
+
                 elif row[12] == dup_temp_lst[count][12]:
                     print("UNIQUE CONSTRAINT ERROR: duplicate open_id:",row[12],dup_temp_lst[count][12])
                     count +=1
+
+                # duplicates at the top of the table with no other records below result:
+                # duplicates at the top of the table with records below result:
+                # dupllicates in the middle of the table result:
+                # duplicates at the bottom of the table result: UNIQUE CONSTRAINT ERROR
+                # no duplicates in the table result: correct output - generates the list
                 else:
-                    print("false")
+                    print("no duplicate in row")
+                    for item in dup_temp_lst:
+                        if count < len(dup_temp_lst):
+                            item = tuple(item)
+                            count +=1
+                        export_corrected_duplicate_lst.append(item)
+
+            # duplicates at the top of the table with no other records below result: correct output
+            # duplicates at the top of the table with records below result: correct output
+            # dupllicates in the middle of the table result: correct output
+            # duplicates at the bottom of the table result: correct output
+            # no duplicates in the table result: incorrect output - there should be a list - no output
+            # NOTE TO SELF: I am not sure if the for loop and append list is even necessary
             else:
-                print("false")
+                print("no duplicate in row")
+                # for item in dup_temp_lst:
+                #     if count < len(dup_temp_lst):
+                #         item = tuple(item)
+                #         count +=1
+                #         export_corrected_duplicate_lst.append(item)
 
         ## DO NOT DELETE OR ALTER (until there is a final solution to this section) ##
         # temporary loop for testing: loop compares fx_log records to duplicates
-        # duplicates at the top of the table with no other records below: result correct output
+        # duplicates at the top of the table with no other records below result: correct output
         # duplicates at the top of the table with records below result: correct output
         # dupllicates in the middle of the table result: correct output
         # duplicates at the bottom of the table result: correct output
@@ -240,24 +264,12 @@ def export_corrected_duplicate_id():
         #     else:
         #         print("false")
 
-        # traceback not subscriptable error because the rows are tuples
-        # the code works on lists but not on the tuples
-        # for x, y in itertools.zip_longest(corrected_duplicate_lst, fx_log_rows):
-        #     print(type(x), type(y))
-        #     if x[11] == y[11]:
-        #         print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate rows----------------------")
-        #         print(x,y)
-        #     elif x[12] == y[12]:
-        #         print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate rows----------------------")
-        #         print(x,y)
-        #     else:
-        #         export_corrected_duplicate_lst.append(x)
 
         print("\n\n-----------------TEST: corrected duplicates exported into fx_log table-------------------")
         log_entry = export_corrected_duplicate_lst
         for row in log_entry:
             print(row)
-        # database_dev_mode.fx_log_add_many(log_entry)
+        database_dev_mode.fx_log_add_many(log_entry)
 
 # export_corrected_duplicate_id()
 ################################# Add corrected duplicates to fx_log table ##############################
