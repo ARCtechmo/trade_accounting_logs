@@ -203,46 +203,70 @@ def export_corrected_duplicate_id():
         ###################################################################################
 
         ### START HERE NEXT ###
-        # the code works to identify any duplicates already in the fx_log table
-        # the two else conditions within the loop are not generating the correct output
+        # This section is at the 90% solution but there is still one little bug
+        # BUG: the code fails to recognize the corrected duplicates in the fx_log table...
+        # ...when the rows are not in consecutve order
+
+        # tasks: randomnly remove and insert the corrected dupicates into the fx_log table and test
+        # place the two sections under a single function or two functions for each
+
+        # duplicates in random order result: incorrect output
+        # identifies corrected duplicates already in the fx_log table
+        # trans_id_temp_lst contains a list of corrected duplicates that are in the fx_log table
+        trans_id_temp_lst = []
         count = 0
         for row in temp_fx_log_lst:
             if count < len(dup_temp_lst):
                 if row[11] == dup_temp_lst[count][11]:
                     print("UNIQUE CONSTRAINT ERROR: duplicate close_id:",row[11],dup_temp_lst[count][11])
+                    trans_id_temp_lst.append(row[11])
                     count +=1
 
                 elif row[12] == dup_temp_lst[count][12]:
                     print("UNIQUE CONSTRAINT ERROR: duplicate open_id:",row[12],dup_temp_lst[count][12])
+                    trans_id_temp_lst.append(row[12])
                     count +=1
 
-                # duplicates at the top of the table with no other records below result:
-                # duplicates at the top of the table with records below result:
-                # dupllicates in the middle of the table result:
-                # duplicates at the bottom of the table result: UNIQUE CONSTRAINT ERROR
-                # no duplicates in the table result: correct output - generates the list
                 else:
                     print("no duplicate in row")
-                    for item in dup_temp_lst:
-                        if count < len(dup_temp_lst):
-                            item = tuple(item)
-                            count +=1
-                        export_corrected_duplicate_lst.append(item)
 
-            # duplicates at the top of the table with no other records below result: correct output
-            # duplicates at the top of the table with records below result: correct output
-            # dupllicates in the middle of the table result: correct output
-            # duplicates at the bottom of the table result: correct output
-            # no duplicates in the table result: incorrect output - there should be a list - no output
-            # NOTE TO SELF: I am not sure if the for loop and append list is even necessary
             else:
                 print("no duplicate in row")
-                # for item in dup_temp_lst:
-                #     if count < len(dup_temp_lst):
-                #         item = tuple(item)
-                #         count +=1
-                #         export_corrected_duplicate_lst.append(item)
 
+        print("\n---------------TEST: duplicate trans ids in fx_log table----------------------------")
+        print(trans_id_temp_lst)
+
+        #################################################################################
+        ### DO NOT DELETE ###
+        # USE THIS TO EXPORT corrected duplicates into the fx_log table
+        # no rows in the table: correct output
+        # duplicates at the top of the table with no other records below result: correct output
+        # duplicates at the top of the table with records below result: correct output
+        # dupllicates in the middle of the table result: correct output
+        # duplicates at the bottom of the table result: correct output
+        # no duplicates in the table result: correct output
+        # duplicates in random order result: incorrect output
+        count = 0
+        if len(trans_id_temp_lst) == 0:
+            for item in dup_temp_lst:
+                item = tuple(item)
+                export_corrected_duplicate_lst.append(item)
+        else:
+            for item in dup_temp_lst:
+                if item[11] == trans_id_temp_lst[count]:
+                    print("test matched:",item[11], trans_id_temp_lst[count])
+                    count +=1
+
+                elif item[12] == trans_id_temp_lst[count]:
+                    print("test matched:",item[12], trans_id_temp_lst[count])
+                    count +=1
+
+                else:
+                    item = tuple(item)
+                    export_corrected_duplicate_lst.append(item)
+        #################################################################################
+
+        ################################################################################
         ## DO NOT DELETE OR ALTER (until there is a final solution to this section) ##
         # temporary loop for testing: loop compares fx_log records to duplicates
         # duplicates at the top of the table with no other records below result: correct output
@@ -263,13 +287,13 @@ def export_corrected_duplicate_id():
         #             print("false")
         #     else:
         #         print("false")
-
+        ################################################################################
 
         print("\n\n-----------------TEST: corrected duplicates exported into fx_log table-------------------")
         log_entry = export_corrected_duplicate_lst
         for row in log_entry:
             print(row)
-        database_dev_mode.fx_log_add_many(log_entry)
+        # database_dev_mode.fx_log_add_many(log_entry)
 
 # export_corrected_duplicate_id()
 ################################# Add corrected duplicates to fx_log table ##############################
