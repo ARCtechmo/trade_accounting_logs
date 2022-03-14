@@ -1,3 +1,17 @@
+commit 651de146ec5411492a80ef1a01db260350ae90a4
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Mar 13 16:31:45 2022 -0400
+
+    continued to work on the export_corrected_duplicate_id() function;
+    workd on section 219-245; this section needs further work as I am
+    getting UNIQUE CONSTRAINT ERRORS;
+
+commit cc0b97bd5ac11b023613d39a3ae5e9ae2c948616
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Mar 13 16:31:18 2022 -0400
+
+    updated the log file
+
 commit 28037a9ada06e3ea45eeb340063541d1b926f62b
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sat Mar 12 14:40:20 2022 -0500
