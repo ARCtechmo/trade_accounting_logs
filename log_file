@@ -1,3 +1,22 @@
+commit 58bf7696494a41c3c2243b9bd3db2a37e95cb8f5
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Mon Mar 14 10:28:59 2022 -0400
+
+    continued work on the export_corrected_duplicate_id() function;
+    worked on sections 205 - 267 and I am at the 90% solution; there
+    is still one bug that needs to be fixed; this section of code correctly
+    identifies and exports corrected dupicate transaction ids while avoiding
+    a UNIQUE CONSTRAINT ERROR but it only works when the transaction ids
+    are grouped and exported together in consecutive order; if the duplicates
+    are in randmoized order the code does not generate the correct output;
+    next I need to fix this bug
+
+commit 6ddabe404f416bb2d3c4be67a2dfa3656c0e440f
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Mon Mar 14 10:28:36 2022 -0400
+
+    updated the log file
+
 commit 651de146ec5411492a80ef1a01db260350ae90a4
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sun Mar 13 16:31:45 2022 -0400
