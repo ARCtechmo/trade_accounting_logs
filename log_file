@@ -1,3 +1,21 @@
+commit 793341b5cea1dd7b75c5986736c6e5606dd5ba9b
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Tue Mar 15 10:42:03 2022 -0400
+
+    continued work on the export_corrected_duplicate_id() function;
+    identified the source of the problem where the code did not recognize
+    duplicated rows that would generate a UNIQUE CONSTRAINT ERROR; the error
+    was in the for loops and the difference in lengths between the rows in the
+    fx_log table and the items in the duplicates list; modified sections 219-256
+    to account for different lenths; sections 259-278 will also require modifications;
+    continue work on both sections and test them
+
+commit 3969de3fa9e8c49d3635994b81a5505118a32dcf
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Tue Mar 15 10:41:28 2022 -0400
+
+    updated the log file
+
 commit 58bf7696494a41c3c2243b9bd3db2a37e95cb8f5
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Mon Mar 14 10:28:59 2022 -0400
