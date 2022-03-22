@@ -1,3 +1,18 @@
+commit ade4f22054f16aac83e7760d693c59d852959959
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Mar 19 13:42:32 2022 -0400
+
+    continued work on the export_corrected_duplicate_id() function section 238 - 282;
+    there are bugs in section 238-282 because the code is getting the list
+    out of range error; and the the output is not always consistent;
+    keep working on this section
+
+commit 55ab2853a37901929f5d0a92301cd35b3eb41e10
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Mar 19 13:42:16 2022 -0400
+
+    updated the log file
+
 commit 793341b5cea1dd7b75c5986736c6e5606dd5ba9b
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Tue Mar 15 10:42:03 2022 -0400
