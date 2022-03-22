@@ -170,6 +170,8 @@ def export_corrected_duplicate_id():
         database_dev_mode.fx_log_add_many(log_entry)
     else:
         print("\n\n-------------------------------TEST: corrected_duplicate_lst------------------------")
+        for item in corrected_duplicate_lst:
+            print(item)
 
         # dup_temp_lst is an array of lists  with the duplicate close / open ids
         dup_temp_lst = []
@@ -201,110 +203,91 @@ def export_corrected_duplicate_id():
         #################################### END SECTION ######################################
 
         ################################### BEGIN SECTION ######################################
-        # This section is at the 90% solution but there is still one little bug
-        # tasks: randomnly remove and insert the corrected dupicates into the fx_log table and test
-        # place the two sections under a single function or two functions for each
-
-        # source of the problem: the difference between the lengths of rows in the tables
-        # if the fx_log table has fewer rows than the dup_temp_lst will not catch potential....
-        # duplicates that exceed the row length; for example....
-        # fx_log has two rows that contains a duplicate...the dup_temp_lst has for items
-        # items 1 and 2 in dup_temp_lst are not duplicates (i.e. they are not in fx_log table)
-        # items 3 and 4 in dup_temp_lst are duplicates in the fx_log table...
-        # but the for loop only lopps twice since there are only two rows in the fx_log table, thus...
-        # it does not catch the last two items in the dup_temp_lst
-
-        #### BEGIN TESTING SECTION: use this section of code for testing to fix the bug ####
-        # trans_id_temp_lst contains a list of corrected duplicates that are duplicated in the fx_log table
-
-        print("\n----------------------------test: dup_temp_lst items---------------------------")
+        print("\n-------------------------TEST: dup_temp_lst--------------------------")
         for item in dup_temp_lst:
             print(item)
 
-        print("\n----------------------------test: temp_fx_log_lst items---------------------------")
+        print("\n-------------------------TEST: temp_fx_log_lst--------------------------")
         for item in temp_fx_log_lst:
             print(item)
 
+        #### BEGIN TESTING SECTION: use this section of code for testing to fix the bug ####
+
         ### START HERE NEXT ###
-        # there are bugs in this section
-        # need to solve the issue with the list index out of range error line 236
-        trans_id_temp_lst = []
-        count = 0
+        # task: test len(temp_fx_log_lst) <= dup_temp_lst
+        # task: test len(temp_fx_log_lst) > dup_temp_lst
+        # test varying the length of the rows in the table
+
+        # close_trans_id_temp_lst contains a list of corrected duplicates that are duplicated in the fx_log table
+        close_trans_id_temp_lst = []
         if len(temp_fx_log_lst) <= len(dup_temp_lst):
-            print("\n-------------------------test: fx_log length < dup_temp_lst--------------------------")
+            print("\n-------------------------TEST: fx_log length < dup_temp_lst--------------------------")
+
+            count = 0
             for row in dup_temp_lst:
                 if count <= len(dup_temp_lst):
-
-                    ### minor bug: if-elif loop produce the correct output but not the same output each time
-                    if row[11] == temp_fx_log_lst[count][11]:
+                    if row[11] is float(row[11]) and row[11] == float(temp_fx_log_lst[count][11]):
                         print("UNIQUE CONSTRAINT ERROR: duplicate close_id:",row[11],temp_fx_log_lst[count][11])
-                        trans_id_temp_lst.append(row[11])
+                        close_trans_id_temp_lst.append(row[11])
                         count +=1
-                        print(count)
 
-                    elif row[12] == temp_fx_log_lst[count][12]:
+            for row in dup_temp_lst:
+                if count <= len(dup_temp_lst):
+                    if row[12] is float(row[12]) and row[12] == float(temp_fx_log_lst[count][12]):
                         print("UNIQUE CONSTRAINT ERROR: duplicate open_id:",row[12],temp_fx_log_lst[count][12])
-                        trans_id_temp_lst.append(row[12])
+                        close_trans_id_temp_lst.append(row[12])
                         count +=1
-                    ### minor bug: if-elif loop produces the correct output but not the same output each time
-                    # if row[11] == float(row[11]) and row[11] == temp_fx_log_lst[count][11]:
-                    #     print("UNIQUE CONSTRAINT ERROR: duplicate close_id:",row[11],temp_fx_log_lst[count][11])
-                    #     trans_id_temp_lst.append(row[11])
-                    #     count +=1
-                    #
-                    # elif row[12] == float(row[12]) and row[12] == temp_fx_log_lst[count][12]:
-                    #     print("UNIQUE CONSTRAINT ERROR: duplicate open_id:",row[12],temp_fx_log_lst[count][12])
-                    #     trans_id_temp_lst.append(row[12])
-                    #     count +=1
 
 
-        # elif len(temp_fx_log_lst) > len(dup_temp_lst):
-        #     for row in temp_fx_log_lst:
-        #         if count <= len(temp_fx_log_lst):
-        #             if row[11] == dup_temp_lst[count][11]:
-        #                 print("UNIQUE CONSTRAINT ERROR: duplicate close_id:",row[11],dup_temp_lst[count][11])
-        #                 trans_id_temp_lst.append(row[11])
-        #                 count +=1
-        #
-        #             elif row[12] == dup_temp_lst[count][12]:
-        #                 print("UNIQUE CONSTRAINT ERROR: duplicate open_id:",row[12],dup_temp_lst[count][12])
-        #                 trans_id_temp_lst.append(row[12])
-        #                 count +=1
-        #
-        #             else:
-        #                 print("no duplicate in row")
-        #
-        #         else:
-        #             print("no duplicate in row")
-        #
-        #     print("\n---------------TEST: duplicate trans ids in fx_log table----------------------------")
-        #     print(trans_id_temp_lst)
+        elif len(temp_fx_log_lst) > len(dup_temp_lst):
+            print("\n-------------------------TEST: fx_log length < dup_temp_lst--------------------------")
+
+            count = 0
+            for row in temp_fx_log_lst:
+                if count <= len(temp_fx_log_lst):
+                    if row[11] is float(row[11]) and row[11] == float(dup_temp_lst[count][11]):
+                        print("UNIQUE CONSTRAINT ERROR: duplicate close_id:",row[11],dup_temp_lst[count][11])
+                        close_trans_id_temp_lst.append(row[11])
+                        count +=1
+
+            for row in temp_fx_log_lst:
+                if count <= len(temp_fx_log_lst):
+                    if row[12] is float(row[12]) and row[12] == float(dup_temp_lst[count][12]):
+                        print("UNIQUE CONSTRAINT ERROR: duplicate open_id:",row[12],dup_temp_lst[count][12])
+                        close_trans_id_temp_lst.append(row[12])
+                        count +=1
+
+        print("\n---------------TEST: duplicate trans ids in fx_log table----------------------------")
+        print(close_trans_id_temp_lst)
+
+        print("\n-------------------------TEST: dup_temp_lst--------------------------")
+        for item in dup_temp_lst:
+            print(item)
         #### END TESTING SECTION: use this section of code for testing to fix the bug ####
 
         #### BEGIN TESTING SECTION: use this section of code for testing to fix the bug ####
         # count = 0
-        # if len(trans_id_temp_lst) == 0:
+        # if len(close_trans_id_temp_lst) == 0:
         #     for item in dup_temp_lst:
         #         item = tuple(item)
         #         export_corrected_duplicate_lst.append(item)
-
-        ## TEST THIS SECTION NEEDS MODIFICATIONS TO ACCOUNT FOR DIFFERENT LENGTHS IN ROWS AND LISTS ##
-        # elif len(trans_id_temp_lst) < len(dup_temp_lst):
+        #
+        # elif len(close_trans_id_temp_lst) <= len(dup_temp_lst):
         #     for item in dup_temp_lst:
-        #         if item[11] == trans_id_temp_lst[count][11]:
-        #             print("test matched:",item[11], trans_id_temp_lst[count][11])
+        #         if item[11] == close_trans_id_temp_lst[count][11]:
+        #             print("test matched:",item[11], close_trans_id_temp_lst[count][11])
         #             count +=1
         #
-        #         elif item[12] == trans_id_temp_lst[count][12]:
-        #              print("test matched:",item[12], trans_id_temp_lst[count][12])
+        #         elif item[12] == close_trans_id_temp_lst[count][12]:
+        #              print("test matched:",item[12], close_trans_id_temp_lst[count][12])
         #              count +=1
         #
         #         else:
         #             item = tuple(item)
         #             export_corrected_duplicate_lst.append(item)
         #
-        # elif len(trans_id_temp_lst) >= len(dup_temp_lst):
-        #     for item in trans_id_temp_lst:
+        # elif len(close_trans_id_temp_lst) > len(dup_temp_lst):
+        #     for item in close_trans_id_temp_lst:
         #         if item[11] == dup_temp_lst[count]:
         #             print("test matched:", item[11], dup_temp_lst[count])
         #             count +=1
