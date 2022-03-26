@@ -1,0 +1,10 @@
+Known bugs and items that need to be fixed
+
+(1) edge cases where the fx_ broker has duplicate close or open transaction ids
+the export_corrected_duplicate_id() function is in testing mode and attempts 
+to correct the edge cases where there there are duplicate close or open 
+transaction ids. I have not yet found a complete solution so the program will 
+generate a  a UNIQUE CONSTRAINT ERROR when it encounters a duplicate close or
+open transaction id already in the fx_log table. 
+
+(2)
