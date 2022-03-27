@@ -1,3 +1,35 @@
+commit 7bf02211afc2da98f8acacb753b367f2829815e9
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Mar 26 14:25:21 2022 -0400
+
+    created a separate logs_metrics_app_dev_mode_test.py file for testing
+    The export_corrected_duplicate_id() is incomplete; I have been unsuccessful.
+    export_corrected_duplicate_id() function provides a partial solution only so
+    continue to work on it in testing mode
+
+commit 1bd41940a75a13a3e5b9b8503ba28b79ad135f68
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Mar 26 14:21:45 2022 -0400
+
+    created a file for bugs and items that need to corrections
+
+commit 79c4cc99973c1e815abef0dbd005d16ff3f29507
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Tue Mar 22 11:58:56 2022 -0400
+
+    continued work on the export_corrected_duplicate_id() function section
+    214-265; continued work on sections 214-265 that searches for duplicates
+    of corrected duplicate transaction ids in the fx_log table to avoid
+    UNIQUE CONSTRAINS; I believe I have successfully got the correct code
+    without getting any traceback errors for lists out of range;
+    next I nneed to thoroughly test this section
+
+commit 86658be4702e67f9334e16b695628651b9785f84
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Tue Mar 22 11:58:33 2022 -0400
+
+    updated the log file
+
 commit ade4f22054f16aac83e7760d693c59d852959959
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sat Mar 19 13:42:32 2022 -0400
