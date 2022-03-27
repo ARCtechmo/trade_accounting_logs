@@ -11,7 +11,12 @@ import re
 #     for row in reader:
 #         print(row[])
 
-# extract rows containing commission and financing
+# comm_lst contains commissions
+comm_lst = []
+
+# int_lst contains financing categories
+int_lst = []
+
 # fxlst is a list of trades only (no commission or fee data is included)
 fxlst = []
 broker_id = int(input("enter the broker_id from the database (2-7): "))
@@ -23,6 +28,8 @@ broker_id = int(input("enter the broker_id from the database (2-7): "))
 #         break
 #     else:
 #         break
+
+# separate the buy / se//, commission, financing, and interest credit items
 filename = input("enter the .csv filename: ")
 if filename == '':
     filename = 'fx_feb_test.csv'
@@ -32,8 +39,13 @@ with open(filename, newline='') as csvfile:
     for row in reader:
         if row[4] != "":
             fxlst.append(row)
-# print(fxlst)
+        elif row[1][14:24] == "COMMISSION":
+            comm_lst.append(row)
+        elif row[1][14:24] == 'FINANCING':
+            int_lst.append(row)
 
+
+########################### BEGIN buy / sell transactions section #############################
 # count rows of transaction trades only
 count = 0
 for item in fxlst:
@@ -387,18 +399,18 @@ for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, g
                 broker]
                 )
 ########################### print all rows #################################
-# def fxlog_add_records(fxlog):
-#     for log in fxlog:
-#         print(log)
+def fxlog_add_records(fxlog):
+    for log in fxlog:
+        print(log)
 # fxlog_add_records(fxlog)
 ########################### print all rows #################################
 
-########################### export records #################################
+########################### begin export records function #################################
 # function exports the records into the import the log_metrics_app.py app
-# def fxlog_add_records():
-#     print("-----test of fxlog_add_records function()------------")
-#     return fxlog
-########################### export records #################################
+def fxlog_add_records():
+    print("-----test of fxlog_add_records() function------------")
+    return fxlog
+########################### end export records function #################################
 
 # fxlst is the original list
 # for row in fxlst:
@@ -565,16 +577,95 @@ for unmatched_entry, unmatched_exit, unmatched_market, unmatched_close_id, \
 print("\n-------------------formatted unmatched logs-----------------------------")
 # ########################### print unmatched rows #################################
 # def fxlog_add_unmatched_records(unmatched_fxlog):
-#     for log in unmatched_fxlog:
-#         print(log)
+    # for log in unmatched_fxlog:
+        # print(log)
 # fxlog_add_unmatched_records(unmatched_fxlog)
 # print("-------------------formatted unmatched logs-----------------------------")
 ########################### print unmatched rows #################################
 
-########################### export unmatched records #################################
+########################### begin export unmatched records function ######################
 ### NOTE TO SELF: add a condition with user input to enter or exit the program ###
 # function exports the records into the import the log_metrics_app.py app
 def fx_unmatched_add_records():
-    print("-----test of fxlog_add_records function()------------")
+    print("-----test of fxlog_add_records() function------------")
     return unmatched_fxlog
-########################### export unmatched records #################################
+########################### end export unmatched records function ###########################
+########################### END buy / sell transactions section #############################
+
+#### START HERE NEXT ###
+# See section 133 - 260 for a model
+# need to ensure the dates are formatted correctly
+# account for multiple date formats in the broker data (e.g. DD/MM/YYYY/  D/M/YYYY, DD/M/YYYY, D/MM/YYYY)
+################################# begin COMMISSIONS section #################################
+comm_lst2 = []
+for item in comm_lst:
+    comm_yr = item[0][6:10]
+    comm_yr = int(comm_yr)
+    comm_mo = item[0][3:5]
+    if len(comm_mo) < 2:
+        comm_mo = f'0{comm_mo}'
+        # comm_mo = int(comm_mo)
+    else:
+        comm_mo = int(comm_mo)
+    comm_day = item[0][:2]
+    comm_day = int(comm_day)
+    comm_ymd = f'{comm_yr}-{comm_mo}-{comm_day}'
+    comm_cost = item[12][0:7]
+    comm_cost = float(comm_cost)
+    comm_lst2.append([comm_ymd,comm_yr,comm_mo,comm_day,comm_cost,broker])
+# print(comm_lst2)
+
+######################## print commission records ########################
+def fx_comm_add_records(comm_lst2):
+    print("------------test of fx_comm_add_records() function------------------")
+    for log in comm_lst2:
+        print(log)
+fx_comm_add_records(comm_lst2)
+###################### print commission records ########################
+######################## begin export commission records function ########################
+### NOTE TO SELF: add a condition with user input to enter or exit the program ###
+def fx_comm_add_records(comm_lst2):
+    print("------------test of fx_comm_add_records() function------------------")
+    return comm_lst2
+###################### end export commission records function ########################
+################################# end COMMISSIONS section #################################
+
+################################# begin FINANCING section #################################
+# See section 133 - 260 for a model
+# need to ensure the dates are formatted correctly
+# account for multiple date formats in the broker data (e.g. DD/MM/YYYY/  D/M/YYYY, DD/M/YYYY, D/MM/YYYY)
+int_debit = []
+for item in int_lst:
+    int_item = float(item[12])
+    if int_item < 0:
+        int_yr = item[0][6:10]
+        int_yr = int(int_yr)
+        int_mo = item[0][3:5]
+        int_mo = int(int_mo)
+        int_day = item[0][:2]
+        int_day = int(int_day)
+        int_ymd = f'{int_yr}-{int_mo}-{int_day}'
+        int_cost = item[12][0:7]
+        int_cost = float(int_cost)
+        int_debit.append([int_ymd,int_yr,int_mo,int_day,int_cost,broker])
+# print(int_debit)
+
+######################## print debit interest records ########################
+def fx_int_debit_add_records(int_debit):
+    print("------------test of fx_int_debit_add_records() function------------------")
+    for log in int_debit:
+        print(log)
+# fx_int_debit_add_records(int_debit)
+######################## print debit interest records ########################
+
+###################### begin export debit interest records function ########################
+def fx_int_debit_add_records(int_debit):
+    print("------------test of fx_int_add_records() function------------------")
+    return int_debit
+###################### end export debit interest records function ########################
+################################# end FINANCING section #################################
+
+################################# begin interest credit section #################################
+
+
+################################# end interest credit section #################################
