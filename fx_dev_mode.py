@@ -32,7 +32,7 @@ broker_id = int(input("enter the broker_id from the database (2-7): "))
 # separate the buy / se//, commission, financing, and interest credit items
 filename = input("enter the .csv filename: ")
 if filename == '':
-    filename = 'fx_feb_test.csv'
+    filename = 'fx_month_test.csv'
 with open(filename, newline='') as csvfile:
     reader = csv.reader(csvfile)
     # next(csvfile) # removes the header - comment out if .csv file has no header
@@ -593,6 +593,10 @@ def fx_unmatched_add_records():
 ########################### END buy / sell transactions section #############################
 
 ################################# begin COMMISSIONS section #################################
+
+#### START HERE NEXT ###
+# double check the code below then go to the next section
+
 # extract and format the dates of the commission transaction to YYYY-MM-DD (don't need hours or minutes)
 # comm_lst2 contains the commission amounts in the broker data and formatted dates
 comm_lst2 = []
@@ -600,9 +604,9 @@ for item in comm_lst:
     comm_cost = item[12][0:7]
     comm_cost = float(comm_cost)
     dmy = item[0]
-    print(dmy)
+    # print(dmy)
 
-    # DD/MM/YYYY - this works
+    # DD/MM/YYYY 
     if dmy[2] == '/' and dmy[5] == '/':
         comm_yr = dmy[6:10]
         comm_mo = dmy[3:5]
@@ -613,21 +617,38 @@ for item in comm_lst:
         comm_day = int(comm_day)
         comm_lst2.append([comm_ymd,comm_yr,comm_mo,comm_day,comm_cost,broker])
 
-    #### START HERE NEXT ###
-    # See section 133 - 260 for a model
-    # account for multiple date formats in the broker data (e.g.  )
-    # note to self the individual year, month, and date go in as integers (don't need a zero in front)
-
     # DD/M/YYYY
     elif dmy[2] == '/' and dmy[4] == '/':
-        print()
-
+        comm_yr = dmy[5:9]
+        comm_mo = dmy[3]
+        comm_day = dmy[:2]
+        comm_ymd = f'{comm_yr}-0{comm_mo}-{comm_day}'
+        comm_yr = int(comm_yr)
+        comm_mo = int(comm_mo)
+        comm_day = int(comm_day)
+        comm_lst2.append([comm_ymd,comm_yr,comm_mo,comm_day,comm_cost,broker])
 
     # D/MM/YYYY
-    # code here
+    elif dmy[1] == '/' and dmy[4] == '/':
+        comm_yr = dmy[5:9]
+        comm_mo = dmy[2:4]
+        comm_day = dmy[0]
+        comm_ymd = f'{comm_yr}-{comm_mo}-0{comm_day}'
+        comm_yr = int(comm_yr)
+        comm_mo = int(comm_mo)
+        comm_day = int(comm_day)
+        comm_lst2.append([comm_ymd,comm_yr,comm_mo,comm_day,comm_cost,broker])
 
     # D/M/YYYY
-    # code here
+    elif dmy[1] == '/' and dmy[3] == '/':
+        comm_yr = dmy[4:8]
+        comm_mo = dmy[2]
+        comm_day = dmy[0]
+        comm_ymd = f'{comm_yr}-0{comm_mo}-0{comm_day}'
+        comm_yr = int(comm_yr)
+        comm_mo = int(comm_mo)
+        comm_day = int(comm_day)
+        comm_lst2.append([comm_ymd,comm_yr,comm_mo,comm_day,comm_cost,broker])
 
 ######################## print commission records ########################
 def fx_comm_add_records(comm_lst2):
