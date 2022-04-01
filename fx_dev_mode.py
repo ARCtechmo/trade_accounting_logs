@@ -592,28 +592,42 @@ def fx_unmatched_add_records():
 ########################### end export unmatched records function ###########################
 ########################### END buy / sell transactions section #############################
 
-#### START HERE NEXT ###
-# See section 133 - 260 for a model
-# need to ensure the dates are formatted correctly
-# account for multiple date formats in the broker data (e.g. DD/MM/YYYY/  D/M/YYYY, DD/M/YYYY, D/MM/YYYY)
 ################################# begin COMMISSIONS section #################################
+# extract and format the dates of the commission transaction to YYYY-MM-DD (don't need hours or minutes)
+# comm_lst2 contains the commission amounts in the broker data and formatted dates
 comm_lst2 = []
 for item in comm_lst:
-    comm_yr = item[0][6:10]
-    comm_yr = int(comm_yr)
-    comm_mo = item[0][3:5]
-    if len(comm_mo) < 2:
-        comm_mo = f'0{comm_mo}'
-        # comm_mo = int(comm_mo)
-    else:
-        comm_mo = int(comm_mo)
-    comm_day = item[0][:2]
-    comm_day = int(comm_day)
-    comm_ymd = f'{comm_yr}-{comm_mo}-{comm_day}'
     comm_cost = item[12][0:7]
     comm_cost = float(comm_cost)
-    comm_lst2.append([comm_ymd,comm_yr,comm_mo,comm_day,comm_cost,broker])
-# print(comm_lst2)
+    dmy = item[0]
+    print(dmy)
+
+    # DD/MM/YYYY - this works
+    if dmy[2] == '/' and dmy[5] == '/':
+        comm_yr = dmy[6:10]
+        comm_mo = dmy[3:5]
+        comm_day = dmy[:2]
+        comm_ymd = f'{comm_yr}-{comm_mo}-{comm_day}'
+        comm_yr = int(comm_yr)
+        comm_mo = int(comm_mo)
+        comm_day = int(comm_day)
+        comm_lst2.append([comm_ymd,comm_yr,comm_mo,comm_day,comm_cost,broker])
+
+    #### START HERE NEXT ###
+    # See section 133 - 260 for a model
+    # account for multiple date formats in the broker data (e.g.  )
+    # note to self the individual year, month, and date go in as integers (don't need a zero in front)
+
+    # DD/M/YYYY
+    elif dmy[2] == '/' and dmy[4] == '/':
+        print()
+
+
+    # D/MM/YYYY
+    # code here
+
+    # D/M/YYYY
+    # code here
 
 ######################## print commission records ########################
 def fx_comm_add_records(comm_lst2):
@@ -634,6 +648,9 @@ def fx_comm_add_records(comm_lst2):
 # See section 133 - 260 for a model
 # need to ensure the dates are formatted correctly
 # account for multiple date formats in the broker data (e.g. DD/MM/YYYY/  D/M/YYYY, DD/M/YYYY, D/MM/YYYY)
+
+# extract and format the dates of the commission transaction to YYYY-MM-DD-HH:MM
+# int_debit contains the debit interest amounts in the broker data and formatted dates
 int_debit = []
 for item in int_lst:
     int_item = float(item[12])
