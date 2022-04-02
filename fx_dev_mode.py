@@ -19,6 +19,9 @@ int_lst = []
 
 # fxlst is a list of trades only (no commission or fee data is included)
 fxlst = []
+
+broker_credit_lst = []
+
 broker_id = int(input("enter the broker_id from the database (2-7): "))
 ### come back to this later ###
 # embed the entire program under a while loop to catch incorrect broker_id entry
@@ -43,7 +46,8 @@ with open(filename, newline='') as csvfile:
             comm_lst.append(row)
         elif row[1][14:24] == 'FINANCING':
             int_lst.append(row)
-
+        elif 'Active' in row[1] or 'Credit' in row[1]:
+            broker_credit_lst.append(row)
 
 ########################### BEGIN buy / sell transactions section #############################
 # count rows of transaction trades only
@@ -593,11 +597,7 @@ def fx_unmatched_add_records():
 ########################### END buy / sell transactions section #############################
 
 ################################# begin COMMISSIONS section #################################
-
-#### START HERE NEXT ###
-# double check the code below then go to the next section
-
-# extract and format the dates of the commission transaction to YYYY-MM-DD (don't need hours or minutes)
+# extract and format the dates of the commission transaction to YYYY-MM-DD
 # comm_lst2 contains the commission amounts in the broker data and formatted dates
 comm_lst2 = []
 for item in comm_lst:
@@ -606,7 +606,7 @@ for item in comm_lst:
     dmy = item[0]
     # print(dmy)
 
-    # DD/MM/YYYY 
+    # DD/MM/YYYY
     if dmy[2] == '/' and dmy[5] == '/':
         comm_yr = dmy[6:10]
         comm_mo = dmy[3:5]
@@ -655,7 +655,7 @@ def fx_comm_add_records(comm_lst2):
     print("------------test of fx_comm_add_records() function------------------")
     for log in comm_lst2:
         print(log)
-fx_comm_add_records(comm_lst2)
+# fx_comm_add_records(comm_lst2)
 ###################### print commission records ########################
 ######################## begin export commission records function ########################
 ### NOTE TO SELF: add a condition with user input to enter or exit the program ###
@@ -666,27 +666,59 @@ def fx_comm_add_records(comm_lst2):
 ################################# end COMMISSIONS section #################################
 
 ################################# begin FINANCING section #################################
-# See section 133 - 260 for a model
-# need to ensure the dates are formatted correctly
-# account for multiple date formats in the broker data (e.g. DD/MM/YYYY/  D/M/YYYY, DD/M/YYYY, D/MM/YYYY)
-
-# extract and format the dates of the commission transaction to YYYY-MM-DD-HH:MM
+# extract and format the dates of the debit interest transaction to YYYY-MM-DD
 # int_debit contains the debit interest amounts in the broker data and formatted dates
 int_debit = []
 for item in int_lst:
-    int_item = float(item[12])
+    int_item = item[12][0:7]
+    int_item = float(int_item)
+    dmy = item[0]
     if int_item < 0:
-        int_yr = item[0][6:10]
-        int_yr = int(int_yr)
-        int_mo = item[0][3:5]
-        int_mo = int(int_mo)
-        int_day = item[0][:2]
-        int_day = int(int_day)
-        int_ymd = f'{int_yr}-{int_mo}-{int_day}'
-        int_cost = item[12][0:7]
-        int_cost = float(int_cost)
-        int_debit.append([int_ymd,int_yr,int_mo,int_day,int_cost,broker])
-# print(int_debit)
+        int_paid = int_item
+
+        # DD/MM/YYYY
+        if dmy[2] == '/' and dmy[5] == '/':
+            int_debit_yr = dmy[6:10]
+            int_debit_mo = dmy[3:5]
+            int_debit_day = dmy[:2]
+            int_debit_ymd = f'{int_debit_yr}-{int_debit_mo}-{int_debit_day}'
+            int_debit_yr = int(int_debit_yr)
+            int_debit_mo = int(int_debit_mo)
+            int_debit_day = int(int_debit_day)
+            int_debit.append([int_debit_ymd,int_debit_yr,int_debit_mo,int_debit_day,int_paid,broker])
+
+        # DD/M/YYYY
+        elif dmy[2] == '/' and dmy[4] == '/':
+            int_debit_yr = dmy[5:9]
+            int_debit_mo = dmy[3]
+            int_debit_day = dmy[:2]
+            int_debit_ymd = f'{int_debit_yr}-0{int_debit_mo}-{int_debit_day}'
+            int_debit_yr = int(int_debit_yr)
+            int_debit_mo = int(int_debit_mo)
+            int_debit_day = int(int_debit_day)
+            int_debit.append([int_debit_ymd,int_debit_yr,int_debit_mo,int_debit_day,int_paid,broker])
+
+        # D/MM/YYYY
+        elif dmy[1] == '/' and dmy[4] == '/':
+            int_debit_yr = dmy[5:9]
+            int_debit_mo = dmy[2:4]
+            int_debit_day = dmy[0]
+            int_debit_ymd = f'{int_debit_yr}-{int_debit_mo}-0{int_debit_day}'
+            int_debit_yr = int(int_debit_yr)
+            int_debit_mo = int(int_debit_mo)
+            int_debit_day = int(int_debit_day)
+            int_debit.append([int_debit_ymd,int_debit_yr,int_debit_mo,int_debit_day,int_paid,broker])
+
+        # D/M/YYYY
+        elif dmy[1] == '/' and dmy[3] == '/':
+            int_debit_yr = dmy[4:8]
+            int_debit_mo = dmy[2]
+            int_debit_day = dmy[0]
+            int_debit_ymd = f'{int_debit_yr}-0{int_debit_mo}-0{int_debit_day}'
+            int_debit_yr = int(int_debit_yr)
+            int_debit_mo = int(int_debit_mo)
+            int_debit_day = int(int_debit_day)
+            int_debit.append([int_debit_ymd,int_debit_yr,int_debit_mo,int_debit_day,int_paid,broker])
 
 ######################## print debit interest records ########################
 def fx_int_debit_add_records(int_debit):
@@ -695,7 +727,6 @@ def fx_int_debit_add_records(int_debit):
         print(log)
 # fx_int_debit_add_records(int_debit)
 ######################## print debit interest records ########################
-
 ###################### begin export debit interest records function ########################
 def fx_int_debit_add_records(int_debit):
     print("------------test of fx_int_add_records() function------------------")
@@ -704,6 +735,140 @@ def fx_int_debit_add_records(int_debit):
 ################################# end FINANCING section #################################
 
 ################################# begin interest credit section #################################
+# extract and format the dates of the credit interest transaction to YYYY-MM-DD
+# int_credit contains the debit interest amounts in the broker data and formatted dates
+int_credit = []
+for item in int_lst:
+    int_item = item[12][0:7]
+    int_item = float(int_item)
+    dmy = item[0]
+    if int_item > 0:
+        int_received = int_item
 
+        # DD/MM/YYYY
+        if dmy[2] == '/' and dmy[5] == '/':
+            int_credit_yr = dmy[6:10]
+            int_credit_mo = dmy[3:5]
+            int_credit_day = dmy[:2]
+            int_credit_ymd = f'{int_credit_yr}-{int_credit_mo}-{int_credit_day}'
+            int_credit_yr = int(int_credit_yr)
+            int_credit_mo = int(int_credit_mo)
+            int_credit_day = int(int_credit_day)
+            int_credit.append([int_credit_ymd,int_credit_yr,int_credit_mo,int_credit_day,int_received,broker])
 
+        # DD/M/YYYY
+        elif dmy[2] == '/' and dmy[4] == '/':
+            int_credit_yr = dmy[5:9]
+            int_credit_mo = dmy[3]
+            int_credit_day = dmy[:2]
+            int_credit_ymd = f'{int_credit_yr}-0{int_credit_mo}-{int_credit_day}'
+            int_credit_yr = int(int_credit_yr)
+            int_credit_mo = int(int_credit_mo)
+            int_credit_day = int(int_credit_day)
+            int_credit.append([int_credit_ymd,int_credit_yr,int_credit_mo,int_credit_day,int_received,broker])
+
+        # D/MM/YYYY
+        elif dmy[1] == '/' and dmy[4] == '/':
+            int_credit_yr = dmy[5:9]
+            int_credit_mo = dmy[2:4]
+            int_credit_day = dmy[0]
+            int_credit_ymd = f'{int_credit_yr}-{int_credit_mo}-0{int_credit_day}'
+            int_credit_yr = int(int_credit_yr)
+            int_credit_mo = int(int_credit_mo)
+            int_credit_day = int(int_credit_day)
+            int_credit.append([int_credit_ymd,int_credit_yr,int_credit_mo,int_credit_day,int_received,broker])
+
+        # D/M/YYYY
+        elif dmy[1] == '/' and dmy[3] == '/':
+            int_credit_yr = dmy[4:8]
+            int_credit_mo = dmy[2]
+            int_credit_day = dmy[0]
+            int_credit_ymd = f'{int_credit_yr}-0{int_credit_mo}-0{int_credit_day}'
+            int_credit_yr = int(int_credit_yr)
+            int_credit_mo = int(int_credit_mo)
+            int_credit_day = int(int_credit_day)
+            int_credit.append([int_credit_ymd,int_credit_yr,int_credit_mo,int_credit_day,int_received,broker])
+
+######################## print credit interest records ########################
+def fx_int_credit_add_records(int_credit):
+    print("------------test of fx_int_debit_add_records() function------------------")
+    for log in int_credit:
+        print(log)
+# fx_int_credit_add_records(int_credit)
+######################## print credit interest records ########################
+
+###################### begin export credit interest records function ###################
+def fx_int_credit_add_records(int_credit):
+    print("------------test of fx_int_add_records() function------------------")
+    return int_credit
+###################### end export credit interest records function #####################
 ################################# end interest credit section #################################
+
+
+################################# begin broker credit section #################################
+# extract and format the dates of the broker credit transaction to YYYY-MM-DD
+# broker_credit contains the debit interest amounts in the broker data and formatted dates
+broker_credit = []
+for item in broker_credit_lst:
+    credit_received = item[12]
+    credit_received = float(credit_received)
+    dmy = item[0]
+
+    # DD/MM/YYYY
+    if dmy[2] == '/' and dmy[5] == '/':
+        broker_credit_yr = dmy[6:10]
+        broker_credit_mo = dmy[3:5]
+        broker_credit_day = dmy[:2]
+        broker_credit_ymd = f'{broker_credit_yr}-{broker_credit_mo}-{broker_credit_day}'
+        broker_credit_yr = int(broker_credit_yr)
+        broker_credit_mo = int(broker_credit_mo)
+        broker_credit_day = int(broker_credit_day)
+        broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,credit_received,broker])
+
+    # DD/M/YYYY
+    elif dmy[2] == '/' and dmy[4] == '/':
+        broker_credit_yr = dmy[5:9]
+        broker_credit_mo = dmy[3]
+        broker_credit_day = dmy[:2]
+        broker_credit_ymd = f'{broker_credit_yr}-0{broker_credit_mo}-{broker_credit_day}'
+        broker_credit_yr = int(broker_credit_yr)
+        broker_credit_mo = int(broker_credit_mo)
+        broker_credit_day = int(broker_credit_day)
+        broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,credit_received,broker])
+
+    # D/MM/YYYY
+    elif dmy[1] == '/' and dmy[4] == '/':
+        broker_credit_yr = dmy[5:9]
+        broker_credit_mo = dmy[2:4]
+        broker_credit_day = dmy[0]
+        broker_credit_ymd = f'{broker_credit_yr}-{broker_credit_mo}-0{broker_credit_day}'
+        broker_credit_yr = int(broker_credit_yr)
+        broker_credit_mo = int(broker_credit_mo)
+        broker_credit_day = int(broker_credit_day)
+        broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,credit_received,broker])
+
+    # D/M/YYYY
+    elif dmy[1] == '/' and dmy[3] == '/':
+        broker_credit_yr = dmy[4:8]
+        broker_credit_mo = dmy[2]
+        broker_credit_day = dmy[0]
+        broker_credit_ymd = f'{broker_credit_yr}-0{broker_credit_mo}-0{broker_credit_day}'
+        broker_credit_yr = int(broker_credit_yr)
+        broker_credit_mo = int(broker_credit_mo)
+        broker_credit_day = int(broker_credit_day)
+        broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,credit_received,broker])
+
+######################## print broker credit interest records ########################
+def fx_broker_credit_add_records(broker_credit):
+    print("------------test of fx_int_debit_add_records() function------------------")
+    for log in broker_credit:
+        print(log)
+# fx_broker_credit_add_records(broker_credit)
+######################## print broker credit interest records ########################
+
+###################### begin export broker credit interest records function ###################
+def fx_broker_credit_add_records(broker_credit):
+    print("------------test of fx_int_add_records() function------------------")
+    return broker_credit
+###################### end export broker credit interest records function #####################
+################################# end broker credit section #################################
