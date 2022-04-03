@@ -42,9 +42,9 @@ with open(filename, newline='') as csvfile:
     for row in reader:
         if row[4] != "":
             fxlst.append(row)
-        elif row[1][14:24] == "COMMISSION":
+        elif 'COMMISSION' in row[1]:
             comm_lst.append(row)
-        elif row[1][14:24] == 'FINANCING':
+        elif 'FINANCING' in row[1]:
             int_lst.append(row)
         elif 'Active' in row[1] or 'Credit' in row[1]:
             broker_credit_lst.append(row)
@@ -735,6 +735,11 @@ def fx_int_debit_add_records(int_debit):
 ################################# end FINANCING section #################################
 
 ################################# begin interest credit section #################################
+
+## START HERE NEXT ###
+# 1) add the transaction ids
+# 2) use a counter to add a decimal to each number .1 .2 .3 so there are no duplicate ids
+
 # extract and format the dates of the credit interest transaction to YYYY-MM-DD
 # int_credit contains the debit interest amounts in the broker data and formatted dates
 int_credit = []
@@ -820,10 +825,12 @@ for item in broker_credit_lst:
         broker_credit_mo = dmy[3:5]
         broker_credit_day = dmy[:2]
         broker_credit_ymd = f'{broker_credit_yr}-{broker_credit_mo}-{broker_credit_day}'
+        bkr_cred_trans_id = f'{broker_credit_yr}{broker_credit_mo}{broker_credit_day}'
+        bkr_cred_trans_id = int(bkr_cred_trans_id)
         broker_credit_yr = int(broker_credit_yr)
         broker_credit_mo = int(broker_credit_mo)
         broker_credit_day = int(broker_credit_day)
-        broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,credit_received,broker])
+        broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,bkr_cred_trans_id,credit_received,broker])
 
     # DD/M/YYYY
     elif dmy[2] == '/' and dmy[4] == '/':
@@ -831,10 +838,12 @@ for item in broker_credit_lst:
         broker_credit_mo = dmy[3]
         broker_credit_day = dmy[:2]
         broker_credit_ymd = f'{broker_credit_yr}-0{broker_credit_mo}-{broker_credit_day}'
+        bkr_cred_trans_id = f'{broker_credit_yr}{broker_credit_mo}{broker_credit_day}'
+        bkr_cred_trans_id = int(bkr_cred_trans_id)
         broker_credit_yr = int(broker_credit_yr)
         broker_credit_mo = int(broker_credit_mo)
         broker_credit_day = int(broker_credit_day)
-        broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,credit_received,broker])
+        broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,bkr_cred_trans_id,credit_received,broker])
 
     # D/MM/YYYY
     elif dmy[1] == '/' and dmy[4] == '/':
@@ -842,10 +851,12 @@ for item in broker_credit_lst:
         broker_credit_mo = dmy[2:4]
         broker_credit_day = dmy[0]
         broker_credit_ymd = f'{broker_credit_yr}-{broker_credit_mo}-0{broker_credit_day}'
+        bkr_cred_trans_id = f'{broker_credit_yr}{broker_credit_mo}{broker_credit_day}'
+        bkr_cred_trans_id = int(bkr_cred_trans_id)
         broker_credit_yr = int(broker_credit_yr)
         broker_credit_mo = int(broker_credit_mo)
         broker_credit_day = int(broker_credit_day)
-        broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,credit_received,broker])
+        broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,bkr_cred_trans_id,credit_received,broker])
 
     # D/M/YYYY
     elif dmy[1] == '/' and dmy[3] == '/':
@@ -853,10 +864,12 @@ for item in broker_credit_lst:
         broker_credit_mo = dmy[2]
         broker_credit_day = dmy[0]
         broker_credit_ymd = f'{broker_credit_yr}-0{broker_credit_mo}-0{broker_credit_day}'
+        bkr_cred_trans_id = f'{broker_credit_yr}{broker_credit_mo}{broker_credit_day}'
+        bkr_cred_trans_id = int(bkr_cred_trans_id)
         broker_credit_yr = int(broker_credit_yr)
         broker_credit_mo = int(broker_credit_mo)
         broker_credit_day = int(broker_credit_day)
-        broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,credit_received,broker])
+        broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,bkr_cred_trans_id,credit_received,broker])
 
 ######################## print broker credit interest records ########################
 def fx_broker_credit_add_records(broker_credit):
