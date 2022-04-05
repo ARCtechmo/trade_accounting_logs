@@ -737,8 +737,41 @@ def fx_int_debit_add_records(int_debit):
 ################################# begin interest credit section #################################
 
 ## START HERE NEXT ###
-# 1) add the transaction ids
-# 2) use a counter to add a decimal to each number .1 .2 .3 so there are no duplicate ids
+# Next, get the modified transaction ids into the int_credit list.
+
+# add a decimal to each duplicate transaction id
+
+# trans_id_temp_lst contains a list of modified duplicate transaction id casted as floats
+trans_id_temp_lst = []
+
+# trans_id_temp_lst2 contains the modified duplicate transaction ids with decimals 0.1, 0.2,0.3...
+trans_id_temp_lst2 = []
+di = dict()
+count = 0
+for item in int_lst:
+    int_item = item[12][0:7]
+    int_item = float(int_item)
+    if int_item > 0:
+        trans_id = item[3]
+        trans_id = float(trans_id)
+        trans_id_temp_lst.append(trans_id)
+for num in trans_id_temp_lst:
+    di[num] = di.get(num,0) +1
+for key,value in di.items():
+    print(key,value)
+    if value == 1:
+        trans_id_temp_lst2.append(key)
+    elif value > 1:
+        for num in trans_id_temp_lst:
+            if num == key:
+                num = num + count
+                trans_id_temp_lst2.append(num)
+                count +=0.1
+        count = 0
+
+print("---------------------")
+for item in trans_id_temp_lst2:
+    print(item)
 
 # extract and format the dates of the credit interest transaction to YYYY-MM-DD
 # int_credit contains the debit interest amounts in the broker data and formatted dates
@@ -799,7 +832,7 @@ def fx_int_credit_add_records(int_credit):
     print("------------test of fx_int_debit_add_records() function------------------")
     for log in int_credit:
         print(log)
-# fx_int_credit_add_records(int_credit)
+fx_int_credit_add_records(int_credit)
 ######################## print credit interest records ########################
 
 ###################### begin export credit interest records function ###################
