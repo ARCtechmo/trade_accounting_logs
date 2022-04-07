@@ -769,10 +769,38 @@ for key,value in di.items():
                 count +=0.1
         count = 0
 
-print("---------------------")
-for item in trans_id_temp_lst2:
-    print(item)
 
+### START HERE NEXT ###
+# this captures the first group of duplicates with .0 but it does not capture the rest .1 .2 .3
+# maybe a while loop will solve the problem
+count = 0
+# trans_id_temp_lst3 contains...
+trans_id_temp_lst3 = []
+print("----------------------\n")
+for dup in trans_id_temp_lst:
+    dup = str(dup)
+    print(dup)
+    trans_id_temp_lst3.append(dup)
+
+# mod_trans_lst contains...
+mod_trans_lst = []
+print("---------------------")
+while count <= len(trans_id_temp_lst3):
+    for trans in trans_id_temp_lst2:
+        # print(trans)
+        trans = str(trans)
+        trans_digits = trans[:9]
+        # print(trans_digits)
+        if trans_digits == trans_id_temp_lst3[count][:9]:
+            print(trans)
+            count +=1
+            continue
+            # count = len(trans_id_temp_lst3) - count
+            break
+        else:
+            pass
+    break
+print("----------------------")
 # extract and format the dates of the credit interest transaction to YYYY-MM-DD
 # int_credit contains the debit interest amounts in the broker data and formatted dates
 int_credit = []
