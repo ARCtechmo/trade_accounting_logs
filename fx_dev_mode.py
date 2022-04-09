@@ -771,36 +771,9 @@ for key,value in di.items():
 
 
 ### START HERE NEXT ###
-# this captures the first group of duplicates with .0 but it does not capture the rest .1 .2 .3
-# maybe a while loop will solve the problem
-count = 0
-# trans_id_temp_lst3 contains...
-trans_id_temp_lst3 = []
-print("----------------------\n")
-for dup in trans_id_temp_lst:
-    dup = str(dup)
-    print(dup)
-    trans_id_temp_lst3.append(dup)
+# get the list of modified dupllicates in the correct order first....
+# so you need a new list of modified correct dupllicates in the same order as the broker data
 
-# mod_trans_lst contains...
-mod_trans_lst = []
-print("---------------------")
-while count <= len(trans_id_temp_lst3):
-    for trans in trans_id_temp_lst2:
-        # print(trans)
-        trans = str(trans)
-        trans_digits = trans[:9]
-        # print(trans_digits)
-        if trans_digits == trans_id_temp_lst3[count][:9]:
-            print(trans)
-            count +=1
-            continue
-            # count = len(trans_id_temp_lst3) - count
-            break
-        else:
-            pass
-    break
-print("----------------------")
 # extract and format the dates of the credit interest transaction to YYYY-MM-DD
 # int_credit contains the debit interest amounts in the broker data and formatted dates
 int_credit = []
@@ -811,6 +784,35 @@ for item in int_lst:
     if int_item > 0:
         int_received = int_item
 
+        ### This section will work once you get the modified dupllicates in the correct order in the previous section
+        # DD/MM/YYYY
+        # if dmy[2] == '/' and dmy[5] == '/':
+        #     int_credit_yr = dmy[6:10]
+        #     int_credit_mo = dmy[3:5]
+        #     int_credit_day = dmy[:2]
+        #     int_credit_ymd = f'{int_credit_yr}-{int_credit_mo}-{int_credit_day}'
+        #     int_credit_yr = int(int_credit_yr)
+        #     int_credit_mo = int(int_credit_mo)
+        #     int_credit_day = int(int_credit_day)
+        #
+        #     while count <= len(trans_id_temp_lst2):
+        #         dup_trans_id = trans_id_temp_lst2[count]
+        #         dup_trans_id = str(dup_trans_id)
+        #         dup_trans_id = dup_trans_id[:9]
+        #         if item[3] == dup_trans_id:
+        #             print(item[3],dup_trans_id)
+        #             mod_trans_id = trans_id_temp_lst2[count]
+        #             # print(mod_trans_id)
+        #             int_credit.append([int_credit_ymd,int_credit_yr,int_credit_mo,int_credit_day,mod_trans_id,int_received,broker])
+        #             count +=1
+        #
+        #         else:
+        #             print("no")
+        #             pass
+        #
+        #         break
+
+
         # DD/MM/YYYY
         if dmy[2] == '/' and dmy[5] == '/':
             int_credit_yr = dmy[6:10]
@@ -820,7 +822,8 @@ for item in int_lst:
             int_credit_yr = int(int_credit_yr)
             int_credit_mo = int(int_credit_mo)
             int_credit_day = int(int_credit_day)
-            int_credit.append([int_credit_ymd,int_credit_yr,int_credit_mo,int_credit_day,int_received,broker])
+            int_credit.append([int_credit_ymd,int_credit_yr,int_credit_mo,int_credit_day,trans_id,broker])
+
 
         # DD/M/YYYY
         elif dmy[2] == '/' and dmy[4] == '/':
