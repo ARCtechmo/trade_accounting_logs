@@ -1,10 +1,17 @@
 Known bugs and items that need to be fixed
 
-(1) edge cases where the fx_ broker has duplicate close or open transaction ids
+(1) logs_metrics_app_dev_mmode.py file: BUG
+ edge cases where the fx_ broker has duplicate close or open transaction ids
 the export_corrected_duplicate_id() function is in testing mode and attempts 
 to correct the edge cases where there there are duplicate close or open 
 transaction ids. I have not yet found a complete solution so the program will 
-generate a  a UNIQUE CONSTRAINT ERROR when it encounters a duplicate close or
+generate a UNIQUE CONSTRAINT ERROR when it encounters a duplicate close or
 open transaction id already in the fx_log table. 
 
-(2)
+(2) fx_dev_mode.py file: NOT A BUG - Just an annoying feature
+the interest transaction ids have dupliactes so I added a decimal point to the 
+end of each transaction id to avoid UNIQUE CONSTRAINT ERRORS. However, the decimals
+are not commensurate with the transaction ids. Ideally, the decimals should indicate
+the number of duplicates (e.g. 0.01 0.02 0.03 0.04 means four duplicates). I spennt an 
+enormous amount of time and effort get the duplicate transaction ids in order along with
+the commensurate decimals but failed.  Come back to this problem later.
