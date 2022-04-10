@@ -735,12 +735,7 @@ def fx_int_debit_add_records(int_debit):
 ################################# end FINANCING section #################################
 
 ################################# begin interest credit section #################################
-
-## START HERE NEXT ###
-# Next, get the modified transaction ids into the int_credit list.
-
 # add a decimal to each duplicate transaction id
-
 # trans_id_temp_lst contains a list of modified duplicate transaction id casted as floats
 trans_id_temp_lst = []
 
@@ -769,10 +764,36 @@ for key,value in di.items():
                 count +=0.1
         count = 0
 
+count = 0
+for num in trans_id_temp_lst:
+    num = trans_id_temp_lst[count]
+    num = str(num)
+    print(num)
+    count +=1
+print("-----------------------------------------------------")
+count = 0
+for num in trans_id_temp_lst2:
+    num = trans_id_temp_lst2[count]
+    num = str(num)
+    print(num)
+    count +=1
 
 ### START HERE NEXT ###
 # get the list of modified dupllicates in the correct order first....
 # so you need a new list of modified correct dupllicates in the same order as the broker data
+# print("----------------------------------------------------------")
+# count = 0
+# test_lst = list()
+# for x, y in zip(trans_id_temp_lst, trans_id_temp_lst2):
+#     x = str(x)
+#     y = str(y)
+#     print(x,y)
+#     if x[6:9] == y[6:9]:
+#         x = y[:12]
+#         test_lst.append(float(x))
+#
+# print(test_lst)
+# print("----------------------------------------------------------")
 
 # extract and format the dates of the credit interest transaction to YYYY-MM-DD
 # int_credit contains the debit interest amounts in the broker data and formatted dates
