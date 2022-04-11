@@ -9,6 +9,11 @@ cur = conn.cursor()
 # cur.execute("DROP TABLE IF EXISTS time_log")
 # cur.execute("DROP TABLE IF EXISTS fx_log")
 # cur.execute("DROP TABLE IF EXISTS fx_unmatched")
+# cur.execute("DROP TABLE IF EXISTS fx_commissions")
+# cur.execute("DROP TABLE IF EXISTS fx_interest_debit")
+# cur.execute("DROP TABLE IF EXISTS fx_interest_income")
+# cur.execute("DROP TABLE IF EXISTS fx_broker_credit_income")
+
 cur.executescript('''
 CREATE TABLE IF NOT EXISTS brokers(
     broker_id INTEGER NOT NULL PRIMARY KEY,
@@ -78,8 +83,55 @@ CREATE TABLE IF NOT EXISTS fx_unmatched(
     broker_id INTEGER NOT NULL,
     FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
         ON UPDATE CASCADE
-    )
+    );
 
+CREATE TABLE IF NOT EXISTS fx_commissions(
+    entry_date TEXT,
+    entry_year INTEGER,
+    entry_month INTEGER,
+    entry_day INTEGER,
+    transaction_id INTEGER NOT NULL UNIQUE,
+    commissions_cost INTEGER,
+    broker_id INTEGER NOT NULL,
+    FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
+        ON UPDATE CASCADE
+    );
+
+CREATE TABLE IF NOT EXISTS fx_interest_debit(
+    entry_date TEXT,
+    entry_year INTEGER,
+    entry_month INTEGER,
+    entry_day INTEGER,
+    transaction_id INTEGER NOT NULL UNIQUE,
+    interest_debit INTEGER,
+    broker_id INTEGER NOT NULL,
+    FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
+        ON UPDATE CASCADE
+    );
+
+CREATE TABLE IF NOT EXISTS fx_interest_income(
+    entry_date TEXT,
+    entry_year INTEGER,
+    entry_month INTEGER,
+    entry_day INTEGER,
+    transaction_id INTEGER NOT NULL UNIQUE,
+    interest_credit INTEGER,
+    broker_id INTEGER NOT NULL,
+    FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
+        ON UPDATE CASCADE
+    );
+
+CREATE TABLE IF NOT EXISTS fx_broker_credit_income(
+    entry_date TEXT,
+    entry_year INTEGER,
+    entry_month INTEGER,
+    entry_day INTEGER,
+    transaction_id INTEGER NOT NULL UNIQUE,
+    broker_credit INTEGER,
+    broker_id INTEGER NOT NULL,
+    FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
+        ON UPDATE CASCADE
+        )
 ''')
 print("---------------------table creation successful----------------------")
 # brokers_table_functions
@@ -155,9 +207,9 @@ print("-------------time_log_show_all_func created successfully----------------"
 def fx_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO fx_log VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
-        print("-------------add_many executed successfully-----------------")
+        print("\n-------------add_many executed successfully-----------------\n")
         conn.commit()
-print("-------------fx_log_add_many_func created successfully----------------")
+print("\n-------------fx_log_add_many_func created successfully----------------\n")
 print("record added successfully--------------")
 def fx_log_show_all():
     with conn:
@@ -171,18 +223,87 @@ print("-------------fx_log_show_all_func created successfully----------------")
 def fx_unmatched_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO fx_unmatched VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
-        print("-------------add_many executed successfully-----------------")
+        print("\n-------------add_many executed successfully-----------------")
         conn.commit()
 print("-------------fx_unmatched_add_many func created successfully----------------")
 print("record added successfully--------------")
 def fx_unmatched_show_all():
     with conn:
         cur.execute("SELECT * FROM fx_unmatched")
-        print("-----------------show_all func executed successfully---------------")
+        print("\n-----------------show_all func executed successfully---------------\n")
         items = cur.fetchall()
         for item in items:
             print(item)
 print("------------- fx_unmatched_show_all func created successfully----------------")
+
+# insert data into the fx_commissions table
+def fx_commissions_add_many(log_entry):
+    with conn:
+        cur.executemany("INSERT INTO fx_commissions VALUES(?,?,?,?,?,?,?)", (log_entry), )
+        print("\n-------------fx_commissions_add_many executed successfully-----------------")
+        conn.commit()
+print("-------------fx_commissions_add_many func created successfully----------------")
+print("record added successfully--------------")
+def fx_commissions_show_all():
+    with conn:
+        cur.execute("SELECT * FROM fx_commissions")
+        print("\n-----------------show_all func executed successfully---------------\n")
+        items = cur.fetchall()
+        for item in items:
+            print(item)
+print("------------- fx_commissions_show_all func created successfully----------------")
+
+# insert data into the fx_interest_debit table
+def fx_interest_debit_add_many(log_entry):
+    with conn:
+        cur.executemany("INSERT INTO fx_interest_debit VALUES(?,?,?,?,?,?,?)", (log_entry), )
+        print("\n-------------fx_interest_debit_add_many executed successfully-----------------")
+        conn.commit()
+print("-------------fx_interest_debit_add_many func created successfully----------------")
+print("record added successfully--------------")
+def fx_interest_debit_show_all():
+    with conn:
+        cur.execute("SELECT * FROM fx_interest_debit")
+        print("\n-----------------show_all func executed successfully---------------\n")
+        items = cur.fetchall()
+        for item in items:
+            print(item)
+print("------------- fx_interest_debit_show_all func created successfully----------------")
+
+# insert data into the fx_interest_income table
+def fx_interest_credit_add_many(log_entry):
+    with conn:
+        cur.executemany("INSERT INTO fx_interest_income VALUES(?,?,?,?,?,?,?)", (log_entry), )
+        print("\n-------------fx_interest_credit_add_many() func executed successfully-----------------")
+        conn.commit()
+print("-------------fx_interest_credit_add_many() func func created successfully----------------")
+print("record added successfully--------------")
+def fx_interest_credit_show_all():
+    with conn:
+        cur.execute("SELECT * FROM fx_interest_income")
+        print("\n-----------------show_all func executed successfully---------------\n")
+        items = cur.fetchall()
+        for item in items:
+            print(item)
+print("------------- fx_interest_credit_show_all func created successfully----------------")
+
+# insert data into the fx_broker_credit_income table
+def fx_broker_credit_income_add_many(log_entry):
+    with conn:
+        cur.executemany("INSERT INTO fx_broker_credit_income VALUES(?,?,?,?,?,?,?)", (log_entry), )
+        print("\n-------------fx_broker_credit_income_add_many() func executed successfully-----------------")
+        conn.commit()
+print("-------------fx_broker_credit_income_add_many() func func created successfully----------------")
+print("record added successfully--------------")
+def fx_broker_credit_income_add_many_show_all():
+    with conn:
+        cur.execute("SELECT * FROM fx_broker_credit_income")
+        print("\n-----------------show_all func executed successfully---------------\n")
+        items = cur.fetchall()
+        for item in items:
+            print(item)
+print("------------- fx_broker_credit_income_add_many_show_all func created successfully----------------")
+
 conn.commit()
 
 ############################# CLOSE THE DATABASE ##############################
