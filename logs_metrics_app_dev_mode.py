@@ -69,7 +69,7 @@ cur = conn.cursor()
 # database_dev_mode.time_log_show_all()
 ################################# Add time_log RECORDS #######################################
 
-################################## Add fx_log RECORDS ################################################
+################################## Begin add fx_log RECORDS ################################################
 # add fx_log records
 # fx_log_rows contains a list of the rows in the fx_log table
 fx_log_rows = []
@@ -108,18 +108,18 @@ def export_fx_log_records():
     print("---------------successfully added fx_log records to the db------------------\n")
 
 # export_fx_log_records()
-################################# Add fx_log RECORDS ################################################
+################################# End add fx_log RECORDS ################################################
 
-################################# Add fx_unmatched RECORDS ######################################
+################################# Begin add fx_unmatched RECORDS ######################################
 # add fx_unmatched records to the database
 def export_unmatched_records():
     log_entry = fx_dev_mode.fx_unmatched_add_records()
     database_dev_mode.fx_unmatched_add_many(log_entry)
     print("---------------successfully added fx_log records to the db------------------\n")
 # export_unmatched_records()
-################################# Add fx_unmatched RECORDS ######################################
+################################# End add fx_unmatched RECORDS ######################################
 
-############################ Add matched RECORDS TO fx_log RECORDS #########################
+############################ Begin add matched RECORDS TO fx_log RECORDS #########################
 print("\n---------------------rows from fx_unmatched ready to be imported into fx_log-----------------")
 
 # matched_lst contains the combined matched entry and exit into one row
@@ -195,13 +195,165 @@ def export_matched_record():
     database_dev_mode.fx_log_add_many(log_entry)
 
 # export_matched_record()
-############################ Add matched records to fx_log table #########################
+############################ End add matched records to fx_log table #########################
 
-######################### Show all rows in the fx_log table #########################
+######################### Begin show all rows in the fx_log table #########################
 def show_all():
     database_dev_mode.fx_log_show_all()
 # show_all()
-######################### Show all rows in the fx_log table #########################
+######################### End show all rows in the fx_log table #########################
+
+############################ Begin add records to fx_commissions table #######################
+# fx_commission_rows contains a list of the rows in the commissions table
+fx_commission_rows = []
+
+# export_fx_commission_entry_lst contains a list of the rows that will be exported into the fx_commissions table
+export_fx_commission_entry_lst = []
+
+# export_fx_commissions_records() function checks for UNIQUE CONSTRANT ERRORS
+# export_fx_commissions_records() function exports fx_commissions transactions into the fx_commissions table
+def export_fx_commissions_records():
+    fx_commission_data = cur.execute(''' SELECT * FROM fx_commissions''')
+    print("\n--------------TEST: fx_export_commission_records() function: log_entry records----------------")
+    for row in fx_commission_data:
+        fx_commission_rows.append(row)
+    print(fx_commission_rows)
+
+    print("\n--------------TEST: fx_export_commission_records() function: log_entry records--------------------")
+    log_entry = fx_dev_mode.fx_comm_add_records()
+    for row in log_entry:
+        row = tuple(row)
+        if row in fx_commission_rows:
+            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print(row)
+            pass
+
+        else:
+            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
+            print(row)
+            export_fx_commission_entry_lst.append(row)
+
+    print("\n--------------TEST: rows to export into fx_commissions table-------------------")
+    print(export_fx_commission_entry_lst)
+    log_entry = export_fx_commission_entry_lst
+    database_dev_mode.fx_commissions_add_many(log_entry)
+    print("---------------successfully added fx_commissions records to the db------------------\n")
+
+# export_fx_commissions_records()
+############################ End add records to fx_commissions table #########################
+
+############################ Begin add records to interest_debit table #######################
+# fx_int_debit_rows contains a list of the rows in the fx_interest_debit table
+fx_int_debit_rows = []
+
+# export_fx_int_debit_entry_lst contains a  list of the rows that will be exported into the fx_interest_debit table
+export_fx_int_debit_entry_lst = []
+
+# export_fx_interest_debit_records() function checks for UNIQUE CONSTRANT ERRORS
+# export_fx_interest_debit_records() function exports fx_interest_debit transactions into the fx_interest_debit table
+def export_fx_interest_debit_records():
+    fx_int_debit_data = cur.execute(''' SELECT * FROM fx_interest_debit''')
+    print("\n--------------TEST: export_fx_interest_debit_records() function: log_entry records----------------")
+    for row in fx_int_debit_data:
+        fx_int_debit_rows.append(row)
+    print(fx_int_debit_rows)
+
+    print("\n--------------TEST: export_fx_interest_debit_records() function: log_entry records--------------------")
+    log_entry = fx_dev_mode.fx_int_debit_add_records()
+    for row in log_entry:
+        row = tuple(row)
+        if row in fx_int_debit_rows:
+            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print(row)
+            pass
+
+        else:
+            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
+            print(row)
+            export_fx_int_debit_entry_lst.append(row)
+
+    print("\n--------------TEST: rows to export into fx_interest_debit table-------------------")
+    print(export_fx_int_debit_entry_lst)
+    log_entry = export_fx_int_debit_entry_lst
+    database_dev_mode.fx_interest_debit_add_many(log_entry)
+    print("---------------successfully added fx_interest_debit records to the db------------------\n")
+
+# export_fx_interest_debit_records()
+############################ End add records to interest_debit table #########################
+
+############################ Begin add records to fx_interest_income table #######################
+# fx_int_credit_rows contains a list of the rows in the fx_interest_income table
+fx_int_credit_rows = []
+
+# export_fx_int_credit_entry_lst contains a  list of the rows that will be exported into the fx_interest_income table
+export_fx_int_credit_entry_lst = []
+
+def export_fx_interest_credit_records():
+    fx_int_credit_data = cur.execute(''' SELECT * FROM fx_interest_income''')
+    print("\n--------------TEST: export_fx_interest_credit_records() function: log_entry records----------------")
+    for row in fx_int_credit_data:
+        fx_int_credit_rows.append(row)
+    print(fx_int_credit_rows)
+
+    print("\n--------------TEST: export_fx_interest_credit_records() function: log_entry records--------------------")
+    log_entry = fx_dev_mode.fx_int_credit_add_records()
+    for row in log_entry:
+        row = tuple(row)
+        if row in fx_int_credit_rows:
+            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print(row)
+            pass
+
+        else:
+            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
+            print(row)
+            export_fx_int_credit_entry_lst.append(row)
+
+    print("\n--------------TEST: rows to export into fx_interest_income table-------------------")
+    print(export_fx_int_credit_entry_lst)
+    log_entry = export_fx_int_credit_entry_lst
+    database_dev_mode.fx_interest_credit_add_many(log_entry)
+    print("---------------successfully added fx_interest_income records to the db------------------\n")
+
+# export_fx_interest_credit_records()
+############################ End add records to fx_interest_income table #########################
+
+############################ Begin add records to fx_broker_credit_income table ###################
+# fx_broker_credit_rows contains a list of the rows in the fx_broker_credit_income table
+fx_broker_credit_rows = []
+
+# export_fx_broker_credit_entry_lst contains a  list of the rows that will be exported into the fx_broker_credit_income table
+export_fx_broker_credit_entry_lst = []
+
+def export_fx_broker_credit_records():
+    fx_broker_credit_data = cur.execute(''' SELECT * FROM fx_broker_credit_income''')
+    print("\n--------------TEST: export_fx_broker_credit_records() function: log_entry records----------------")
+    for row in fx_broker_credit_data:
+        fx_broker_credit_rows.append(row)
+    print(fx_broker_credit_rows)
+
+    print("\n--------------TEST: export_fx_broker_credit_records() function: log_entry records--------------------")
+    log_entry = fx_dev_mode.fx_broker_credit_add_records()
+    for row in log_entry:
+        row = tuple(row)
+        if row in fx_broker_credit_rows:
+            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print(row)
+            pass
+
+        else:
+            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
+            print(row)
+            export_fx_broker_credit_entry_lst.append(row)
+
+    print("\n--------------TEST: rows to export into fx_broker_credit_income table-------------------")
+    print(export_fx_broker_credit_entry_lst)
+    log_entry = export_fx_broker_credit_entry_lst
+    database_dev_mode.fx_broker_credit_income_add_many(log_entry)
+    print("---------------successfully added fx_broker_credit_income records to the db------------------\n")
+
+# export_fx_broker_credit_records()
+############################ End add records to broker_credit_income table #####################
 
 ############################## QUERY THE DATABASE ##################################
 ######  query the time_log table ######
