@@ -1,3 +1,104 @@
+commit 0bb0fda3f24eff1d34e82ad5f5e2d10e81af8052
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Mon Apr 11 13:52:26 2022 -0400
+
+    add functions and successfully exported fx records into the database
+    for commissions, interest credt / debit, and broker credits
+
+commit 8bbfe2128fe7e97faef4bdf5577c4e805533b51a
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Mon Apr 11 13:50:26 2022 -0400
+
+    modified the fx_broker_credit_add_records() function to add decimals
+    to the transaction ids that I created to avoid UNIQUE CONSTRAINT
+    ERRORS
+
+commit 6a0f40a1a318800b2145861df3cb8a5a66dc36f0
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Mon Apr 11 13:49:04 2022 -0400
+
+    added tables and functions to export records to the database for commissions,
+    interest credit / debits, and broker credits
+
+commit 7b186131beb751bf16d38562327afcc23f82d12d
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Mon Apr 11 10:02:50 2022 -0400
+
+    updated the jpeg file for the database layout
+
+commit 4973778a259361edd1251652444c6dd289d856f4
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Apr 10 06:25:11 2022 -0400
+
+    updated the bugs file
+
+commit dbb882dca8281b2adc2369f280bf56c0ce36c512
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Apr 10 06:10:16 2022 -0400
+
+    modify the duplicate debit interest, credit interest, and commission
+    transaction ids by adding a decimal value to these numbers; the values
+    are not ideal becuase I was unable to get them in the correct order
+    along with the correct order fo the transaction ids but it will
+    have to do for now; next and the new tables to the DB.
+
+commit 6a4d209145ed5c28bf990bbcbe0b231e692ea384
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Apr 10 04:43:34 2022 -0400
+
+    I was unable to resolve the issue of the getting  dupicate transaction ids
+    in order with a decimal that denotes the number of duplicates; this problem
+     will need to be resolved later; the next solution is not ideal but to
+    just use a simple counter for the decimal values to avoid the UNIQUE
+    CONSTRAINT ERRORS
+
+commit bb1a0dce1e0ff10a2385567bb2fabed38484756d
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Apr 9 12:59:46 2022 -0400
+
+    I am facing the same problem trying to get the modified duplicates
+    in the same order as the broker data; no solution so far
+
+commit 257eadb9e9f8fc44578ef648fee28dd0fee2e7c4
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Thu Apr 7 19:20:12 2022 -0400
+
+    add code to sections 773 - 883 and it needs more work; trying to get the
+    modified transaction ids in the correct order of the data; keep working
+    on this section
+
+commit 1b98a786939888e5d664d727068f216453138809
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Tue Apr 5 14:53:13 2022 -0400
+
+    added section 744 - 774 within the fx_int_credit_add_record() function;
+    found a solution that modifies the duplicate transaction ids by adding
+    decimals to the ids; next I need to get the modified transaction ids
+    into the int_credit list along with the other variables then I will
+    have a complete list of records for the interest credit items
+
+commit 53be9be0577da8044c8a987549152f38026bd660
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Apr 3 19:40:03 2022 -0400
+
+    updated sections 813 - 873 the fx_broker_credit_add_records() function;
+    added a transaction id for each broker_credit; next do the same for
+    fx_int_credit_add_records() and fx_int_debit_add_records functions
+
+commit fdc4d35180be1c2577f8ce974db966f85dbb5400
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Apr 3 19:38:53 2022 -0400
+
+    updated the layout of the database; added columns for transaction ids
+    to the commission, interest income, interest, fees, and broker credit
+    tables
+
+commit 4470856e59d1fa5dd66c525bb6b14b2ed6d13ed7
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Apr 3 19:37:57 2022 -0400
+
+    updated the log file
+
 commit cfc85640f956fed8517700eaefbd04154983c263
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sat Apr 2 18:26:35 2022 -0400
