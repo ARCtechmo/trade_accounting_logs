@@ -678,7 +678,7 @@ def fx_comm_add_records(comm_lst2):
 ###################### print commission records ########################
 ######################## begin export commission records function ########################
 ### NOTE TO SELF: add a condition with user input to enter or exit the program ###
-def fx_comm_add_records(comm_lst2):
+def fx_comm_add_records():
     print("------------test of fx_comm_add_records() function------------------")
     return comm_lst2
 ###################### end export commission records function ########################
@@ -770,8 +770,8 @@ def fx_int_debit_add_records(int_debit):
 # fx_int_debit_add_records(int_debit)
 ######################## print debit interest records ########################
 ###################### begin export debit interest records function ########################
-def fx_int_debit_add_records(int_debit):
-    print("------------test of fx_int_add_records() function------------------")
+def fx_int_debit_add_records():
+    print("------------test of fx_int_debit_add_records() function------------------")
     return int_debit
 ###################### end export debit interest records function ########################
 ################################# end FINANCING section #################################
@@ -855,20 +855,23 @@ for item in int_lst:
 
 ######################## print credit interest records ########################
 def fx_int_credit_add_records(int_credit):
-    print("------------test of fx_int_debit_add_records() function------------------")
+    print("------------test of fx_int_credit_add_records() function------------------")
     for log in int_credit:
         print(log)
 # fx_int_credit_add_records(int_credit)
 ######################## print credit interest records ########################
 
 ###################### begin export credit interest records function ###################
-def fx_int_credit_add_records(int_credit):
-    print("------------test of fx_int_add_records() function------------------")
+def fx_int_credit_add_records():
+    print("------------test of fx_int_credit_add_records() function------------------")
     return int_credit
 ###################### end export credit interest records function #####################
 ################################# end interest credit section #################################
 
 ################################# begin broker credit section #################################
+# add a decimal to each duplicate transaction id to avoid UNIQUE CONSTRAINT ERRORS
+count = .0
+
 # extract and format the dates of the broker credit transaction to YYYY-MM-DD
 # broker_credit contains the debit interest amounts in the broker data and formatted dates
 broker_credit = []
@@ -884,11 +887,12 @@ for item in broker_credit_lst:
         broker_credit_day = dmy[:2]
         broker_credit_ymd = f'{broker_credit_yr}-{broker_credit_mo}-{broker_credit_day}'
         bkr_cred_trans_id = f'{broker_credit_yr}{broker_credit_mo}{broker_credit_day}'
-        bkr_cred_trans_id = int(bkr_cred_trans_id)
+        bkr_cred_trans_id = float(bkr_cred_trans_id) + count
         broker_credit_yr = int(broker_credit_yr)
         broker_credit_mo = int(broker_credit_mo)
         broker_credit_day = int(broker_credit_day)
         broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,bkr_cred_trans_id,credit_received,broker])
+        count +=.01
 
     # DD/M/YYYY
     elif dmy[2] == '/' and dmy[4] == '/':
@@ -897,11 +901,12 @@ for item in broker_credit_lst:
         broker_credit_day = dmy[:2]
         broker_credit_ymd = f'{broker_credit_yr}-0{broker_credit_mo}-{broker_credit_day}'
         bkr_cred_trans_id = f'{broker_credit_yr}{broker_credit_mo}{broker_credit_day}'
-        bkr_cred_trans_id = int(bkr_cred_trans_id)
+        bkr_cred_trans_id = float(bkr_cred_trans_id) + count
         broker_credit_yr = int(broker_credit_yr)
         broker_credit_mo = int(broker_credit_mo)
         broker_credit_day = int(broker_credit_day)
         broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,bkr_cred_trans_id,credit_received,broker])
+        count +=.01
 
     # D/MM/YYYY
     elif dmy[1] == '/' and dmy[4] == '/':
@@ -910,11 +915,12 @@ for item in broker_credit_lst:
         broker_credit_day = dmy[0]
         broker_credit_ymd = f'{broker_credit_yr}-{broker_credit_mo}-0{broker_credit_day}'
         bkr_cred_trans_id = f'{broker_credit_yr}{broker_credit_mo}{broker_credit_day}'
-        bkr_cred_trans_id = int(bkr_cred_trans_id)
+        bkr_cred_trans_id = float(bkr_cred_trans_id) + count
         broker_credit_yr = int(broker_credit_yr)
         broker_credit_mo = int(broker_credit_mo)
         broker_credit_day = int(broker_credit_day)
         broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,bkr_cred_trans_id,credit_received,broker])
+        count +=.01
 
     # D/M/YYYY
     elif dmy[1] == '/' and dmy[3] == '/':
@@ -923,23 +929,24 @@ for item in broker_credit_lst:
         broker_credit_day = dmy[0]
         broker_credit_ymd = f'{broker_credit_yr}-0{broker_credit_mo}-0{broker_credit_day}'
         bkr_cred_trans_id = f'{broker_credit_yr}{broker_credit_mo}{broker_credit_day}'
-        bkr_cred_trans_id = int(bkr_cred_trans_id)
+        bkr_cred_trans_id = float(bkr_cred_trans_id) + count
         broker_credit_yr = int(broker_credit_yr)
         broker_credit_mo = int(broker_credit_mo)
         broker_credit_day = int(broker_credit_day)
         broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,bkr_cred_trans_id,credit_received,broker])
+        count +=.01
 
 ######################## print broker credit interest records ########################
 def fx_broker_credit_add_records(broker_credit):
-    print("------------test of fx_int_debit_add_records() function------------------")
+    print("------------test of fx_broker_credit_add_records() function------------------")
     for log in broker_credit:
         print(log)
 # fx_broker_credit_add_records(broker_credit)
 ######################## print broker credit interest records ########################
 
 ###################### begin export broker credit interest records function ###################
-def fx_broker_credit_add_records(broker_credit):
-    print("------------test of fx_int_add_records() function------------------")
+def fx_broker_credit_add_records():
+    print("------------test of fx_broker_credit_add_records() function------------------")
     return broker_credit
 ###################### end export broker credit interest records function #####################
 ################################# end broker credit section #################################
