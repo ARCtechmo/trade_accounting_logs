@@ -69,6 +69,41 @@ cur = conn.cursor()
 # database_dev_mode.time_log_show_all()
 ################################# Add time_log RECORDS #######################################
 
+
+
+############################# Begin duplicate trans_id test ###################################
+### START HERE NEXT ###
+
+# fx_log_rows contains a list of the rows in the fx_log table
+fx_log_rows = []
+def duplicates():
+    fx_log_data = cur.execute(''' SELECT * FROM fx_log ''')
+    for row in fx_log_data:
+        row = list(row)
+        fx_log_rows.append(row)
+
+    count = 0
+    count2 = .01
+    log_entry = fx_dev_mode.fxlog_add_records()
+    for item in log_entry:
+        print(item)
+        if item[11] == fx_log_rows[count][11]:
+            item[11] = item[11] + count2
+            count +=1
+            count2 +=.01
+        elif item[12] == fx_log_rows[count][12]:
+            item[12] = item[12] + count2
+            count +=1
+            count2 +=.01
+        else:
+            pass
+    for item in log_entry:
+        print(item)
+duplicates()
+############################# End duplicate trans_id test ###################################
+
+
+
 ################################## Begin add fx_log RECORDS ################################################
 # add fx_log records
 # fx_log_rows contains a list of the rows in the fx_log table
