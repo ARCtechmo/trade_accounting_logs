@@ -2,7 +2,7 @@
 # this app will import and clean the forex broker data from a .csv file
 import csv
 import re
-
+import random
 # read the .csv data
 # filename = input("enter the .csv filename: ")
 # with open(filename, newline='') as csvfile:
@@ -35,7 +35,7 @@ broker_id = int(input("enter the broker_id from the database (2-7): "))
 # separate the buy / se//, commission, financing, and interest credit items
 filename = input("enter the .csv filename: ")
 if filename == '':
-    filename = 'fx_month_test.csv'
+    filename = 'fx_jan_test.csv'
 with open(filename, newline='') as csvfile:
     reader = csv.reader(csvfile)
     # next(csvfile) # removes the header - comment out if .csv file has no header
@@ -359,6 +359,17 @@ for net in fxlst3:
     net = float(net)
     net_lst.append(net)
 
+### START HERE NEXT ###
+# the key works; experiment; maybe add two additional random numbers
+# repeate the process for the other sections
+# create a key
+key_lst = []
+for num in fxlst3:
+    unique_key = num[1][3]
+    unique_key = f'{int(unique_key)}{random.randrange(1000,9999)}'
+    unique_key = int(unique_key)
+    key_lst.append(unique_key)
+
 # fxloglst will contain the finalized formatted list to import into the app
 fxlog = []
 count = 0
@@ -368,12 +379,12 @@ broker_id_lst = [broker_id]
 
 
 # print("\n-----------complete fxloglst----------------")
-for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, gross, net, broker in zip(
+for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, gross, net, broker, key in zip(
     fxlst4, fxlst5, marketlst,
     close_id_lst, open_id_lst,
     buy_sell_lst, trade_size_lst,
     open_price_lst, close_price_lst,
-    gross_lst, net_lst, broker_id_lst
+    gross_lst, net_lst, broker_id_lst, key_lst
     ):
 
     entry_yr = entry[0:4]
@@ -400,13 +411,13 @@ for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, g
                 [entry, entry_yr, entry_mo, entry_day, entry_time,
                 exit, exit_yr, exit_mo, exit_day, exit_time,
                 market, close_id, open_id, buy_sell, trade_size, open, close, gross, net,
-                broker]
+                broker, key]
                 )
 ########################### print all rows #################################
 def fxlog_add_records(fxlog):
     for log in fxlog:
         print(log)
-# fxlog_add_records(fxlog)
+fxlog_add_records(fxlog)
 ########################### print all rows #################################
 
 ########################### begin export records function #################################
