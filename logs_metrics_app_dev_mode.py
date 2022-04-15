@@ -72,8 +72,6 @@ cur = conn.cursor()
 
 
 ############################# Begin duplicate trans_id test ###################################
-### START HERE NEXT ###
-
 # fx_log_rows contains a list of the rows in the fx_log table
 fx_log_rows = []
 def duplicates():
@@ -86,17 +84,23 @@ def duplicates():
     count2 = .01
     log_entry = fx_dev_mode.fxlog_add_records()
     for item in log_entry:
-        print(item)
         if item[11] == fx_log_rows[count][11]:
             item[11] = item[11] + count2
             count +=1
             count2 +=.01
-        elif item[12] == fx_log_rows[count][12]:
-            item[12] = item[12] + count2
-            count +=1
-            count2 +=.01
         else:
             pass
+
+    count = 0
+    count3 = .01
+    for item in log_entry:
+        if item[12] == fx_log_rows[count][12]:
+            item[12] = item[12] + count3
+            count +=1
+            count3 +=.01
+        else:
+            pass
+    print("\n-----------modified duplicate close / open transaction ids-------------------")
     for item in log_entry:
         print(item)
 duplicates()
@@ -138,7 +142,7 @@ def export_fx_log_records():
     print("\n--------------TEST: rows to export into fx_log table-------------------")
     print(export_fx_log_entry_lst)
     log_entry = export_fx_log_entry_lst
-    database_dev_mode.fx_log_add_many(log_entry)
+    # database_dev_mode.fx_log_add_many(log_entry)
 
     print("---------------successfully added fx_log records to the db------------------\n")
 
@@ -438,6 +442,6 @@ def export_fx_broker_credit_records():
 ############################## QUERY THE DATABASE ##################################
 
 ############################## CLOSE THE DATABASE ##################################
-print("app closed....")
-conn.close()
+# print("app closed....")
+# conn.close()
 ############################## QUERY THE DATABASE ##################################
