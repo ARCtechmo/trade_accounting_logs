@@ -1,3 +1,41 @@
+commit 5c3615dea5f25227b7470e46a667b11b6e01ffa5
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Apr 16 13:34:53 2022 -0400
+
+    amended the code that adds unique keys to the fxlog_add_records(),
+    fx_comm_add_records(),fx_int_debit_add_records(), fx_int_credit_add_records(),
+    and fx_broker_credit_add_records() functions; next I need to address
+    the unmatche records but I may need to do this in the logs_metrics_app_dev_mode.py
+    file
+
+commit 6ddfc48d827526ef88c267a9e087aa723b1ccc69
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Fri Apr 15 16:35:48 2022 -0400
+
+    updated the fxlog_add_records() function to add a unique key in the
+    last column; next continue to test and experiment to ensure I get a
+    unique key then repeat this process for the other functions
+
+commit 083baf18b553f62c295be3fb1631a9277e4a39fd
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Fri Apr 15 15:20:41 2022 -0400
+
+    added a duplicates function to account for duplicate close / open
+    transaction ids
+
+commit f040dfbd449c83e2739431c852daadfaec77f5da
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Thu Apr 14 19:30:58 2022 -0400
+
+    added a new duplicates function in sections 75-102 to identify duplicate
+    transaction ids and modify them; continue work on the function
+
+commit ee928c5e80c3eddcd48dec41aab33640d574bc02
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Mon Apr 11 13:53:35 2022 -0400
+
+    updated the log file
+
 commit 0bb0fda3f24eff1d34e82ad5f5e2d10e81af8052
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Mon Apr 11 13:52:26 2022 -0400
