@@ -2,7 +2,6 @@
 # this app will import and clean the forex broker data from a .csv file
 import csv
 import re
-import random
 # read the .csv data
 # filename = input("enter the .csv filename: ")
 # with open(filename, newline='') as csvfile:
@@ -35,7 +34,7 @@ broker_id = int(input("enter the broker_id from the database (2-7): "))
 # separate the buy / se//, commission, financing, and interest credit items
 filename = input("enter the .csv filename: ")
 if filename == '':
-    filename = 'fx_jan_test.csv'
+    filename = 'fx_feb_test.csv'
 with open(filename, newline='') as csvfile:
     reader = csv.reader(csvfile)
     # next(csvfile) # removes the header - comment out if .csv file has no header
@@ -262,29 +261,6 @@ for dmy in fxlst3:
             formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
             fxlst5.append(formatted_exit_date)
 
-# tested the entry and exit dates for one one year of data and the code works
-# print("---------Unformatted Entry Dates-------------------")
-# for y in fxlst3:
-#     print(y[0])
-# print("----------------------------------------------\n")
-
-# fxlst4 is a list of clean and properly formatted entry dates
-# print("---------Formatted Entry Dates-------------------")
-# for item in fxlst4:
-#     print(item)
-# print("------------------------------------------------\n")
-
-# compare the original exit date format to the formatted exit dates
-# print("---------Unformatted Exit Dates-------------------")
-# for y in fxlst3:
-#     print(y[1][0])
-# print("------------------------------------------------\n")
-
-# fxlst5 is a list of clean and properly formatted entry dates
-# print("---------Formatted Exit Dates-------------------\n")
-# for item in fxlst5:
-#     print(item)
-
 # extract the currency pairs from fxlst3
 # marketlst contains the formatted market (e.g. EURUSD, AUDJPY, etc...)
 marketlst = []
@@ -359,20 +335,26 @@ for net in fxlst3:
     net = float(net)
     net_lst.append(net)
 
-### START HERE NEXT ###
-# the key works; experiment; maybe add two additional random numbers
-# repeate the process for the other sections
-# create a key
+# create a unique key for each transaction
 key_lst = []
 for num in fxlst3:
-    unique_key = num[1][3]
-    unique_key = f'{int(unique_key)}{random.randrange(1000,9999)}'
+    entry_ymd_key = f'{num[0][6:10]}{num[0][3:5]}{num[0][:2]}'
+    exit_ymd_key = f'{num[1][0][6:10]}{num[1][0][3:5]}{num[1][0][:2]}'
+    entry_min_sec_key = f'{num[0][11:13]}{num[0][14:16]}'
+    exit_min_sec_key = f'{num[1][0][11:13]}{num[1][0][14:16]}'
+    close_open_key = num[1][2] + num[1][3]
+    unique_key = f'{entry_ymd_key}{entry_min_sec_key}{close_open_key}{exit_ymd_key}{exit_min_sec_key}'
+
+    entry_ymd_key = int(entry_ymd_key)
+    exit_ymd_key = int(exit_ymd_key)
+    entry_min_sec_key = int(entry_min_sec_key)
+    exit_min_sec_key = int(exit_min_sec_key)
+    close_open_key = int(close_open_key)
     unique_key = int(unique_key)
     key_lst.append(unique_key)
 
 # fxloglst will contain the finalized formatted list to import into the app
 fxlog = []
-count = 0
 
 # the broker_id is a list to make it iterable to add the broker key during the loop
 broker_id_lst = [broker_id]
@@ -413,11 +395,12 @@ for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, g
                 market, close_id, open_id, buy_sell, trade_size, open, close, gross, net,
                 broker, key]
                 )
+
 ########################### print all rows #################################
 def fxlog_add_records(fxlog):
     for log in fxlog:
         print(log)
-fxlog_add_records(fxlog)
+# fxlog_add_records(fxlog)
 ########################### print all rows #################################
 
 ########################### begin export records function #################################
@@ -427,14 +410,7 @@ def fxlog_add_records():
     return fxlog
 ########################### end export records function #################################
 
-# fxlst is the original list
-# for row in fxlst:
-#     print(row)
-
-# unmatched open_ids
-# for id in unmatched_lst:
-#     print(id)
-
+########################### Begin unmatched records #################################
 # unmatched_fxlst contains rows with open transactionns only (no open and close)
 # print("\n----------------rows with an unmatched transaction-------------")
 unmatched_fxlst = []
@@ -589,11 +565,13 @@ for unmatched_entry, unmatched_exit, unmatched_market, unmatched_close_id, \
              unmatched_buy_sell, unmatched_trade_size,
              unmatched_open, unmatched_close, unmatched_gross, unmatched_net, broker]
             )
-print("\n-------------------formatted unmatched logs-----------------------------")
-# ########################### print unmatched rows #################################
-# def fxlog_add_unmatched_records(unmatched_fxlog):
-    # for log in unmatched_fxlog:
-        # print(log)
+########################### End unmatched records #################################
+
+############################ print unmatched rows #################################
+def fxlog_add_unmatched_records(unmatched_fxlog):
+    print("\n---------formatted unmatched logs---------------")
+    for log in unmatched_fxlog:
+        print(log)
 # fxlog_add_unmatched_records(unmatched_fxlog)
 # print("-------------------formatted unmatched logs-----------------------------")
 ########################### print unmatched rows #################################
@@ -610,27 +588,12 @@ def fx_unmatched_add_records():
 ################################# begin COMMISSIONS section #################################
 # extract and format the dates of the commission transaction to YYYY-MM-DD
 
-# trans_id_temp_lst contains a list of modified duplicate transaction id casted as floats
-trans_id_temp_lst = []
-
-count = .0
-for item in comm_lst:
-    trans_id = item[3]
-    trans_id = float(trans_id)
-    trans_id = trans_id + count
-    trans_id_temp_lst.append(trans_id)
-    count +=.01
-
-# extract and format the dates of the credit interest transaction to YYYY-MM-DD
-count = 0
-
 # comm_lst2 contains the commission amounts in the broker data and formatted dates
 comm_lst2 = []
 for item in comm_lst:
-    comm_cost = item[12][0:7]
-    comm_cost = float(comm_cost)
+    trans_id = int(item[3])
+    comm_cost = float(item[12][0:7])
     dmy = item[0]
-    trans_id = trans_id_temp_lst[count]
 
     # DD/MM/YYYY
     if dmy[2] == '/' and dmy[5] == '/':
@@ -642,7 +605,6 @@ for item in comm_lst:
         comm_mo = int(comm_mo)
         comm_day = int(comm_day)
         comm_lst2.append([comm_ymd,comm_yr,comm_mo,comm_day,trans_id,comm_cost,broker])
-        count +=1
 
     # DD/M/YYYY
     elif dmy[2] == '/' and dmy[4] == '/':
@@ -654,7 +616,6 @@ for item in comm_lst:
         comm_mo = int(comm_mo)
         comm_day = int(comm_day)
         comm_lst2.append([comm_ymd,comm_yr,comm_mo,comm_day,trans_id,comm_cost,broker])
-        count +=1
 
     # D/MM/YYYY
     elif dmy[1] == '/' and dmy[4] == '/':
@@ -666,7 +627,6 @@ for item in comm_lst:
         comm_mo = int(comm_mo)
         comm_day = int(comm_day)
         comm_lst2.append([comm_ymd,comm_yr,comm_mo,comm_day,trans_id,comm_cost,broker])
-        count +=1
 
     # D/M/YYYY
     elif dmy[1] == '/' and dmy[3] == '/':
@@ -678,8 +638,15 @@ for item in comm_lst:
         comm_mo = int(comm_mo)
         comm_day = int(comm_day)
         comm_lst2.append([comm_ymd,comm_yr,comm_mo,comm_day,trans_id,comm_cost,broker])
-        count +=1
 
+for item in comm_lst2:
+    year_key = item[0][:4]
+    month_key = item[0][5:7]
+    day_key = item[0][8:10]
+    trans_key = item[4]
+    comm_key = f'{year_key}{month_key}{day_key}{trans_key}'
+    comm_key = int(comm_key)
+    item.append(comm_key)
 ######################## print commission records ########################
 def fx_comm_add_records(comm_lst2):
     print("------------test of fx_comm_add_records() function------------------")
@@ -696,34 +663,16 @@ def fx_comm_add_records():
 ################################# end COMMISSIONS section #################################
 
 ################################# begin FINANCING section #################################
-# add a decimal to each duplicate transaction id to avoid UNIQUE CONSTRAINT ERRORS
-
-count = .0
-# trans_id_temp_lst contains a list of modified duplicate transaction id casted as floats
-trans_id_temp_lst = []
-for item in int_lst:
-    int_item = item[12][:7]
-    int_item = float(int_item)
-    if int_item <0:
-        trans_id = item[3]
-        trans_id = float(trans_id)
-        trans_id = trans_id + count
-        trans_id_temp_lst.append(trans_id)
-        count +=.01
-
-# extract and format the dates of the credit interest transaction to YYYY-MM-DD
-count = 0
-
 # extract and format the dates of the debit interest transaction to YYYY-MM-DD
 # int_debit contains the debit interest amounts in the broker data and formatted dates
 int_debit = []
 for item in int_lst:
-    int_item = item[12][0:7]
+    int_item = item[12][:7]
     int_item = float(int_item)
     dmy = item[0]
     if int_item < 0:
         int_paid = int_item
-        trans_id = trans_id_temp_lst[count]
+        trans_id = item[3]
 
         # DD/MM/YYYY
         if dmy[2] == '/' and dmy[5] == '/':
@@ -735,7 +684,6 @@ for item in int_lst:
             int_debit_mo = int(int_debit_mo)
             int_debit_day = int(int_debit_day)
             int_debit.append([int_debit_ymd,int_debit_yr,int_debit_mo,int_debit_day,trans_id,int_paid,broker])
-            count +=1
 
         # DD/M/YYYY
         elif dmy[2] == '/' and dmy[4] == '/':
@@ -747,7 +695,6 @@ for item in int_lst:
             int_debit_mo = int(int_debit_mo)
             int_debit_day = int(int_debit_day)
             int_debit.append([int_debit_ymd,int_debit_yr,int_debit_mo,int_debit_day,trans_id,int_paid,broker])
-            count +=1
 
         # D/MM/YYYY
         elif dmy[1] == '/' and dmy[4] == '/':
@@ -759,7 +706,6 @@ for item in int_lst:
             int_debit_mo = int(int_debit_mo)
             int_debit_day = int(int_debit_day)
             int_debit.append([int_debit_ymd,int_debit_yr,int_debit_mo,int_debit_day,trans_id,int_paid,broker])
-            count +=1
 
         # D/M/YYYY
         elif dmy[1] == '/' and dmy[3] == '/':
@@ -771,8 +717,15 @@ for item in int_lst:
             int_debit_mo = int(int_debit_mo)
             int_debit_day = int(int_debit_day)
             int_debit.append([int_debit_ymd,int_debit_yr,int_debit_mo,int_debit_day,trans_id,int_paid,broker])
-            count +=1
 
+for item in int_debit:
+    year_key = item[0][:4]
+    month_key = item[0][5:7]
+    day_key = item[0][8:10]
+    trans_key = item[4]
+    int_debit_key = f'{year_key}{month_key}{day_key}{trans_key}'
+    int_debit_key = int(int_debit_key)
+    item.append(int_debit_key)
 ######################## print debit interest records ########################
 def fx_int_debit_add_records(int_debit):
     print("------------test of fx_int_debit_add_records() function------------------")
@@ -788,33 +741,17 @@ def fx_int_debit_add_records():
 ################################# end FINANCING section #################################
 
 ################################# begin interest credit section #################################
-# add a decimal to each duplicate transaction id to avoid UNIQUE CONSTRAINT ERRORS
-
-count = .0
-# trans_id_temp_lst contains a list of modified duplicate transaction id casted as floats
-trans_id_temp_lst = []
-for item in int_lst:
-    int_item = item[12][:7]
-    int_item = float(int_item)
-    if int_item >0:
-        trans_id = item[3]
-        trans_id = float(trans_id)
-        trans_id = trans_id + count
-        trans_id_temp_lst.append(trans_id)
-        count +=.01
-
 # extract and format the dates of the credit interest transaction to YYYY-MM-DD
-count = 0
 
 # int_credit contains the debit interest amounts in the broker data and formatted dates
 int_credit = []
 for item in int_lst:
-    int_item = item[12][0:7]
+    int_item = item[12][:7]
     int_item = float(int_item)
     dmy = item[0]
     if int_item > 0:
         int_received = int_item
-        trans_id = trans_id_temp_lst[count]
+        trans_id = item[3]
 
         # DD/MM/YYYY
         if dmy[2] == '/' and dmy[5] == '/':
@@ -826,7 +763,6 @@ for item in int_lst:
             int_credit_mo = int(int_credit_mo)
             int_credit_day = int(int_credit_day)
             int_credit.append([int_credit_ymd,int_credit_yr,int_credit_mo,int_credit_day,trans_id,int_received,broker])
-            count +=1
 
         # DD/M/YYYY
         elif dmy[2] == '/' and dmy[4] == '/':
@@ -838,7 +774,6 @@ for item in int_lst:
             int_credit_mo = int(int_credit_mo)
             int_credit_day = int(int_credit_day)
             int_credit.append([int_credit_ymd,int_credit_yr,int_credit_mo,int_credit_day,trans_id,int_received,broker])
-            count +=1
 
         # D/MM/YYYY
         elif dmy[1] == '/' and dmy[4] == '/':
@@ -850,7 +785,6 @@ for item in int_lst:
             int_credit_mo = int(int_credit_mo)
             int_credit_day = int(int_credit_day)
             int_credit.append([int_credit_ymd,int_credit_yr,int_credit_mo,int_credit_day,trans_id,int_received,broker])
-            count +=1
 
         # D/M/YYYY
         elif dmy[1] == '/' and dmy[3] == '/':
@@ -862,8 +796,15 @@ for item in int_lst:
             int_credit_mo = int(int_credit_mo)
             int_credit_day = int(int_credit_day)
             int_credit.append([int_credit_ymd,int_credit_yr,int_credit_mo,int_credit_day,trans_id,int_received,broker])
-            count +=1
 
+for item in int_credit:
+    year_key = item[0][:4]
+    month_key = item[0][5:7]
+    day_key = item[0][8:10]
+    trans_key = item[4]
+    int_credit_key = f'{year_key}{month_key}{day_key}{trans_key}'
+    int_credit_key = int(int_credit_key)
+    item.append(int_credit_key)
 ######################## print credit interest records ########################
 def fx_int_credit_add_records(int_credit):
     print("------------test of fx_int_credit_add_records() function------------------")
@@ -880,9 +821,6 @@ def fx_int_credit_add_records():
 ################################# end interest credit section #################################
 
 ################################# begin broker credit section #################################
-# add a decimal to each duplicate transaction id to avoid UNIQUE CONSTRAINT ERRORS
-count = .0
-
 # extract and format the dates of the broker credit transaction to YYYY-MM-DD
 # broker_credit contains the debit interest amounts in the broker data and formatted dates
 broker_credit = []
@@ -897,13 +835,10 @@ for item in broker_credit_lst:
         broker_credit_mo = dmy[3:5]
         broker_credit_day = dmy[:2]
         broker_credit_ymd = f'{broker_credit_yr}-{broker_credit_mo}-{broker_credit_day}'
-        bkr_cred_trans_id = f'{broker_credit_yr}{broker_credit_mo}{broker_credit_day}'
-        bkr_cred_trans_id = float(bkr_cred_trans_id) + count
         broker_credit_yr = int(broker_credit_yr)
         broker_credit_mo = int(broker_credit_mo)
         broker_credit_day = int(broker_credit_day)
-        broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,bkr_cred_trans_id,credit_received,broker])
-        count +=.01
+        broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,credit_received,broker])
 
     # DD/M/YYYY
     elif dmy[2] == '/' and dmy[4] == '/':
@@ -911,13 +846,10 @@ for item in broker_credit_lst:
         broker_credit_mo = dmy[3]
         broker_credit_day = dmy[:2]
         broker_credit_ymd = f'{broker_credit_yr}-0{broker_credit_mo}-{broker_credit_day}'
-        bkr_cred_trans_id = f'{broker_credit_yr}{broker_credit_mo}{broker_credit_day}'
-        bkr_cred_trans_id = float(bkr_cred_trans_id) + count
         broker_credit_yr = int(broker_credit_yr)
         broker_credit_mo = int(broker_credit_mo)
         broker_credit_day = int(broker_credit_day)
-        broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,bkr_cred_trans_id,credit_received,broker])
-        count +=.01
+        broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,credit_received,broker])
 
     # D/MM/YYYY
     elif dmy[1] == '/' and dmy[4] == '/':
@@ -925,13 +857,10 @@ for item in broker_credit_lst:
         broker_credit_mo = dmy[2:4]
         broker_credit_day = dmy[0]
         broker_credit_ymd = f'{broker_credit_yr}-{broker_credit_mo}-0{broker_credit_day}'
-        bkr_cred_trans_id = f'{broker_credit_yr}{broker_credit_mo}{broker_credit_day}'
-        bkr_cred_trans_id = float(bkr_cred_trans_id) + count
         broker_credit_yr = int(broker_credit_yr)
         broker_credit_mo = int(broker_credit_mo)
         broker_credit_day = int(broker_credit_day)
-        broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,bkr_cred_trans_id,credit_received,broker])
-        count +=.01
+        broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,credit_received,broker])
 
     # D/M/YYYY
     elif dmy[1] == '/' and dmy[3] == '/':
@@ -939,14 +868,20 @@ for item in broker_credit_lst:
         broker_credit_mo = dmy[2]
         broker_credit_day = dmy[0]
         broker_credit_ymd = f'{broker_credit_yr}-0{broker_credit_mo}-0{broker_credit_day}'
-        bkr_cred_trans_id = f'{broker_credit_yr}{broker_credit_mo}{broker_credit_day}'
-        bkr_cred_trans_id = float(bkr_cred_trans_id) + count
         broker_credit_yr = int(broker_credit_yr)
         broker_credit_mo = int(broker_credit_mo)
         broker_credit_day = int(broker_credit_day)
-        broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,bkr_cred_trans_id,credit_received,broker])
-        count +=.01
+        broker_credit.append([broker_credit_ymd,broker_credit_yr,broker_credit_mo,broker_credit_day,credit_received,broker])
 
+for item in broker_credit:
+    year_key = item[0][:4]
+    month_key = item[0][5:7]
+    day_key = item[0][8:10]
+    item[4] = str(item[4])
+    broker_credit_key = f'{year_key}{month_key}{day_key}{item[4][:2]}{item[4][3:5]}'
+    broker_credit_key = int(broker_credit_key)
+    item[4] = float(item[4])
+    item.append(broker_credit_key)
 ######################## print broker credit interest records ########################
 def fx_broker_credit_add_records(broker_credit):
     print("------------test of fx_broker_credit_add_records() function------------------")
