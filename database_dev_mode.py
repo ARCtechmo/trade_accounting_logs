@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS time_log(
     FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
         ON UPDATE CASCADE
     );
+
 CREATE TABLE IF NOT EXISTS fx_log(
     entry_date TEXT NOT NULL,
     entry_year INTEGER NOT NULL,
@@ -47,8 +48,8 @@ CREATE TABLE IF NOT EXISTS fx_log(
     exit_day INTEGER NOT NULL,
     exit_time TEXT NOT NULL,
     market TEXT NOT NULL,
-    close_id INTEGER NOT NULL UNIQUE,
-    open_id INTEGER NOT NULL UNIQUE,
+    close_id INTEGER NOT NULL,
+    open_id INTEGER NOT NULL,
     close_buy_sell TEXT NOT NULL,
     trade_size INTEGER NOT NULL,
     open_price REAL NOT NULL,
@@ -56,6 +57,7 @@ CREATE TABLE IF NOT EXISTS fx_log(
     gross REAL NOT NULL,
     net REAL NOT NULL,
     broker_id INTEGER NOT NULL,
+    transaction_number INTEGER NOT NULL UNIQUE,
     FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
         ON UPDATE CASCADE
     );
@@ -81,6 +83,7 @@ CREATE TABLE IF NOT EXISTS fx_unmatched(
     gross REAL,
     net REAL,
     broker_id INTEGER NOT NULL,
+    transaction_number INTEGER NOT NULL UNIQUE,
     FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
         ON UPDATE CASCADE
     );
@@ -90,9 +93,10 @@ CREATE TABLE IF NOT EXISTS fx_commissions(
     entry_year INTEGER,
     entry_month INTEGER,
     entry_day INTEGER,
-    transaction_id INTEGER NOT NULL UNIQUE,
+    transaction_id INTEGER NOT NULL,
     commissions_cost INTEGER,
     broker_id INTEGER NOT NULL,
+    transaction_number INTEGER NOT NULL UNIQUE,
     FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
         ON UPDATE CASCADE
     );
@@ -102,9 +106,10 @@ CREATE TABLE IF NOT EXISTS fx_interest_debit(
     entry_year INTEGER,
     entry_month INTEGER,
     entry_day INTEGER,
-    transaction_id INTEGER NOT NULL UNIQUE,
+    transaction_id INTEGER NOT NULL,
     interest_debit INTEGER,
     broker_id INTEGER NOT NULL,
+    transaction_number INTEGER NOT NULL UNIQUE,
     FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
         ON UPDATE CASCADE
     );
@@ -114,9 +119,10 @@ CREATE TABLE IF NOT EXISTS fx_interest_income(
     entry_year INTEGER,
     entry_month INTEGER,
     entry_day INTEGER,
-    transaction_id INTEGER NOT NULL UNIQUE,
+    transaction_id INTEGER NOT NULL,
     interest_credit INTEGER,
     broker_id INTEGER NOT NULL,
+    transaction_number INTEGER NOT NULL UNIQUE,
     FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
         ON UPDATE CASCADE
     );
@@ -126,12 +132,12 @@ CREATE TABLE IF NOT EXISTS fx_broker_credit_income(
     entry_year INTEGER,
     entry_month INTEGER,
     entry_day INTEGER,
-    transaction_id INTEGER NOT NULL UNIQUE,
     broker_credit INTEGER,
     broker_id INTEGER NOT NULL,
+    transaction_number INTEGER NOT NULL UNIQUE,
     FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
         ON UPDATE CASCADE
-        )
+    )
 ''')
 print("---------------------table creation successful----------------------")
 # brokers_table_functions
@@ -206,7 +212,7 @@ print("-------------time_log_show_all_func created successfully----------------"
 # insert data into the fx_log_table
 def fx_log_add_many(log_entry):
     with conn:
-        cur.executemany("INSERT INTO fx_log VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
+        cur.executemany("INSERT INTO fx_log VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
         print("\n-------------add_many executed successfully-----------------\n")
         conn.commit()
 print("\n-------------fx_log_add_many_func created successfully----------------\n")
@@ -222,7 +228,7 @@ print("-------------fx_log_show_all_func created successfully----------------")
 # insert data into the fx_unmatched table
 def fx_unmatched_add_many(log_entry):
     with conn:
-        cur.executemany("INSERT INTO fx_unmatched VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
+        cur.executemany("INSERT INTO fx_unmatched VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
         print("\n-------------add_many executed successfully-----------------")
         conn.commit()
 print("-------------fx_unmatched_add_many func created successfully----------------")
@@ -239,7 +245,7 @@ print("------------- fx_unmatched_show_all func created successfully------------
 # insert data into the fx_commissions table
 def fx_commissions_add_many(log_entry):
     with conn:
-        cur.executemany("INSERT INTO fx_commissions VALUES(?,?,?,?,?,?,?)", (log_entry), )
+        cur.executemany("INSERT INTO fx_commissions VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         print("\n-------------fx_commissions_add_many executed successfully-----------------")
         conn.commit()
 print("-------------fx_commissions_add_many func created successfully----------------")
@@ -256,7 +262,7 @@ print("------------- fx_commissions_show_all func created successfully----------
 # insert data into the fx_interest_debit table
 def fx_interest_debit_add_many(log_entry):
     with conn:
-        cur.executemany("INSERT INTO fx_interest_debit VALUES(?,?,?,?,?,?,?)", (log_entry), )
+        cur.executemany("INSERT INTO fx_interest_debit VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         print("\n-------------fx_interest_debit_add_many executed successfully-----------------")
         conn.commit()
 print("-------------fx_interest_debit_add_many func created successfully----------------")
@@ -273,7 +279,7 @@ print("------------- fx_interest_debit_show_all func created successfully-------
 # insert data into the fx_interest_income table
 def fx_interest_credit_add_many(log_entry):
     with conn:
-        cur.executemany("INSERT INTO fx_interest_income VALUES(?,?,?,?,?,?,?)", (log_entry), )
+        cur.executemany("INSERT INTO fx_interest_income VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         print("\n-------------fx_interest_credit_add_many() func executed successfully-----------------")
         conn.commit()
 print("-------------fx_interest_credit_add_many() func func created successfully----------------")
@@ -290,7 +296,7 @@ print("------------- fx_interest_credit_show_all func created successfully------
 # insert data into the fx_broker_credit_income table
 def fx_broker_credit_income_add_many(log_entry):
     with conn:
-        cur.executemany("INSERT INTO fx_broker_credit_income VALUES(?,?,?,?,?,?,?)", (log_entry), )
+        cur.executemany("INSERT INTO fx_broker_credit_income VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         print("\n-------------fx_broker_credit_income_add_many() func executed successfully-----------------")
         conn.commit()
 print("-------------fx_broker_credit_income_add_many() func func created successfully----------------")
