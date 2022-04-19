@@ -338,17 +338,21 @@ for net in fxlst3:
 # create a unique key for each transaction
 key_lst = []
 for num in fxlst3:
-    entry_ymd_key = f'{num[0][6:10]}{num[0][3:5]}{num[0][:2]}'
-    exit_ymd_key = f'{num[1][0][6:10]}{num[1][0][3:5]}{num[1][0][:2]}'
-    entry_min_sec_key = f'{num[0][11:13]}{num[0][14:16]}'
-    exit_min_sec_key = f'{num[1][0][11:13]}{num[1][0][14:16]}'
-    close_open_key = num[1][2] + num[1][3]
-    unique_key = f'{entry_ymd_key}{entry_min_sec_key}{close_open_key}{exit_ymd_key}{exit_min_sec_key}'
+    # print(num)
+    entry_year_key = f'{num[0][8:10]}'
+    entry_month_key = f'{num[0][3:5]}'
+    entry_day_key = f'{num[0][:2]}'
+    exit_month_key = f'{num[1][0][3:5]}'
+    exit_day_key = f'{num[1][0][:2]}'
+    close_open_key = num[1][2][-4:] + num[1][3][-4:]
+    unique_key = f'{entry_year_key}{entry_month_key}{entry_day_key}{exit_month_key}{exit_day_key}{close_open_key}'
 
-    entry_ymd_key = int(entry_ymd_key)
-    exit_ymd_key = int(exit_ymd_key)
-    entry_min_sec_key = int(entry_min_sec_key)
-    exit_min_sec_key = int(exit_min_sec_key)
+    entry_year_key = int(entry_year_key)
+    entry_month_key = int(entry_month_key)
+    entry_day_key = int(entry_day_key)
+    exit_month_key = int(exit_month_key)
+    exit_day_key = int(exit_day_key)
+
     close_open_key = int(close_open_key)
     unique_key = int(unique_key)
     key_lst.append(unique_key)
@@ -400,7 +404,7 @@ for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, g
 def fxlog_add_records(fxlog):
     for log in fxlog:
         print(log)
-# fxlog_add_records(fxlog)
+fxlog_add_records(fxlog)
 ########################### print all rows #################################
 
 ########################### begin export records function #################################
