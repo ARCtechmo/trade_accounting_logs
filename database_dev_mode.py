@@ -83,7 +83,6 @@ CREATE TABLE IF NOT EXISTS fx_unmatched(
     gross REAL,
     net REAL,
     broker_id INTEGER NOT NULL,
-    transaction_number INTEGER NOT NULL UNIQUE,
     FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
         ON UPDATE CASCADE
     );
@@ -228,7 +227,7 @@ print("-------------fx_log_show_all_func created successfully----------------")
 # insert data into the fx_unmatched table
 def fx_unmatched_add_many(log_entry):
     with conn:
-        cur.executemany("INSERT INTO fx_unmatched VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
+        cur.executemany("INSERT INTO fx_unmatched VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
         print("\n-------------add_many executed successfully-----------------")
         conn.commit()
 print("-------------fx_unmatched_add_many func created successfully----------------")
@@ -296,7 +295,7 @@ print("------------- fx_interest_credit_show_all func created successfully------
 # insert data into the fx_broker_credit_income table
 def fx_broker_credit_income_add_many(log_entry):
     with conn:
-        cur.executemany("INSERT INTO fx_broker_credit_income VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
+        cur.executemany("INSERT INTO fx_broker_credit_income VALUES(?,?,?,?,?,?,?)", (log_entry), )
         print("\n-------------fx_broker_credit_income_add_many() func executed successfully-----------------")
         conn.commit()
 print("-------------fx_broker_credit_income_add_many() func func created successfully----------------")
@@ -311,7 +310,6 @@ def fx_broker_credit_income_add_many_show_all():
 print("------------- fx_broker_credit_income_add_many_show_all func created successfully----------------")
 
 conn.commit()
-
 ############################# CLOSE THE DATABASE ##############################
 print("\n-------------database closed---------------------")
 conn.close()
