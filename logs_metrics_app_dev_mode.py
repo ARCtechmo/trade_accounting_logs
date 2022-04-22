@@ -69,45 +69,6 @@ cur = conn.cursor()
 # database_dev_mode.time_log_show_all()
 ################################# Add time_log RECORDS #######################################
 
-
-
-############################# Begin duplicate trans_id test ###################################
-# fx_log_rows contains a list of the rows in the fx_log table
-fx_log_rows = []
-def duplicates():
-    fx_log_data = cur.execute(''' SELECT * FROM fx_log ''')
-    for row in fx_log_data:
-        row = list(row)
-        fx_log_rows.append(row)
-
-    count = 0
-    count2 = .01
-    log_entry = fx_dev_mode.fxlog_add_records()
-    for item in log_entry:
-        if item[11] == fx_log_rows[count][11]:
-            item[11] = item[11] + count2
-            count +=1
-            count2 +=.01
-        else:
-            pass
-
-    count = 0
-    count3 = .01
-    for item in log_entry:
-        if item[12] == fx_log_rows[count][12]:
-            item[12] = item[12] + count3
-            count +=1
-            count3 +=.01
-        else:
-            pass
-    print("\n-----------modified duplicate close / open transaction ids-------------------")
-    for item in log_entry:
-        print(item)
-duplicates()
-############################# End duplicate trans_id test ###################################
-
-
-
 ################################## Begin add fx_log RECORDS ################################################
 # add fx_log records
 # fx_log_rows contains a list of the rows in the fx_log table
@@ -142,7 +103,7 @@ def export_fx_log_records():
     print("\n--------------TEST: rows to export into fx_log table-------------------")
     print(export_fx_log_entry_lst)
     log_entry = export_fx_log_entry_lst
-    # database_dev_mode.fx_log_add_many(log_entry)
+    database_dev_mode.fx_log_add_many(log_entry)
 
     print("---------------successfully added fx_log records to the db------------------\n")
 
@@ -218,20 +179,37 @@ def export_matched_record():
         matched_rows_lst.append(item)
     print(matched_rows_lst)
 
-    for entry in matched_rows_lst:
-        if entry in fx_log_data:
-            print("\n-------------TRUE TEST FOR UNIQUE CONSRAINT------------")
-            print(entry)
-            pass
-        else:
-            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
-            print(entry)
-            export_matched_rows_lst.append(entry)
+    ## START HERE NEXT ###
+    # append the unique transaction identifier to each matched record from the unmatched table
+    for item in matched_rows_lst:
+        item = list(item)
+        item[11] = str(item[11])
+        item[12] = str(item[12])
+        entry_year_key = f'{item[0][2:4]}'
+        entry_month_key = f'{item[0][5:7]}'
+        entry_day_key = f'{item[0][8:10]}'
+        exit_month_key = f'{item[5][5:7]}'
+        exit_day_key = f'{item[5][8:10]}'
+        close_open_key = item[11][-4:] + item[12][-4:]
+        unique_key = f'{entry_year_key}-{entry_month_key}-{entry_day_key}-{exit_month_key}-{exit_day_key}-{close_open_key}'
+
+        # unique_key = int(unique_key)
+        item.append(unique_key)
+
+    # for entry in matched_rows_lst:
+    #     if entry in fx_log_data:
+    #         print("\n-------------TRUE TEST FOR UNIQUE CONSRAINT------------")
+    #         print(entry)
+    #         pass
+    #     else:
+    #         print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
+    #         print(entry)
+    #         export_matched_rows_lst.append(entry)
 
     print("\n-----test of list to export---------")
     print(export_matched_rows_lst)
     log_entry = export_matched_rows_lst
-    database_dev_mode.fx_log_add_many(log_entry)
+    # database_dev_mode.fx_log_add_many(log_entry)
 
 # export_matched_record()
 ############################ End add matched records to fx_log table #########################
