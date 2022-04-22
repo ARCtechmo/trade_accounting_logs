@@ -338,7 +338,6 @@ for net in fxlst3:
 # create a unique key for each transaction
 key_lst = []
 for num in fxlst3:
-    # print(num)
     entry_year_key = f'{num[0][8:10]}'
     entry_month_key = f'{num[0][3:5]}'
     entry_day_key = f'{num[0][:2]}'
@@ -404,7 +403,7 @@ for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, g
 def fxlog_add_records(fxlog):
     for log in fxlog:
         print(log)
-fxlog_add_records(fxlog)
+# fxlog_add_records(fxlog)
 ########################### print all rows #################################
 
 ########################### begin export records function #################################
@@ -576,8 +575,8 @@ def fxlog_add_unmatched_records(unmatched_fxlog):
     print("\n---------formatted unmatched logs---------------")
     for log in unmatched_fxlog:
         print(log)
-# fxlog_add_unmatched_records(unmatched_fxlog)
-# print("-------------------formatted unmatched logs-----------------------------")
+fxlog_add_unmatched_records(unmatched_fxlog)
+print("-------------------formatted unmatched logs-----------------------------")
 ########################### print unmatched rows #################################
 
 ########################### begin export unmatched records function ######################
@@ -643,14 +642,16 @@ for item in comm_lst:
         comm_day = int(comm_day)
         comm_lst2.append([comm_ymd,comm_yr,comm_mo,comm_day,trans_id,comm_cost,broker])
 
+### investigate further ###
+### notice that item.append() works without creating a list.  Is this a new feature in Python??
 for item in comm_lst2:
-    year_key = item[0][:4]
-    month_key = item[0][5:7]
-    day_key = item[0][8:10]
-    trans_key = item[4]
-    comm_key = f'{year_key}{month_key}{day_key}{trans_key}'
-    comm_key = int(comm_key)
-    item.append(comm_key)
+    entry_year_key = f'{item[0][2:4]}'
+    entry_month_key = f'{item[0][5:7]}'
+    entry_day_key = f'{item[0][8:10]}'
+    comm_trans_id = f'{item[4]}'
+    comm_unique_key = f'{entry_year_key}{entry_month_key}{entry_day_key}{comm_trans_id}'
+    comm_unique_key = int(comm_unique_key)
+    item.append(comm_unique_key)
 ######################## print commission records ########################
 def fx_comm_add_records(comm_lst2):
     print("------------test of fx_comm_add_records() function------------------")
@@ -723,13 +724,15 @@ for item in int_lst:
             int_debit.append([int_debit_ymd,int_debit_yr,int_debit_mo,int_debit_day,trans_id,int_paid,broker])
 
 for item in int_debit:
-    year_key = item[0][:4]
-    month_key = item[0][5:7]
-    day_key = item[0][8:10]
-    trans_key = item[4]
-    int_debit_key = f'{year_key}{month_key}{day_key}{trans_key}'
-    int_debit_key = int(int_debit_key)
-    item.append(int_debit_key)
+    item[4] = int(item[4])
+    entry_year_key = f'{item[0][2:4]}'
+    entry_month_key = f'{item[0][5:7]}'
+    entry_day_key = f'{item[0][8:10]}'
+    int_debit_trans_key = item[4]
+    int_debit_unique_key = f'{entry_year_key}{entry_month_key}{entry_day_key}{int_debit_trans_key}'
+
+    int_debit_unique_key = int(int_debit_unique_key)
+    item.append(int_debit_unique_key)
 ######################## print debit interest records ########################
 def fx_int_debit_add_records(int_debit):
     print("------------test of fx_int_debit_add_records() function------------------")
@@ -802,13 +805,15 @@ for item in int_lst:
             int_credit.append([int_credit_ymd,int_credit_yr,int_credit_mo,int_credit_day,trans_id,int_received,broker])
 
 for item in int_credit:
-    year_key = item[0][:4]
-    month_key = item[0][5:7]
-    day_key = item[0][8:10]
-    trans_key = item[4]
-    int_credit_key = f'{year_key}{month_key}{day_key}{trans_key}'
-    int_credit_key = int(int_credit_key)
-    item.append(int_credit_key)
+    item[4] = int(item[4])
+    entry_year_key = f'{item[0][2:4]}'
+    entry_month_key = f'{item[0][5:7]}'
+    entry_day_key = f'{item[0][8:10]}'
+    int_credit_trans_key = item[4]
+    int_credit_unique_key = f'{entry_year_key}{entry_month_key}{entry_day_key}{int_credit_trans_key}'
+
+    int_credit_unique_key = int(int_credit_unique_key)
+    item.append(int_credit_unique_key)
 ######################## print credit interest records ########################
 def fx_int_credit_add_records(int_credit):
     print("------------test of fx_int_credit_add_records() function------------------")
