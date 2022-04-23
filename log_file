@@ -1,3 +1,66 @@
+commit 9534428bec56578cb6455ca7fbe773e40655297f
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Apr 23 12:58:14 2022 -0400
+
+    updated the export_matched_record() function to add code in section 182-216 that
+    add a unique transaction id to each matched record from the unmatched table;
+    successfully imported trade transaction records for from all of the .csv data
+    so everything is working; next test importing the commission / interest and broker
+    credit data;
+
+commit 9c3f773ba4ea6132940087198cf1eb6ea1fd9683
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Fri Apr 22 14:28:35 2022 -0400
+
+    Added the documentation file
+
+commit 6ca581a45898793c2bfb9190e751dbb88835ffa2
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Fri Apr 22 14:26:07 2022 -0400
+
+    added section 182-194 under the export_matched_record() function;
+    will write code to generate a unique transaction key identifier and
+    export the record into the fx_log table
+
+commit 2bf793d33a2fe92c2365b6638425c3684c4876af
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Fri Apr 22 14:24:00 2022 -0400
+
+    updated the fx_broker_credit_add_records(), fx_int_credit_add_records(),
+    and the fx_int_debit_add_records() functions to add a uique transaction
+    key identifier
+
+commit 8ca47ca8212fa4935dcfaac72acd9b278a1940eb
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Fri Apr 22 14:22:04 2022 -0400
+
+    corrected some binding errors in the fx_unmatched_add_many() and the
+    fx_matched_add_many() functions
+
+commit cb7164512339c24001a0048cecdbc3ecbdb0a2e2
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Tue Apr 19 10:38:20 2022 -0400
+
+    modified sections 342-348 in the fxlog_add_records() function that creates
+    a unique transaction key identifier; shortened the length of the key so the
+    sqlite3 db will accept it; sucessfully imported the records into
+    the db with the shortened key; next do the same for the other functions
+
+commit 8eb7750fd005e611ebc8091bcc16c8ec333c9c9d
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Mon Apr 18 17:41:43 2022 -0400
+
+    add columns to the tables for the transaction_numbers that will help
+    to avoid UNIQUE CONSTRAINT ERRORS; however, the number is too long
+    for the database with max 8 bytes.  I will need to alter the length
+    of the number to a max 10 characters
+
+commit fb5edfe167126fc5cfa567e39b79f0dd73bc53e3
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Mon Apr 18 17:41:22 2022 -0400
+
+    updated the log file
+
 commit 944b1283539531ee02ede4e1261c2fffdab99412
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sat Apr 16 13:38:59 2022 -0400
