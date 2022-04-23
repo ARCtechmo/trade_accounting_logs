@@ -155,8 +155,7 @@ def export_matched_record():
     print("--------------check_constraint function test -------------")
 
     # matched_rows_lst contains rows with matched open / close transactions
-    # however, some of these rows are duplicates in the fx_log table...
-    # and cause a UNIQUE CONSTRAINT ERROR
+    # however, some of these rows are duplicates in the fx_log table and may cause a UNIQUE CONSTRAINT ERROR
     matched_rows_lst = []
 
     # export_matched_rows_lst filters out the duplicate matched open / close transactions
@@ -165,6 +164,7 @@ def export_matched_record():
 
     # new_lst is a list that contains the fx_log rows
     new_lst = []
+
 
     print("\n---------rows in fx_log table----------")
     fx_log_data = cur.execute(''' SELECT * FROM fx_log ''')
@@ -177,10 +177,12 @@ def export_matched_record():
     log_entry = match()
     for item in log_entry:
         matched_rows_lst.append(item)
-    print(matched_rows_lst)
+    # print(matched_rows_lst)
 
-    ## START HERE NEXT ###
     # append the unique transaction identifier to each matched record from the unmatched table
+    # create a unique key for each transaction
+    key_lst = []
+    print("---------------test: add key----------------------------------")
     for item in matched_rows_lst:
         item = list(item)
         item[11] = str(item[11])
@@ -191,34 +193,43 @@ def export_matched_record():
         exit_month_key = f'{item[5][5:7]}'
         exit_day_key = f'{item[5][8:10]}'
         close_open_key = item[11][-4:] + item[12][-4:]
-        unique_key = f'{entry_year_key}-{entry_month_key}-{entry_day_key}-{exit_month_key}-{exit_day_key}-{close_open_key}'
+        unique_key = f'{entry_year_key}{entry_month_key}{entry_day_key}{exit_month_key}{exit_day_key}{close_open_key}'
 
-        # unique_key = int(unique_key)
-        item.append(unique_key)
+        entry_year_key = int(entry_year_key)
+        entry_month_key = int(entry_month_key)
+        entry_day_key = int(entry_day_key)
+        exit_month_key = int(exit_month_key)
+        exit_day_key = int(exit_day_key)
 
-    # for entry in matched_rows_lst:
-    #     if entry in fx_log_data:
-    #         print("\n-------------TRUE TEST FOR UNIQUE CONSRAINT------------")
-    #         print(entry)
-    #         pass
-    #     else:
-    #         print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
-    #         print(entry)
-    #         export_matched_rows_lst.append(entry)
+        close_open_key = int(close_open_key)
+        unique_key = int(unique_key)
+        key_lst.append(unique_key)
+
+    # matched_rows_lst contains the matched rows from the unmatched tabel with unique transaction ids
+    matched_rows_lst2 = []
+    for record, key in zip(matched_rows_lst, key_lst):
+        record = list(record)
+        record.append(key)
+        record = tuple(record)
+        matched_rows_lst2.append((record))
+
+    for entry in matched_rows_lst2:
+        if entry in fx_log_data:
+            print("\n-------------TRUE TEST FOR UNIQUE CONSRAINT------------")
+            print(entry)
+            pass
+        else:
+            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
+            print(entry)
+            export_matched_rows_lst.append(entry)
 
     print("\n-----test of list to export---------")
     print(export_matched_rows_lst)
     log_entry = export_matched_rows_lst
-    # database_dev_mode.fx_log_add_many(log_entry)
+    database_dev_mode.fx_log_add_many(log_entry)
 
 # export_matched_record()
 ############################ End add matched records to fx_log table #########################
-
-######################### Begin show all rows in the fx_log table #########################
-def show_all():
-    database_dev_mode.fx_log_show_all()
-# show_all()
-######################### End show all rows in the fx_log table #########################
 
 ############################ Begin add records to fx_commissions table #######################
 # fx_commission_rows contains a list of the rows in the commissions table
@@ -419,7 +430,13 @@ def export_fx_broker_credit_records():
 ##### query the fx_log #####
 ############################## QUERY THE DATABASE ##################################
 
+######################### Begin show all rows in the fx_log table #########################
+def show_all():
+    database_dev_mode.fx_log_show_all()
+# show_all()
+######################### End show all rows in the fx_log table #########################
+
 ############################## CLOSE THE DATABASE ##################################
-# print("app closed....")
-# conn.close()
+print("app closed....")
+conn.close()
 ############################## QUERY THE DATABASE ##################################
