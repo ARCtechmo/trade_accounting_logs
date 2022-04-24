@@ -107,7 +107,7 @@ def export_fx_log_records():
 
     print("---------------successfully added fx_log records to the db------------------\n")
 
-# export_fx_log_records()
+export_fx_log_records()
 ################################# End add fx_log RECORDS ################################################
 
 ################################# Begin add fx_unmatched RECORDS ######################################
@@ -116,7 +116,7 @@ def export_unmatched_records():
     log_entry = fx_dev_mode.fx_unmatched_add_records()
     database_dev_mode.fx_unmatched_add_many(log_entry)
     print("---------------successfully added fx_log records to the db------------------\n")
-# export_unmatched_records()
+export_unmatched_records()
 ################################# End add fx_unmatched RECORDS ######################################
 
 ############################ Begin add matched RECORDS TO fx_log RECORDS #########################
@@ -228,7 +228,7 @@ def export_matched_record():
     log_entry = export_matched_rows_lst
     database_dev_mode.fx_log_add_many(log_entry)
 
-# export_matched_record()
+export_matched_record()
 ############################ End add matched records to fx_log table #########################
 
 ############################ Begin add records to fx_commissions table #######################
@@ -267,7 +267,7 @@ def export_fx_commissions_records():
     database_dev_mode.fx_commissions_add_many(log_entry)
     print("---------------successfully added fx_commissions records to the db------------------\n")
 
-# export_fx_commissions_records()
+export_fx_commissions_records()
 ############################ End add records to fx_commissions table #########################
 
 ############################ Begin add records to interest_debit table #######################
@@ -306,7 +306,7 @@ def export_fx_interest_debit_records():
     database_dev_mode.fx_interest_debit_add_many(log_entry)
     print("---------------successfully added fx_interest_debit records to the db------------------\n")
 
-# export_fx_interest_debit_records()
+export_fx_interest_debit_records()
 ############################ End add records to interest_debit table #########################
 
 ############################ Begin add records to fx_interest_income table #######################
@@ -343,7 +343,7 @@ def export_fx_interest_credit_records():
     database_dev_mode.fx_interest_credit_add_many(log_entry)
     print("---------------successfully added fx_interest_income records to the db------------------\n")
 
-# export_fx_interest_credit_records()
+export_fx_interest_credit_records()
 ############################ End add records to fx_interest_income table #########################
 
 ############################ Begin add records to fx_broker_credit_income table ###################
@@ -380,7 +380,7 @@ def export_fx_broker_credit_records():
     database_dev_mode.fx_broker_credit_income_add_many(log_entry)
     print("---------------successfully added fx_broker_credit_income records to the db------------------\n")
 
-# export_fx_broker_credit_records()
+export_fx_broker_credit_records()
 ############################ End add records to broker_credit_income table #####################
 
 ############################## QUERY THE DATABASE ##################################
