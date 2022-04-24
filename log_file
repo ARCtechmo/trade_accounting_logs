@@ -1,3 +1,33 @@
+commit 9f8ee8115bc5ed1061cb9d278c3b021537e31d53
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Apr 24 12:00:16 2022 -0400
+
+    this version of the code is running accurately with the
+    logs_metrics_app_dev_mode.py file; successfully uploaded one year
+    of records to the fx_log table without any errors
+
+commit 32e46291138e8fbb396aa73efd0a5d8ebb9ee58b
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Apr 24 11:56:14 2022 -0400
+
+    sucessfully uploaded one years of files to the fx_log table without
+    any erros and confirmed the output with sql queries; next upload data
+    to the other commission, interest, and broker_credit tables; so
+    far this is working great!! once complete use git tag to tag this
+    version
+
+commit a53cf968d19404ba30c8c69e3d09f37264bd7c08
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Apr 23 13:11:39 2022 -0400
+
+    updated the bugs file
+
+commit b24ec5be41fe4fff6ab6e61796234230ae57e714
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Apr 23 13:02:20 2022 -0400
+
+    updated the log file
+
 commit 9534428bec56578cb6455ca7fbe773e40655297f
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sat Apr 23 12:58:14 2022 -0400
