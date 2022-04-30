@@ -1,0 +1,18 @@
+development phase test results
+
+
+4/30/2022 logs_metrics_app_dev_mode.py upload .csv files for each month and  query data test results:
+ran sql queries on each month for commissions, realized P&L, financing, and broker credits;
+the sql queries for comissions, realized P&L, and  borker credits all returned the correct results
+the interest debit / credit returned correct results on the data that I modified
+problems / issues:
+1. I was unable to build a query to add the interst_debit / credit from the two tables
+
+
+4/30/2022 logs_metrics_app_dev_mode.py upload entire year data from fx_2021_test.csv test results:
+the purpose was to test uploading the entire year's worth of data
+no errors occurred during the upload 
+problems / issues: 
+1. the program failed to upload all of the data and there were missing months
+
+
