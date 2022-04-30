@@ -1,2 +1,3 @@
 Known bugs and items that need to be fixed
 
+1. logs_metrics_app_dev_mode.py - You cannot upload one year's worth of data; upload one month at a time 
