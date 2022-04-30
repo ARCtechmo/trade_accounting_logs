@@ -173,11 +173,29 @@ FROM fx_log
 /* WHERE broker LIKE 'interactive%' */
 /* WHERE entry_time > '10:00' */
 
+/* select the interest_debit column  from the fx_interest_debit table */
+select fx_interest_debit.interest_debit from fx_interest_debit;
 
+/* sum  the interest_debit from  the fx_interest_debit table  */
+select sum(fx_interest_debit.interest_debit) from fx_interest_debit;
+select sum(interest_debit) from fx_interest_debit where entry_month = 1;
+select sum(fx_interest_debit.interest_debit) from fx_interest_debit where entry_month = 1;
 
+/* query the sum of the interest_debit and sum of the interest_ credit from the fx_interest_debit and fx_interest_income tables */
+select sum(interest_debit) from fx_interest_debit where entry_month = 1
+UNION ALL
+select sum(interest_credit) from fx_interest_income where entry_month = 1;
 
-
-
+/* query the commission, financing, realized P&L and broker credit */
+select sum(commissions_cost) from fx_commissions where entry_month = 1
+UNION ALL
+select sum(interest_debit) from fx_interest_debit where entry_month = 1
+UNION ALL
+select sum(interest_credit) from fx_interest_income where entry_month = 1
+UNION ALL
+select sum(gross) from fx_log where entry_month = 1
+UNION ALL 
+select sum(broker_credit) from fx_broker_credit_income where entry_month = 1;
 
 
 
