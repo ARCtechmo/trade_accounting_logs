@@ -1,0 +1,20 @@
+Section 1: Introduction
+The documentation provides a guide as to how to utilize the database and the set of python program files.
+This is not a completely automated system and the program is specifically designed to work with specific broker 
+data that is dowloaded and formatted in a specific manner.  
+
+Section 2: How to use the fx_dev_mode.py 
+1. This is a python file that takes a .csv file from a forex broker.  
+2. The program cleans and formats the data then exports the data to the logs_metrics_app_dev_mode.py file.  
+
+Here is the process to utilize the file:
+1. Log on to your broker account.
+2. Select the the month and range (first day to last day) and get the data.
+3. ***IMPORTANT*** Select the first and last day of the month.  Do not vary the data range.
+4. Select .csv format and download the file to the same directory as the fx_dev_mode.py file.
+5. ***IMPORTANT*** Select the broker number
+     -  This number should match the foreign key in the "brokers" table of the database
+     -  This number is tied to the foreign key relationships in the data and must be typed in correctly
+     -  If you select the wrong number this will result in incorrect relations in the database
+
+Section 3:  
