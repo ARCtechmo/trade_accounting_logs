@@ -26,19 +26,25 @@ FX Broker Data
 2. Note when you download the .csv file it automatically removes the header.  
 3. I manually inserted the header data for planning and programming purposes.
 4. The .csv file contains all of the essential data.
-5. Each trade can be easily tracked and logged by the opening and closing serial numbers. 
+5. Each trade can be easily tracked and logged by the opening and closing serial numbers.
+6. There are edge cases where the open / close transaction ids are not unique.  
+7. Create your own unique key due to the possibility of identical transaction ids. 
 
 Equity Options Broker Data 1:
+1. The data is accessible in .csv files and it is clean.
+2. The transactions data has most of the data necessary and can be dowloaded as a .csv file.  
+3. The transactions data do not contain the gross and net gain loss so this will need to be calculated in the program. 
+4. The transactions do contain the time format HH:mm but the time does not download to the .csv files.  
+5. Similar to the fx data the open / close transactions are not matched so you will need to match them in the program.
+6. You will need to find a solution to match the options expiration with the correct open transaction.
+7. You will need to add a debit / credit column to the table as a single column.    
+8. There are miscellaneous categories in the transaction data (miscellaneous, interest credit, journal entry credit)
+
+Equity Options Broker Data 2:
 1. The default monthly statement is accessible as a.csv file but the format is not clean. 
 2. The fields and rows of the default monthly statement are not organized in a logical fashion.  
 3. You will need to write a program to extract, clean and organize the data. 
 4. The relevant rows in the default .csv monthly statement are from 39-42 and 45-55. 
-
-Equity Options Broker Data 2:
-1. The data is accessible in .csv files and it is clean but it is not all in one place.
-2. There are two separate .csv files that combined have all the necessary data.  
-3. The two .csv files are transactions and cost_basis.
-3. You will need to write a program to combine the two. csv files, extract, clean and organize the data. 
 
 Futures / Options on Futures Broker Data
 1. The data is only accessible via .pdf files.  
