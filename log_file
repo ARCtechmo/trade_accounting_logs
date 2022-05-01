@@ -1,3 +1,54 @@
+commit 6d0d15d1095ebc95b634cf7c6f3c7403d7caa8d1
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Apr 30 14:12:17 2022 -0400
+
+    created the development_test_results file; updated to include
+    the initial test results for the logs_metrics_app_dev_mode.py file
+
+commit f899a8e0ba6b7b1546f6a9a66ca5fdbe41f967bf
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Apr 30 14:10:51 2022 -0400
+
+    updated the sql queries file
+
+commit 7a10d107687bf500a3aa9c2e5bc8598f82c08c49
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sat Apr 30 14:08:31 2022 -0400
+
+    updated the bugs file to include the test the sql query test results
+    and uploading data using the logs_metrics_app_dev_mode.py
+
+commit 900ab71d167b48b15847fd435479fa948332e640
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Apr 24 12:41:13 2022 -0400
+
+    updated the jpeg file for the transaction db layout
+
+commit df639c6118c1858e9710bc747b3ceba85833b5fa
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Apr 24 12:40:20 2022 -0400
+
+    updated the database design layout to add columns for transaction_number
+
+commit e30f5be33f116de72fa19d7824ebe3485a726c46
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Apr 24 12:39:36 2022 -0400
+
+    deleted a jpeg file for the etl
+
+commit 41ec46e5bf13bc9a5cdb90d2bdc4d8d85af41eb3
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Apr 24 12:06:25 2022 -0400
+
+    this version of the code is running accurately with the logs_metrics_app_dev_mode.py file;
+     successfully uploaded one year of records to the fx_log table without any errors
+
+commit a3384b7b40daf7e4e96ca4eea710b45fab825e1d
+Author: Rashawn <arctitan78@gmail.com>
+Date:   Sun Apr 24 12:03:24 2022 -0400
+
+    updated the log file
+
 commit 9f8ee8115bc5ed1061cb9d278c3b021537e31d53
 Author: Rashawn <arctitan78@gmail.com>
 Date:   Sun Apr 24 12:00:16 2022 -0400
