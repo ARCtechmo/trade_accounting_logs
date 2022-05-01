@@ -1,3 +1,10 @@
 Known bugs and items that need to be fixed
 
-1. logs_metrics_app_dev_mode.py - You cannot upload one year's worth of data; upload one month at a time 
+1. logs_metrics_app_dev_mode.py - You cannot upload one year's worth of data; upload one month at a tim
+
+
+2. fx_dev_mode.py  - .csv files with missing transaction data causes an error
+   .csv files that only contain "financing", "commission" and "broker credit" data will produce an error
+   when you upload the data you need to ensure it is not missing transaction data or the program may crash
+
+3. 
