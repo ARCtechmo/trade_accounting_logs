@@ -16,3 +16,12 @@ problems / issues:
 1. the program failed to upload all of the data and there were missing months
 
 
+5/1/2022 fx_dev_mode.py .csv files with missing transaction data causes an error
+I received a traceback error on line 610 the program did not recognize the "broker" variable
+some files worked fine while others produced an error; upon furter inspection I noticed the issue 
+is not with my program but with the broker data
+1. some of the .csv files are missing trade data; 
+2. specifically those .csv files that only contain "financing", "commission" and broker credit data
+   will produce an error
+3. when you upload the data you need to ensure it is not missing transaction data or the program may crash
+4. I will need to fix this so the program works regardless of missing transaction data
