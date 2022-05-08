@@ -86,5 +86,23 @@ for row in int_lst:
         row[7] = float(row[7])
         int_debit_lst.append([row[0],row[1],row[2],row[7]])
 
-for row in options_lst:
-    print(row)
+# symbol_info contains the symbols of the options transactions
+symbol_info = []
+
+### START HERE NEXT ###
+# 1) the values with 1 are the option expirations so match those items with the rows with "REMOVAL"
+# 2) idea: sold / symbol put matched with bought / put
+# match_symbols function matches the the buy / sell trades using the symbol column
+def match_symbols():
+    count = 0
+    di = dict()
+    for row in options_lst:
+        symbol_info.append(row[4])
+    for symb in symbol_info:
+        di[symb] = di.get(symb,0) +1
+    for key,value in di.items():
+        print(key, value)
+match_symbols()
+for row in symbol_info:
+    pass
+    # print(row)
