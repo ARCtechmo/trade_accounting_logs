@@ -89,7 +89,7 @@ for row in int_lst:
 # options_lst2 contains all rows with options transactions with properly formatted dates
 options_lst2 = []
 
-# for mat all of the dates to YYYY-MM-DD
+# options_date_format() function formats all of the dates to YYYY-MM-DD for the option transactions
 def options_date_format():
     for row in options_lst:
 
@@ -160,24 +160,379 @@ def options_date_format():
                 options_lst2.append([formatted_date,row[1],row[2],row[3],row[4],0.00,0.00])
 
     for row in options_lst2:
-        print(row)
-        # pass
+        # print(row)
+        pass
     print('-------------compare lengths-------------------')
-    print('Options_transactions_unformatted_dates_list_length: ',len(options_lst))
+    print('options_transactions_unformatted_dates_list_length: ',len(options_lst))
     print('options_transactions_formatted_dates_list_length: ',len(options_lst2))
-options_date_format()
+# options_date_format()
+
+# comm_lst2 contains all rows with commission transactions and properly formatted dates
+comm_lst2 = []
+
+# comm_date_format() function formats the dates to YYYY-MM-DD for the commission transactions
+def comm_date_format():
+    for row in comm_lst:
+
+        # M/DD/YYYY
+        if row[0][1] == '/' and row[0][4] == '/':
+            trans_mo = row[0][0]
+            trans_mo = f'0{trans_mo}'
+            trans_day = row[0][2:4]
+            trans_yr = row[0][5:9]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            row[2] = float(row[2])
+            comm_lst2.append([formatted_date,row[1],row[2]])
+
+        # M/D/YYYY
+        elif row[0][1] == '/' and row[0][3] == '/':
+            trans_mo = row[0][0]
+            trans_mo = f'0{trans_mo}'
+            trans_day = row[0][2]
+            trans_day = f'0{trans_day}'
+            trans_yr = row[0][4:8]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            row[2] = float(row[2])
+            comm_lst2.append([formatted_date,row[1],row[2]])
+
+        # MM/D/YYYY
+        elif row[0][2] == '/' and row[0][4] == '/':
+            trans_mo = row[0][:2]
+            trans_day = row[0][3]
+            trans_day = f'0{trans_day}'
+            trans_yr = row[0][5:9]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            row[2] = float(row[2])
+            comm_lst2.append([formatted_date,row[1],row[2]])
+
+        # MM/DD/YYYY
+        elif row[0][2] == '/' and row[0][5] == '/':
+            trans_mo = row[0][:2]
+            trans_day = row[0][3:5]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            row[2] = float(row[2])
+            comm_lst2.append([formatted_date,row[1],row[2]])
+
+    for row in comm_lst2:
+        # print(row)
+        pass
+
+    print('-------------compare lengths-------------------')
+    print('commission_transactions_unformatted_dates_list_length: ',len(comm_lst))
+    print('commission_transactions_formatted_dates_list_length: ',len(comm_lst2))
+
+# comm_date_format()
+
+# reg_fee_lst2 contains all rows with regulation fee transactions and properly formatted dates
+reg_fee_lst2 = []
+
+# reg_fee_date_format() function formats the dates to YYYY-MM-DD for the regulation fee transactions
+def reg_fee_date_format():
+    for row in reg_fee_lst:
+
+        # M/DD/YYYY
+        if row[0][1] == '/' and row[0][4] == '/':
+            trans_mo = row[0][0]
+            trans_mo = f'0{trans_mo}'
+            trans_day = row[0][2:4]
+            trans_yr = row[0][5:9]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            row[2] = float(row[2])
+            reg_fee_lst2.append([formatted_date,row[1],row[2]])
+
+        # M/D/YYYY
+        elif row[0][1] == '/' and row[0][3] == '/':
+            trans_mo = row[0][0]
+            trans_mo = f'0{trans_mo}'
+            trans_day = row[0][2]
+            trans_day = f'0{trans_day}'
+            trans_yr = row[0][4:8]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            row[2] = float(row[2])
+            reg_fee_lst2.append([formatted_date,row[1],row[2]])
+
+        # MM/D/YYYY
+        elif row[0][2] == '/' and row[0][4] == '/':
+            trans_mo = row[0][:2]
+            trans_day = row[0][3]
+            trans_day = f'0{trans_day}'
+            trans_yr = row[0][5:9]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            row[2] = float(row[2])
+            reg_fee_lst2.append([formatted_date,row[1],row[2]])
+
+        # MM/DD/YYYY
+        elif row[0][2] == '/' and row[0][5] == '/':
+            trans_mo = row[0][:2]
+            trans_day = row[0][3:5]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            row[2] = float(row[2])
+            reg_fee_lst2.append([formatted_date,row[1],row[2]])
+
+    for row in reg_fee_lst2:
+        print(row)
+        pass
+
+    print('-------------compare lengths-------------------')
+    print('regulation_fee_transactions_unformatted_dates_list_length: ',len(reg_fee_lst))
+    print('regulation_fee_transactions_formatted_dates_list_length: ',len(reg_fee_lst2))
+
+# reg_fee_date_format()
+
+# misc_income_lst2 contains the miscellaneous income transactions with properly formatted dates
+misc_income_lst2 = []
+
+# misc_income_date_format() function formats the dates to YYYY-MM-DD for the miscellaneous fee transactions
+def misc_income_date_format():
+    for row in misc_income_lst:
+
+        # M/DD/YYYY
+        if row[0][1] == '/' and row[0][4] == '/':
+            trans_mo = row[0][0]
+            trans_mo = f'0{trans_mo}'
+            trans_day = row[0][2:4]
+            trans_yr = row[0][5:9]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            misc_income_lst2.append([formatted_date,row[1],row[2],row[3]])
+
+        # M/D/YYYY
+        elif row[0][1] == '/' and row[0][3] == '/':
+            trans_mo = row[0][0]
+            trans_mo = f'0{trans_mo}'
+            trans_day = row[0][2]
+            trans_day = f'0{trans_day}'
+            trans_yr = row[0][4:8]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            misc_income_lst2.append([formatted_date,row[1],row[2],row[3]])
+
+        # MM/D/YYYY
+        elif row[0][2] == '/' and row[0][4] == '/':
+            trans_mo = row[0][:2]
+            trans_day = row[0][3]
+            trans_day = f'0{trans_day}'
+            trans_yr = row[0][5:9]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            misc_income_lst2.append([formatted_date,row[1],row[2],row[3]])
+
+        # MM/DD/YYYY
+        elif row[0][2] == '/' and row[0][5] == '/':
+            trans_mo = row[0][:2]
+            trans_day = row[0][3:5]
+            trans_yr = row[0][6:10]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            misc_income_lst2.append([formatted_date,row[1],row[2],row[3]])
+
+    for row in misc_income_lst2:
+        # print(row)
+        pass
+
+    print('-------------compare lengths-------------------')
+    print('misc_income_transactions_unformatted_dates_list_length: ',len(misc_income_lst))
+    print('misc_income_transactions_formatted_dates_list_length: ',len(misc_income_lst2))
+
+# misc_income_date_format()
+
+# misc_debit_lst2 contains the miscellaneous debit transactions with properly formatted dates
+misc_debit_lst2 = []
+
+# misc_debit_date_format() function formats the dates to YYYY-MM-DD for the miscellaneous fee transactions
+def misc_debit_date_format():
+    for row in misc_debit_lst:
+
+        # M/DD/YYYY
+        if row[0][1] == '/' and row[0][4] == '/':
+            trans_mo = row[0][0]
+            trans_mo = f'0{trans_mo}'
+            trans_day = row[0][2:4]
+            trans_yr = row[0][5:9]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            misc_debit_lst2.append([formatted_date,row[1],row[2],row[3]])
+
+        # M/D/YYYY
+        elif row[0][1] == '/' and row[0][3] == '/':
+            trans_mo = row[0][0]
+            trans_mo = f'0{trans_mo}'
+            trans_day = row[0][2]
+            trans_day = f'0{trans_day}'
+            trans_yr = row[0][4:8]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            misc_debit_lst2.append([formatted_date,row[1],row[2],row[3]])
+
+        # MM/D/YYYY
+        elif row[0][2] == '/' and row[0][4] == '/':
+            trans_mo = row[0][:2]
+            trans_day = row[0][3]
+            trans_day = f'0{trans_day}'
+            trans_yr = row[0][5:9]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            misc_debit_lst2.append([formatted_date,row[1],row[2],row[3]])
+
+        # MM/DD/YYYY
+        elif row[0][2] == '/' and row[0][5] == '/':
+            trans_mo = row[0][:2]
+            trans_day = row[0][3:5]
+            trans_yr = row[0][6:10]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            misc_debit_lst2.append([formatted_date,row[1],row[2],row[3]])
+
+    for row in misc_debit_lst2:
+        # print(row)
+        pass
+
+    print('-------------compare lengths-------------------')
+    print('misc_debit_transactions_unformatted_dates_list_length: ',len(misc_debit_lst))
+    print('misc_debit_transactions_formatted_dates_list_length: ',len(misc_debit_lst2))
+
+# misc_debit_date_format()
+
+
+# int_income_lst2 contains the interest income transactions with properly formatted dates
+int_income_lst2 = []
+
+# int_income_date_format() function formats the dates to YYYY-MM-DD for the interest income transactions
+def int_income_date_format():
+
+    for row in int_income_lst:
+
+        # M/DD/YYYY
+        if row[0][1] == '/' and row[0][4] == '/':
+            trans_mo = row[0][0]
+            trans_mo = f'0{trans_mo}'
+            trans_day = row[0][2:4]
+            trans_yr = row[0][5:9]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            int_income_lst2.append([formatted_date,row[1],row[2],row[3]])
+
+        # M/D/YYYY
+        elif row[0][1] == '/' and row[0][3] == '/':
+            trans_mo = row[0][0]
+            trans_mo = f'0{trans_mo}'
+            trans_day = row[0][2]
+            trans_day = f'0{trans_day}'
+            trans_yr = row[0][4:8]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            int_income_lst2.append([formatted_date,row[1],row[2],row[3]])
+
+        # MM/D/YYYY
+        elif row[0][2] == '/' and row[0][4] == '/':
+            trans_mo = row[0][:2]
+            trans_day = row[0][3]
+            trans_day = f'0{trans_day}'
+            trans_yr = row[0][5:9]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            int_income_lst2.append([formatted_date,row[1],row[2],row[3]])
+
+        # MM/DD/YYYY
+        elif row[0][2] == '/' and row[0][5] == '/':
+            trans_mo = row[0][:2]
+            trans_day = row[0][3:5]
+            trans_yr = row[0][6:10]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            int_income_lst2.append([formatted_date,row[1],row[2],row[3]])
+
+    for row in int_income_lst2:
+        # print(row)
+        pass
+
+    print('-------------compare lengths-------------------')
+    print('interest_income_transactions_unformatted_dates_list_length: ',len(int_income_lst))
+    print('interest_income_transactions_formatted_dates_list_length: ',len(int_income_lst2))
+
+# int_income_date_format()
+
+# int_debit_lst2 contains the interest debit transactions with properly formatted dates
+int_debit_lst2 = []
+
+# int_debit_date_format() function formats the dates to YYYY-MM-DD for the interest debit transactions
+def int_debit_date_format():
+
+    for row in int_debit_lst:
+
+        # M/DD/YYYY
+        if row[0][1] == '/' and row[0][4] == '/':
+            trans_mo = row[0][0]
+            trans_mo = f'0{trans_mo}'
+            trans_day = row[0][2:4]
+            trans_yr = row[0][5:9]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            int_debit_lst2.append([formatted_date,row[1],row[2],row[3]])
+
+        # M/D/YYYY
+        elif row[0][1] == '/' and row[0][3] == '/':
+            trans_mo = row[0][0]
+            trans_mo = f'0{trans_mo}'
+            trans_day = row[0][2]
+            trans_day = f'0{trans_day}'
+            trans_yr = row[0][4:8]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            int_debit_lst2.append([formatted_date,row[1],row[2],row[3]])
+
+        # MM/D/YYYY
+        elif row[0][2] == '/' and row[0][4] == '/':
+            trans_mo = row[0][:2]
+            trans_day = row[0][3]
+            trans_day = f'0{trans_day}'
+            trans_yr = row[0][5:9]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            int_debit_lst2.append([formatted_date,row[1],row[2],row[3]])
+
+        # MM/DD/YYYY
+        elif row[0][2] == '/' and row[0][5] == '/':
+            trans_mo = row[0][:2]
+            trans_day = row[0][3:5]
+            trans_yr = row[0][6:10]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            int_debit_lst2.append([formatted_date,row[1],row[2],row[3]])
+
+    for row in int_debit_lst2:
+        # print(row)
+        pass
+
+    print('-------------compare lengths-------------------')
+    print('interest_debit_transactions_unformatted_dates_list_length: ',len(int_debit_lst))
+    print('interest_debit_transactions_formatted_dates_list_length: ',len(int_debit_lst2))
+
+# int_debit_date_format()
 
 # symbol_info contains the symbols of the options transactions
 symbol_info = []
 
 ### START HERE NEXT ###
+# 1) test run all of the date_format functions together
+
+
+### CONTINUE WORK ON THIS SECTION ###
 # 1) the values with 1 are the option expirations so match those items with the rows with "REMOVAL"
 # 2) idea: sold / symbol put matched with bought / put
 # match_symbols function matches the the buy / sell trades using the symbol column
 def match_symbols():
     count = 0
     di = dict()
-    for row in options_lst:
+    for row in options_lst2:
         symbol_info.append(row[4])
     for symb in symbol_info:
         di[symb] = di.get(symb,0) +1
