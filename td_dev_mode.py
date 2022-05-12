@@ -86,6 +86,87 @@ for row in int_lst:
         row[7] = float(row[7])
         int_debit_lst.append([row[0],row[1],row[2],row[7]])
 
+# options_lst2 contains all rows with options transactions with properly formatted dates
+options_lst2 = []
+
+# for mat all of the dates to YYYY-MM-DD
+def options_date_format():
+    for row in options_lst:
+
+        # M/DD/YYYY
+        if row[0][1] == '/' and row[0][4] == '/':
+            trans_mo = row[0][0]
+            trans_mo = f'0{trans_mo}'
+            trans_day = row[0][2:4]
+            trans_yr = row[0][5:9]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            row[3] = int(row[3])
+            if row[2][0] == 'B' or row[2][0] == 'S':
+                row[5] = float(row[5])
+                row[6] = float(row[6])
+                options_lst2.append([formatted_date,row[1],row[2],row[3],row[4],row[5],row[6]])
+            elif row[2][0] == 'R':
+                options_lst2.append([formatted_date,row[1],row[2],row[3],row[4],0.00,0.00])
+
+        # M/D/YYYY
+        elif row[0][1] == '/' and row[0][3] == '/':
+            trans_mo = row[0][0]
+            trans_mo = f'0{trans_mo}'
+            trans_day = row[0][2]
+            trans_day = f'0{trans_day}'
+            trans_yr = row[0][4:8]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            row[3] = int(row[3])
+            if row[2][0] == 'B' or row[2][0] == 'S':
+                row[5] = float(row[5])
+                row[6] = float(row[6])
+                options_lst2.append([formatted_date,row[1],row[2],row[3],row[4],row[5],row[6]])
+            elif row[2][0] == 'R':
+                options_lst2.append([formatted_date,row[1],row[2],row[3],row[4],0.00,0.00])
+
+        # MM/D/YYYY
+        elif row[0][2] == '/' and row[0][4] == '/':
+            trans_mo = row[0][:2]
+            trans_day = row[0][3]
+            trans_day = f'0{trans_day}'
+            trans_yr = row[0][5:9]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            row[3] = int(row[3])
+            if row[2][0] == 'B' or row[2][0] == 'S':
+                row[5] = float(row[5])
+                row[6] = float(row[6])
+                options_lst2.append([formatted_date,row[1],row[2],row[3],row[4],row[5],row[6]])
+            elif row[2][0] == 'R':
+                options_lst2.append([formatted_date,row[1],row[2],row[3],row[4],0.00,0.00])
+
+        # MM/DD/YYYY
+        # Note: this code works but I don't know understand why
+        # trans_yr = row[0][6:10] produces output '[]' for the year
+        # I removed trans_yr and it got the correct result; should have produced an error
+        elif row[0][2] == '/' and row[0][5] == '/':
+            trans_mo = row[0][:2]
+            trans_day = row[0][3:5]
+            formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
+            row[1] = int(row[1])
+            row[3] = int(row[3])
+            if row[2][0] == 'B' or row[2][0] == 'S':
+                row[5] = float(row[5])
+                row[6] = float(row[6])
+                options_lst2.append([formatted_date,row[1],row[2],row[3],row[4],row[5],row[6]])
+            elif row[2][0] == 'R':
+                options_lst2.append([formatted_date,row[1],row[2],row[3],row[4],0.00,0.00])
+
+    for row in options_lst2:
+        print(row)
+        # pass
+    print('-------------compare lengths-------------------')
+    print('Options_transactions_unformatted_dates_list_length: ',len(options_lst))
+    print('options_transactions_formatted_dates_list_length: ',len(options_lst2))
+options_date_format()
+
 # symbol_info contains the symbols of the options transactions
 symbol_info = []
 
@@ -102,7 +183,7 @@ def match_symbols():
         di[symb] = di.get(symb,0) +1
     for key,value in di.items():
         print(key, value)
-match_symbols()
+# match_symbols()
 for row in symbol_info:
     pass
     # print(row)
