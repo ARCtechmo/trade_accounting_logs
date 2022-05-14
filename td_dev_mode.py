@@ -158,14 +158,15 @@ def options_date_format():
                 options_lst2.append([formatted_date,row[1],row[2],row[3],row[4],row[5],row[6]])
             elif row[2][0] == 'R':
                 options_lst2.append([formatted_date,row[1],row[2],row[3],row[4],0.00,0.00])
-
+    print("-----------------BEGIN TEST: options transactions----------------")
     for row in options_lst2:
-        # print(row)
-        pass
+        print(row)
     print('-------------compare lengths-------------------')
     print('options_transactions_unformatted_dates_list_length: ',len(options_lst))
     print('options_transactions_formatted_dates_list_length: ',len(options_lst2))
-# options_date_format()
+    print("-----------------END TEST: options transactions----------------\n\n")
+
+options_date_format()
 
 # comm_lst2 contains all rows with commission transactions and properly formatted dates
 comm_lst2 = []
@@ -216,16 +217,15 @@ def comm_date_format():
             row[1] = int(row[1])
             row[2] = float(row[2])
             comm_lst2.append([formatted_date,row[1],row[2]])
-
+    print("-----------------BEGIN TEST: commissions transactions----------------")
     for row in comm_lst2:
-        # print(row)
-        pass
-
+        print(row)
     print('-------------compare lengths-------------------')
     print('commission_transactions_unformatted_dates_list_length: ',len(comm_lst))
     print('commission_transactions_formatted_dates_list_length: ',len(comm_lst2))
+    print("-----------------END TEST: commissions transactions----------------\n\n")
 
-# comm_date_format()
+comm_date_format()
 
 # reg_fee_lst2 contains all rows with regulation fee transactions and properly formatted dates
 reg_fee_lst2 = []
@@ -276,16 +276,16 @@ def reg_fee_date_format():
             row[1] = int(row[1])
             row[2] = float(row[2])
             reg_fee_lst2.append([formatted_date,row[1],row[2]])
-
+    print("-----------------BEGIN TEST: regulation transactions----------------")
     for row in reg_fee_lst2:
         print(row)
-        pass
 
     print('-------------compare lengths-------------------')
     print('regulation_fee_transactions_unformatted_dates_list_length: ',len(reg_fee_lst))
     print('regulation_fee_transactions_formatted_dates_list_length: ',len(reg_fee_lst2))
+    print("-----------------END TEST: regulation transactions----------------\n\n")
 
-# reg_fee_date_format()
+reg_fee_date_format()
 
 # misc_income_lst2 contains the miscellaneous income transactions with properly formatted dates
 misc_income_lst2 = []
@@ -333,16 +333,16 @@ def misc_income_date_format():
             formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
             row[1] = int(row[1])
             misc_income_lst2.append([formatted_date,row[1],row[2],row[3]])
-
+    print("-----------------BEGIN TEST: misc_income transactions----------------")
     for row in misc_income_lst2:
-        # print(row)
-        pass
+        print(row)
 
     print('-------------compare lengths-------------------')
     print('misc_income_transactions_unformatted_dates_list_length: ',len(misc_income_lst))
     print('misc_income_transactions_formatted_dates_list_length: ',len(misc_income_lst2))
+    print("-----------------END TEST: misc_income transactions----------------\n\n")
 
-# misc_income_date_format()
+misc_income_date_format()
 
 # misc_debit_lst2 contains the miscellaneous debit transactions with properly formatted dates
 misc_debit_lst2 = []
@@ -390,16 +390,16 @@ def misc_debit_date_format():
             formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
             row[1] = int(row[1])
             misc_debit_lst2.append([formatted_date,row[1],row[2],row[3]])
-
+    print("-----------------BEGIN TEST: misc_debit transactions----------------")
     for row in misc_debit_lst2:
-        # print(row)
-        pass
+        print(row)
 
     print('-------------compare lengths-------------------')
     print('misc_debit_transactions_unformatted_dates_list_length: ',len(misc_debit_lst))
     print('misc_debit_transactions_formatted_dates_list_length: ',len(misc_debit_lst2))
+    print("-----------------END TEST: misc_debit transactions----------------\n\n")
 
-# misc_debit_date_format()
+misc_debit_date_format()
 
 
 # int_income_lst2 contains the interest income transactions with properly formatted dates
@@ -449,16 +449,16 @@ def int_income_date_format():
             formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
             row[1] = int(row[1])
             int_income_lst2.append([formatted_date,row[1],row[2],row[3]])
-
+    print("-----------------BEGIN TEST: int_income transactions----------------")
     for row in int_income_lst2:
-        # print(row)
-        pass
+        print(row)
 
     print('-------------compare lengths-------------------')
     print('interest_income_transactions_unformatted_dates_list_length: ',len(int_income_lst))
     print('interest_income_transactions_formatted_dates_list_length: ',len(int_income_lst2))
+    print("-----------------END TEST: int_income transactions----------------\n\n")
 
-# int_income_date_format()
+int_income_date_format()
 
 # int_debit_lst2 contains the interest debit transactions with properly formatted dates
 int_debit_lst2 = []
@@ -507,23 +507,19 @@ def int_debit_date_format():
             formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
             row[1] = int(row[1])
             int_debit_lst2.append([formatted_date,row[1],row[2],row[3]])
-
+    print("-----------------BEGIN TEST: int_debit transactions----------------")
     for row in int_debit_lst2:
-        # print(row)
-        pass
+        print(row)
 
     print('-------------compare lengths-------------------')
     print('interest_debit_transactions_unformatted_dates_list_length: ',len(int_debit_lst))
     print('interest_debit_transactions_formatted_dates_list_length: ',len(int_debit_lst2))
+    print("-----------------END TEST: int_debit transactions----------------\n\n")
 
-# int_debit_date_format()
+int_debit_date_format()
 
 # symbol_info contains the symbols of the options transactions
 symbol_info = []
-
-### START HERE NEXT ###
-# 1) test run all of the date_format functions together
-
 
 ### CONTINUE WORK ON THIS SECTION ###
 # 1) the values with 1 are the option expirations so match those items with the rows with "REMOVAL"
