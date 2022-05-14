@@ -159,8 +159,7 @@ def options_date_format():
             elif row[2][0] == 'R':
                 options_lst2.append([formatted_date,row[1],row[2],row[3],row[4],0.00,0.00])
     print("-----------------BEGIN TEST: options transactions----------------")
-    for row in options_lst2:
-        print(row)
+
     print('-------------compare lengths-------------------')
     print('options_transactions_unformatted_dates_list_length: ',len(options_lst))
     print('options_transactions_formatted_dates_list_length: ',len(options_lst2))
@@ -218,8 +217,7 @@ def comm_date_format():
             row[2] = float(row[2])
             comm_lst2.append([formatted_date,row[1],row[2]])
     print("-----------------BEGIN TEST: commissions transactions----------------")
-    for row in comm_lst2:
-        print(row)
+
     print('-------------compare lengths-------------------')
     print('commission_transactions_unformatted_dates_list_length: ',len(comm_lst))
     print('commission_transactions_formatted_dates_list_length: ',len(comm_lst2))
@@ -277,8 +275,6 @@ def reg_fee_date_format():
             row[2] = float(row[2])
             reg_fee_lst2.append([formatted_date,row[1],row[2]])
     print("-----------------BEGIN TEST: regulation transactions----------------")
-    for row in reg_fee_lst2:
-        print(row)
 
     print('-------------compare lengths-------------------')
     print('regulation_fee_transactions_unformatted_dates_list_length: ',len(reg_fee_lst))
@@ -334,8 +330,6 @@ def misc_income_date_format():
             row[1] = int(row[1])
             misc_income_lst2.append([formatted_date,row[1],row[2],row[3]])
     print("-----------------BEGIN TEST: misc_income transactions----------------")
-    for row in misc_income_lst2:
-        print(row)
 
     print('-------------compare lengths-------------------')
     print('misc_income_transactions_unformatted_dates_list_length: ',len(misc_income_lst))
@@ -391,8 +385,6 @@ def misc_debit_date_format():
             row[1] = int(row[1])
             misc_debit_lst2.append([formatted_date,row[1],row[2],row[3]])
     print("-----------------BEGIN TEST: misc_debit transactions----------------")
-    for row in misc_debit_lst2:
-        print(row)
 
     print('-------------compare lengths-------------------')
     print('misc_debit_transactions_unformatted_dates_list_length: ',len(misc_debit_lst))
@@ -450,8 +442,6 @@ def int_income_date_format():
             row[1] = int(row[1])
             int_income_lst2.append([formatted_date,row[1],row[2],row[3]])
     print("-----------------BEGIN TEST: int_income transactions----------------")
-    for row in int_income_lst2:
-        print(row)
 
     print('-------------compare lengths-------------------')
     print('interest_income_transactions_unformatted_dates_list_length: ',len(int_income_lst))
@@ -508,8 +498,6 @@ def int_debit_date_format():
             row[1] = int(row[1])
             int_debit_lst2.append([formatted_date,row[1],row[2],row[3]])
     print("-----------------BEGIN TEST: int_debit transactions----------------")
-    for row in int_debit_lst2:
-        print(row)
 
     print('-------------compare lengths-------------------')
     print('interest_debit_transactions_unformatted_dates_list_length: ',len(int_debit_lst))
@@ -518,23 +506,48 @@ def int_debit_date_format():
 
 int_debit_date_format()
 
-# symbol_info contains the symbols of the options transactions
-symbol_info = []
+# options_lst3 contains the options log records along with another unique transaction number
+options_lst3 = []
 
-### CONTINUE WORK ON THIS SECTION ###
-# 1) the values with 1 are the option expirations so match those items with the rows with "REMOVAL"
-# 2) idea: sold / symbol put matched with bought / put
-# match_symbols function matches the the buy / sell trades using the symbol column
-def match_symbols():
-    count = 0
-    di = dict()
+# options_add_trans_num() functions creates a unique transaction number for each options log record
+def options_add_trans_num():
     for row in options_lst2:
-        symbol_info.append(row[4])
-    for symb in symbol_info:
-        di[symb] = di.get(symb,0) +1
-    for key,value in di.items():
-        print(key, value)
-# match_symbols()
-for row in symbol_info:
+        row[1] = str(row[1])
+        trans_num = f'{row[0][2:4]}{row[0][5:7]}{row[0][8:10]}{row[1][-6:]}'
+        trans_num = int(trans_num)
+        options_lst3.append([row[0],row[0][2:4],row[0][5:7],row[0][8:10],row[1],row[2],row[3],row[4],row[5],row[6],trans_num])
+
+options_add_trans_num()
+
+### START HERE NEXT ###
+# comm_add_trans_num() functions creates a unique transaction number for each options log record
+def comm_add_trans_num():
     pass
-    # print(row)
+comm_add_trans_num()
+
+# reg_fee_trans_num() functions creates a unique transaction number for each options log record
+def reg_fee_trans_num():
+    pass
+reg_fee_trans_num()
+
+# misc_income_trans_num() functions creates a unique transaction number for each options log record
+def misc_income_trans_num():
+    pass
+misc_income_trans_num()
+
+# misc_debit_trans_num() functions creates a unique transaction number for each options log record
+def misc_debit_trans_num():
+    pass
+misc_debit_trans_num()
+
+# int_income_trans_num() functions creates a unique transaction number for each options log record
+def int_income_trans_num():
+    pass
+int_income_trans_num()
+
+# int_debit_trans_num() functions creates a unique transaction number for each options log record
+def int_debit_trans_num():
+    pass
+int_debit_trans_num()
+
+# next setup of functions formats the data types and addes the broker key to each record
