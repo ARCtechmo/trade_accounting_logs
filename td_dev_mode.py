@@ -1,6 +1,7 @@
 ### UNDER DEVELOPMENT ###
 # this app will import and clean .csv files from the equity options broker 1
 import csv
+import re
 
 # define the broker id for the foreign key in the database
 broker_id = input("enter the options broker id: ")
@@ -509,45 +510,138 @@ int_debit_date_format()
 # options_lst3 contains the options log records along with another unique transaction number
 options_lst3 = []
 
-# options_add_trans_num() functions creates a unique transaction number for each options log record
-def options_add_trans_num():
+### START HERE NEXT ###
+# Finish the regular expressions in the if-elif statements to get the market namess
+# options_add_trans_num() formats the log, adds the broker id, and creates a unique transaction number for each options log record
+def format_options_log():
     for row in options_lst2:
+        # print(row)
         row[1] = str(row[1])
         trans_num = f'{row[0][2:4]}{row[0][5:7]}{row[0][8:10]}{row[1][-6:]}'
         trans_num = int(trans_num)
-        options_lst3.append([row[0],row[0][2:4],row[0][5:7],row[0][8:10],row[1],row[2],row[3],row[4],row[5],row[6],trans_num])
+        trans_yr = int(row[0][:4])
+        trans_mo = int(row[0][5:7])
+        trans_day = int(row[0][8:10])
+        trans_id = int(row[1])
+        trade_size = row[3]
+        if row[2][:6] == 'Bought':
+            trans_bought = row[2][:6]
+            options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_bought,trade_size,trans_num])
+        elif row[2][:4] == 'Sold':
+            trans_sold = row[2][:4]
+            options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_sold,trade_size,trans_num])
+        elif row[2][:7] == 'REMOVAL':
+            line = (row[2])
+            # print(line)
+            mkt = re.search('(([\(])([A-Z]{3} | [A-Z]{4})) | (([\(])([\dA-Z]{3} | [\dA-Z{4}]))', line)
+            print(mkt)
+            trans_removal = row[2][:7]
+            options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_removal,trade_size,trans_num])
 
-options_add_trans_num()
+    # for row in options_lst3:
+    #     print(row)
+format_options_log()
 
-### START HERE NEXT ###
-# comm_add_trans_num() functions creates a unique transaction number for each options log record
-def comm_add_trans_num():
-    pass
-comm_add_trans_num()
+# comm_lst3 contains the commissions log records along with another unique transaction number
+comm_lst3 = []
 
-# reg_fee_trans_num() functions creates a unique transaction number for each options log record
-def reg_fee_trans_num():
-    pass
-reg_fee_trans_num()
+# format_comm_log() formats the log, adds the broker id, and creates a unique transaction number for each commission log record
+def format_comm_log():
+    for row in comm_lst2:
+        row[1] = str(row[1])
+        trans_num = f'{row[0][2:4]}{row[0][5:7]}{row[0][8:10]}{row[1][-6:]}'
+        trans_num = int(trans_num)
+        trans_yr = int(row[0][:4])
+        trans_mo = int(row[0][5:7])
+        trans_day = int(row[0][8:10])
+        trans_id = int(row[1])
+        comm_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,row[2],broker_id,trans_num])
 
-# misc_income_trans_num() functions creates a unique transaction number for each options log record
-def misc_income_trans_num():
-    pass
-misc_income_trans_num()
+format_comm_log()
 
-# misc_debit_trans_num() functions creates a unique transaction number for each options log record
-def misc_debit_trans_num():
-    pass
-misc_debit_trans_num()
+# contains the regulation fee log records to be exported into the database
+reg_fee_lst3 = []
 
-# int_income_trans_num() functions creates a unique transaction number for each options log record
-def int_income_trans_num():
-    pass
-int_income_trans_num()
+# format_reg_fee_log() formats the log, adds the broker id, and creates a unique transaction number for each regulation fee log record
+def format_reg_fee_log():
+    for row in reg_fee_lst2:
+        row[1] = str(row[1])
+        trans_num = f'{row[0][2:4]}{row[0][5:7]}{row[0][8:10]}{row[1][-6:]}'
+        trans_num = int(trans_num)
+        trans_yr = int(row[0][:4])
+        trans_mo = int(row[0][5:7])
+        trans_day = int(row[0][8:10])
+        trans_id = int(row[1])
+        reg_fee_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,row[2],broker_id,trans_num])
 
-# int_debit_trans_num() functions creates a unique transaction number for each options log record
-def int_debit_trans_num():
-    pass
-int_debit_trans_num()
+format_reg_fee_log()
+
+# contains the miscellaneous income log records to be exported into the database
+misc_income_lst3 = []
+
+# format_misc_income_log() formats the log, adds the broker id, and creates a unique transaction number for each miscellaneous log record
+def format_misc_income_log():
+    for row in misc_income_lst2:
+        row[1] = str(row[1])
+        trans_num = f'{row[0][2:4]}{row[0][5:7]}{row[0][8:10]}{row[1][-6:]}'
+        trans_num = int(trans_num)
+        trans_yr = int(row[0][:4])
+        trans_mo = int(row[0][5:7])
+        trans_day = int(row[0][8:10])
+        trans_id = int(row[1])
+        misc_income_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,row[3],broker_id,trans_num])
+
+format_misc_income_log()
+
+# contains the miscellaneous debit log records to be exported into the database
+misc_debit_lst3 = []
+
+# format_misc_debit_log() formats the log, adds the broker id, and creates a unique transaction number for each miscellaneous log record
+def format_misc_debit_log():
+    for row in misc_debit_lst2:
+        row[1] = str(row[1])
+        trans_num = f'{row[0][2:4]}{row[0][5:7]}{row[0][8:10]}{row[1][-6:]}'
+        trans_num = int(trans_num)
+        trans_yr = int(row[0][:4])
+        trans_mo = int(row[0][5:7])
+        trans_day = int(row[0][8:10])
+        trans_id = int(row[1])
+        misc_debit_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,row[3],broker_id,trans_num])
+
+format_misc_debit_log()
+
+# contains the interest income log records to be exported into the database
+int_income_lst3 = []
+
+# format_int_income_log() formats the log, adds the broker id, and creates a unique transaction number for each interest log record
+def format_int_income_log():
+    for row in int_income_lst2:
+        row[1] = str(row[1])
+        trans_num = f'{row[0][2:4]}{row[0][5:7]}{row[0][8:10]}{row[1][-6:]}'
+        trans_num = int(trans_num)
+        trans_yr = int(row[0][:4])
+        trans_mo = int(row[0][5:7])
+        trans_day = int(row[0][8:10])
+        trans_id = int(row[1])
+        int_income_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,row[3],broker_id,trans_num])
+
+format_int_income_log()
+
+# contains the interest debit log records to be exported into the database
+int_debit_lst3 = []
+
+# format_int_debit_log() formats the log, adds the broker id, and creates a unique transaction number for each interest log record
+def format_int_debit_log():
+    for row in int_debit_lst2:
+        row[1] = str(row[1])
+        trans_num = f'{row[0][2:4]}{row[0][5:7]}{row[0][8:10]}{row[1][-6:]}'
+        trans_num = int(trans_num)
+        trans_yr = int(row[0][:4])
+        trans_mo = int(row[0][5:7])
+        trans_day = int(row[0][8:10])
+        trans_id = int(row[1])
+        int_debit_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,row[3],broker_id,trans_num])
+
+format_int_debit_log()
 
 # next setup of functions formats the data types and addes the broker key to each record
