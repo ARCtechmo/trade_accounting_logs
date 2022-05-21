@@ -510,8 +510,6 @@ int_debit_date_format()
 # options_lst3 contains the options log records along with another unique transaction number
 options_lst3 = []
 
-### START HERE NEXT ###
-# Finish the regular expressions in the if-elif statements to get the market namess
 # options_add_trans_num() formats the log, adds the broker id, and creates a unique transaction number for each options log record
 def format_options_log():
     for row in options_lst2:
@@ -524,22 +522,73 @@ def format_options_log():
         trans_day = int(row[0][8:10])
         trans_id = int(row[1])
         trade_size = row[3]
-        if row[2][:6] == 'Bought':
-            trans_bought = row[2][:6]
-            options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_bought,trade_size,trans_num])
-        elif row[2][:4] == 'Sold':
-            trans_sold = row[2][:4]
-            options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_sold,trade_size,trans_num])
-        elif row[2][:7] == 'REMOVAL':
-            line = (row[2])
-            # print(line)
-            mkt = re.search('(([\(])([A-Z]{3} | [A-Z]{4})) | (([\(])([\dA-Z]{3} | [\dA-Z{4}]))', line)
-            print(mkt)
-            trans_removal = row[2][:7]
-            options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_removal,trade_size,trans_num])
+        ctr = row[3]
+        price = float(row[5])
+        gross = float(row[6])
 
-    # for row in options_lst3:
-    #     print(row)
+        if row[2][:6] == 'Bought':
+            # print(row)
+            if row[4][3] == ' ' and row[4][-4:] == 'Call':
+                mkt = row[4][:3]
+                call = row[4][-4:]
+                trans_bought = row[2][:6]
+                options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_bought,trade_size,mkt,call,ctr,price,gross,broker_id,trans_num])
+
+            elif row[4][4] == ' ' and row[4][-4:] == 'Call':
+                mkt = row[4][:4]
+                call = row[4][-4:]
+                trans_bought = row[2][:6]
+                options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_bought,trade_size,mkt,call,ctr,price,gross,broker_id,trans_num])
+
+            elif row[4][3] == ' ' and row[4][-3:] == 'Put':
+                mkt = row[4][:3]
+                put = row[4][-3:]
+                trans_bought = row[2][:6]
+                options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_bought,trade_size,mkt,put,ctr,price,gross,broker_id,trans_num])
+
+            elif row[4][4] == ' ' and row[4][-3:] == 'Put':
+                mkt = row[4][:4]
+                put = row[4][-3:]
+                trans_bought = row[2][:6]
+                options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_bought,trade_size,mkt,put,ctr,price,gross,broker_id,trans_num])
+
+        elif row[2][:4] == 'Sold':
+            if row[4][3] == ' ' and row[4][-4:] == 'Call':
+                mkt = row[4][:3]
+                call = row[4][-4:]
+                trans_sold = row[2][:4]
+                options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_sold,trade_size,mkt,call,ctr,price,gross,broker_id,trans_num])
+
+            elif row[4][4] == ' ' and row[4][-4:] == 'Call':
+                mkt = row[4][:4]
+                call = row[4][-4:]
+                trans_sold = row[2][:4]
+                options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_sold,trade_size,mkt,call,ctr,price,gross,broker_id,trans_num])
+
+            elif row[4][3] == ' ' and row[4][-3:] == 'Put':
+                mkt = row[4][:3]
+                put = row[4][-3:]
+                trans_sold = row[2][:4]
+                options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_sold,trade_size,mkt,put,ctr,price,gross,broker_id,trans_num])
+
+            elif row[4][4] == ' ' and row[4][-3:] == 'Put':
+                mkt = row[4][:4]
+                put = row[4][-3:]
+                trans_sold = row[2][:4]
+                options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_sold,trade_size,mkt,put,ctr,price,gross,broker_id,trans_num])
+
+        elif row[2][:7] == 'REMOVAL':
+            line = row[2]
+            regex = re.compile('([\(]|[\(\d])([A-Z]{3,4}|[A-Z]{3,4})')
+            mkt = regex.findall(line)
+            mkt = mkt[0][1]
+            regex2 = re.compile('(\d{3}|[A-Z]{1}[a-z]{2,3})(\))')
+            call_put = regex2.findall(line)
+            call_put = call_put[0][0]
+            price = 0.00
+            gross = 0.00
+            options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,'Expired',trade_size,mkt,call_put,ctr,price,gross,broker_id,trans_num])
+
 format_options_log()
 
 # comm_lst3 contains the commissions log records along with another unique transaction number
@@ -644,4 +693,7 @@ def format_int_debit_log():
 
 format_int_debit_log()
 
-# next setup of functions formats the data types and addes the broker key to each record
+### START HERE NEXT ###
+# export the options log data
+for row in options_lst3:
+    print(row)
