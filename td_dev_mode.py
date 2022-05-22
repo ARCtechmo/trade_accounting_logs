@@ -144,10 +144,8 @@ def options_date_format():
                 options_lst2.append([formatted_date,row[1],row[2],row[3],row[4],0.00,0.00])
 
         # MM/DD/YYYY
-        # Note: this code works but I don't know understand why
-        # trans_yr = row[0][6:10] produces output '[]' for the year
-        # I removed trans_yr and it got the correct result; should have produced an error
         elif row[0][2] == '/' and row[0][5] == '/':
+            trans_yr = row[0][6:10]
             trans_mo = row[0][:2]
             trans_day = row[0][3:5]
             formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
@@ -211,6 +209,7 @@ def comm_date_format():
 
         # MM/DD/YYYY
         elif row[0][2] == '/' and row[0][5] == '/':
+            trans_yr = row[0][6:10]
             trans_mo = row[0][:2]
             trans_day = row[0][3:5]
             formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
@@ -269,6 +268,7 @@ def reg_fee_date_format():
 
         # MM/DD/YYYY
         elif row[0][2] == '/' and row[0][5] == '/':
+            trans_yr = row[0][6:10]
             trans_mo = row[0][:2]
             trans_day = row[0][3:5]
             formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
@@ -394,7 +394,6 @@ def misc_debit_date_format():
 
 misc_debit_date_format()
 
-
 # int_income_lst2 contains the interest income transactions with properly formatted dates
 int_income_lst2 = []
 
@@ -514,6 +513,7 @@ options_lst3 = []
 def format_options_log():
     for row in options_lst2:
         # print(row)
+        trans_date = row[0]
         row[1] = str(row[1])
         trans_num = f'{row[0][2:4]}{row[0][5:7]}{row[0][8:10]}{row[1][-6:]}'
         trans_num = int(trans_num)
@@ -522,7 +522,7 @@ def format_options_log():
         trans_day = int(row[0][8:10])
         trans_id = int(row[1])
         trade_size = row[3]
-        ctr = row[3]
+        ctr = row[4]
         price = float(row[5])
         gross = float(row[6])
 
@@ -532,50 +532,50 @@ def format_options_log():
                 mkt = row[4][:3]
                 call = row[4][-4:]
                 trans_bought = row[2][:6]
-                options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_bought,trade_size,mkt,call,ctr,price,gross,broker_id,trans_num])
+                options_lst3.append([trans_date,trans_yr,trans_mo,trans_day,trans_id,trans_bought,trade_size,mkt,call,ctr,price,gross,broker_id,trans_num])
 
             elif row[4][4] == ' ' and row[4][-4:] == 'Call':
                 mkt = row[4][:4]
                 call = row[4][-4:]
                 trans_bought = row[2][:6]
-                options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_bought,trade_size,mkt,call,ctr,price,gross,broker_id,trans_num])
+                options_lst3.append([trans_date,trans_yr,trans_mo,trans_day,trans_id,trans_bought,trade_size,mkt,call,ctr,price,gross,broker_id,trans_num])
 
             elif row[4][3] == ' ' and row[4][-3:] == 'Put':
                 mkt = row[4][:3]
                 put = row[4][-3:]
                 trans_bought = row[2][:6]
-                options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_bought,trade_size,mkt,put,ctr,price,gross,broker_id,trans_num])
+                options_lst3.append([trans_date,trans_yr,trans_mo,trans_day,trans_id,trans_bought,trade_size,mkt,put,ctr,price,gross,broker_id,trans_num])
 
             elif row[4][4] == ' ' and row[4][-3:] == 'Put':
                 mkt = row[4][:4]
                 put = row[4][-3:]
                 trans_bought = row[2][:6]
-                options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_bought,trade_size,mkt,put,ctr,price,gross,broker_id,trans_num])
+                options_lst3.append([trans_date,trans_yr,trans_mo,trans_day,trans_id,trans_bought,trade_size,mkt,put,ctr,price,gross,broker_id,trans_num])
 
         elif row[2][:4] == 'Sold':
             if row[4][3] == ' ' and row[4][-4:] == 'Call':
                 mkt = row[4][:3]
                 call = row[4][-4:]
                 trans_sold = row[2][:4]
-                options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_sold,trade_size,mkt,call,ctr,price,gross,broker_id,trans_num])
+                options_lst3.append([trans_date,trans_yr,trans_mo,trans_day,trans_id,trans_sold,trade_size,mkt,call,ctr,price,gross,broker_id,trans_num])
 
             elif row[4][4] == ' ' and row[4][-4:] == 'Call':
                 mkt = row[4][:4]
                 call = row[4][-4:]
                 trans_sold = row[2][:4]
-                options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_sold,trade_size,mkt,call,ctr,price,gross,broker_id,trans_num])
+                options_lst3.append([trans_date,trans_yr,trans_mo,trans_day,trans_id,trans_sold,trade_size,mkt,call,ctr,price,gross,broker_id,trans_num])
 
             elif row[4][3] == ' ' and row[4][-3:] == 'Put':
                 mkt = row[4][:3]
                 put = row[4][-3:]
                 trans_sold = row[2][:4]
-                options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_sold,trade_size,mkt,put,ctr,price,gross,broker_id,trans_num])
+                options_lst3.append([trans_date,trans_yr,trans_mo,trans_day,trans_id,trans_sold,trade_size,mkt,put,ctr,price,gross,broker_id,trans_num])
 
             elif row[4][4] == ' ' and row[4][-3:] == 'Put':
                 mkt = row[4][:4]
                 put = row[4][-3:]
                 trans_sold = row[2][:4]
-                options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,trans_sold,trade_size,mkt,put,ctr,price,gross,broker_id,trans_num])
+                options_lst3.append([trans_date,trans_yr,trans_mo,trans_day,trans_id,trans_sold,trade_size,mkt,put,ctr,price,gross,broker_id,trans_num])
 
         elif row[2][:7] == 'REMOVAL':
             line = row[2]
@@ -587,7 +587,7 @@ def format_options_log():
             call_put = call_put[0][0]
             price = 0.00
             gross = 0.00
-            options_lst3.append([row[0],trans_yr,trans_mo,trans_day,trans_id,'Expired',trade_size,mkt,call_put,ctr,price,gross,broker_id,trans_num])
+            options_lst3.append([trans_date,trans_yr,trans_mo,trans_day,trans_id,'Expired',trade_size,mkt,call_put,ctr,price,gross,broker_id,trans_num])
 
 format_options_log()
 
@@ -693,7 +693,99 @@ def format_int_debit_log():
 
 format_int_debit_log()
 
-### START HERE NEXT ###
+# display the options logs
+def options_log_display_records():
+    for log in options_lst3:
+        print(log)
+# options_log_display_records()
+
 # export the options log data
-for row in options_lst3:
-    print(row)
+def options_log_export_records():
+    for log in options_lst3:
+        print("---------------TEST: options_log_export_records() function--------------------")
+        return log
+# options_log_export_records()
+
+### TEST THE FUNCTION ###
+# display the commissions logs
+def comm_log_display_records():
+    for log in comm_lst3:
+        print(log)
+# comm_log_display_records()
+
+## TEST THE FUNCTION ###
+# export the commissions log data
+def comm_log_export_records():
+    for log in comm_lst3:
+        return log
+# comm_log_export_records()
+
+## TEST THE FUNCTION ###
+# display the regulation fee logs
+def reg_fee_display_records():
+    for log in reg_fee_lst3:
+        print(log)
+# reg_fee_display_records()
+
+## TEST THE FUNCTION ###
+# export the regulation fee log data
+def reg_fee_export_records():
+    for log in reg_fee_lst3:
+        return log
+# reg_fee_export_records()
+
+## TEST THE FUNCTION ###
+# display the miscellaneous income logs
+def misc_income_display_records():
+    for log in misc_income_lst3:
+        print(log)
+# misc_income_display_records()
+
+## TEST THE FUNCTION ###
+# export the miscellaneous income log data
+def misc_income_export_records():
+    for log in misc_income_lst3:
+        return log
+# misc_income_export_records()
+
+## TEST THE FUNCTION ###
+# display the miscellaneous debit logs
+def misc_debit_display_records():
+    for log in misc_debit_lst3:
+        print(log)
+# misc_debit_display_records()
+
+## TEST THE FUNCTION ###
+# export the miscellaneous debit log data
+def misc_debit_export_records():
+    for log in misc_debit_lst3:
+        return log
+# misc_debit_export_records()
+
+## TEST THE FUNCTION ###
+# display the interest income logs
+def int_income_display_records():
+    for log in int_income_lst3:
+        print(log)
+# int_income_display_records()
+
+## TEST THE FUNCTION ###
+# export the interest income log data
+def int_income_export_records():
+    for log in int_income_lst3:
+        return log
+# int_income_export_records()
+
+## TEST THE FUNCTION ###
+# display the interest debit logs
+def int_debit_display_records():
+    for log in int_debit_lst3:
+        print(log)
+# int_debit_display_records()
+
+## TEST THE FUNCTION ###
+# export the interest debit log data
+def int_debit_export_records():
+    for log in int_debit_lst3:
+        return log
+# int_debit_export_records()
