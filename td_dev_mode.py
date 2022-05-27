@@ -699,6 +699,7 @@ def options_log_display_records():
         print(log)
 # options_log_display_records()
 
+## TEST THE FUNCTION ###
 # export the options log data
 def options_log_export_records():
     for log in options_lst3:
@@ -706,7 +707,6 @@ def options_log_export_records():
         return log
 # options_log_export_records()
 
-### TEST THE FUNCTION ###
 # display the commissions logs
 def comm_log_display_records():
     for log in comm_lst3:
@@ -720,7 +720,6 @@ def comm_log_export_records():
         return log
 # comm_log_export_records()
 
-## TEST THE FUNCTION ###
 # display the regulation fee logs
 def reg_fee_display_records():
     for log in reg_fee_lst3:
@@ -734,7 +733,6 @@ def reg_fee_export_records():
         return log
 # reg_fee_export_records()
 
-## TEST THE FUNCTION ###
 # display the miscellaneous income logs
 def misc_income_display_records():
     for log in misc_income_lst3:
@@ -748,7 +746,6 @@ def misc_income_export_records():
         return log
 # misc_income_export_records()
 
-## TEST THE FUNCTION ###
 # display the miscellaneous debit logs
 def misc_debit_display_records():
     for log in misc_debit_lst3:
@@ -762,7 +759,6 @@ def misc_debit_export_records():
         return log
 # misc_debit_export_records()
 
-## TEST THE FUNCTION ###
 # display the interest income logs
 def int_income_display_records():
     for log in int_income_lst3:
@@ -776,7 +772,6 @@ def int_income_export_records():
         return log
 # int_income_export_records()
 
-## TEST THE FUNCTION ###
 # display the interest debit logs
 def int_debit_display_records():
     for log in int_debit_lst3:
