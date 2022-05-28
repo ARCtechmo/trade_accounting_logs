@@ -1,7 +1,8 @@
 ### This code is under development ###
 # this is the file that will interact with the database.py file
 import database_dev_mode
-import fx_dev_mode
+# import fx_dev_mode
+import td_dev_mode
 from datetime import date
 from datetime import datetime
 import itertools
@@ -107,7 +108,7 @@ def export_fx_log_records():
 
     print("---------------successfully added fx_log records to the db------------------\n")
 
-export_fx_log_records()
+# export_fx_log_records()
 ################################# End add fx_log RECORDS ################################################
 
 ################################# Begin add fx_unmatched RECORDS ######################################
@@ -116,7 +117,7 @@ def export_unmatched_records():
     log_entry = fx_dev_mode.fx_unmatched_add_records()
     database_dev_mode.fx_unmatched_add_many(log_entry)
     print("---------------successfully added fx_log records to the db------------------\n")
-export_unmatched_records()
+# export_unmatched_records()
 ################################# End add fx_unmatched RECORDS ######################################
 
 ############################ Begin add matched RECORDS TO fx_log RECORDS #########################
@@ -228,7 +229,7 @@ def export_matched_record():
     log_entry = export_matched_rows_lst
     database_dev_mode.fx_log_add_many(log_entry)
 
-export_matched_record()
+# export_matched_record()
 ############################ End add matched records to fx_log table #########################
 
 ############################ Begin add records to fx_commissions table #######################
@@ -267,7 +268,7 @@ def export_fx_commissions_records():
     database_dev_mode.fx_commissions_add_many(log_entry)
     print("---------------successfully added fx_commissions records to the db------------------\n")
 
-export_fx_commissions_records()
+# export_fx_commissions_records()
 ############################ End add records to fx_commissions table #########################
 
 ############################ Begin add records to interest_debit table #######################
@@ -306,7 +307,7 @@ def export_fx_interest_debit_records():
     database_dev_mode.fx_interest_debit_add_many(log_entry)
     print("---------------successfully added fx_interest_debit records to the db------------------\n")
 
-export_fx_interest_debit_records()
+# export_fx_interest_debit_records()
 ############################ End add records to interest_debit table #########################
 
 ############################ Begin add records to fx_interest_income table #######################
@@ -343,7 +344,7 @@ def export_fx_interest_credit_records():
     database_dev_mode.fx_interest_credit_add_many(log_entry)
     print("---------------successfully added fx_interest_income records to the db------------------\n")
 
-export_fx_interest_credit_records()
+# export_fx_interest_credit_records()
 ############################ End add records to fx_interest_income table #########################
 
 ############################ Begin add records to fx_broker_credit_income table ###################
@@ -380,8 +381,55 @@ def export_fx_broker_credit_records():
     database_dev_mode.fx_broker_credit_income_add_many(log_entry)
     print("---------------successfully added fx_broker_credit_income records to the db------------------\n")
 
-export_fx_broker_credit_records()
+# export_fx_broker_credit_records()
 ############################ End add records to broker_credit_income table #####################
+
+################################## Begin add td_options_log RECORDS ################################################
+
+
+
+
+################################## End add td_options_log RECORDS ################################################
+# add td_options_log records
+
+# td_options_log_rows contains a list of the rows in the td_options_log table
+td_options_log_rows = []
+
+# export_td_options_log_entry_lst contains a list of the rows that will be exported into the td_options_log table
+export_td_options_log_entry_lst = []
+
+# export_td_options_log_records function check for UNIQUE CONSTRANT ERRORS
+# exports the td broker options log records into the td_options_log table
+def export_td_options_log_records():
+    td_options_log_data = cur.execute(''' SELECT * FROM td_options_log ''')
+    print("\n--------------TEST: export_td_options_log_records function: log_entry records----------------")
+    for row in td_options_log_data:
+        td_options_log_rows.append(row)
+    print(td_options_log_rows)
+
+    print("\n--------------TEST: export_td_options_log_records function: log_entry records--------------------")
+    log_entry = td_dev_mode.options_log_export_records()
+    for row in log_entry:
+        print(row)
+        # row = tuple(row)
+        # if row in td_options_log_rows:
+        #     print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+        #     print(row)
+        #     pass
+        #
+        # else:
+        #     print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
+        #     print(row)
+        #     export_td_options_log_entry_lst.append(row)
+
+    # print("\n--------------TEST: rows to export into td_options_log table-------------------")
+    # print(export_td_options_log_entry_lst)
+    # log_entry = export_td_options_log_entry_lst
+    # database_dev_mode.td_options_log_add_many(log_entry)
+
+    print("---------------successfully added td_options_log records to the db------------------\n")
+
+export_td_options_log_records()
 
 ############################## QUERY THE DATABASE ##################################
 ######  query the time_log table ######
@@ -437,6 +485,6 @@ def show_all():
 ######################### End show all rows in the fx_log table #########################
 
 ############################## CLOSE THE DATABASE ##################################
-print("app closed....")
-conn.close()
+# print("app closed....")
+# conn.close()
 ############################## QUERY THE DATABASE ##################################
