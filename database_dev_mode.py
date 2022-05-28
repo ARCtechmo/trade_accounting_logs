@@ -136,7 +136,105 @@ CREATE TABLE IF NOT EXISTS fx_broker_credit_income(
     transaction_number INTEGER NOT NULL UNIQUE,
     FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
         ON UPDATE CASCADE
+    );
+
+CREATE TABLE IF NOT EXISTS td_options_log(
+    date TEXT NOT NULL,
+    year INTEGER NOT NULL,
+    month INTEGER NOT NULL,
+    day INTEGER NOT NULL,
+    trans_id INTEGER NOT NULL,
+    bought_sold TEXT NOT NULL,
+    trade_size INTEGER NOT NULL,
+    market TEXT NOT NULL,
+    call_put TEXT NOT NULL,
+    contract TEXT NOT NULL,
+    price REAL NOT NULL,
+    gross REAL NOT NULL,
+    broker_id INTEGER NOT NULL,
+    transaction_number INTEGER NOT NULL UNIQUE,
+    FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
+        ON UPDATE CASCADE
+    );
+
+CREATE TABLE IF NOT EXISTS td_commissions(
+    date TEXT NOT NULL,
+    year INTEGER NOT NULL,
+    month INTEGER NOT NULL,
+    day INTEGER NOT NULL,
+    trans_id INTEGER NOT NULL,
+    comm_cost REAL NOT NULL,
+    broker_id INTEGER NOT NULL,
+    transaction_number INTEGER NOT NULL UNIQUE,
+    FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
+        ON UPDATE CASCADE
+    );
+
+CREATE TABLE IF NOT EXISTS td_regulation_fee(
+    date TEXT NOT NULL,
+    year INTEGER NOT NULL,
+    month INTEGER NOT NULL,
+    day INTEGER NOT NULL,
+    trans_id INTEGER NOT NULL,
+    reg_fee REAL NOT NULL,
+    broker_id INTEGER NOT NULL,
+    transaction_number INTEGER NOT NULL UNIQUE,
+    FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
+        ON UPDATE CASCADE
+    );
+
+CREATE TABLE IF NOT EXISTS td_interest_income(
+    date TEXT NOT NULL,
+    year INTEGER NOT NULL,
+    month INTEGER NOT NULL,
+    day INTEGER NOT NULL,
+    trans_id INTEGER NOT NULL,
+    int_adj_income REAL NOT NULL,
+    broker_id INTEGER NOT NULL,
+    transaction_number INTEGER NOT NULL UNIQUE,
+    FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
+        ON UPDATE CASCADE
+    );
+
+CREATE TABLE IF NOT EXISTS td_interest_debit(
+    date TEXT NOT NULL,
+    year INTEGER NOT NULL,
+    month INTEGER NOT NULL,
+    day INTEGER NOT NULL,
+    trans_id INTEGER NOT NULL,
+    int_adj_debit REAL NOT NULL,
+    broker_id INTEGER NOT NULL,
+    transaction_number INTEGER NOT NULL UNIQUE,
+    FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
+        ON UPDATE CASCADE
+    );
+
+CREATE TABLE IF NOT EXISTS td_misc_income(
+    date TEXT NOT NULL,
+    year INTEGER NOT NULL,
+    month INTEGER NOT NULL,
+    day INTEGER NOT NULL,
+    trans_id INTEGER NOT NULL,
+    misc_credit REAL NOT NULL,
+    broker_id INTEGER NOT NULL,
+    transaction_number INTEGER NOT NULL UNIQUE,
+    FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
+        ON UPDATE CASCADE
+    );
+
+CREATE TABLE IF NOT EXISTS td_misc_debit(
+    date TEXT NOT NULL,
+    year INTEGER NOT NULL,
+    month INTEGER NOT NULL,
+    day INTEGER NOT NULL,
+    trans_id INTEGER NOT NULL,
+    misc_debit REAL NOT NULL,
+    broker_id INTEGER NOT NULL,
+    transaction_number INTEGER NOT NULL UNIQUE,
+    FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
+        ON UPDATE CASCADE
     )
+
 ''')
 print("---------------------table creation successful----------------------")
 # brokers_table_functions
@@ -308,6 +406,23 @@ def fx_broker_credit_income_add_many_show_all():
         for item in items:
             print(item)
 print("------------- fx_broker_credit_income_add_many_show_all func created successfully----------------")
+
+# insert data into the td_options log table
+def td_options_log_add_many(log_entry):
+    with conn:
+        cur.executemany("INSERT INTO td_options_log VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
+        print("\n-------------add_many executed successfully-----------------\n")
+        conn.commit()
+print("\n-------------td_options_log_add_many created successfully----------------\n")
+print("record added successfully--------------")
+def td_log_show_all():
+    with conn:
+        cur.execute("SELECT * FROM td_options_log")
+        print("-----------------show_all func executed successfully---------------")
+        items = cur.fetchall()
+        for item in items:
+            print(item)
+print("-------------td_options_log_show_all_func created successfully----------------")
 
 conn.commit()
 ############################# CLOSE THE DATABASE ##############################
