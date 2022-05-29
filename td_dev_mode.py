@@ -693,169 +693,99 @@ def format_int_debit_log():
 
 format_int_debit_log()
 
-
-# create empty lists for each column header from options_lst3
-date_lst = []
-year_lst = []
-month_lst = []
-day_lst = []
-trans_id_lst = []
-buy_sell_lst = []
-size_lst = []
-mkt_lst = []
-call_put_lst = []
-ctr_lst = []
-price_lst = []
-gross_lst = []
-bkr_lst = []
-trans_num_lst = []
-
-
-#### START HERE NEXT ####
-## need to split the the list so I can index each row as a separate record
-## do this in options_lst3 or options_lst4
-for row in options_lst3:
-    print(row[1])
-
-
-# function creates separate lists for each column category of data in optinos_lst3
-def create_column_lists():
-    for row in options_lst3:
-        date = row[0]
-        year = row[1]
-        month = row[2]
-        day = row[3]
-        trans_id = row[4]
-        buy_sell = row[5]
-        size = row[6]
-        mkt = row[7]
-        call_put = row[8]
-        ctr = row[9]
-        price = row[10]
-        gross = row[11]
-        bkr = row[12]
-        trans_num = row[13]
-
-        date_lst.append(date)
-        year_lst.append(year)
-        month_lst.append(month)
-        day_lst.append(day)
-        trans_id_lst.append(trans_id)
-        buy_sell_lst.append(buy_sell)
-        size_lst.append(size)
-        mkt_lst.append(mkt)
-        call_put_lst.append(call_put)
-        ctr_lst.append(ctr)
-        price_lst.append(price)
-        gross_lst.append(gross)
-        bkr_lst.append(bkr)
-        trans_num_lst.append(trans_num)
-
-# create_column_lists()
-
-# options_lst4 contains the final formatted options log searchable by index
-options_lst4 = []
-
-#### TEST this does not do what I wanted it to do ####
-# function enables each option log record to be retrieved by index number
-# each log record is a separate index when exported into the database
-def index_formatted_options_log():
-    for date, year, month, day, trans_id, buy_sell, size, mkt, call_put, ctr, price, gross, bkr, trans_num in zip(
-        date_lst,year_lst,month_lst,day_lst,trans_id_lst,buy_sell_lst,
-        size_lst,mkt_lst,call_put_lst,ctr_lst,price_lst,gross_lst,bkr_lst,trans_num_lst
-        ):
-        # options_lst4.append([date, year, month, day, trans_id, buy_sell, size, mkt, call_put, ctr, price, gross, bkr, trans_num])
-        log = date, year, month, day, trans_id, buy_sell, size, mkt, call_put, ctr, price, gross, bkr, trans_num
-        options_lst4.append([log])
-
-# index_formatted_options_log()
-
+## TEST: each row should be an index ##
 # display the options logs
 def options_log_display_records():
-    for log in options_lst4:
+    for log in options_lst3:
         print(log)
-# options_log_display_records()
+options_log_display_records()
 
-## TEST THE FUNCTION ###
+## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
 # export the options log data
 def options_log_export_records():
-    for log in options_lst4:
+    for log in options_lst3:
         print("---------------TEST: options_log_export_records() function--------------------")
         return log
 # options_log_export_records()
 
+## TEST: each row should be an index ##
 # display the commissions logs
 def comm_log_display_records():
     for log in comm_lst3:
         print(log)
 # comm_log_display_records()
 
-## TEST THE FUNCTION ###
+## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
 # export the commissions log data
 def comm_log_export_records():
     for log in comm_lst3:
         return log
 # comm_log_export_records()
 
+## TEST: each row should be an index ##
 # display the regulation fee logs
 def reg_fee_display_records():
     for log in reg_fee_lst3:
         print(log)
 # reg_fee_display_records()
 
-## TEST THE FUNCTION ###
+## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
 # export the regulation fee log data
 def reg_fee_export_records():
     for log in reg_fee_lst3:
         return log
 # reg_fee_export_records()
 
+## TEST: each row should be an index ##
 # display the miscellaneous income logs
 def misc_income_display_records():
     for log in misc_income_lst3:
         print(log)
 # misc_income_display_records()
 
-## TEST THE FUNCTION ###
+## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
 # export the miscellaneous income log data
 def misc_income_export_records():
     for log in misc_income_lst3:
         return log
 # misc_income_export_records()
 
+## TEST: each row should be an index ##
 # display the miscellaneous debit logs
 def misc_debit_display_records():
     for log in misc_debit_lst3:
         print(log)
 # misc_debit_display_records()
 
-## TEST THE FUNCTION ###
+## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
 # export the miscellaneous debit log data
 def misc_debit_export_records():
     for log in misc_debit_lst3:
         return log
 # misc_debit_export_records()
 
+## TEST: each row should be an index ##
 # display the interest income logs
 def int_income_display_records():
     for log in int_income_lst3:
         print(log)
 # int_income_display_records()
 
-## TEST THE FUNCTION ###
+## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
 # export the interest income log data
 def int_income_export_records():
     for log in int_income_lst3:
         return log
 # int_income_export_records()
 
+## TEST: each row should be an index ##
 # display the interest debit logs
 def int_debit_display_records():
     for log in int_debit_lst3:
         print(log)
 # int_debit_display_records()
 
-## TEST THE FUNCTION ###
+## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
 # export the interest debit log data
 def int_debit_export_records():
     for log in int_debit_lst3:
