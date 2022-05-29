@@ -693,20 +693,45 @@ def format_int_debit_log():
 
 format_int_debit_log()
 
-## TEST: each row should be an index ##
-# display the options logs
-def options_log_display_records():
-    for log in options_lst3:
-        print(log)
-options_log_display_records()
+# options_lst4 contains the options log transactions ready for export (identical to options_lst3)
+options_lst4 = []
 
+### START HERE NEXT ###
+# Problem: the function is exporting the list twcie which causes a UNIQUE CONSTRAINT ERROR IN logs_metrics_app_dev_mode.py
+# The lenght counts are accurate.  Find the error.
 ## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
 # export the options log data
 def options_log_export_records():
-    for log in options_lst3:
-        print("---------------TEST: options_log_export_records() function--------------------")
-        return log
+    print("---------------TEST: options_log_export_records() function--------------------")
+    i = len(options_lst3)
+    n = 0
+    for line in options_lst3[:i]:
+        line = options_lst3[n]
+        line = line[:14]
+        options_lst4.append(line)
+        n +=1
+    log = options_lst4
+    print('There are',len(options_lst4),'records to be exported from the options_log_export_records() func')
+    return log
+
+options_log_export_records()
+
+################## BEGIN: DELETE ONCE YOU SUCCESSFULLY TEST THE options_log_export_records() function #####################
+## TEST: each row should be an index ##
+# display the options logs
+# def options_log_display_records():
+#     for log in options_lst3:
+#         print(log)
+# options_log_display_records()
+
+## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
+# export the options log data
+# def options_log_export_records():
+#     for log in options_lst4:
+#         print("---------------TEST: options_log_export_records() function--------------------")
+#         return log
 # options_log_export_records()
+################## END: DELETE ONCE YOU SUCCESSFULLY TEST THE options_log_export_records() function #####################
 
 ## TEST: each row should be an index ##
 # display the commissions logs
