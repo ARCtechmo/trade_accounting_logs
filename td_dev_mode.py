@@ -715,7 +715,7 @@ trans_num_lst = []
 ## need to split the the list so I can index each row as a separate record
 ## do this in options_lst3 or options_lst4
 for row in options_lst3:
-    print(row)
+    print(row[1])
 
 
 # function creates separate lists for each column category of data in optinos_lst3
