@@ -693,126 +693,75 @@ def format_int_debit_log():
 
 format_int_debit_log()
 
-# options_lst4 contains the options log transactions ready for export (identical to options_lst3)
-options_lst4 = []
-
 ### START HERE NEXT ###
-# Problem: the function is exporting the list twcie which causes a UNIQUE CONSTRAINT ERROR IN logs_metrics_app_dev_mode.py
-# The lenght counts are accurate.  Find the error.
-## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
+# One successful test integration with logs_metrics_app_dev_mode.py #
+## TEST: continue to test the function on all montly an yearly .csv files
+
 # export the options log data
 def options_log_export_records():
     print("---------------TEST: options_log_export_records() function--------------------")
     i = len(options_lst3)
-    n = 0
-    for line in options_lst3[:i]:
-        line = options_lst3[n]
-        line = line[:14]
-        options_lst4.append(line)
-        n +=1
-    log = options_lst4
-    print('There are',len(options_lst4),'records to be exported from the options_log_export_records() func')
-    return log
-
+    logs = options_lst3[:i]
+    print('There are',len(logs),'records to be exported from the options_log_export_records() func')
+    return logs
 options_log_export_records()
-
-################## BEGIN: DELETE ONCE YOU SUCCESSFULLY TEST THE options_log_export_records() function #####################
-## TEST: each row should be an index ##
-# display the options logs
-# def options_log_display_records():
-#     for log in options_lst3:
-#         print(log)
-# options_log_display_records()
-
-## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
-# export the options log data
-# def options_log_export_records():
-#     for log in options_lst4:
-#         print("---------------TEST: options_log_export_records() function--------------------")
-#         return log
-# options_log_export_records()
-################## END: DELETE ONCE YOU SUCCESSFULLY TEST THE options_log_export_records() function #####################
-
-## TEST: each row should be an index ##
-# display the commissions logs
-def comm_log_display_records():
-    for log in comm_lst3:
-        print(log)
-# comm_log_display_records()
 
 ## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
 # export the commissions log data
 def comm_log_export_records():
-    for log in comm_lst3:
-        return log
+    print("---------------TEST: comm_lst3() function--------------------")
+    i = len(comm_lst3)
+    logs = comm_lst3[:i]
+    print('There are',len(logs),'records to be exported from the comm_log_export_records() func')
+    return logs
 # comm_log_export_records()
-
-## TEST: each row should be an index ##
-# display the regulation fee logs
-def reg_fee_display_records():
-    for log in reg_fee_lst3:
-        print(log)
-# reg_fee_display_records()
 
 ## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
 # export the regulation fee log data
 def reg_fee_export_records():
-    for log in reg_fee_lst3:
-        return log
+    print("---------------TEST: reg_fee_lst3() function--------------------")
+    i = len(reg_fee_lst3)
+    logs = reg_fee_lst3[:i]
+    print('There are',len(logs),'records to be exported from the reg_fee_export_records() func')
+    return logs
 # reg_fee_export_records()
-
-## TEST: each row should be an index ##
-# display the miscellaneous income logs
-def misc_income_display_records():
-    for log in misc_income_lst3:
-        print(log)
-# misc_income_display_records()
 
 ## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
 # export the miscellaneous income log data
 def misc_income_export_records():
-    for log in misc_income_lst3:
-        return log
+    print("---------------TEST: misc_income_lst3() function--------------------")
+    i = len(misc_income_lst3)
+    logs = misc_income_lst3[:i]
+    print('There are',len(logs),'records to be exported from the misc_income_export_records() func')
+    return logs
 # misc_income_export_records()
-
-## TEST: each row should be an index ##
-# display the miscellaneous debit logs
-def misc_debit_display_records():
-    for log in misc_debit_lst3:
-        print(log)
-# misc_debit_display_records()
 
 ## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
 # export the miscellaneous debit log data
 def misc_debit_export_records():
-    for log in misc_debit_lst3:
-        return log
+    print("---------------TEST: misc_debit_lst3() function--------------------")
+    i = len(misc_debit_lst3)
+    logs = misc_debit_lst3[:i]
+    print('There are',len(logs),'records to be exported from the misc_debit_export_records() func')
+    return logs
 # misc_debit_export_records()
-
-## TEST: each row should be an index ##
-# display the interest income logs
-def int_income_display_records():
-    for log in int_income_lst3:
-        print(log)
-# int_income_display_records()
 
 ## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
 # export the interest income log data
 def int_income_export_records():
-    for log in int_income_lst3:
-        return log
+    print("---------------TEST: int_income_lst3() function--------------------")
+    i = len(int_income_lst3)
+    logs = int_income_lst3[:i]
+    print('There are',len(logs),'records to be exported from the int_income_export_records() func')
+    return logs
 # int_income_export_records()
-
-## TEST: each row should be an index ##
-# display the interest debit logs
-def int_debit_display_records():
-    for log in int_debit_lst3:
-        print(log)
-# int_debit_display_records()
 
 ## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
 # export the interest debit log data
 def int_debit_export_records():
-    for log in int_debit_lst3:
-        return log
+    print("---------------TEST: int_debit_lst3() function--------------------")
+    i = len(int_debit_lst3)
+    logs = int_debit_lst3[:i]
+    print('There are',len(logs),'records to be exported from the int_debit_export_records() func')
+    return logs
 # int_debit_export_records()
