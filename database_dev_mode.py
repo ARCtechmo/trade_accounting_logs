@@ -424,6 +424,45 @@ def td_log_show_all():
             print(item)
 print("-------------td_options_log_show_all_func created successfully----------------")
 
+# insert data into the td_commissinos log table
+def td_commissions_log_add_many(log_entry):
+    with conn:
+        cur.executemany("INSERT INTO td_commissions VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
+        print("\n-------------add_many executed successfully-----------------\n")
+        conn.commit()
+print("\n-------------td_commissions_log_add_many created successfully----------------\n")
+print("record added successfully--------------")
+def td_comm_log_show_all():
+    with conn:
+        cur.execute("SELECT * FROM td_commissions")
+        print("-----------------show_all func executed successfully---------------")
+        items = cur.fetchall()
+        for item in items:
+            print(item)
+print("-------------td_commissions_log_show_all_func created successfully----------------")
+
+# insert data into the td_regulation_fee log table
+def td_reg_fee_log_add_many(log_entry):
+    with conn:
+        cur.executemany("INSERT INTO td_regulation_fee VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
+        print("\n-------------add_many executed successfully-----------------\n")
+        conn.commit()
+print("\n-------------td_reg_fee_log_add_many created successfully----------------\n")
+print("record added successfully--------------")
+def td_reg_fee_log_show_all():
+    with conn:
+        cur.execute("SELECT * FROM td_regulation_fee")
+        print("-----------------show_all func executed successfully---------------")
+        items = cur.fetchall()
+        for item in items:
+            print(item)
+print("-------------td_commissions_log_show_all_func created successfully----------------")
+
+### START HERE NEXT ###
+# insert data into the td_misc_income table
+
+
+
 conn.commit()
 ############################# CLOSE THE DATABASE ##############################
 print("\n-------------database closed---------------------")
