@@ -693,10 +693,6 @@ def format_int_debit_log():
 
 format_int_debit_log()
 
-### START HERE NEXT ###
-# One successful test integration with logs_metrics_app_dev_mode.py #
-## TEST: continue to test the function on all montly an yearly .csv files
-
 # export the options log data
 def options_log_export_records():
     print("---------------TEST: options_log_export_records() function--------------------")
@@ -706,7 +702,6 @@ def options_log_export_records():
     return logs
 options_log_export_records()
 
-## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
 # export the commissions log data
 def comm_log_export_records():
     print("---------------TEST: comm_lst3() function--------------------")
@@ -716,7 +711,6 @@ def comm_log_export_records():
     return logs
 # comm_log_export_records()
 
-## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
 # export the regulation fee log data
 def reg_fee_export_records():
     print("---------------TEST: reg_fee_lst3() function--------------------")
