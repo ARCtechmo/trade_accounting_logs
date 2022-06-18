@@ -384,12 +384,7 @@ def export_fx_broker_credit_records():
 # export_fx_broker_credit_records()
 ############################ End add records to broker_credit_income table #####################
 
-################################## Begin add td_options_log RECORDS ################################################
-
-
-
-
-################################## End add td_options_log RECORDS ################################################
+################################## Begin add td_options_log RECORDS ##############################################
 # add td_options_log records
 
 # td_options_log_rows contains a list of the rows in the td_options_log table
@@ -406,85 +401,127 @@ def export_td_options_log_records():
     for row in td_options_log_data:
         td_options_log_rows.append(row)
     print(td_options_log_rows)
+    print('--------------------TEST: there are',len(td_options_log_rows),'in the td_options table-----------------\n' )
 
     print("\n--------------TEST: export_td_options_log_records function: log_entry records--------------------")
     log_entry = td_dev_mode.options_log_export_records()
+    print('\n------------------TEST: there are', len(log_entry),'records----------------------------/n')
     for row in log_entry:
-        print(row)
-        # row = tuple(row)
-        # if row in td_options_log_rows:
-        #     print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
-        #     print(row)
-        #     pass
-        #
-        # else:
-        #     print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
-        #     print(row)
-        #     export_td_options_log_entry_lst.append(row)
+        row = tuple(row)
+        if row in td_options_log_rows:
+            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print(row)
+            pass
 
-    # print("\n--------------TEST: rows to export into td_options_log table-------------------")
-    # print(export_td_options_log_entry_lst)
-    # log_entry = export_td_options_log_entry_lst
-    # database_dev_mode.td_options_log_add_many(log_entry)
+        else:
+            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
+            print(row)
+            export_td_options_log_entry_lst.append(row)
+
+    print("\n--------------TEST: rows to export into td_options_log table-------------------")
+    print(export_td_options_log_entry_lst)
+    log_entry = export_td_options_log_entry_lst
+    database_dev_mode.td_options_log_add_many(log_entry)
 
     print("---------------successfully added td_options_log records to the db------------------\n")
 
-export_td_options_log_records()
+# export_td_options_log_records()
+################################## End add td_options_log RECORDS ##############################################
 
-############################## QUERY THE DATABASE ##################################
-######  query the time_log table ######
-# print("\n----------test result: successful------------")
-# data = cur.execute('''
-# SELECT
-#  time_log.start_time as start,
-#  time_log.end_time as end,
-#  time_log.activity_id,
-#  activity,
-#  time_log.broker_id,
-#  broker
-# FROM time_log
-#     LEFT JOIN activity_log
-#     ON time_log.activity_id = activity_log.activity_id
-#
-#     LEFT JOIN brokers
-#     ON time_log.activity_id = brokers.broker_id
-# WHERE '2022-01-04 10:00' NOT IN (start)
-# ''')
-# for row in data:
-#     print(row)
-######  query the time_log table ######
+################################## Begin add td_commissions log RECORDS ##############################################
+# add td_commissions log records
 
-##### query the fx_log #####
-# data = cur.execute('''
-# SELECT *
-# FROM fx_log
-#     LEFT JOIN brokers
-#     ON fx_log.broker_id = brokers.broker_id
-# /* WHERE gross <0 */
-# /* WHERE gross >0 */
-# /* WHERE broker LIKE 'interactive%' */
-# /* WHERE entry_time > '10:00' */
-# ''')
-# for row in data:
-#     print(row)
+# td_comm_log_rows contains a list of the rows in the td_commissions table
+td_comm_log_rows = []
 
-# data = cur.execute('''
-# SELECT COUNT(*)
-# FROM fx_log
-# WHERE gross <0
-# ''')
-# for row in data:
-#     print(row)
-##### query the fx_log #####
-############################## QUERY THE DATABASE ##################################
+# export_td_comm_log_entry_lst contains a list of the rows that will be exported into the td_commissions table
+export_td_comm_log_entry_lst = []
 
-######################### Begin show all rows in the fx_log table #########################
-def show_all():
-    database_dev_mode.fx_log_show_all()
-# show_all()
-######################### End show all rows in the fx_log table #########################
+# export_td_comm_log_records function check for UNIQUE CONSTRANT ERRORS
+# exports the td broker commissions log records into the td_commissions table
+def export_td_comm_log_records():
+    td_comm_log_data = cur.execute(''' SELECT * FROM td_commissions ''')
+    print("\n--------------TEST: export_td_comm_log_records function: log_entry records----------------")
+    for row in td_comm_log_data:
+        td_comm_log_rows.append(row)
+    print(td_comm_log_rows)
+    print('--------------------TEST: there are',len(td_comm_log_rows),'in the td_commissions table-----------------\n' )
+
+    print("\n--------------TEST: export_td_comm_log_records function: log_entry records--------------------")
+    log_entry = td_dev_mode.comm_log_export_records()
+    print('\n------------------TEST: there are', len(log_entry),'records----------------------------/n')
+    for row in log_entry:
+        row = tuple(row)
+        if row in td_comm_log_rows:
+            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print(row)
+            pass
+
+        else:
+            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
+            print(row)
+            export_td_comm_log_entry_lst.append(row)
+
+    print("\n--------------TEST: rows to export into td_commissions table-------------------")
+    print(export_td_comm_log_entry_lst)
+    log_entry = export_td_comm_log_entry_lst
+    database_dev_mode.td_commissions_log_add_many(log_entry)
+    print("---------------successfully added td_commissions records to the db------------------\n")
+# export_td_comm_log_records()
+################################## End add td_commissions log RECORDS ################################################
+
+################################## Begin add td_regulation_fee log RECORDS ############################################
+# add td_regulation_fee log records
+
+# td_reg_fee_log_rows contains a list of the rows in the td_regulation_fee table
+td_reg_fee_log_rows = []
+
+# export_td_reg_fee_log_entry_lst contains a list of the rows that will be exported into the td_regulation_fee table
+export_td_reg_fee_log_entry_lst = []
+
+# export_td_reg_fee_log_records function check for UNIQUE CONSTRANT ERRORS
+# exports the td broker regulation fee log records into the td_regulation_fee table
+def export_td_reg_fee_log_records():
+    td_reg_fee_log_data = cur.execute(''' SELECT * FROM td_regulation_fee ''')
+    print("\n--------------TEST: export_td_reg_fee_log_records function: log_entry records----------------")
+    for row in td_reg_fee_log_data:
+        td_reg_fee_log_rows.append(row)
+    print(td_reg_fee_log_rows)
+    print('--------------------TEST: there are',len(td_reg_fee_log_rows),'in the td_regulation_fee table-----------------\n' )
+
+    print("\n--------------TEST: export_td_reg_fee_log_records function: log_entry records--------------------")
+    log_entry = td_dev_mode.reg_fee_export_records()
+    print('\n------------------TEST: there are', len(log_entry),'records----------------------------/n')
+    for row in log_entry:
+        row = tuple(row)
+        if row in td_reg_fee_log_rows:
+            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print(row)
+            pass
+
+        else:
+            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
+            print(row)
+            export_td_reg_fee_log_entry_lst.append(row)
+
+    print("\n--------------TEST: rows to export into td_regulation_fee table-------------------")
+    print(export_td_reg_fee_log_entry_lst)
+    log_entry = export_td_reg_fee_log_entry_lst
+    database_dev_mode.td_reg_fee_log_add_many(log_entry)
+    print("---------------successfully added td_regulation_fee records to the db------------------\n")
+# export_td_reg_fee_log_records()
+################################## End add td_regulation_fee log RECORDS ##############################################
+
+################################## Begin add td_misc_income log RECORDS ############################################
+## START HERE NEXT ##
+
+
+
+
+################################## End add td_misc_income log RECORDS ############################################
+
 
 ############################## CLOSE THE DATABASE ##################################
-# print("app closed....")
-# conn.close()
+print("app closed....")
+conn.close()
 ############################## QUERY THE DATABASE ##################################
