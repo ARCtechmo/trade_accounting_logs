@@ -720,7 +720,6 @@ def reg_fee_export_records():
     return logs
 # reg_fee_export_records()
 
-## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
 # export the miscellaneous income log data
 def misc_income_export_records():
     print("---------------TEST: misc_income_lst3() function--------------------")
@@ -730,7 +729,6 @@ def misc_income_export_records():
     return logs
 # misc_income_export_records()
 
-## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
 # export the miscellaneous debit log data
 def misc_debit_export_records():
     print("---------------TEST: misc_debit_lst3() function--------------------")
@@ -740,7 +738,6 @@ def misc_debit_export_records():
     return logs
 # misc_debit_export_records()
 
-## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
 # export the interest income log data
 def int_income_export_records():
     print("---------------TEST: int_income_lst3() function--------------------")
@@ -750,7 +747,6 @@ def int_income_export_records():
     return logs
 # int_income_export_records()
 
-## TEST: function must integrate with logs_metrics_app_dev_mode.py ##
 # export the interest debit log data
 def int_debit_export_records():
     print("---------------TEST: int_debit_lst3() function--------------------")
