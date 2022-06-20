@@ -452,16 +452,79 @@ print("record added successfully--------------")
 def td_reg_fee_log_show_all():
     with conn:
         cur.execute("SELECT * FROM td_regulation_fee")
-        print("-----------------show_all func executed successfully---------------")
+        print("-----------------td_reg_fee_log_show_all func executed successfully---------------")
         items = cur.fetchall()
         for item in items:
             print(item)
 print("-------------td_commissions_log_show_all_func created successfully----------------")
 
-### START HERE NEXT ###
 # insert data into the td_misc_income table
+def td_misc_income_log_add_many(log_entry):
+    with conn:
+        cur.executemany("INSERT INTO td_misc_income VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
+        print("\n-------------td_misc_income_log_add_many executed successfully-----------------\n")
+        conn.commit()
+print("\n-------------td_misc_income_log_add_many created successfully----------------\n")
+print("record added successfully--------------")
+def td_misc_income_log_show_all():
+    with conn:
+        cur.execute("SELECT * FROM td_misc_income")
+        print("-----------------td_misc_income_log_show_all func executed successfully---------------")
+        items = cur.fetchall()
+        for item in items:
+            print(item)
+print("-------------td_misc_income_log_show_all created successfully----------------")
 
+# insert data into the td_misc_debit table
+def td_misc_debit_log_add_many(log_entry):
+    with conn:
+        cur.executemany("INSERT INTO td_misc_debit VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
+        print("\n-------------td_misc_debit_log_add_many executed successfully-----------------\n")
+        conn.commit()
+print("\n-------------td_misc_debit_log_add_many created successfully----------------\n")
+print("record added successfully--------------")
+def td_misc_debit_log_show_all():
+    with conn:
+        cur.execute("SELECT * FROM td_misc_debit")
+        print("-----------------td_misc_debit_log_show_all func executed successfully---------------")
+        items = cur.fetchall()
+        for item in items:
+            print(item)
+print("-------------td_misc_debit_log_show_all created successfully----------------")
 
+# insert data into the td_interest_income table
+def td_interest_income_log_add_many(log_entry):
+    with conn:
+        cur.executemany("INSERT INTO td_interest_income VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
+        print("\n-------------td_interest_income_log_add_many executed successfully-----------------\n")
+        conn.commit()
+print("\n-------------td_interest_income_log_add_many created successfully----------------\n")
+print("record added successfully--------------")
+def td_interest_income_log_show_all():
+    with conn:
+        cur.execute("SELECT * FROM td_interest_income")
+        print("\n-------------td_interest_income_log_show_all func executed successfully----------------\n")
+        items = cur.fetchall()
+        for item in items:
+            print(item)
+print("\n-------------td_interest_income_log_show_all func created successfully----------------\n")
+
+# insert data into the td_interest_debit table
+def td_interest_debit_log_add_many(log_entry):
+    with conn:
+        cur.executemany("INSERT INTO td_interest_debit VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
+        print("\n-------------td_interest_debit_log_add_many executed successfully-----------------\n")
+        conn.commit()
+print("\n-------------td_interest_debit_log_add_many created successfully----------------\n")
+print("record added successfully--------------")
+def td_interest_debit_log_show_all():
+    with conn:
+        cur.execute("SELECT * FROM td_interest_debit")
+        print("\n-------------td_interest_debit_log_show_all func executed successfully----------------\n")
+        items = cur.fetchall()
+        for item in items:
+            print(item)
+print("\n-------------td_interest_debit_log_show_all func created successfully----------------\n")
 
 conn.commit()
 ############################# CLOSE THE DATABASE ##############################
