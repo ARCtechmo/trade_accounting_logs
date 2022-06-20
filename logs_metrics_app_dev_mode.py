@@ -513,13 +513,173 @@ def export_td_reg_fee_log_records():
 ################################## End add td_regulation_fee log RECORDS ##############################################
 
 ################################## Begin add td_misc_income log RECORDS ############################################
-## START HERE NEXT ##
+# add td_misc_income log records
 
+# td_misc_income_log_rows contains a list of the rows in the td_misc_income table
+td_misc_income_log_rows = []
 
+# export_td_misc_income_log_entry_lst contains a list of the rows that will be exported into the td_misc_income table
+export_td_misc_income_log_entry_lst = []
 
+# export_td_misc_income_log_records function check for UNIQUE CONSTRANT ERRORS
+# exports the td broker miscellaneous income log records into the td_misc_income table
+def export_td_misc_income_log_records():
+    td_misc_income_log_data = cur.execute(''' SELECT * FROM td_misc_income ''')
+    print("\n--------------TEST: export_td_misc_income_log_records function: log_entry records----------------")
+    for row in td_misc_income_log_data:
+        td_misc_income_log_rows.append(row)
+    print(td_misc_income_log_rows)
+    print('--------------------TEST: there are',len(td_misc_income_log_rows),'in the td_misc_income table-----------------\n' )
 
+    print("\n--------------TEST: export_td_misc_income_log_records function: log_entry records--------------------")
+    log_entry = td_dev_mode.misc_income_export_records()
+    print('\n------------------TEST: there are', len(log_entry),'records----------------------------/n')
+    for row in log_entry:
+        row = tuple(row)
+        if row in td_misc_income_log_rows:
+            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print(row)
+            pass
+
+        else:
+            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
+            print(row)
+            export_td_misc_income_log_entry_lst.append(row)
+
+    print("\n--------------TEST: rows to export into td_misc_income table-------------------")
+    print(export_td_misc_income_log_entry_lst)
+    log_entry = export_td_misc_income_log_entry_lst
+    database_dev_mode.td_misc_income_log_add_many(log_entry)
+    print("---------------successfully added td_misc_income records to the db------------------\n")
+# export_td_misc_income_log_records()
 ################################## End add td_misc_income log RECORDS ############################################
 
+################################## Begin add td_misc_debit log RECORDS ############################################
+# add td_misc_debit log records
+
+# td_misc_debit_log_rows contains a list of the rows in the td_misc_debit table
+td_misc_debit_log_rows = []
+
+# export_td_misc_debit_log_entry_lst contains a list of the rows that will be exported into the td_misc_debit table
+export_td_misc_debit_log_entry_lst = []
+
+# export_td_misc_debit_log_records function check for UNIQUE CONSTRANT ERRORS
+# exports the td broker miscellaneous debit log records into the td_misc_debit table
+def export_td_misc_debit_log_records():
+    td_misc_debit_log_data = cur.execute(''' SELECT * FROM td_misc_debit ''')
+    print("\n--------------TEST: export_td_misc_debit_log_records function: log_entry records----------------")
+    for row in td_misc_debit_log_data:
+        td_misc_debit_log_rows.append(row)
+    print(td_misc_debit_log_rows)
+    print('--------------------TEST: there are',len(td_misc_debit_log_rows),'in the td_misc_debit table-----------------\n' )
+
+    print("\n--------------TEST: export_td_misc_debit_log_records function: log_entry records--------------------")
+    log_entry = td_dev_mode.misc_debit_export_records()
+    print('\n------------------TEST: there are', len(log_entry),'records----------------------------/n')
+    for row in log_entry:
+        row = tuple(row)
+        if row in td_misc_debit_log_rows:
+            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print(row)
+            pass
+
+        else:
+            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
+            print(row)
+            export_td_misc_debit_log_entry_lst.append(row)
+
+    print("\n--------------TEST: rows to export into td_misc_income table-------------------")
+    print(export_td_misc_debit_log_entry_lst)
+    log_entry = export_td_misc_debit_log_entry_lst
+    database_dev_mode.td_misc_debit_log_add_many(log_entry)
+    print("---------------successfully added td_misc_debit records to the db------------------\n")
+# export_td_misc_debit_log_records()
+################################## End add td_misc_debit log RECORDS ############################################
+
+
+################################## Begin add td_interest_income log RECORDS ############################################
+# add td_interest_income log records
+
+# td_interest_income_log_rows contains a list of the rows in the td_interest_income table
+td_interest_income_log_rows = []
+
+# export_td_interest_income_log_entry_lst contains a list of the rows that will be exported into the td_interest_income table
+export_td_interest_income_log_entry_lst = []
+
+# export_td_interest_income_log_records function check for UNIQUE CONSTRANT ERRORS
+# exports the td broker miscellaneous debit log records into the td_interest_income table
+def export_td_interest_income_log_records():
+    td_interest_income_log_data = cur.execute(''' SELECT * FROM td_interest_income ''')
+    print("\n--------------TEST: export_td_interest_income_log_records function: log_entry records----------------")
+    for row in td_interest_income_log_data:
+        td_interest_income_log_rows.append(row)
+    print(td_interest_income_log_rows)
+    print('--------------------TEST: there are',len(td_interest_income_log_rows),'in the td_interest_income table-----------------\n' )
+
+    print("\n--------------TEST: export_td_interest_income_log_records function: log_entry records--------------------")
+    log_entry = td_dev_mode.int_income_export_records()
+    print('\n------------------TEST: there are', len(log_entry),'records----------------------------/n')
+    for row in log_entry:
+        row = tuple(row)
+        if row in td_interest_income_log_rows:
+            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print(row)
+            pass
+
+        else:
+            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
+            print(row)
+            export_td_interest_income_log_entry_lst.append(row)
+
+    print("\n--------------TEST: rows to export into td_misc_income table-------------------")
+    print(export_td_interest_income_log_entry_lst)
+    log_entry = export_td_interest_income_log_entry_lst
+    database_dev_mode.td_interest_income_log_add_many(log_entry)
+    print("---------------successfully added td_interest_income records to the db------------------\n")
+# export_td_interest_income_log_records()
+################################## End add td_interest_income log RECORDS ############################################
+
+################################## Begin add td_interest_debit log RECORDS ############################################
+# add td_interest_debit log records
+
+# td_interest_debit_log_rows contains a list of the rows in the td_interest_debit table
+td_interest_debit_log_rows = []
+
+# export_td_interest_debit_log_entry_lst contains a list of the rows that will be exported into the td_interest_debit table
+export_td_interest_debit_log_entry_lst = []
+
+# export_td_interest_debit_log_records function check for UNIQUE CONSTRANT ERRORS
+# exports the td broker miscellaneous debit log records into the td_interest_debit table
+def export_td_interest_debit_log_records():
+    td_interest_debit_log_data = cur.execute(''' SELECT * FROM td_interest_debit ''')
+    print("\n--------------TEST: export_td_interest_debit_log_records function: log_entry records----------------")
+    for row in td_interest_debit_log_data:
+        td_interest_debit_log_rows.append(row)
+    print(td_interest_debit_log_rows)
+    print('--------------------TEST: there are',len(td_interest_debit_log_rows),'in the td_interest_debit table-----------------\n' )
+
+    print("\n--------------TEST: export_td_interest_debit_log_records function: log_entry records--------------------")
+    log_entry = td_dev_mode.int_debit_export_records()
+    print('\n------------------TEST: there are', len(log_entry),'records----------------------------/n')
+    for row in log_entry:
+        row = tuple(row)
+        if row in td_interest_debit_log_rows:
+            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print(row)
+            pass
+
+        else:
+            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
+            print(row)
+            export_td_interest_debit_log_entry_lst.append(row)
+
+    print("\n--------------TEST: rows to export into td_misc_income table-------------------")
+    print(export_td_interest_debit_log_entry_lst)
+    log_entry = export_td_interest_debit_log_entry_lst
+    database_dev_mode.td_interest_debit_log_add_many(log_entry)
+    print("---------------successfully added td_interest_debit records to the db------------------\n")
+# export_td_interest_debit_log_records()
+################################## End add td_interest_debit log RECORDS ############################################
 
 ############################## CLOSE THE DATABASE ##################################
 print("app closed....")
