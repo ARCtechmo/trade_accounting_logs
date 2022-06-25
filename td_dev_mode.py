@@ -1,12 +1,12 @@
 ### UNDER DEVELOPMENT ###
-# this app will import and clean .csv files from the equity options broker 1
+# this app imports and cleans the .csv files from the equity options broker 1
 import csv
 import re
 
 # define the broker id for the foreign key in the database
 broker_id = input("enter the options broker id: ")
 if broker_id == "":
-    broker_id = 4
+    broker_id = 5
 else:
     broker_id = broker_id
 # print("broker id: ", broker_id)
