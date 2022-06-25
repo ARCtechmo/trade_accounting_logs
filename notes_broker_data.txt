@@ -44,7 +44,7 @@ Equity Options Broker Data 2:
 1. The default monthly statement is accessible as a.csv file but the format is not clean. 
 2. The fields and rows of the default monthly statement are not organized in a logical fashion.  
 3. You will need to write a program to extract, clean and organize the data. 
-4. The relevant rows in the default .csv monthly statement are from 39-42 and 45-55. 
+4. The relevant rows in the default .csv monthly statement are labeled with trades and have all of the necessary data. 
 
 Futures / Options on Futures Broker Data
 1. The data is only accessible via .pdf files.  
