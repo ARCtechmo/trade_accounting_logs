@@ -29,20 +29,3 @@ with open(filename, newline='') as csvfile:
         if row[0] == 'trades' or row[0] == 'Trades':
             trade_rows = row
             trade_data_lst.append(trade_rows)
-
-# read the .csv data
-with open(filename, newline='') as csvfile:
-        for line in csvfile:
-            data = line.split()
-            print(data[1])
-
-# transposed_trade_data_lst contains the trade datawith the rows and columns transposed for easier indexing
-transposed_trade_data_lst = []
-
-#  transpose function extract the options trade data from the trade_data_lst
-def transpose(lst1,lst2):
-    print("-----------------TEST: transpose_rows_columns function----------------------")
-    for line in lst1:
-        print(line)
-
-# transpose(trade_data_lst,transposed_trade_data_lst)
