@@ -25,3 +25,6 @@ is not with my program but with the broker data
    will produce an error
 3. when you upload the data you need to ensure it is not missing transaction data or the program may crash
 4. I will need to fix this so the program works regardless of missing transaction data
+
+6/25/2022 td_dev_mode.py sucessfull testing complete
+1. tested all monthly and yearly .csv files with the correct output  
