@@ -240,8 +240,29 @@ def extract_options_gross(lst1,lst2):
     print(len(lst2))
 extract_options_gross(options_lst1,gross_lst)
 
+
+# options_lst2 fields: date,yr,mo,day,bought_sold,trade_size,mkt,call_put,ctr,price,gross
+options_lst2 = []
+
+# broker_id_lst contains the broker id that will be appended to options_lst2
+broker_id_lst = [broker_id]
+
+# compiles the column headers (fields) into a list; adds the broker_id
+def compile_options_fields():
+    print("---------TEST: compile_options_fields---------------------- ")
+    for date,year,month,day,bought_sold,trade_size,mkt,call_put,ctr,price,gross,broker in zip(
+        options_dates_lst,options_year_lst,options_month_lst,
+        options_day_lst,bought_sold_lst,trade_size_lst,mkt_lst,
+        call_put_lst,ctr_lst,price_lst,gross_lst,broker_id_lst):
+
+        broker_id_lst.append(broker_id)
+        options_lst2.append([date,year,month,day,bought_sold,trade_size,mkt,call_put,ctr,price,gross,broker])
+
+    for row in options_lst2:
+        print(row)
+compile_options_fields()
+
+
 ### START HERE NEXT ###
-# use the zip function to complie the data into a single list
-# add the broker id
 # add a function to create the trans_key
 # add the key to the list
