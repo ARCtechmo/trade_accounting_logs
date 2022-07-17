@@ -258,11 +258,40 @@ def compile_options_fields():
         broker_id_lst.append(broker_id)
         options_lst2.append([date,year,month,day,bought_sold,trade_size,mkt,call_put,ctr,price,gross,broker])
 
-    for row in options_lst2:
-        print(row)
 compile_options_fields()
 
+# key_lst contains a list of unque identifiers
+key_lst = []
+
+# contains all fields and rows for the options transaction data and a unique identifier
+options_lst3 = []
+
+# creates a unique identifier and adds it to options_lst3
+def create_key(lst2,lst3,lst4):
+    print("--------------TEST: create_key() function------------------------")
+    index_lst = []
+    i = len(lst2)
+    for row in lst2:
+        row[5] = abs(row[5])
+        trans_num = f'{row[0][2:4]}{row[0][5:7]}{row[0][8:10]}'
+        lst3.append(trans_num)
+
+    for num in range(i):
+        if num < 10:
+            num = (str(num))
+            num = num.zfill(2)
+            index_lst.append(num)
+        else:
+            num = str(num)
+            index_lst.append(num)
+
+    for index, id in zip(lst3,index_lst):
+        lst4.append((f'{index}{id}'))
+
+    for id in lst4:
+        id = int(id)
+        print(id)
+create_key(options_lst2,key_lst,options_lst3)
 
 ### START HERE NEXT ###
-# add a function to create the trans_key
 # add the key to the list
