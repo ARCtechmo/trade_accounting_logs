@@ -44,7 +44,7 @@ def create_options_comm_fee_lst(lst1):
     i = len(lst1)
     for row in lst1[1:i]:
         options_lst1.append([row[5:9],row[10]])
-        comm_fee_lst1.append(row[11])
+        comm_fee_lst1.append([row[6],row[7],row[11]])
 create_options_comm_fee_lst(trade_data_lst)
 
 # options_dates_lst contains the options dates
@@ -260,21 +260,21 @@ def compile_options_fields():
 
 compile_options_fields()
 
-# key_lst contains a list of unque identifiers
-key_lst = []
+# key_lst1 contains a list of unque identifiers
+key_lst1 = []
 
-# contains all fields and rows for the options transaction data and a unique identifier
-options_lst3 = []
+# key_lst2 contains all fields and rows for the options transaction data and a unique identifier
+key_lst2 = []
 
-# creates a unique identifier and adds it to options_lst3
-def create_key(lst2,lst3,lst4):
+# creates a unique identifier and adds it to key_lst2
+def create_key(lst2,key_lst1,key_lst2):
     print("--------------TEST: create_key() function------------------------")
     index_lst = []
     i = len(lst2)
     for row in lst2:
         row[5] = abs(row[5])
         trans_num = f'{row[0][2:4]}{row[0][5:7]}{row[0][8:10]}'
-        lst3.append(trans_num)
+        key_lst1.append(trans_num)
 
     for num in range(i):
         if num < 10:
@@ -285,13 +285,71 @@ def create_key(lst2,lst3,lst4):
             num = str(num)
             index_lst.append(num)
 
-    for index, id in zip(lst3,index_lst):
-        lst4.append((f'{index}{id}'))
+    for index, id in zip(key_lst1,index_lst):
+        key_lst2.append((f'{index}{id}'))
 
-    for id in lst4:
+    for id in key_lst2:
         id = int(id)
-        print(id)
-create_key(options_lst2,key_lst,options_lst3)
+        # print(id)
+create_key(options_lst2,key_lst1,key_lst2)
+
+# options_lst3 contains all of the fields and the unique transaction id column
+options_lst3 = []
+
+def append_key(lst2,key_lst2,lst3):
+    print("--------------TEST: append_key() function----------------------")
+    tmp_lst = []
+    for col1, col2 in zip(lst2,key_lst2):
+        col2 = int(col2)
+        tmp_lst.append([col1,col2])
+
+    i = len(tmp_lst)
+    for row in tmp_lst[:i]:
+        row = row[0][0],row[0][1],row[0][2],row[0][3],row[0][4],row[0][5], \
+        row[0][6],row[0][7],row[0][8],row[0][9],row[0][10],row[0][11],row[1]
+        row = list(row)
+        lst3.append(row)
+
+append_key(options_lst2,key_lst2,options_lst3)
+
+# comm_fee_lst2 contains the formatted commission and fee transactions
+comm_fee_lst2 = []
+
+# add dates and format the commissions and fee transaction data list
+def format_comm_fee_data():
+    print("--------TEST: format_comm_fee_data() func--------------")
+    i = len(comm_fee_lst1)
+    for line in comm_fee_lst1:
+        if line[1] == '':
+            pass
+        else:
+            line[1] = int(line[1])
+            if line[1] == 0:
+                pass
+            else:
+                comm_data = line[0][:10],float(line[2])
+                comm_data = list(comm_data)
+                comm_fee_lst2.append(comm_data)
+
+format_comm_fee_data()
+
+# export the options log data
+def options_log_export_records():
+    print("---------TEST: options_log_export_records() function-------------")
+    i = len(options_lst3)
+    logs = options_lst3[:i]
+    print('There are',len(logs),'records to be exported from the options_log_export_records() func')
+    return logs
+options_log_export_records()
+
+# export the commissions and fee data
+def comm_fee_log_export_records():
+    print("--------TEST: comm_fee_log_export_records() func")
+    i = len(comm_fee_lst2)
+    logs = comm_fee_lst2[:i]
+    print('There are',len(logs),'records to be exported from the comm_fee_log_export_records() func')
+    return logs
+comm_fee_log_export_records()
 
 ### START HERE NEXT ###
-# add the key to the list
+# go to the database_dev_mode.py and build the tables for the options data
