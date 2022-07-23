@@ -526,6 +526,9 @@ def td_interest_debit_log_show_all():
             print(item)
 print("\n-------------td_interest_debit_log_show_all func created successfully----------------\n")
 
+### START HERE NEXT ###
+# go to the database_dev_mode.py and build the tables for the options data
+
 conn.commit()
 ############################# CLOSE THE DATABASE ##############################
 print("\n-------------database closed---------------------")
