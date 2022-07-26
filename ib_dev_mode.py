@@ -180,8 +180,10 @@ def extract_options_call_put(lst1,lst2):
             if call_put == '':
                 pass
             elif call_put == 'C' or call_put == 'CALL':
+                call_put = 'Call'
                 lst2.append(call_put)
             elif call_put == 'P' or call_put == 'PUT':
+                call_put = 'Put'
                 lst2.append(call_put)
     print(len(lst2))
 extract_options_call_put(options_lst1,call_put_lst)
@@ -315,11 +317,18 @@ append_key(options_lst2,key_lst2,options_lst3)
 # comm_fee_lst2 contains the formatted commission and fee transactions
 comm_fee_lst2 = []
 
+
+### START HERE NEXT ###
+# trans_num needs two more unique digits
+# time digits have duplicates and cause unique constraint
+# use a regex to extract the first two digits after the decimal point from the price
+
 # add dates and format the commissions and fee transaction data list
 def format_comm_fee_data():
     print("--------TEST: format_comm_fee_data() func--------------")
     i = len(comm_fee_lst1)
     for line in comm_fee_lst1:
+        print(line[2][:])
         if line[1] == '':
             pass
         else:
@@ -327,10 +336,10 @@ def format_comm_fee_data():
             if line[1] == 0:
                 pass
             else:
-                comm_data = line[0][:10],float(line[2])
+                trans_num = f'{line[0][2:4]}{line[0][5:7]}{line[0][8:10]}' ### add first two digits after decimal
+                comm_data = line[0][:10],int(line[0][:4]),int(line[0][5:7]),int(line[0][8:10]),float(line[2]),broker_id,int(trans_num)
                 comm_data = list(comm_data)
                 comm_fee_lst2.append(comm_data)
-
 format_comm_fee_data()
 
 # export the options log data
@@ -347,9 +356,8 @@ def comm_fee_log_export_records():
     print("--------TEST: comm_fee_log_export_records() func")
     i = len(comm_fee_lst2)
     logs = comm_fee_lst2[:i]
+    # for log in logs:
+    #     print(log)
     print('There are',len(logs),'records to be exported from the comm_fee_log_export_records() func')
     return logs
 comm_fee_log_export_records()
-
-### START HERE NEXT ###
-# go to the database_dev_mode.py and build the tables for the options data
