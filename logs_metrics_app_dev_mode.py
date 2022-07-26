@@ -2,7 +2,8 @@
 # this is the file that will interact with the database.py file
 import database_dev_mode
 # import fx_dev_mode
-import td_dev_mode
+# import td_dev_mode
+import ib_dev_mode
 from datetime import date
 from datetime import datetime
 import itertools
@@ -680,6 +681,95 @@ def export_td_interest_debit_log_records():
     print("---------------successfully added td_interest_debit records to the db------------------\n")
 # export_td_interest_debit_log_records()
 ################################## End add td_interest_debit log RECORDS ############################################
+
+################################# Begin add ib_options_log RECORDS ##############################################
+# add ib_options_log records
+
+# ib_options_log_rows contains a list of the rows in the ib_options_log table
+ib_options_log_rows = []
+
+# export_ib_options_log_entry_lst contains a list of the rows that will be exported into the ib_options_log table
+export_ib_options_log_entry_lst = []
+
+# export_ib_options_log_records function check for UNIQUE CONSTRANT ERRORS
+# exports the ib broker options log records into the ib_options_log table
+def export_ib_options_log_records():
+    ib_options_log_data = cur.execute(''' SELECT * FROM ib_options_log ''')
+    print("\n--------------TEST: export_ib_options_log_records function: log_entry records----------------")
+    for row in ib_options_log_data:
+        ib_options_log_rows.append(row)
+    print(ib_options_log_rows)
+    print('--------------------TEST: there are',len(ib_options_log_rows),'in the ib_options table-----------------\n' )
+
+    print("\n--------------TEST: export_ib_options_log_records function: log_entry records--------------------")
+    log_entry = ib_dev_mode.options_log_export_records()
+    print('\n------------------TEST: there are', len(log_entry),'records----------------------------/n')
+    for row in log_entry:
+        row = tuple(row)
+        if row in ib_options_log_rows:
+            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print(row)
+            pass
+
+        else:
+            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
+            print(row)
+            export_ib_options_log_entry_lst.append(row)
+
+    print("\n--------------TEST: rows to export into ib_options_log table-------------------")
+    print(export_ib_options_log_entry_lst)
+    log_entry = export_ib_options_log_entry_lst
+    database_dev_mode.ib_options_log_add_many(log_entry)
+
+    print("---------------successfully added ib_options_log records to the db------------------\n")
+
+export_ib_options_log_records()
+################################## End add ib_options_log RECORDS ##############################################
+
+
+################################## Begin add ib_commissions_fee log RECORDS ##############################################
+# add ib_commissions_fee log records
+
+# ib_comm_fee_log_rows contains a list of the rows in the ib_commissions_fee table
+ib_comm_fee_log_rows = []
+
+
+# export_ib_comm_fee_log_entry_lst contains a list of the rows that will be exported into the ib_commissions_fee table
+export_ib_comm_fee_log_entry_lst = []
+
+# export_ib_comm_fee_log_records function check for UNIQUE CONSTRANT ERRORS
+# exports the ib broker commissions log records into the ib_commissions_fee table
+def export_ib_comm_fee_log_records():
+    ib_comm_fee_log_data = cur.execute(''' SELECT * FROM ib_commissions_fee ''')
+    print("\n--------------TEST: export_ib_comm_fee_log_records function: log_entry records----------------")
+    for row in ib_comm_fee_log_data:
+        ib_comm_fee_log_rows.append(row)
+    print(ib_comm_fee_log_rows)
+    print('--------------------TEST: there are',len(ib_comm_fee_log_rows),'in the ib_commissions_fee table-----------------\n' )
+
+    print("\n--------------TEST: export_ib_comm_fee_log_records function: log_entry records--------------------")
+    log_entry = ib_dev_mode.comm_fee_log_export_records()
+    print('\n------------------TEST: there are', len(log_entry),'records----------------------------/n')
+    for row in log_entry:
+        row = tuple(row)
+        if row in ib_comm_fee_log_rows:
+            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print(row)
+            pass
+
+        else:
+            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
+            print(row)
+            export_ib_comm_fee_log_entry_lst.append(row)
+
+    print("\n--------------TEST: rows to export into ib_commissions_fee table-------------------")
+    print(export_ib_comm_fee_log_entry_lst)
+    log_entry = export_ib_comm_fee_log_entry_lst
+    # database_dev_mode.ib_commissions_fee_log_add_many(log_entry)
+    print("---------------successfully added ib_commissions_fee records to the db------------------\n")
+export_ib_comm_fee_log_records()
+################################## End add ib_commissions_fee log RECORDS ##############################################
+
 
 ############################## CLOSE THE DATABASE ##################################
 print("app closed....")
