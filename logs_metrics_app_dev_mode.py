@@ -1,8 +1,8 @@
 ### This code is under development ###
 # this is the file that will interact with the database.py file
 import database_dev_mode
-# import fx_dev_mode
-# import td_dev_mode
+import fx_dev_mode
+import td_dev_mode
 import ib_dev_mode
 from datetime import date
 from datetime import datetime
@@ -723,7 +723,7 @@ def export_ib_options_log_records():
 
     print("---------------successfully added ib_options_log records to the db------------------\n")
 
-export_ib_options_log_records()
+# export_ib_options_log_records()
 ################################## End add ib_options_log RECORDS ##############################################
 
 
@@ -765,9 +765,9 @@ def export_ib_comm_fee_log_records():
     print("\n--------------TEST: rows to export into ib_commissions_fee table-------------------")
     print(export_ib_comm_fee_log_entry_lst)
     log_entry = export_ib_comm_fee_log_entry_lst
-    # database_dev_mode.ib_commissions_fee_log_add_many(log_entry)
+    database_dev_mode.ib_commissions_fee_log_add_many(log_entry)
     print("---------------successfully added ib_commissions_fee records to the db------------------\n")
-export_ib_comm_fee_log_records()
+# export_ib_comm_fee_log_records()
 ################################## End add ib_commissions_fee log RECORDS ##############################################
 
 
