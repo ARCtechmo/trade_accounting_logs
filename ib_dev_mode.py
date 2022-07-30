@@ -29,8 +29,6 @@ with open(filename, newline='') as csvfile:
         if row[0] == 'trades' or row[0] == 'Trades':
             trade_rows = row
             trade_data_lst.append(trade_rows)
-<<<<<<< HEAD
-=======
 
 # contains unformatted options data
 options_lst1 = []
@@ -379,4 +377,3 @@ def comm_fee_log_export_records():
     print('There are',len(logs),'records to be exported from the comm_fee_log_export_records() func')
     return logs
 comm_fee_log_export_records()
->>>>>>> test_ib_dev_mode
