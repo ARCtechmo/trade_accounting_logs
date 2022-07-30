@@ -292,7 +292,6 @@ def create_key(lst2,key_lst1,key_lst2):
 
     for id in key_lst2:
         id = int(id)
-        # print(id)
 create_key(options_lst2,key_lst1,key_lst2)
 
 # options_lst3 contains all of the fields and the unique transaction id column
@@ -317,18 +316,10 @@ append_key(options_lst2,key_lst2,options_lst3)
 # comm_fee_lst2 contains the formatted commission and fee transactions
 comm_fee_lst2 = []
 
-
-### START HERE NEXT ###
-# trans_num needs two more unique digits
-# time digits have duplicates and cause unique constraint
-# use a regex to extract the first two digits after the decimal point from the price
-
 # add dates and format the commissions and fee transaction data list
 def format_comm_fee_data():
     print("--------TEST: format_comm_fee_data() func--------------")
-    i = len(comm_fee_lst1)
     for line in comm_fee_lst1:
-        print(line[2][:])
         if line[1] == '':
             pass
         else:
@@ -336,11 +327,38 @@ def format_comm_fee_data():
             if line[1] == 0:
                 pass
             else:
-                trans_num = f'{line[0][2:4]}{line[0][5:7]}{line[0][8:10]}' ### add first two digits after decimal
+                trans_num = f'{line[0][2:4]}{line[0][5:7]}{line[0][8:10]}'
                 comm_data = line[0][:10],int(line[0][:4]),int(line[0][5:7]),int(line[0][8:10]),float(line[2]),broker_id,int(trans_num)
                 comm_data = list(comm_data)
                 comm_fee_lst2.append(comm_data)
+
 format_comm_fee_data()
+
+# contains list of comm_fee transactions with a unique transaction number identifier
+comm_fee_lst3 = []
+
+# contains index values of each itme in the comm_fee_lst2
+cf_index_lst1 = []
+
+# creates and appends a a unique transaction identifier to the comm_fee_lst2
+def create_comm_fee_key(cflst1,cfk,cflst2):
+    print("------------------TEST: create_comm_fee_key() func-------------------" )
+    i = len(cflst1)
+    for i in range(i):
+        if i < 10:
+            i = str(i)
+            i = i.zfill(2)
+            cfk.append(i)
+        else:
+            i = str(i)
+            cfk.append(i)
+
+    for num, index in zip(cflst1, cfk):
+        trans_num = f'{num[6]}{index}'
+        cf_row = num[0],num[1],num[2],num[3],num[4],num[5],int(trans_num)
+        cf_row = list(cf_row)
+        cflst2.append(cf_row)
+create_comm_fee_key(comm_fee_lst2,cf_index_lst1,comm_fee_lst3)
 
 # export the options log data
 def options_log_export_records():
@@ -354,10 +372,8 @@ options_log_export_records()
 # export the commissions and fee data
 def comm_fee_log_export_records():
     print("--------TEST: comm_fee_log_export_records() func")
-    i = len(comm_fee_lst2)
-    logs = comm_fee_lst2[:i]
-    # for log in logs:
-    #     print(log)
+    i = len(comm_fee_lst3)
+    logs = comm_fee_lst3[:i]
     print('There are',len(logs),'records to be exported from the comm_fee_log_export_records() func')
     return logs
 comm_fee_log_export_records()
