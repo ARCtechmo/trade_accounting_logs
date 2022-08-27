@@ -21,7 +21,11 @@ fxlst = []
 
 broker_credit_lst = []
 
-broker_id = int(input("enter the broker_id from the database (2-7): "))
+broker_id = input("enter the broker_id from the database (2-7): ")
+if broker_id == "":
+    broker_id = 3
+else:
+    broker_id == broker_id
 ### come back to this later ###
 # embed the entire program under a while loop to catch incorrect broker_id entry
 # while True:
@@ -34,7 +38,7 @@ broker_id = int(input("enter the broker_id from the database (2-7): "))
 # separate the buy / se//, commission, financing, and interest credit items
 filename = input("enter the .csv filename: ")
 if filename == '':
-    filename = 'FX2020_test.csv'
+    filename = 'FX2021_test.csv'
 with open(filename, newline='') as csvfile:
     reader = csv.reader(csvfile)
     # next(csvfile) # removes the header - comment out if .csv file has no header
@@ -48,218 +52,225 @@ with open(filename, newline='') as csvfile:
         elif 'Active' in row[1] or 'Credit' in row[1]:
             broker_credit_lst.append(row)
 
-########################### BEGIN buy / sell transactions section #############################
-# count rows of transaction trades only
-count = 0
-for item in fxlst:
-    count +=1
-# print(f'There are {count} returned rows with buy/sell data.')
+# count the number of trade transactions
+def fx_count_trade_transactions():
+    count = 0
+    for item in fxlst:
+        count +=1
+    print(f'There are {count} returned rows with buy/sell data.')
+# fx_count_trade_transactions()
 
-# first step to match the open / closed transaction ids
 # transfxlst consists of only the open / closed transaction ids
 transfxlst = []
-for item in fxlst:
-    if item[2] == '':
-        # insert 000000000 in field 2 to identify rows that have the entry times
-        item[2] = '000000000'
-    transfxlst.append(item[3])
-# print(transfxlst)
 
-# step 2 to to match the open / closed transaction ids
-# dictionary gets a count of the transaction ids
+# match the open / closed transaction ids
+def fx_get_open_close_trans_ids(lst1,lst2):
+    for item in lst1:
+        if item[2] == '':
+            # insert 000000000 in field 2 to identify rows that have the entry times
+            item[2] = '000000000'
+        lst2.append(item[3])
+fx_get_open_close_trans_ids(fxlst,transfxlst)
+
 # matched_lst contains all transaction ids that have open and close ids
 matched_lst = []
+
+# unmatched_lst contains all transactions ids that do not have open and close ids
 unmatched_lst = []
-di = dict()
-for num in transfxlst:
-    di[num] = di.get(num,0) + 1
-# print("\n-----------------missing opening transaction id-----------------")
-for key,value in di.items():
 
-    # alert the user when there are missing opening transaction ids
-    if value <2:
-        missing_id = key
-        unmatched_lst.append(missing_id)
-        # print('missing open transaction id data for: ', missing_id)
-    else:
-        matching_id = key
-        matched_lst.append(matching_id)
-        # print('open_transaction_id_matched:', matching_id)
-# print("-----------------missing opening transaction id-----------------\n")
-# print(matched_lst)
+# match the open / closed transaction ids
+def fx_create_dict_open_close_trans_ids(lst1,lst2,lst3):
+    # dictionary gets a count of the transaction ids
+    di = dict()
+    for num in lst1:
+        di[num] = di.get(num,0) + 1
+    for key,value in di.items():
 
-# step 3 to match open / closed transaction ids
-# remove the missing transaction id identified in the dictionary from fxlst
+        # alert the user when there are missing opening transaction ids
+        if value <2:
+            missing_id = key
+            lst2.append(missing_id)
+        else:
+            matching_id = key
+            lst3.append(matching_id)
+
+fx_create_dict_open_close_trans_ids(transfxlst,unmatched_lst,matched_lst)
+
 # fxlst2 contains rows only with open and closed /  open transactions
 fxlst2 = []
-for row in fxlst:
-    open_id = row[3]
-    # print(open_id)
-    if open_id in matched_lst:
-        fxlst2.append(row)
-# print("---------------fxlst2: open-close transactions--------------------")
-# for row in fxlst2:
-#     print(row)
-# print("---------------fxlst2: open-close transactions--------------------\n")
 
+# remove the missing transaction id identified in the dictionary from fxlst
+def fx_remove_missing_open_close_trans_ids(lst1,lst2):
+    for row in lst1:
+        open_id = row[3]
+        if open_id in matched_lst:
+            lst2.append(row)
 
-# step 4 to match open / closed transaction ids
+fx_remove_missing_open_close_trans_ids(fxlst,fxlst2)
+
+# open_trans_lst contains tuples with the open dates and open transaction ids
+open_trans_lst = []
+
 # extract dates from the rows that have the opening date and insert into the rows
-# opentrans is a list of tuples with the open dates and open transaction ids
-# print("---------------tuples: opening: transaction ids--------------------")
-opentrans = []
-for item in fxlst2:
-    # print(item)
-    if item[2] == '000000000':
-        entry_date = item[0]
-        opentrans.append((entry_date, item[3]))
-    else:
-        pass
-# print(opentrans)
-# print("---------------tuples: opening: transaction ids--------------------\n")
+def fx_extract_open_trans_dates(lst1,lst2):
+    for item in lst1:
+        if item[2] == '000000000':
+            entry_date = item[0]
+            lst2.append((entry_date, item[3]))
+        else:
+            pass
+fx_extract_open_trans_dates(fxlst2,open_trans_lst)
+
+# fxlst3 contains all trade transaction rows with the needed data ready for formatting
+fxlst3 = []
 
 # step 5 matches inserts the opening date to the row with the matching closed date
-# extract the columns with closing date '000000000'
-# fxlst3 contains all rows with the needed data now ready for formatting
-# print("---------------fxlst3: matched open-close transactions--------------------")
-fxlst3 = []
-for x in fxlst:
-    for tup in opentrans:
-        if x[2] != '000000000' and x[3] == tup[1]:
-            fxlst3.append([tup[0],x])
-# for row in fxlst3:
-#     print(row)
-# print("---------------fxlst3: matched open-close transactions--------------------\n")
+def fx_match_insert_open_close_dates(lst1,lst2):
+    for x in lst1:
+        for tup in open_trans_lst:
+            # extract the columns with closing date '000000000'
+            if x[2] != '000000000' and x[3] == tup[1]:
+                lst2.append([tup[0],x])
+fx_match_insert_open_close_dates(fxlst,fxlst3)
+
+# fxlst4 contains the entry dates formatted to YYY-MM-DD-HH:MM
+fxlst4 = []
 
 # extract and format the entry date to YYYY-MM-DD-HH:MM
-fxlst4 = []
-for dmy in fxlst3:
-    # print(dmy[0])
-    if dmy[0][2] == '/' and dmy[0][5] =='/':
-        # print(dmy[0])
-        entry_yr = dmy[0][6:10]
-        entry_mo = dmy[0][3:5]
-        entry_day = dmy[0][:2]
-        entry_time = dmy[0][11:16]
-        if len(entry_time) < 5:
-            entry_time = f'0{dmy[0][11:16]}'
-            formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
-            fxlst4.append(formatted_entry_date)
-        elif len(entry_time) == 5:
+def fx_format_entry_date(lst1,lst2):
+    for dmy in lst1:
+        if dmy[0][2] == '/' and dmy[0][5] =='/':
+            entry_yr = dmy[0][6:10]
+            entry_mo = dmy[0][3:5]
+            entry_day = dmy[0][:2]
             entry_time = dmy[0][11:16]
-            formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
-            fxlst4.append(formatted_entry_date)
-    elif dmy[0][2] == '/' and dmy[0][4] =='/':
-        # print(dmy[0])
-        entry_yr = dmy[0][5:9]
-        entry_mo = dmy[0][3]
-        entry_mo = f'0{entry_mo}'
-        entry_day = dmy[0][:2]
-        entry_time = dmy[0][10:15]
-        if len(entry_time) < 5:
-            entry_time = f'0{dmy[0][10:15]}'
-            formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
-            fxlst4.append(formatted_entry_date)
-        elif len(entry_time) == 5:
+            if len(entry_time) < 5:
+                entry_time = f'0{dmy[0][11:16]}'
+                formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
+                lst2.append(formatted_entry_date)
+            elif len(entry_time) == 5:
+                entry_time = dmy[0][11:16]
+                formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
+                lst2.append(formatted_entry_date)
+
+        elif dmy[0][2] == '/' and dmy[0][4] =='/':
+            entry_yr = dmy[0][5:9]
+            entry_mo = dmy[0][3]
+            entry_mo = f'0{entry_mo}'
+            entry_day = dmy[0][:2]
             entry_time = dmy[0][10:15]
-            formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
-            fxlst4.append(formatted_entry_date)
-    elif dmy[0][1] == '/' and dmy[0][4] =='/':
-        # print(dmy[0])
-        entry_yr = dmy[0][5:9]
-        entry_mo = dmy[0][2:4]
-        entry_day = dmy[0][0]
-        entry_day = f'0{entry_day}'
-        entry_time = dmy[0][10:14]
-        if len(entry_time) < 5:
-            entry_time = f'0{dmy[0][10:14]}'
-            formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
-            fxlst4.append(formatted_entry_date)
-        elif len(entry_time) == 5:
+            if len(entry_time) < 5:
+                entry_time = f'0{dmy[0][10:15]}'
+                formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
+                lst2.append(formatted_entry_date)
+            elif len(entry_time) == 5:
+                entry_time = dmy[0][10:15]
+                formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
+                lst2.append(formatted_entry_date)
+
+        elif dmy[0][1] == '/' and dmy[0][4] =='/':
+            entry_yr = dmy[0][5:9]
+            entry_mo = dmy[0][2:4]
+            entry_day = dmy[0][0]
+            entry_day = f'0{entry_day}'
             entry_time = dmy[0][10:14]
-            formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
-            fxlst4.append(formatted_entry_date)
-    elif dmy[0][1] == '/' and dmy[0][3] =='/':
-        # print(dmy[0])
-        entry_yr = dmy[0][4:8]
-        entry_mo = dmy[0][2]
-        entry_mo = f'0{entry_mo}'
-        entry_day = dmy[0][0]
-        entry_day = f'0{entry_day}'
-        entry_time = dmy[0][9:13]
-        if len(entry_time) < 5:
-            entry_time = f'0{dmy[0][9:13]}'
-            formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
-            fxlst4.append(formatted_entry_date)
-        elif len(entry_time) == 5:
+            if len(entry_time) < 5:
+                entry_time = f'0{dmy[0][10:14]}'
+                formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
+                lst2.append(formatted_entry_date)
+            elif len(entry_time) == 5:
+                entry_time = dmy[0][10:14]
+                formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
+                lst2.append(formatted_entry_date)
+
+        elif dmy[0][1] == '/' and dmy[0][3] =='/':
+            entry_yr = dmy[0][4:8]
+            entry_mo = dmy[0][2]
+            entry_mo = f'0{entry_mo}'
+            entry_day = dmy[0][0]
+            entry_day = f'0{entry_day}'
             entry_time = dmy[0][9:13]
-            formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
-            fxlst4.append(formatted_entry_date)
+            if len(entry_time) < 5:
+                entry_time = f'0{dmy[0][9:13]}'
+                formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
+                lst2.append(formatted_entry_date)
+            elif len(entry_time) == 5:
+                entry_time = dmy[0][9:13]
+                formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
+                lst2.append(formatted_entry_date)
+
+fx_format_entry_date(fxlst3,fxlst4)
+
+# fxlst5 contains the entry dates formatted to YYY-MM-DD-HH:MM
+fxlst5 = []
 
 # extract and format the exit date to YYYY-MM-DD-HH:MM
-fxlst5 = []
-for dmy in fxlst3:
-    # print(dmy[0])
-    if dmy[1][0][2] == '/' and dmy[1][0][5] =='/':
-        # print(dmy[0])
-        exit_yr = dmy[1][0][6:10]
-        exit_mo = dmy[1][0][3:5]
-        exit_day = dmy[1][0][:2]
-        exit_time = dmy[1][0][11:16]
-        if len(exit_time) < 5:
-            exit_time = f'0{dmy[1][0][11:16]}'
-            formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
-            fxlst5.append(formatted_exit_date)
-        elif len(exit_time) == 5:
+def fx_format_exit_date(lst1,lst2):
+    for dmy in lst1:
+        if dmy[1][0][2] == '/' and dmy[1][0][5] =='/':
+            exit_yr = dmy[1][0][6:10]
+            exit_mo = dmy[1][0][3:5]
+            exit_day = dmy[1][0][:2]
             exit_time = dmy[1][0][11:16]
-            formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
-            fxlst5.append(formatted_exit_date)
-    elif dmy[1][0][2] == '/' and dmy[1][0][4] =='/':
-        # print(dmy[0])
-        exit_yr = dmy[1][0][5:9]
-        exit_mo = dmy[1][0][3]
-        exit_mo = f'0{exit_mo}'
-        exit_day = dmy[1][0][:2]
-        exit_time = dmy[1][0][10:15]
-        if len(exit_time) < 5:
-            exit_time = f'0{dmy[1][0][10:15]}'
-            formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
-            fxlst5.append(formatted_exit_date)
-        elif len(exit_time) == 5:
+            if len(exit_time) < 5:
+                exit_time = f'0{dmy[1][0][11:16]}'
+                formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
+                lst2.append(formatted_exit_date)
+            elif len(exit_time) == 5:
+                exit_time = dmy[1][0][11:16]
+                formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
+                lst2.append(formatted_exit_date)
+
+        elif dmy[1][0][2] == '/' and dmy[1][0][4] =='/':
+            exit_yr = dmy[1][0][5:9]
+            exit_mo = dmy[1][0][3]
+            exit_mo = f'0{exit_mo}'
+            exit_day = dmy[1][0][:2]
             exit_time = dmy[1][0][10:15]
-            formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
-            fxlst5.append(formatted_exit_date)
-    elif dmy[1][0][1] == '/' and dmy[1][0][4] =='/':
-        # print(dmy[0])
-        exit_yr = dmy[1][0][5:9]
-        exit_mo = dmy[1][0][2:4]
-        exit_day = dmy[1][0][0]
-        exit_day = f'0{exit_day}'
-        exit_time = dmy[1][0][10:14]
-        if len(exit_time) < 5:
-            exit_time = f'0{dmy[1][0][10:14]}'
-            formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
-            fxlst5.append(formatted_exit_date)
-        elif len(exit_time) == 5:
+            if len(exit_time) < 5:
+                exit_time = f'0{dmy[1][0][10:15]}'
+                formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
+                lst2.append(formatted_exit_date)
+            elif len(exit_time) == 5:
+                exit_time = dmy[1][0][10:15]
+                formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
+                lst2.append(formatted_exit_date)
+
+        elif dmy[1][0][1] == '/' and dmy[1][0][4] =='/':
+            exit_yr = dmy[1][0][5:9]
+            exit_mo = dmy[1][0][2:4]
+            exit_day = dmy[1][0][0]
+            exit_day = f'0{exit_day}'
             exit_time = dmy[1][0][10:14]
-            formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
-            fxlst5.append(formatted_exit_date)
-    elif dmy[1][0][1] == '/' and dmy[1][0][3] =='/':
-        # print(dmy[0])
-        exit_yr = dmy[1][0][4:8]
-        exit_mo = dmy[1][0][2]
-        exit_mo = f'0{exit_mo}'
-        exit_day = dmy[1][0][0]
-        exit_day = f'0{exit_day}'
-        exit_time = dmy[1][0][9:13]
-        if len(exit_time) < 5:
-            exit_time = f'0{dmy[1][0][9:13]}'
-            formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
-            fxlst5.append(formatted_exit_date)
-        elif len(exit_time) == 5:
+            if len(exit_time) < 5:
+                exit_time = f'0{dmy[1][0][10:14]}'
+                formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
+                lst2.append(formatted_exit_date)
+            elif len(exit_time) == 5:
+                exit_time = dmy[1][0][10:14]
+                formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
+                lst2.append(formatted_exit_date)
+
+        elif dmy[1][0][1] == '/' and dmy[1][0][3] =='/':
+            exit_yr = dmy[1][0][4:8]
+            exit_mo = dmy[1][0][2]
+            exit_mo = f'0{exit_mo}'
+            exit_day = dmy[1][0][0]
+            exit_day = f'0{exit_day}'
             exit_time = dmy[1][0][9:13]
-            formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
-            fxlst5.append(formatted_exit_date)
+            if len(exit_time) < 5:
+                exit_time = f'0{dmy[1][0][9:13]}'
+                formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
+                lst2.append(formatted_exit_date)
+            elif len(exit_time) == 5:
+                exit_time = dmy[1][0][9:13]
+                formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
+                lst2.append(formatted_exit_date)
+fx_format_exit_date(fxlst3,fxlst5)
+
+
+### START HERE NEXT ###
+# continue to place each section under a function
 
 # extract the currency pairs from fxlst3
 # marketlst contains the formatted market (e.g. EURUSD, AUDJPY, etc...)
@@ -335,88 +346,123 @@ for net in fxlst3:
     net = float(net)
     net_lst.append(net)
 
+# fxlog_lst_1 contains the formatted list absent the unique transaction identifier
+fxlog_lst_1 = []
 
-### START HERE NEXT ###
-# 1) Create a function for the key generator and it should pull from fxlst5 not fxlst3 because...
-# fxlst5 has all of the formatted dates and it will pull from a consistent format
+# the broker_id is a list to make it iterable to add to the transaction list
+broker_id_lst = [broker_id]
 
-# 2) place everything under functions for the fx trade transaction logs
+def fx_create_trade_log_1(lst):
+    for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, gross, net, broker in zip(
+        fxlst4, fxlst5, marketlst,
+        close_id_lst, open_id_lst,
+        buy_sell_lst, trade_size_lst,
+        open_price_lst, close_price_lst,
+        gross_lst, net_lst, broker_id_lst
+        ):
+
+        entry_yr = entry[0:4]
+        entry_yr = int(entry_yr)
+        entry_mo = entry[5:7]
+        entry_mo = int(entry_mo)
+        entry_day = entry[8:10]
+        entry_day = int(entry_day)
+        entry_time = entry[11:]
+
+        exit_yr = exit[0:4]
+        exit_yr = int(exit_yr)
+        exit_mo = exit[5:7]
+        exit_mo = int(exit_mo)
+        exit_day = exit[8:10]
+        exit_day = int(exit_day)
+        exit_time = exit[11:]
+
+        # the zip() function will loop based on the shortest list
+        # the broker_id_lst length is one so append the broker_id with each loop
+        # oterwise it will only loop one time and return one row
+        broker_id_lst.append(broker_id)
+        lst.append(
+                    [entry, entry_yr, entry_mo, entry_day, entry_time,
+                    exit, exit_yr, exit_mo, exit_day, exit_time,
+                    market, close_id, open_id, buy_sell, trade_size, open, close, gross, net,
+                    broker]
+                    )
+
+fx_create_trade_log_1(fxlog_lst_1)
 
 # create a unique key for each transaction
 key_lst = []
-for num in fxlst3:
-    entry_year_key = f'{num[0][8:10]}'
-    entry_month_key = f'{num[0][3:5]}'
-    entry_day_key = f'{num[0][:2]}'
-    exit_month_key = f'{num[1][0][3:5]}'
-    exit_day_key = f'{num[1][0][:2]}'
-    close_open_key = num[1][2][-4:] + num[1][3][-4:]
-    unique_key = f'{entry_year_key}{entry_month_key}{entry_day_key}{exit_month_key}{exit_day_key}{close_open_key}'
 
-    entry_year_key = int(entry_year_key)
-    entry_month_key = int(entry_month_key)
-    entry_day_key = int(entry_day_key)
-    exit_month_key = int(exit_month_key)
-    exit_day_key = int(exit_day_key)
+# create the unique identifier for each trade transaction record
+def fx_create_log_key(lst1,lst2):
+    for num in lst1:
+        entry_year_key = f'{num[0][2:4]}'
+        entry_month_key = f'{num[0][5:7]}'
+        entry_day_key = f'{num[0][8:10]}'
+        exit_month_key = f'{num[5][5:7]}'
+        exit_day_key = f'{num[5][8:10]}'
+        open_trans_id = str(num[11])
+        close_trans_id = str(num[12])
+        open_partial_trans_id = open_trans_id[-4::]
+        close_partial_trans_id = close_trans_id[-4::]
+        close_open_key = f'{open_partial_trans_id}{close_partial_trans_id}'
+        unique_key = f'{entry_year_key}{entry_month_key}{entry_day_key}{exit_month_key}{exit_day_key}{close_open_key}'
+        unique_key = int(unique_key)
+        lst2.append(unique_key)
 
-    close_open_key = int(close_open_key)
-    unique_key = int(unique_key)
-    key_lst.append(unique_key)
+fx_create_log_key(fxlog_lst_1,key_lst)
 
-# fxloglst will contain the finalized formatted list to import into the app
-fxlog = []
+# fxlog_lst_2 contains the finalized list of the matched trade transactions
+fxlog_lst_2 = []
 
-# the broker_id is a list to make it iterable to add the broker key during the loop
-broker_id_lst = [broker_id]
+# create finalized matched trade transaction logs
+def fx_create_trade_log_2(lst):
+    for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, gross, net, broker, key in zip(
+        fxlst4, fxlst5, marketlst,
+        close_id_lst, open_id_lst,
+        buy_sell_lst, trade_size_lst,
+        open_price_lst, close_price_lst,
+        gross_lst, net_lst, broker_id_lst, key_lst
+        ):
 
-# print("\n-----------complete fxloglst----------------")
-for entry, exit, market, close_id, open_id, buy_sell, trade_size, open, close, gross, net, broker, key in zip(
-    fxlst4, fxlst5, marketlst,
-    close_id_lst, open_id_lst,
-    buy_sell_lst, trade_size_lst,
-    open_price_lst, close_price_lst,
-    gross_lst, net_lst, broker_id_lst, key_lst
-    ):
+        entry_yr = entry[0:4]
+        entry_yr = int(entry_yr)
+        entry_mo = entry[5:7]
+        entry_mo = int(entry_mo)
+        entry_day = entry[8:10]
+        entry_day = int(entry_day)
+        entry_time = entry[11:]
 
-    entry_yr = entry[0:4]
-    entry_yr = int(entry_yr)
-    entry_mo = entry[5:7]
-    entry_mo = int(entry_mo)
-    entry_day = entry[8:10]
-    entry_day = int(entry_day)
-    entry_time = entry[11:]
+        exit_yr = exit[0:4]
+        exit_yr = int(exit_yr)
+        exit_mo = exit[5:7]
+        exit_mo = int(exit_mo)
+        exit_day = exit[8:10]
+        exit_day = int(exit_day)
+        exit_time = exit[11:]
 
-    exit_yr = exit[0:4]
-    exit_yr = int(exit_yr)
-    exit_mo = exit[5:7]
-    exit_mo = int(exit_mo)
-    exit_day = exit[8:10]
-    exit_day = int(exit_day)
-    exit_time = exit[11:]
+        broker_id_lst.append(broker_id)
+        lst.append(
+                    [entry, entry_yr, entry_mo, entry_day, entry_time,
+                    exit, exit_yr, exit_mo, exit_day, exit_time,
+                    market, close_id, open_id, buy_sell, trade_size, open, close, gross, net,
+                    broker, key]
+                    )
 
-    # the zip() function will loop based on the shortest list
-    # the broker_id_lst length is one so append the broker_id with each loop
-    # oterwise it will only loop one time and return one row
-    broker_id_lst.append(broker_id)
-    fxlog.append(
-                [entry, entry_yr, entry_mo, entry_day, entry_time,
-                exit, exit_yr, exit_mo, exit_day, exit_time,
-                market, close_id, open_id, buy_sell, trade_size, open, close, gross, net,
-                broker, key]
-                )
+fx_create_trade_log_2(fxlog_lst_2)
 
 ########################### print all rows #################################
-def fxlog_add_records(fxlog):
-    for log in fxlog:
+def fxlog_add_records(lst):
+    for log in lst:
         print(log)
-# fxlog_add_records(fxlog)
+fxlog_add_records(fxlog_lst_2)
 ########################### print all rows #################################
 
 ########################### begin export records function #################################
 # function exports the records into the import the log_metrics_app.py app
 def fxlog_add_records():
     print("-----test of fxlog_add_records() function------------")
-    return fxlog
+    return fxlog_lst_2
 ########################### end export records function #################################
 
 ########################### Begin unmatched records #################################
@@ -1162,7 +1208,7 @@ def fx_broker_credit_add_records(lst):
     print("------------test of fx_broker_credit_add_records() function------------------")
     for log in lst:
         print(log)
-fx_broker_credit_add_records(broker_credit_lst2)
+# fx_broker_credit_add_records(broker_credit_lst2)
 ######################## print broker credit interest records ########################
 
 ###################### begin export broker credit interest records function ###################
