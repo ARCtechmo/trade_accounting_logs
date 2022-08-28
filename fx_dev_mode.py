@@ -38,7 +38,7 @@ else:
 # separate the buy / se//, commission, financing, and interest credit items
 filename = input("enter the .csv filename: ")
 if filename == '':
-    filename = 'FX2021_test.csv'
+    filename = 'FX2021_all_test.csv'
 with open(filename, newline='') as csvfile:
     reader = csv.reader(csvfile)
     # next(csvfile) # removes the header - comment out if .csv file has no header
@@ -268,83 +268,117 @@ def fx_format_exit_date(lst1,lst2):
                 lst2.append(formatted_exit_date)
 fx_format_exit_date(fxlst3,fxlst5)
 
-
-### START HERE NEXT ###
-# continue to place each section under a function
-
-# extract the currency pairs from fxlst3
 # marketlst contains the formatted market (e.g. EURUSD, AUDJPY, etc...)
 marketlst = []
-for mkt in fxlst3:
-    market = mkt[1][1]
-    market2 = re.split(' ',market)
-    market3 = market2[3]
-    marketlst.append(market3)
 
-# extract the closing transaction ids from fxlst3
+# extract the currency pairs from fxlst3
+def fx_extract_currency_pairs(lst1,lst2):
+    for mkt in lst1:
+        if len(mkt[1][1]) == 13:
+            market = mkt[1][1]
+            market2 = re.split(' ',market)
+            market3 = market2[3]
+            lst2.append(market3)
+        elif len(mkt[1][1]) == 12:
+            market = mkt[1][1]
+            market2 = re.split(' ',market)
+            market3 = market2[2]
+            lst2.append(market3)
+        elif len(mkt[1][1]) == 11:
+            market = mkt[1][1]
+            market2 = re.split(' ',market)
+            market3 = market2[1]
+            lst2.append(market3)
+fx_extract_currency_pairs(fxlst3,marketlst)
+
 # close_id_lst contains the closing transaction ids
 close_id_lst = []
-for elements in fxlst3:
-    close_id = elements[1][2]
-    close_id = int(close_id)
-    close_id_lst.append(close_id)
 
-# extract the opening transaction ids from fxlst3
+# extract the closing transaction ids from fxlst3
+def fx_extract_close_trans_ids(lst1,lst2):
+    for elements in lst1:
+        close_id = elements[1][2]
+        close_id = int(close_id)
+        lst2.append(close_id)
+fx_extract_close_trans_ids(fxlst3,close_id_lst)
+
 # open_id_lst contains the opening transaction ids
 open_id_lst = []
-for elements in fxlst3:
-    open_id = elements[1][3]
-    open_id = int(open_id)
-    open_id_lst.append(open_id)
 
-# extract the buy / sell from fxlst3
+# extract the opening transaction ids from fxlst3
+def fx_extract_open_trans_ids(lst1,lst2):
+    for elements in lst1:
+        open_id = elements[1][3]
+        open_id = int(open_id)
+        lst2.append(open_id)
+fx_extract_open_trans_ids(fxlst3,open_id_lst)
+
 # buy_sell_lst contains buy or sell transactions
 buy_sell_lst = []
-for action in fxlst3:
-    buy_sell = action[1][4]
-    buy_sell_lst.append(buy_sell)
 
-# extract the trade_size from fxlst3
+# extract the buy / sell from fxlst3
+def fx_extract_buy_sell_trans(lst1,lst2):
+    for action in lst1:
+        buy_sell = action[1][4]
+        lst2.append(buy_sell)
+fx_extract_buy_sell_trans(fxlst3,buy_sell_lst)
+
 # trade_size_lst contains the size of the trades taken
 trade_size_lst = []
-for size in fxlst3:
-    trade_size = size[1][6]
-    trade_size = trade_size.split('.')
-    trade_size = trade_size[0]
-    trade_size = int(trade_size)
-    trade_size_lst.append(trade_size)
 
-# extract the open_price from fxlst3
+# extract the trade_size from fxlst3
+def fx_extract_trade_size(lst1,lst2):
+    for size in lst1:
+        trade_size = size[1][6]
+        trade_size = trade_size.split('.')
+        trade_size = trade_size[0]
+        trade_size = int(trade_size)
+        lst2.append(trade_size)
+fx_extract_trade_size(fxlst3,trade_size_lst)
+
 # open_price_lst contains the opening price
 open_price_lst = []
-for openpr in fxlst3:
-    openpr = openpr[1][8]
-    openpr = float(openpr)
-    open_price_lst.append(openpr)
 
-# extract the close_price from fxlst3
+# extract the open_price from fxlst3
+def fx_extract_open_price(lst1,lst2):
+    for openpr in lst1:
+        openpr = openpr[1][8]
+        openpr = float(openpr)
+        lst2.append(openpr)
+fx_extract_open_price(fxlst3,open_price_lst)
+
 # close_price_lst contains the closing price
 close_price_lst = []
-for closepr in fxlst3:
-    closepr = closepr[1][9]
-    closepr = float(closepr)
-    close_price_lst.append(closepr)
 
-# extract the gross from fxlst3
+# extract the close_price from fxlst3
+def fx_extract_close_price(lst1,lst2):
+    for closepr in lst1:
+        closepr = closepr[1][9]
+        closepr = float(closepr)
+        lst2.append(closepr)
+fx_extract_close_price(fxlst3,close_price_lst)
+
 # gross_lst contains the gross profit / loss
 gross_lst = []
-for gross in fxlst3:
-    gross = gross[1][12]
-    gross = float(gross)
-    gross_lst.append(gross)
 
-# extract the net from fxlst3
+# extract the gross from fxlst3
+def fx_extract_gross(lst1,lst2):
+    for gross in lst1:
+        gross = gross[1][12]
+        gross = float(gross)
+        lst2.append(gross)
+fx_extract_gross(fxlst3,gross_lst)
+
 # net_lst contains the gross profit / loss
 net_lst = []
-for net in fxlst3:
-    net = net[1][12]
-    net = float(net)
-    net_lst.append(net)
+
+# extract the net from fxlst3
+def fx_extract_net(lst1,lst2):
+    for net in lst1:
+        net = net[1][12]
+        net = float(net)
+        lst2.append(net)
+fx_extract_net(fxlst3,net_lst)
 
 # fxlog_lst_1 contains the formatted list absent the unique transaction identifier
 fxlog_lst_1 = []
@@ -455,7 +489,7 @@ fx_create_trade_log_2(fxlog_lst_2)
 def fxlog_add_records(lst):
     for log in lst:
         print(log)
-fxlog_add_records(fxlog_lst_2)
+# fxlog_add_records(fxlog_lst_2)
 ########################### print all rows #################################
 
 ########################### begin export records function #################################
@@ -465,9 +499,10 @@ def fxlog_add_records():
     return fxlog_lst_2
 ########################### end export records function #################################
 
-########################### Begin unmatched records #################################
+### START HERE NEXT ###
+# place each section under a function
+
 # unmatched_fxlst contains rows with open transactionns only (no open and close)
-# print("\n----------------rows with an unmatched transaction-------------")
 unmatched_fxlst = []
 for row in fxlst:
     unmatched_open_id = row[3]
@@ -475,7 +510,6 @@ for row in fxlst:
         unmatched_fxlst.append(row)
 # for row in unmatched_fxlst:
 #     print(row)
-# print("----------------unmatched rows with no closing transaction-------------\n")
 
 # format the dates in unmatched_fxlst
 # unmatched_open_date_lst contains the open date in YYYY-MM-DD HH:MM format
@@ -506,6 +540,8 @@ for item in unmatched_fxlst:
         unmatched_close_date_lst.append(unmatched_exit)
     else:
         unmatched_close_date_lst.append('0000-00-00 00:00')
+
+### Note: double check the code to enusre no extra spaces casue an error ( see fx_extract_currency_pairs() func) ###
 # unmatched_marketlst contains the currency pair
 unmatched_marketlst = []
 for mkt in unmatched_fxlst:
