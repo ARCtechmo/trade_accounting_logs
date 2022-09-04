@@ -1,15 +1,9 @@
 ### UNDER DEVELOPMENT ###
-# this app will import and clean the forex broker data from a .csv file
+# this app imports and cleans the forex broker data from a .csv file
 import csv
 import re
-# read the .csv data
-# filename = input("enter the .csv filename: ")
-# with open(filename, newline='') as csvfile:
-#     reader = csv.reader(csvfile)
-#     next(csvfile) # removes the header - comment out if .csv file has no header
-#     for row in reader:
-#         print(row[])
 
+print("This is the fx broker app that formats and exports the .csv file")
 # comm_lst contains commissions
 comm_lst = []
 
@@ -20,37 +14,46 @@ int_lst = []
 fxlst = []
 
 broker_credit_lst = []
-
-broker_id = input("enter the broker_id from the database (2-7): ")
-if broker_id == "":
-    broker_id = 3
-else:
-    broker_id == broker_id
-### come back to this later ###
-# embed the entire program under a while loop to catch incorrect broker_id entry
-# while True:
-#     if broker_id <=1 or broker_id >7:
-#         print("you must enter a digit between 2-7")
-#         break
-#     else:
-#         break
+broker_id = 3
 
 # separate the buy / se//, commission, financing, and interest credit items
-filename = input("enter the .csv filename: ")
+filename = input("enter the entire .csv filename including the extension (example: test_file.csv): ")
 if filename == '':
-    filename = 'FX09SEP21_test.csv'
-with open(filename, newline='') as csvfile:
-    reader = csv.reader(csvfile)
-    # next(csvfile) # removes the header - comment out if .csv file has no header
-    for row in reader:
-        if row[4] != "":
-            fxlst.append(row)
-        elif 'COMMISSION' in row[1]:
-            comm_lst.append(row)
-        elif 'FINANCING' in row[1]:
-            int_lst.append(row)
-        elif 'Active' in row[1] or 'Credit' in row[1]:
-            broker_credit_lst.append(row)
+    filename = 'FX2021_test.csv'
+
+header_option = input("Does the file have a header?(Y/N): ")
+if header_option == "N" or header_option == 'n' or header_option == "No" or \
+   header_option == 'no' or header_option =='NO' or header_option == 'nO':
+    with open(filename, newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            if row[4] != "":
+                fxlst.append(row)
+            elif 'COMMISSION' in row[1]:
+                comm_lst.append(row)
+            elif 'FINANCING' in row[1]:
+                int_lst.append(row)
+            elif 'Active' in row[1] or 'Credit' in row[1]:
+                broker_credit_lst.append(row)
+elif header_option == "Y" or header_option == 'y' or header_option == "Yes" or \
+     header_option == 'yes' or header_option =='YES' or header_option == 'YEs' or \
+     header_option == 'YeS' or header_option == 'yES' or header_option == 'yeS' or \
+     header_option == 'yEs':
+     with open(filename, newline='') as csvfile:
+         reader = csv.reader(csvfile)
+         next(reader)
+         for row in reader:
+             if row[4] != "":
+                 fxlst.append(row)
+             elif 'COMMISSION' in row[1]:
+                 comm_lst.append(row)
+             elif 'FINANCING' in row[1]:
+                 int_lst.append(row)
+             elif 'Active' in row[1] or 'Credit' in row[1]:
+                 broker_credit_lst.append(row)
+else:
+    print("Invalid input. No logs imported.")
+    pass
 
 # count the number of trade transactions
 def fx_count_trade_transactions():
@@ -58,7 +61,7 @@ def fx_count_trade_transactions():
     for item in fxlst:
         count +=1
     print(f'There are {count} returned rows with buy/sell data.')
-# fx_count_trade_transactions()
+fx_count_trade_transactions()
 
 # transfxlst consists of only the open / closed transaction ids
 transfxlst = []
@@ -487,15 +490,15 @@ fx_create_trade_log_2(fxlog_lst_2)
 
 ########################### print all rows #################################
 def fxlog_add_records(lst):
+    print("\n---------fx logs---------------")
     for log in lst:
         print(log)
-# fxlog_add_records(fxlog_lst_2)
+fxlog_add_records(fxlog_lst_2)
 ########################### print all rows #################################
 
 ########################### begin export records function #################################
 # function exports the records into the import the log_metrics_app.py app
 def fxlog_add_records():
-    print("-----test of fxlog_add_records() function------------")
     return fxlog_lst_2
 ########################### end export records function #################################
 
@@ -724,16 +727,15 @@ for unmatched_entry, unmatched_exit, unmatched_market, unmatched_close_id, \
 
 ############################ print unmatched rows #################################
 def fxlog_add_unmatched_records(lst1):
-    print("\n---------formatted unmatched logs---------------")
+    print("\n---------fx unmatched logs---------------")
     for log in lst1:
         print(log)
-# fxlog_add_unmatched_records(unmatched_fxlog)
+fxlog_add_unmatched_records(unmatched_fxlog)
 ########################### print unmatched rows #################################
 
 ########################### begin export unmatched records function ######################
 # function exports the records into the import the log_metrics_app.py app
 def fx_unmatched_add_records():
-    print("-----test of fxlog_add_records() function------------")
     return unmatched_fxlog
 ########################### end export unmatched records function ###########################
 
@@ -865,15 +867,13 @@ def fx_comm_format_logs():
 fx_comm_format_logs()
 ######################## print commission records ########################
 def fx_comm_add_records(lst):
-    print("------------test of fx_comm_add_records() function------------------")
+    print("------------fx commissions------------------")
     for log in lst:
         print(log)
-# fx_comm_add_records(comm_lst2)
+fx_comm_add_records(comm_lst2)
 ###################### print commission records ########################
 ######################## begin export commission records function ########################
-### NOTE TO SELF: add a condition with user input to enter or exit the program ###
 def fx_comm_add_records():
-    print("------------test of fx_comm_add_records() function------------------")
     return comm_lst2
 ###################### end export commission records function ########################
 ################################# end COMMISSIONS section #################################
@@ -1016,19 +1016,17 @@ def fx_int_debit_format_logs():
 fx_int_debit_format_logs()
 ######################## print debit interest records ########################
 def fx_int_debit_add_records(lst):
-    print("------------test of fx_int_debit_add_records() function------------------")
+    print("------------fx interest debit ------------------")
     for log in lst:
         print(log)
-# fx_int_debit_add_records(int_debit_lst)
+fx_int_debit_add_records(int_debit_lst)
 ######################## print debit interest records ########################
 ###################### begin export debit interest records function ########################
 def fx_int_debit_add_records():
-    print("------------test of fx_int_debit_add_records() function------------------")
     return int_debit_lst
 ###################### end export debit interest records function ########################
 
 ################################# end FINANCING section #################################
-
 ################################# begin interest credit section #################################
 
 # fx_int_credit_ymd_lst contains the formatted YYYY-MM-DD for the credit interest logs
@@ -1170,15 +1168,14 @@ fx_int_credit_format_logs()
 
 ######################## print credit interest records ########################
 def fx_int_credit_add_records(lst):
-    print("------------test of fx_int_credit_add_records() function------------------")
+    print("------------fx interest credit ------------------")
     for log in lst:
         print(log)
-# fx_int_credit_add_records(int_credit_lst)
+fx_int_credit_add_records(int_credit_lst)
 ######################## print credit interest records ########################
 
 ###################### begin export credit interest records function ###################
 def fx_int_credit_add_records():
-    print("------------test of fx_int_credit_add_records() function------------------")
     return int_credit_lst
 ###################### end export credit interest records function #####################
 ################################# end interest credit section #################################
@@ -1302,15 +1299,13 @@ def fx_broker_credit_format_logs():
 fx_broker_credit_format_logs()
 ######################## print broker credit interest records ########################
 def fx_broker_credit_add_records(lst):
-    print("------------test of fx_broker_credit_add_records() function------------------")
+    print("------------fx broker credit ------------------")
     for log in lst:
         print(log)
-# fx_broker_credit_add_records(broker_credit_lst2)
+fx_broker_credit_add_records(broker_credit_lst2)
 ######################## print broker credit interest records ########################
 
 ###################### begin export broker credit interest records function ###################
 def fx_broker_credit_add_records():
-    print("------------test of fx_broker_credit_add_records() function------------------")
     return broker_credit_lst2
 ###################### end export broker credit interest records function #####################
-################################# end broker credit section #################################
