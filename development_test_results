@@ -27,4 +27,10 @@ is not with my program but with the broker data
 4. I will need to fix this so the program works regardless of missing transaction data
 
 6/25/2022 td_dev_mode.py sucessfull testing complete
-1. tested all monthly and yearly .csv files with the correct output  
+1. tested all monthly and yearly .csv files with the correct output
+
+9/4/2022 fx_dev_mode.py
+1. udated the code to place each section under a functions.
+2. corrected the error where .csv files with no trade transactions would cause an error
+3. corrected the error where the spacing in the currenty pair column in the .csv files could cause an error
+4. Note: I have not completely removed the possibility of a UNIQUE CONSTRAINT ERROR   
