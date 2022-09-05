@@ -3,7 +3,7 @@
 import database_dev_mode
 import fx_dev_mode
 import td_dev_mode
-import ib_dev_mode
+# import ib_dev_mode
 from datetime import date
 from datetime import datetime
 import itertools
@@ -83,12 +83,9 @@ export_fx_log_entry_lst = []
 # exports fx_log records into the fx_log table
 def export_fx_log_records():
     fx_log_data = cur.execute(''' SELECT * FROM fx_log ''')
-    print("\n--------------TEST: export_fx_log_records function: log_entry records----------------")
     for row in fx_log_data:
         fx_log_rows.append(row)
-    print(fx_log_rows)
 
-    print("\n--------------TEST: export_fx_log_records function: log_entry records--------------------")
     log_entry = fx_dev_mode.fxlog_add_records()
     for row in log_entry:
         row = tuple(row)
@@ -98,16 +95,10 @@ def export_fx_log_records():
             pass
 
         else:
-            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
-            print(row)
             export_fx_log_entry_lst.append(row)
 
-    print("\n--------------TEST: rows to export into fx_log table-------------------")
-    print(export_fx_log_entry_lst)
     log_entry = export_fx_log_entry_lst
     database_dev_mode.fx_log_add_many(log_entry)
-
-    print("---------------successfully added fx_log records to the db------------------\n")
 
 # export_fx_log_records()
 ################################# End add fx_log RECORDS ################################################
@@ -117,13 +108,10 @@ def export_fx_log_records():
 def export_unmatched_records():
     log_entry = fx_dev_mode.fx_unmatched_add_records()
     database_dev_mode.fx_unmatched_add_many(log_entry)
-    print("---------------successfully added fx_log records to the db------------------\n")
 # export_unmatched_records()
 ################################# End add fx_unmatched RECORDS ######################################
 
 ############################ Begin add matched RECORDS TO fx_log RECORDS #########################
-print("\n---------------------rows from fx_unmatched ready to be imported into fx_log-----------------")
-
 # matched_lst contains the combined matched entry and exit into one row
 matched_lst = []
 
@@ -154,8 +142,6 @@ def match():
 # function exports the matched transactions from fx_unmatched table to fx_log table
 # function removes duplicates to avoid a UNIQUE CONSTRAINT ERROR
 def export_matched_record():
-    print("--------------check_constraint function test -------------")
-
     # matched_rows_lst contains rows with matched open / close transactions
     # however, some of these rows are duplicates in the fx_log table and may cause a UNIQUE CONSTRAINT ERROR
     matched_rows_lst = []
@@ -167,24 +153,17 @@ def export_matched_record():
     # new_lst is a list that contains the fx_log rows
     new_lst = []
 
-
-    print("\n---------rows in fx_log table----------")
     fx_log_data = cur.execute(''' SELECT * FROM fx_log ''')
     for row in fx_log_data:
         new_lst.append(row)
         fx_log_data = new_lst
-    print(fx_log_data)
-
-    print("\n------------matched rows-----------")
     log_entry = match()
     for item in log_entry:
         matched_rows_lst.append(item)
-    # print(matched_rows_lst)
 
     # append the unique transaction identifier to each matched record from the unmatched table
     # create a unique key for each transaction
     key_lst = []
-    print("---------------test: add key----------------------------------")
     for item in matched_rows_lst:
         item = list(item)
         item[11] = str(item[11])
@@ -221,12 +200,8 @@ def export_matched_record():
             print(entry)
             pass
         else:
-            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
-            print(entry)
             export_matched_rows_lst.append(entry)
 
-    print("\n-----test of list to export---------")
-    print(export_matched_rows_lst)
     log_entry = export_matched_rows_lst
     database_dev_mode.fx_log_add_many(log_entry)
 
@@ -244,12 +219,8 @@ export_fx_commission_entry_lst = []
 # export_fx_commissions_records() function exports fx_commissions transactions into the fx_commissions table
 def export_fx_commissions_records():
     fx_commission_data = cur.execute(''' SELECT * FROM fx_commissions''')
-    print("\n--------------TEST: fx_export_commission_records() function: log_entry records----------------")
-    for row in fx_commission_data:
-        fx_commission_rows.append(row)
-    print(fx_commission_rows)
+    fx_commission_rows.append(row)
 
-    print("\n--------------TEST: fx_export_commission_records() function: log_entry records--------------------")
     log_entry = fx_dev_mode.fx_comm_add_records()
     for row in log_entry:
         row = tuple(row)
@@ -259,15 +230,10 @@ def export_fx_commissions_records():
             pass
 
         else:
-            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
-            print(row)
             export_fx_commission_entry_lst.append(row)
 
-    print("\n--------------TEST: rows to export into fx_commissions table-------------------")
-    print(export_fx_commission_entry_lst)
     log_entry = export_fx_commission_entry_lst
     database_dev_mode.fx_commissions_add_many(log_entry)
-    print("---------------successfully added fx_commissions records to the db------------------\n")
 
 # export_fx_commissions_records()
 ############################ End add records to fx_commissions table #########################
@@ -283,12 +249,9 @@ export_fx_int_debit_entry_lst = []
 # export_fx_interest_debit_records() function exports fx_interest_debit transactions into the fx_interest_debit table
 def export_fx_interest_debit_records():
     fx_int_debit_data = cur.execute(''' SELECT * FROM fx_interest_debit''')
-    print("\n--------------TEST: export_fx_interest_debit_records() function: log_entry records----------------")
     for row in fx_int_debit_data:
         fx_int_debit_rows.append(row)
-    print(fx_int_debit_rows)
 
-    print("\n--------------TEST: export_fx_interest_debit_records() function: log_entry records--------------------")
     log_entry = fx_dev_mode.fx_int_debit_add_records()
     for row in log_entry:
         row = tuple(row)
@@ -298,15 +261,10 @@ def export_fx_interest_debit_records():
             pass
 
         else:
-            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
-            print(row)
             export_fx_int_debit_entry_lst.append(row)
 
-    print("\n--------------TEST: rows to export into fx_interest_debit table-------------------")
-    print(export_fx_int_debit_entry_lst)
     log_entry = export_fx_int_debit_entry_lst
     database_dev_mode.fx_interest_debit_add_many(log_entry)
-    print("---------------successfully added fx_interest_debit records to the db------------------\n")
 
 # export_fx_interest_debit_records()
 ############################ End add records to interest_debit table #########################
@@ -320,12 +278,9 @@ export_fx_int_credit_entry_lst = []
 
 def export_fx_interest_credit_records():
     fx_int_credit_data = cur.execute(''' SELECT * FROM fx_interest_income''')
-    print("\n--------------TEST: export_fx_interest_credit_records() function: log_entry records----------------")
     for row in fx_int_credit_data:
         fx_int_credit_rows.append(row)
-    print(fx_int_credit_rows)
 
-    print("\n--------------TEST: export_fx_interest_credit_records() function: log_entry records--------------------")
     log_entry = fx_dev_mode.fx_int_credit_add_records()
     for row in log_entry:
         row = tuple(row)
@@ -335,15 +290,10 @@ def export_fx_interest_credit_records():
             pass
 
         else:
-            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
-            print(row)
             export_fx_int_credit_entry_lst.append(row)
 
-    print("\n--------------TEST: rows to export into fx_interest_income table-------------------")
-    print(export_fx_int_credit_entry_lst)
     log_entry = export_fx_int_credit_entry_lst
     database_dev_mode.fx_interest_credit_add_many(log_entry)
-    print("---------------successfully added fx_interest_income records to the db------------------\n")
 
 # export_fx_interest_credit_records()
 ############################ End add records to fx_interest_income table #########################
@@ -357,12 +307,9 @@ export_fx_broker_credit_entry_lst = []
 
 def export_fx_broker_credit_records():
     fx_broker_credit_data = cur.execute(''' SELECT * FROM fx_broker_credit_income''')
-    print("\n--------------TEST: export_fx_broker_credit_records() function: log_entry records----------------")
     for row in fx_broker_credit_data:
         fx_broker_credit_rows.append(row)
-    print(fx_broker_credit_rows)
 
-    print("\n--------------TEST: export_fx_broker_credit_records() function: log_entry records--------------------")
     log_entry = fx_dev_mode.fx_broker_credit_add_records()
     for row in log_entry:
         row = tuple(row)
@@ -372,15 +319,10 @@ def export_fx_broker_credit_records():
             pass
 
         else:
-            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
-            print(row)
             export_fx_broker_credit_entry_lst.append(row)
 
-    print("\n--------------TEST: rows to export into fx_broker_credit_income table-------------------")
-    print(export_fx_broker_credit_entry_lst)
     log_entry = export_fx_broker_credit_entry_lst
     database_dev_mode.fx_broker_credit_income_add_many(log_entry)
-    print("---------------successfully added fx_broker_credit_income records to the db------------------\n")
 
 # export_fx_broker_credit_records()
 ############################ End add records to broker_credit_income table #####################
@@ -398,15 +340,10 @@ export_td_options_log_entry_lst = []
 # exports the td broker options log records into the td_options_log table
 def export_td_options_log_records():
     td_options_log_data = cur.execute(''' SELECT * FROM td_options_log ''')
-    print("\n--------------TEST: export_td_options_log_records function: log_entry records----------------")
     for row in td_options_log_data:
         td_options_log_rows.append(row)
-    print(td_options_log_rows)
-    print('--------------------TEST: there are',len(td_options_log_rows),'in the td_options table-----------------\n' )
 
-    print("\n--------------TEST: export_td_options_log_records function: log_entry records--------------------")
     log_entry = td_dev_mode.options_log_export_records()
-    print('\n------------------TEST: there are', len(log_entry),'records----------------------------/n')
     for row in log_entry:
         row = tuple(row)
         if row in td_options_log_rows:
@@ -415,16 +352,10 @@ def export_td_options_log_records():
             pass
 
         else:
-            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
-            print(row)
             export_td_options_log_entry_lst.append(row)
 
-    print("\n--------------TEST: rows to export into td_options_log table-------------------")
-    print(export_td_options_log_entry_lst)
     log_entry = export_td_options_log_entry_lst
     database_dev_mode.td_options_log_add_many(log_entry)
-
-    print("---------------successfully added td_options_log records to the db------------------\n")
 
 # export_td_options_log_records()
 ################################## End add td_options_log RECORDS ##############################################
@@ -442,15 +373,10 @@ export_td_comm_log_entry_lst = []
 # exports the td broker commissions log records into the td_commissions table
 def export_td_comm_log_records():
     td_comm_log_data = cur.execute(''' SELECT * FROM td_commissions ''')
-    print("\n--------------TEST: export_td_comm_log_records function: log_entry records----------------")
     for row in td_comm_log_data:
         td_comm_log_rows.append(row)
-    print(td_comm_log_rows)
-    print('--------------------TEST: there are',len(td_comm_log_rows),'in the td_commissions table-----------------\n' )
 
-    print("\n--------------TEST: export_td_comm_log_records function: log_entry records--------------------")
     log_entry = td_dev_mode.comm_log_export_records()
-    print('\n------------------TEST: there are', len(log_entry),'records----------------------------/n')
     for row in log_entry:
         row = tuple(row)
         if row in td_comm_log_rows:
@@ -459,15 +385,10 @@ def export_td_comm_log_records():
             pass
 
         else:
-            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
-            print(row)
             export_td_comm_log_entry_lst.append(row)
 
-    print("\n--------------TEST: rows to export into td_commissions table-------------------")
-    print(export_td_comm_log_entry_lst)
     log_entry = export_td_comm_log_entry_lst
     database_dev_mode.td_commissions_log_add_many(log_entry)
-    print("---------------successfully added td_commissions records to the db------------------\n")
 # export_td_comm_log_records()
 ################################## End add td_commissions log RECORDS ################################################
 
@@ -484,15 +405,10 @@ export_td_reg_fee_log_entry_lst = []
 # exports the td broker regulation fee log records into the td_regulation_fee table
 def export_td_reg_fee_log_records():
     td_reg_fee_log_data = cur.execute(''' SELECT * FROM td_regulation_fee ''')
-    print("\n--------------TEST: export_td_reg_fee_log_records function: log_entry records----------------")
     for row in td_reg_fee_log_data:
         td_reg_fee_log_rows.append(row)
-    print(td_reg_fee_log_rows)
-    print('--------------------TEST: there are',len(td_reg_fee_log_rows),'in the td_regulation_fee table-----------------\n' )
 
-    print("\n--------------TEST: export_td_reg_fee_log_records function: log_entry records--------------------")
     log_entry = td_dev_mode.reg_fee_export_records()
-    print('\n------------------TEST: there are', len(log_entry),'records----------------------------/n')
     for row in log_entry:
         row = tuple(row)
         if row in td_reg_fee_log_rows:
@@ -501,15 +417,10 @@ def export_td_reg_fee_log_records():
             pass
 
         else:
-            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
-            print(row)
             export_td_reg_fee_log_entry_lst.append(row)
 
-    print("\n--------------TEST: rows to export into td_regulation_fee table-------------------")
-    print(export_td_reg_fee_log_entry_lst)
     log_entry = export_td_reg_fee_log_entry_lst
     database_dev_mode.td_reg_fee_log_add_many(log_entry)
-    print("---------------successfully added td_regulation_fee records to the db------------------\n")
 # export_td_reg_fee_log_records()
 ################################## End add td_regulation_fee log RECORDS ##############################################
 
@@ -526,15 +437,10 @@ export_td_misc_income_log_entry_lst = []
 # exports the td broker miscellaneous income log records into the td_misc_income table
 def export_td_misc_income_log_records():
     td_misc_income_log_data = cur.execute(''' SELECT * FROM td_misc_income ''')
-    print("\n--------------TEST: export_td_misc_income_log_records function: log_entry records----------------")
     for row in td_misc_income_log_data:
         td_misc_income_log_rows.append(row)
-    print(td_misc_income_log_rows)
-    print('--------------------TEST: there are',len(td_misc_income_log_rows),'in the td_misc_income table-----------------\n' )
 
-    print("\n--------------TEST: export_td_misc_income_log_records function: log_entry records--------------------")
     log_entry = td_dev_mode.misc_income_export_records()
-    print('\n------------------TEST: there are', len(log_entry),'records----------------------------/n')
     for row in log_entry:
         row = tuple(row)
         if row in td_misc_income_log_rows:
@@ -543,15 +449,10 @@ def export_td_misc_income_log_records():
             pass
 
         else:
-            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
-            print(row)
             export_td_misc_income_log_entry_lst.append(row)
 
-    print("\n--------------TEST: rows to export into td_misc_income table-------------------")
-    print(export_td_misc_income_log_entry_lst)
     log_entry = export_td_misc_income_log_entry_lst
     database_dev_mode.td_misc_income_log_add_many(log_entry)
-    print("---------------successfully added td_misc_income records to the db------------------\n")
 # export_td_misc_income_log_records()
 ################################## End add td_misc_income log RECORDS ############################################
 
@@ -568,15 +469,10 @@ export_td_misc_debit_log_entry_lst = []
 # exports the td broker miscellaneous debit log records into the td_misc_debit table
 def export_td_misc_debit_log_records():
     td_misc_debit_log_data = cur.execute(''' SELECT * FROM td_misc_debit ''')
-    print("\n--------------TEST: export_td_misc_debit_log_records function: log_entry records----------------")
     for row in td_misc_debit_log_data:
         td_misc_debit_log_rows.append(row)
-    print(td_misc_debit_log_rows)
-    print('--------------------TEST: there are',len(td_misc_debit_log_rows),'in the td_misc_debit table-----------------\n' )
 
-    print("\n--------------TEST: export_td_misc_debit_log_records function: log_entry records--------------------")
     log_entry = td_dev_mode.misc_debit_export_records()
-    print('\n------------------TEST: there are', len(log_entry),'records----------------------------/n')
     for row in log_entry:
         row = tuple(row)
         if row in td_misc_debit_log_rows:
@@ -585,15 +481,10 @@ def export_td_misc_debit_log_records():
             pass
 
         else:
-            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
-            print(row)
             export_td_misc_debit_log_entry_lst.append(row)
 
-    print("\n--------------TEST: rows to export into td_misc_income table-------------------")
-    print(export_td_misc_debit_log_entry_lst)
     log_entry = export_td_misc_debit_log_entry_lst
     database_dev_mode.td_misc_debit_log_add_many(log_entry)
-    print("---------------successfully added td_misc_debit records to the db------------------\n")
 # export_td_misc_debit_log_records()
 ################################## End add td_misc_debit log RECORDS ############################################
 
@@ -611,15 +502,10 @@ export_td_interest_income_log_entry_lst = []
 # exports the td broker miscellaneous debit log records into the td_interest_income table
 def export_td_interest_income_log_records():
     td_interest_income_log_data = cur.execute(''' SELECT * FROM td_interest_income ''')
-    print("\n--------------TEST: export_td_interest_income_log_records function: log_entry records----------------")
     for row in td_interest_income_log_data:
         td_interest_income_log_rows.append(row)
-    print(td_interest_income_log_rows)
-    print('--------------------TEST: there are',len(td_interest_income_log_rows),'in the td_interest_income table-----------------\n' )
 
-    print("\n--------------TEST: export_td_interest_income_log_records function: log_entry records--------------------")
     log_entry = td_dev_mode.int_income_export_records()
-    print('\n------------------TEST: there are', len(log_entry),'records----------------------------/n')
     for row in log_entry:
         row = tuple(row)
         if row in td_interest_income_log_rows:
@@ -628,15 +514,10 @@ def export_td_interest_income_log_records():
             pass
 
         else:
-            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
-            print(row)
             export_td_interest_income_log_entry_lst.append(row)
 
-    print("\n--------------TEST: rows to export into td_misc_income table-------------------")
-    print(export_td_interest_income_log_entry_lst)
     log_entry = export_td_interest_income_log_entry_lst
     database_dev_mode.td_interest_income_log_add_many(log_entry)
-    print("---------------successfully added td_interest_income records to the db------------------\n")
 # export_td_interest_income_log_records()
 ################################## End add td_interest_income log RECORDS ############################################
 
@@ -653,15 +534,10 @@ export_td_interest_debit_log_entry_lst = []
 # exports the td broker miscellaneous debit log records into the td_interest_debit table
 def export_td_interest_debit_log_records():
     td_interest_debit_log_data = cur.execute(''' SELECT * FROM td_interest_debit ''')
-    print("\n--------------TEST: export_td_interest_debit_log_records function: log_entry records----------------")
     for row in td_interest_debit_log_data:
         td_interest_debit_log_rows.append(row)
-    print(td_interest_debit_log_rows)
-    print('--------------------TEST: there are',len(td_interest_debit_log_rows),'in the td_interest_debit table-----------------\n' )
 
-    print("\n--------------TEST: export_td_interest_debit_log_records function: log_entry records--------------------")
     log_entry = td_dev_mode.int_debit_export_records()
-    print('\n------------------TEST: there are', len(log_entry),'records----------------------------/n')
     for row in log_entry:
         row = tuple(row)
         if row in td_interest_debit_log_rows:
@@ -670,15 +546,10 @@ def export_td_interest_debit_log_records():
             pass
 
         else:
-            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
-            print(row)
             export_td_interest_debit_log_entry_lst.append(row)
 
-    print("\n--------------TEST: rows to export into td_misc_income table-------------------")
-    print(export_td_interest_debit_log_entry_lst)
     log_entry = export_td_interest_debit_log_entry_lst
     database_dev_mode.td_interest_debit_log_add_many(log_entry)
-    print("---------------successfully added td_interest_debit records to the db------------------\n")
 # export_td_interest_debit_log_records()
 ################################## End add td_interest_debit log RECORDS ############################################
 
@@ -695,15 +566,10 @@ export_ib_options_log_entry_lst = []
 # exports the ib broker options log records into the ib_options_log table
 def export_ib_options_log_records():
     ib_options_log_data = cur.execute(''' SELECT * FROM ib_options_log ''')
-    print("\n--------------TEST: export_ib_options_log_records function: log_entry records----------------")
     for row in ib_options_log_data:
         ib_options_log_rows.append(row)
-    print(ib_options_log_rows)
-    print('--------------------TEST: there are',len(ib_options_log_rows),'in the ib_options table-----------------\n' )
 
-    print("\n--------------TEST: export_ib_options_log_records function: log_entry records--------------------")
     log_entry = ib_dev_mode.options_log_export_records()
-    print('\n------------------TEST: there are', len(log_entry),'records----------------------------/n')
     for row in log_entry:
         row = tuple(row)
         if row in ib_options_log_rows:
@@ -712,16 +578,10 @@ def export_ib_options_log_records():
             pass
 
         else:
-            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
-            print(row)
             export_ib_options_log_entry_lst.append(row)
 
-    print("\n--------------TEST: rows to export into ib_options_log table-------------------")
-    print(export_ib_options_log_entry_lst)
     log_entry = export_ib_options_log_entry_lst
     database_dev_mode.ib_options_log_add_many(log_entry)
-
-    print("---------------successfully added ib_options_log records to the db------------------\n")
 
 # export_ib_options_log_records()
 ################################## End add ib_options_log RECORDS ##############################################
@@ -741,15 +601,10 @@ export_ib_comm_fee_log_entry_lst = []
 # exports the ib broker commissions log records into the ib_commissions_fee table
 def export_ib_comm_fee_log_records():
     ib_comm_fee_log_data = cur.execute(''' SELECT * FROM ib_commissions_fee ''')
-    print("\n--------------TEST: export_ib_comm_fee_log_records function: log_entry records----------------")
     for row in ib_comm_fee_log_data:
         ib_comm_fee_log_rows.append(row)
-    print(ib_comm_fee_log_rows)
-    print('--------------------TEST: there are',len(ib_comm_fee_log_rows),'in the ib_commissions_fee table-----------------\n' )
 
-    print("\n--------------TEST: export_ib_comm_fee_log_records function: log_entry records--------------------")
     log_entry = ib_dev_mode.comm_fee_log_export_records()
-    print('\n------------------TEST: there are', len(log_entry),'records----------------------------/n')
     for row in log_entry:
         row = tuple(row)
         if row in ib_comm_fee_log_rows:
@@ -758,20 +613,14 @@ def export_ib_comm_fee_log_records():
             pass
 
         else:
-            print("\n-------------FALSE TEST FOR UNIQUE CONSRAINT-------------")
-            print(row)
             export_ib_comm_fee_log_entry_lst.append(row)
 
-    print("\n--------------TEST: rows to export into ib_commissions_fee table-------------------")
-    print(export_ib_comm_fee_log_entry_lst)
     log_entry = export_ib_comm_fee_log_entry_lst
     database_dev_mode.ib_commissions_fee_log_add_many(log_entry)
-    print("---------------successfully added ib_commissions_fee records to the db------------------\n")
 # export_ib_comm_fee_log_records()
 ################################## End add ib_commissions_fee log RECORDS ##############################################
 
-
 ############################## CLOSE THE DATABASE ##################################
-print("app closed....")
-conn.close()
+# print("app closed....")
+# conn.close()
 ############################## QUERY THE DATABASE ##################################
