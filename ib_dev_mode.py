@@ -4,20 +4,14 @@ import csv
 import re
 
 # define the broker id for the foreign key in the database
-broker_id = input("enter the options broker id: ")
-if broker_id == "":
-    broker_id = 4
-else:
-    broker_id = broker_id
-# print("broker id: ", broker_id)
+broker_id = 4
 
 # input the .csv filename
-filename = input("enter the .csv filename: ")
+filename = input("enter the entire .csv filename including the extension (example: test_file.csv): ")
 if filename == "":
-    filename = 'IB2018_test.csv'
+    filename = 'IB2021_test.csv'
 else:
     filename = filename
-# print(filename)
 
 # contains a list of the trade data from the .csv file
 trade_data_lst = []
@@ -38,8 +32,6 @@ comm_fee_lst1 = []
 
 # create_options_comm_fee_lst extracts the options data and the commission / fee data from the trade_data_lst
 def create_options_comm_fee_lst(lst1):
-    print("----------------TEST: create_options_comm_fee_lst func()----------------------- ")
-
     # remove the header line
     i = len(lst1)
     for row in lst1[1:i]:
@@ -52,7 +44,6 @@ options_dates_lst = []
 
 # format_options_date() function formats the options date
 def extract_options_date(lst1,lst2):
-    print("--------------TEST: extract_options_date()---------------------")
     date_lst = []
     for row in lst1:
         date = row[0][1]
@@ -60,7 +51,6 @@ def extract_options_date(lst1,lst2):
             pass
         else:
             lst2.append(date[:10])
-    print(len(lst2))
 extract_options_date(options_lst1,options_dates_lst)
 
 # options_year_lst contains the options year
@@ -68,13 +58,11 @@ options_year_lst = []
 
 # extract the YYYY from options_dates_lst
 def extract_options_year(lst1, lst2):
-    print("--------------TEST: extract_options_year()--------------------")
     i = len(lst1)
     for row in lst1[:i]:
         yr = row[:4]
         yr = int(yr)
         lst2.append(yr)
-    print(len(lst2))
 extract_options_year(options_dates_lst,options_year_lst)
 
 # options_month_lst contains the options month
@@ -82,13 +70,11 @@ options_month_lst = []
 
 # extract the month from options_lst1
 def extract_options_month(lst1,lst2):
-    print("-------------TEST: extract_options_month() func-----------------")
     i = len(lst1)
     for row in lst1[:i]:
         mo = row[5:7]
         mo = int(mo)
         lst2.append(mo)
-    print(len(lst2))
 extract_options_month(options_dates_lst,options_month_lst)
 
 # options_day_lst contains the options day
@@ -96,13 +82,11 @@ options_day_lst = []
 
 # extract the transaction day from options_lst1
 def extract_options_day(lst1,lst2):
-    print("-------------TEST: extract_options_day() func-----------------")
     i = len(lst1)
     for row in lst1[:i]:
         day = row[8:10]
         day = int(day)
         lst2.append(day)
-    print(len(lst2))
 extract_options_day(options_dates_lst,options_day_lst)
 
 # bought_sold_lst contains bought or sold options
@@ -123,7 +107,6 @@ def extract_options_bought_sold(lst1,lst2):
                     lst2.append('BOUGHT')
                 elif buy_sell <0:
                     lst2.append('SOLD')
-    print(len(lst2))
 extract_options_bought_sold(options_lst1,bought_sold_lst)
 
 # trade_size_lst contains the trade size
@@ -141,7 +124,6 @@ def extract_options_trade_size(lst1,lst2):
                 pass
             else:
                 lst2.append(num_ctr)
-    print(len(lst2))
 extract_options_trade_size(options_lst1,trade_size_lst)
 
 # mkt_lst contains a list of the markets
@@ -149,7 +131,6 @@ mkt_lst = []
 
 # extract the markets from options_lst1
 def extract_options_mkt(lst1,lst2):
-    print("-------------TEST: extract_options_mkt() func------------------")
     for row in lst1:
         if row[0][2] == str(0):
             pass
@@ -161,7 +142,6 @@ def extract_options_mkt(lst1,lst2):
                 pass
             else:
                 lst2.append(mkt)
-    print(len(lst2))
 extract_options_mkt(options_lst1,mkt_lst)
 
 # call_put_lst contains the calls and puts options contracts
@@ -169,7 +149,6 @@ call_put_lst = []
 
 # extract the call / put data from options_lst1
 def extract_options_call_put(lst1,lst2):
-    print("------------TEST: extract_options_call_put() funct--------------")
     for row in lst1:
         if row[0][2] == str(0):
             pass
@@ -185,7 +164,6 @@ def extract_options_call_put(lst1,lst2):
             elif call_put == 'P' or call_put == 'PUT':
                 call_put = 'Put'
                 lst2.append(call_put)
-    print(len(lst2))
 extract_options_call_put(options_lst1,call_put_lst)
 
 # ctr_lst contains a list of the contract details
@@ -193,7 +171,6 @@ ctr_lst = []
 
 # extract the contract details from options_lst1
 def extract_options_ctr(lst1,lst2):
-    print("--------------TEST: extract_options_ctr() func----------------")
     for row in lst1:
         if row[0][2] == str(0):
             pass
@@ -203,7 +180,6 @@ def extract_options_ctr(lst1,lst2):
                 pass
             else:
                 lst2.append(ctr)
-    print(len(lst2))
 extract_options_ctr(options_lst1,ctr_lst)
 
 # price_lst contains the options price data
@@ -211,7 +187,6 @@ price_lst = []
 
 # extract the price data from options_lst1
 def extract_options_price(lst1,lst2):
-    print("---------TEST: extract_options_price() func------------")
     for row in lst1:
         if row[0][2] == str(0):
             pass
@@ -221,7 +196,6 @@ def extract_options_price(lst1,lst2):
             price = row[0][3]
             price = float(price)
             lst2.append(price)
-    print(len(lst2))
 extract_options_price(options_lst1,price_lst)
 
 # gross_lst contains the options gross amount data
@@ -229,7 +203,6 @@ gross_lst = []
 
 # extract the gross amount from options_lst1
 def extract_options_gross(lst1,lst2):
-    print("-----------TEST: extract_options_gross()----------------")
     for row in lst1:
         if row[0][2] == str(0):
             pass
@@ -239,7 +212,6 @@ def extract_options_gross(lst1,lst2):
             price = row[1]
             price = int(price)
             lst2.append(price)
-    print(len(lst2))
 extract_options_gross(options_lst1,gross_lst)
 
 
@@ -251,7 +223,6 @@ broker_id_lst = [broker_id]
 
 # compiles the column headers (fields) into a list; adds the broker_id
 def compile_options_fields():
-    print("---------TEST: compile_options_fields---------------------- ")
     for date,year,month,day,bought_sold,trade_size,mkt,call_put,ctr,price,gross,broker in zip(
         options_dates_lst,options_year_lst,options_month_lst,
         options_day_lst,bought_sold_lst,trade_size_lst,mkt_lst,
@@ -270,7 +241,6 @@ key_lst2 = []
 
 # creates a unique identifier and adds it to key_lst2
 def create_key(lst2,key_lst1,key_lst2):
-    print("--------------TEST: create_key() function------------------------")
     index_lst = []
     i = len(lst2)
     for row in lst2:
@@ -298,7 +268,6 @@ create_key(options_lst2,key_lst1,key_lst2)
 options_lst3 = []
 
 def append_key(lst2,key_lst2,lst3):
-    print("--------------TEST: append_key() function----------------------")
     tmp_lst = []
     for col1, col2 in zip(lst2,key_lst2):
         col2 = int(col2)
@@ -318,7 +287,6 @@ comm_fee_lst2 = []
 
 # add dates and format the commissions and fee transaction data list
 def format_comm_fee_data():
-    print("--------TEST: format_comm_fee_data() func--------------")
     for line in comm_fee_lst1:
         if line[1] == '':
             pass
@@ -342,7 +310,6 @@ cf_index_lst1 = []
 
 # creates and appends a a unique transaction identifier to the comm_fee_lst2
 def create_comm_fee_key(cflst1,cfk,cflst2):
-    print("------------------TEST: create_comm_fee_key() func-------------------" )
     i = len(cflst1)
     for i in range(i):
         if i < 10:
@@ -362,7 +329,6 @@ create_comm_fee_key(comm_fee_lst2,cf_index_lst1,comm_fee_lst3)
 
 # export the options log data
 def options_log_export_records():
-    print("---------TEST: options_log_export_records() function-------------")
     i = len(options_lst3)
     logs = options_lst3[:i]
     print('There are',len(logs),'records to be exported from the options_log_export_records() func')
@@ -371,7 +337,6 @@ options_log_export_records()
 
 # export the commissions and fee data
 def comm_fee_log_export_records():
-    print("--------TEST: comm_fee_log_export_records() func")
     i = len(comm_fee_lst3)
     logs = comm_fee_lst3[:i]
     print('There are',len(logs),'records to be exported from the comm_fee_log_export_records() func')
