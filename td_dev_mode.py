@@ -3,6 +3,7 @@
 import csv
 import re
 
+print("This is the TD options broker app that formats and exports the .csv file")
 # define the broker id for the foreign key in the database
 broker_id = 5
 
