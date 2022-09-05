@@ -493,7 +493,7 @@ def fxlog_add_records(lst):
     print("\n---------fx logs---------------")
     for log in lst:
         print(log)
-fxlog_add_records(fxlog_lst_2)
+# fxlog_add_records(fxlog_lst_2)
 ########################### print all rows #################################
 
 ########################### begin export records function #################################
@@ -730,7 +730,7 @@ def fxlog_add_unmatched_records(lst1):
     print("\n---------fx unmatched logs---------------")
     for log in lst1:
         print(log)
-fxlog_add_unmatched_records(unmatched_fxlog)
+# fxlog_add_unmatched_records(unmatched_fxlog)
 ########################### print unmatched rows #################################
 
 ########################### begin export unmatched records function ######################
@@ -870,7 +870,7 @@ def fx_comm_add_records(lst):
     print("------------fx commissions------------------")
     for log in lst:
         print(log)
-fx_comm_add_records(comm_lst2)
+# fx_comm_add_records(comm_lst2)
 ###################### print commission records ########################
 ######################## begin export commission records function ########################
 def fx_comm_add_records():
@@ -1019,7 +1019,7 @@ def fx_int_debit_add_records(lst):
     print("------------fx interest debit ------------------")
     for log in lst:
         print(log)
-fx_int_debit_add_records(int_debit_lst)
+# fx_int_debit_add_records(int_debit_lst)
 ######################## print debit interest records ########################
 ###################### begin export debit interest records function ########################
 def fx_int_debit_add_records():
@@ -1171,7 +1171,7 @@ def fx_int_credit_add_records(lst):
     print("------------fx interest credit ------------------")
     for log in lst:
         print(log)
-fx_int_credit_add_records(int_credit_lst)
+# fx_int_credit_add_records(int_credit_lst)
 ######################## print credit interest records ########################
 
 ###################### begin export credit interest records function ###################
@@ -1302,7 +1302,7 @@ def fx_broker_credit_add_records(lst):
     print("------------fx broker credit ------------------")
     for log in lst:
         print(log)
-fx_broker_credit_add_records(broker_credit_lst2)
+# fx_broker_credit_add_records(broker_credit_lst2)
 ######################## print broker credit interest records ########################
 
 ###################### begin export broker credit interest records function ###################
