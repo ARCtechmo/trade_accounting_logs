@@ -30,7 +30,18 @@ is not with my program but with the broker data
 1. tested all monthly and yearly .csv files with the correct output
 
 9/4/2022 fx_dev_mode.py
-1. udated the code to place each section under a functions.
+1. updated the code to place each section under a functions.
 2. corrected the error where .csv files with no trade transactions would cause an error
 3. corrected the error where the spacing in the currenty pair column in the .csv files could cause an error
-4. Note: I have not completely removed the possibility of a UNIQUE CONSTRAINT ERROR   
+4. Note: I have not completely removed the possibility of a UNIQUE CONSTRAINT ERROR
+
+9/5/2022 ib_dev_mode.py and td_dev_mode.py
+1. added user input and removed unnecessary comment and print lines
+
+
+
+
+
+
+
+   
