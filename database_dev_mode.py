@@ -4,15 +4,6 @@ import sqlite3
 # conn = sqlite3.connect(":memory:")
 conn = sqlite3.connect('transactions_dev_mode.db')
 cur = conn.cursor()
-# cur.execute("DROP TABLE IF EXISTS activity_log")
-# cur.execute("DROP TABLE IF EXISTS brokers")
-# cur.execute("DROP TABLE IF EXISTS time_log")
-# cur.execute("DROP TABLE IF EXISTS fx_log")
-# cur.execute("DROP TABLE IF EXISTS fx_unmatched")
-# cur.execute("DROP TABLE IF EXISTS fx_commissions")
-# cur.execute("DROP TABLE IF EXISTS fx_interest_debit")
-# cur.execute("DROP TABLE IF EXISTS fx_interest_income")
-# cur.execute("DROP TABLE IF EXISTS fx_broker_credit_income")
 
 cur.executescript('''
 CREATE TABLE IF NOT EXISTS brokers(
@@ -266,329 +257,232 @@ CREATE TABLE IF NOT EXISTS ib_commissions_fee(
     )
 
 ''')
-print("---------------------table creation successful----------------------")
 # brokers_table_functions
 def broker_add_many(bk_name):
     with conn:
         cur.executemany("INSERT INTO brokers VALUES(?,?)", (bk_name), )
-        print("-------------add_many executed successfully-----------------")
         conn.commit()
-print("-------------broker_add_many_func created successfully----------------")
-print("record added successfully--------------")
 def broker_delete_one(id):
     with conn:
         cur.execute("DELETE FROM brokers WHERE rowid=? ",(id,) )
         conn.commit()
-print("-------------broker_delete_one_func created successfully----------------")
-print("record deleted successfully--------------")
 def broker_show_all():
     with conn:
         cur.execute("SELECT * FROM brokers")
-        print("-----------------show_all func executed successfully---------------")
         items = cur.fetchall()
         for item in items:
             print(item)
-print("-------------broker_show_all_func created successfully----------------")
 conn.commit()
 
 # activity_log_table_functions
 def activity_add_many(activity_name):
     with conn:
         cur.executemany("INSERT INTO activity_log VALUES(?,?)", (activity_name), )
-        print("-------------add_many executed successfully-----------------")
         conn.commit()
-print("-------------activity_log_add_many_func created successfully----------------")
-print("record added successfully--------------")
 def activity_delete_one(id):
     with conn:
         cur.execute("DELETE FROM activity_log WHERE rowid=? ",(id,) )
         conn.commit()
-print("-------------activity_log_delete_one_func created successfully----------------")
-print("record deleted successfully--------------")
 def activity_show_all():
     with conn:
         cur.execute("SELECT * FROM activity_log")
-        print("-----------------show_all func executed successfully---------------")
         items = cur.fetchall()
         for item in items:
             print(item)
-print("-------------activity_log_show_all_func created successfully----------------")
 
 # insert data into the time_log_table
 def time_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO time_log VALUES(?,?,?,?)", (log_entry), )
-        print("-------------add_many executed successfully-----------------")
         conn.commit()
-print("-------------time_log_add_many_func created successfully----------------")
-print("record added successfully--------------")
 def time_log_delete_one(log_entry):
     with conn:
         cur.execute("DELETE FROM time_log WHERE rowid=? ",(log_entry,) )
         conn.commit()
-print("-------------time_log_delete_one_func created successfully----------------")
-print("record deleted successfully--------------")
 def time_log_show_all():
     with conn:
         cur.execute("SELECT * FROM time_log")
-        print("-----------------show_all func executed successfully---------------")
         items = cur.fetchall()
         for item in items:
             print(item)
-print("-------------time_log_show_all_func created successfully----------------")
 # insert data into the fx_log_table
 def fx_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO fx_log VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
-        print("\n-------------add_many executed successfully-----------------\n")
         conn.commit()
-print("\n-------------fx_log_add_many_func created successfully----------------\n")
-print("record added successfully--------------")
 def fx_log_show_all():
     with conn:
         cur.execute("SELECT * FROM fx_log")
-        print("-----------------show_all func executed successfully---------------")
         items = cur.fetchall()
         for item in items:
             print(item)
-print("-------------fx_log_show_all_func created successfully----------------")
 # insert data into the fx_unmatched table
 def fx_unmatched_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO fx_unmatched VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
-        print("\n-------------add_many executed successfully-----------------")
         conn.commit()
-print("-------------fx_unmatched_add_many func created successfully----------------")
-print("record added successfully--------------")
 def fx_unmatched_show_all():
     with conn:
         cur.execute("SELECT * FROM fx_unmatched")
-        print("\n-----------------show_all func executed successfully---------------\n")
         items = cur.fetchall()
         for item in items:
             print(item)
-print("------------- fx_unmatched_show_all func created successfully----------------")
 
 # insert data into the fx_commissions table
 def fx_commissions_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO fx_commissions VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
-        print("\n-------------fx_commissions_add_many executed successfully-----------------")
         conn.commit()
-print("-------------fx_commissions_add_many func created successfully----------------")
-print("record added successfully--------------")
 def fx_commissions_show_all():
     with conn:
         cur.execute("SELECT * FROM fx_commissions")
-        print("\n-----------------show_all func executed successfully---------------\n")
         items = cur.fetchall()
         for item in items:
             print(item)
-print("------------- fx_commissions_show_all func created successfully----------------")
 
 # insert data into the fx_interest_debit table
 def fx_interest_debit_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO fx_interest_debit VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
-        print("\n-------------fx_interest_debit_add_many executed successfully-----------------")
         conn.commit()
-print("-------------fx_interest_debit_add_many func created successfully----------------")
-print("record added successfully--------------")
 def fx_interest_debit_show_all():
     with conn:
         cur.execute("SELECT * FROM fx_interest_debit")
-        print("\n-----------------show_all func executed successfully---------------\n")
         items = cur.fetchall()
         for item in items:
             print(item)
-print("------------- fx_interest_debit_show_all func created successfully----------------")
 
 # insert data into the fx_interest_income table
 def fx_interest_credit_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO fx_interest_income VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
-        print("\n-------------fx_interest_credit_add_many() func executed successfully-----------------")
         conn.commit()
-print("-------------fx_interest_credit_add_many() func func created successfully----------------")
-print("record added successfully--------------")
 def fx_interest_credit_show_all():
     with conn:
         cur.execute("SELECT * FROM fx_interest_income")
-        print("\n-----------------show_all func executed successfully---------------\n")
         items = cur.fetchall()
         for item in items:
             print(item)
-print("------------- fx_interest_credit_show_all func created successfully----------------")
 
 # insert data into the fx_broker_credit_income table
 def fx_broker_credit_income_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO fx_broker_credit_income VALUES(?,?,?,?,?,?,?)", (log_entry), )
-        print("\n-------------fx_broker_credit_income_add_many() func executed successfully-----------------")
         conn.commit()
-print("-------------fx_broker_credit_income_add_many() func func created successfully----------------")
-print("record added successfully--------------")
 def fx_broker_credit_income_add_many_show_all():
     with conn:
         cur.execute("SELECT * FROM fx_broker_credit_income")
-        print("\n-----------------show_all func executed successfully---------------\n")
         items = cur.fetchall()
         for item in items:
             print(item)
-print("------------- fx_broker_credit_income_add_many_show_all func created successfully----------------")
 
 # insert data into the td_options log table
 def td_options_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO td_options_log VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
-        print("\n-------------add_many executed successfully-----------------\n")
         conn.commit()
-print("\n-------------td_options_log_add_many created successfully----------------\n")
-print("record added successfully--------------")
 def td_log_show_all():
     with conn:
         cur.execute("SELECT * FROM td_options_log")
-        print("-----------------show_all func executed successfully---------------")
         items = cur.fetchall()
         for item in items:
             print(item)
-print("-------------td_options_log_show_all_func created successfully----------------")
 
 # insert data into the td_commissions log table
 def td_commissions_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO td_commissions VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
-        print("\n-------------add_many executed successfully-----------------\n")
         conn.commit()
-print("\n-------------td_commissions_log_add_many created successfully----------------\n")
-print("record added successfully--------------")
 def td_comm_log_show_all():
     with conn:
         cur.execute("SELECT * FROM td_commissions")
-        print("-----------------show_all func executed successfully---------------")
         items = cur.fetchall()
         for item in items:
             print(item)
-print("-------------td_commissions_log_show_all_func created successfully----------------")
 
 # insert data into the td_regulation_fee log table
 def td_reg_fee_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO td_regulation_fee VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
-        print("\n-------------add_many executed successfully-----------------\n")
         conn.commit()
-print("\n-------------td_reg_fee_log_add_many created successfully----------------\n")
-print("record added successfully--------------")
 def td_reg_fee_log_show_all():
     with conn:
         cur.execute("SELECT * FROM td_regulation_fee")
-        print("-----------------td_reg_fee_log_show_all func executed successfully---------------")
         items = cur.fetchall()
         for item in items:
             print(item)
-print("-------------td_commissions_log_show_all_func created successfully----------------")
 
 # insert data into the td_misc_income table
 def td_misc_income_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO td_misc_income VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
-        print("\n-------------td_misc_income_log_add_many executed successfully-----------------\n")
         conn.commit()
-print("\n-------------td_misc_income_log_add_many created successfully----------------\n")
-print("record added successfully--------------")
 def td_misc_income_log_show_all():
     with conn:
         cur.execute("SELECT * FROM td_misc_income")
-        print("-----------------td_misc_income_log_show_all func executed successfully---------------")
         items = cur.fetchall()
         for item in items:
             print(item)
-print("-------------td_misc_income_log_show_all created successfully----------------")
 
 # insert data into the td_misc_debit table
 def td_misc_debit_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO td_misc_debit VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
-        print("\n-------------td_misc_debit_log_add_many executed successfully-----------------\n")
         conn.commit()
-print("\n-------------td_misc_debit_log_add_many created successfully----------------\n")
-print("record added successfully--------------")
 def td_misc_debit_log_show_all():
     with conn:
         cur.execute("SELECT * FROM td_misc_debit")
-        print("-----------------td_misc_debit_log_show_all func executed successfully---------------")
         items = cur.fetchall()
         for item in items:
             print(item)
-print("-------------td_misc_debit_log_show_all created successfully----------------")
 
 # insert data into the td_interest_income table
 def td_interest_income_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO td_interest_income VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
-        print("\n-------------td_interest_income_log_add_many executed successfully-----------------\n")
         conn.commit()
-print("\n-------------td_interest_income_log_add_many created successfully----------------\n")
-print("record added successfully--------------")
 def td_interest_income_log_show_all():
     with conn:
         cur.execute("SELECT * FROM td_interest_income")
-        print("\n-------------td_interest_income_log_show_all func executed successfully----------------\n")
         items = cur.fetchall()
         for item in items:
             print(item)
-print("\n-------------td_interest_income_log_show_all func created successfully----------------\n")
 
 # insert data into the td_interest_debit table
 def td_interest_debit_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO td_interest_debit VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
-        print("\n-------------td_interest_debit_log_add_many executed successfully-----------------\n")
         conn.commit()
-print("\n-------------td_interest_debit_log_add_many created successfully----------------\n")
-print("record added successfully--------------")
 def td_interest_debit_log_show_all():
     with conn:
         cur.execute("SELECT * FROM td_interest_debit")
-        print("\n-------------td_interest_debit_log_show_all func executed successfully----------------\n")
         items = cur.fetchall()
         for item in items:
             print(item)
-print("\n-------------td_interest_debit_log_show_all func created successfully----------------\n")
 
 # insert data into the ib_options_log table
 def ib_options_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO ib_options_log VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
-        print("\n-------------add_many executed successfully-----------------\n")
         conn.commit()
-print("\n-------------ib_options_log_add_many created successfully----------------\n")
-print("record added successfully--------------")
 def ib_log_show_all():
     with conn:
         cur.execute("SELECT * FROM ib_options_log")
-        print("-----------------show_all func executed successfully---------------")
         items = cur.fetchall()
         for item in items:
             print(item)
-print("-------------ib_options_log_show_all_func created successfully----------------")
 
 # insert data into the ib_commissions_fee log table
 def ib_commissions_fee_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO ib_commissions_fee VALUES(?,?,?,?,?,?,?)", (log_entry), )
-        print("\n-------------add_many executed successfully-----------------\n")
         conn.commit()
-print("\n-------------ib_commissions_fee_log_add_many created successfully----------------\n")
-print("record added successfully--------------")
 def ib_comm_fee_log_show_all():
     with conn:
         cur.execute("SELECT * FROM ib_commissions_fee")
-        print("-----------------show_all func executed successfully---------------")
         items = cur.fetchall()
         for item in items:
             print(item)
-print("-------------ib_comm_fee_log_show_all_func created successfully----------------")
 
 conn.commit()
 ############################# CLOSE THE DATABASE ##############################
