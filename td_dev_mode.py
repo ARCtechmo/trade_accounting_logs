@@ -4,20 +4,14 @@ import csv
 import re
 
 # define the broker id for the foreign key in the database
-broker_id = input("enter the options broker id: ")
-if broker_id == "":
-    broker_id = 5
-else:
-    broker_id = broker_id
-# print("broker id: ", broker_id)
+broker_id = 5
 
 # input the .csv filename
-filename = input("enter the .csv filename: ")
+filename = input("enter the entire .csv filename including the extension (example: test_file.csv): ")
 if filename == "":
-    filename = 'TD2018_test.csv'
+    filename = 'TD2021_test.csv'
 else:
     filename = filename
-# print(filename)
 
 # buy_sell_remove_lst contains all buy, sell, and removal transactions
 buy_sell_remove_lst = []
@@ -157,12 +151,6 @@ def options_date_format():
                 options_lst2.append([formatted_date,row[1],row[2],row[3],row[4],row[5],row[6]])
             elif row[2][0] == 'R':
                 options_lst2.append([formatted_date,row[1],row[2],row[3],row[4],0.00,0.00])
-    print("-----------------BEGIN TEST: options transactions----------------")
-
-    print('-------------compare lengths-------------------')
-    print('options_transactions_unformatted_dates_list_length: ',len(options_lst))
-    print('options_transactions_formatted_dates_list_length: ',len(options_lst2))
-    print("-----------------END TEST: options transactions----------------\n\n")
 
 options_date_format()
 
@@ -216,12 +204,6 @@ def comm_date_format():
             row[1] = int(row[1])
             row[2] = float(row[2])
             comm_lst2.append([formatted_date,row[1],row[2]])
-    print("-----------------BEGIN TEST: commissions transactions----------------")
-
-    print('-------------compare lengths-------------------')
-    print('commission_transactions_unformatted_dates_list_length: ',len(comm_lst))
-    print('commission_transactions_formatted_dates_list_length: ',len(comm_lst2))
-    print("-----------------END TEST: commissions transactions----------------\n\n")
 
 comm_date_format()
 
@@ -275,12 +257,6 @@ def reg_fee_date_format():
             row[1] = int(row[1])
             row[2] = float(row[2])
             reg_fee_lst2.append([formatted_date,row[1],row[2]])
-    print("-----------------BEGIN TEST: regulation transactions----------------")
-
-    print('-------------compare lengths-------------------')
-    print('regulation_fee_transactions_unformatted_dates_list_length: ',len(reg_fee_lst))
-    print('regulation_fee_transactions_formatted_dates_list_length: ',len(reg_fee_lst2))
-    print("-----------------END TEST: regulation transactions----------------\n\n")
 
 reg_fee_date_format()
 
@@ -330,12 +306,6 @@ def misc_income_date_format():
             formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
             row[1] = int(row[1])
             misc_income_lst2.append([formatted_date,row[1],row[2],row[3]])
-    print("-----------------BEGIN TEST: misc_income transactions----------------")
-
-    print('-------------compare lengths-------------------')
-    print('misc_income_transactions_unformatted_dates_list_length: ',len(misc_income_lst))
-    print('misc_income_transactions_formatted_dates_list_length: ',len(misc_income_lst2))
-    print("-----------------END TEST: misc_income transactions----------------\n\n")
 
 misc_income_date_format()
 
@@ -385,12 +355,6 @@ def misc_debit_date_format():
             formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
             row[1] = int(row[1])
             misc_debit_lst2.append([formatted_date,row[1],row[2],row[3]])
-    print("-----------------BEGIN TEST: misc_debit transactions----------------")
-
-    print('-------------compare lengths-------------------')
-    print('misc_debit_transactions_unformatted_dates_list_length: ',len(misc_debit_lst))
-    print('misc_debit_transactions_formatted_dates_list_length: ',len(misc_debit_lst2))
-    print("-----------------END TEST: misc_debit transactions----------------\n\n")
 
 misc_debit_date_format()
 
@@ -441,12 +405,6 @@ def int_income_date_format():
             formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
             row[1] = int(row[1])
             int_income_lst2.append([formatted_date,row[1],row[2],row[3]])
-    print("-----------------BEGIN TEST: int_income transactions----------------")
-
-    print('-------------compare lengths-------------------')
-    print('interest_income_transactions_unformatted_dates_list_length: ',len(int_income_lst))
-    print('interest_income_transactions_formatted_dates_list_length: ',len(int_income_lst2))
-    print("-----------------END TEST: int_income transactions----------------\n\n")
 
 int_income_date_format()
 
@@ -497,12 +455,6 @@ def int_debit_date_format():
             formatted_date = f'{trans_yr}-{trans_mo}-{trans_day}'
             row[1] = int(row[1])
             int_debit_lst2.append([formatted_date,row[1],row[2],row[3]])
-    print("-----------------BEGIN TEST: int_debit transactions----------------")
-
-    print('-------------compare lengths-------------------')
-    print('interest_debit_transactions_unformatted_dates_list_length: ',len(int_debit_lst))
-    print('interest_debit_transactions_formatted_dates_list_length: ',len(int_debit_lst2))
-    print("-----------------END TEST: int_debit transactions----------------\n\n")
 
 int_debit_date_format()
 
@@ -695,16 +647,14 @@ format_int_debit_log()
 
 # export the options log data
 def options_log_export_records():
-    print("---------------TEST: options_log_export_records() function--------------------")
     i = len(options_lst3)
     logs = options_lst3[:i]
     print('There are',len(logs),'records to be exported from the options_log_export_records() func')
     return logs
-options_log_export_records()
+# options_log_export_records()
 
 # export the commissions log data
 def comm_log_export_records():
-    print("---------------TEST: comm_lst3() function--------------------")
     i = len(comm_lst3)
     logs = comm_lst3[:i]
     print('There are',len(logs),'records to be exported from the comm_log_export_records() func')
@@ -713,7 +663,6 @@ def comm_log_export_records():
 
 # export the regulation fee log data
 def reg_fee_export_records():
-    print("---------------TEST: reg_fee_lst3() function--------------------")
     i = len(reg_fee_lst3)
     logs = reg_fee_lst3[:i]
     print('There are',len(logs),'records to be exported from the reg_fee_export_records() func')
@@ -722,7 +671,6 @@ def reg_fee_export_records():
 
 # export the miscellaneous income log data
 def misc_income_export_records():
-    print("---------------TEST: misc_income_lst3() function--------------------")
     i = len(misc_income_lst3)
     logs = misc_income_lst3[:i]
     print('There are',len(logs),'records to be exported from the misc_income_export_records() func')
@@ -731,7 +679,6 @@ def misc_income_export_records():
 
 # export the miscellaneous debit log data
 def misc_debit_export_records():
-    print("---------------TEST: misc_debit_lst3() function--------------------")
     i = len(misc_debit_lst3)
     logs = misc_debit_lst3[:i]
     print('There are',len(logs),'records to be exported from the misc_debit_export_records() func')
@@ -740,7 +687,6 @@ def misc_debit_export_records():
 
 # export the interest income log data
 def int_income_export_records():
-    print("---------------TEST: int_income_lst3() function--------------------")
     i = len(int_income_lst3)
     logs = int_income_lst3[:i]
     print('There are',len(logs),'records to be exported from the int_income_export_records() func')
@@ -749,7 +695,6 @@ def int_income_export_records():
 
 # export the interest debit log data
 def int_debit_export_records():
-    print("---------------TEST: int_debit_lst3() function--------------------")
     i = len(int_debit_lst3)
     logs = int_debit_lst3[:i]
     print('There are',len(logs),'records to be exported from the int_debit_export_records() func')
