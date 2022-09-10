@@ -2,11 +2,12 @@
 # this is the file that will interact with the database.py file
 import database_dev_mode
 import fx_dev_mode
-import td_dev_mode
+# import td_dev_mode
 # import ib_dev_mode
 from datetime import date
 from datetime import datetime
 import itertools
+
 if __name__ == "__main__":
     print('app module is being run directly')
 else:
@@ -621,6 +622,6 @@ def export_ib_comm_fee_log_records():
 ################################## End add ib_commissions_fee log RECORDS ##############################################
 
 ############################## CLOSE THE DATABASE ##################################
-# print("app closed....")
-# conn.close()
+print("app closed....")
+conn.close()
 ############################## QUERY THE DATABASE ##################################
