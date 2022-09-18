@@ -81,7 +81,7 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                     for item in fxlst:
                         count +=1
                     print(f'There are {count} returned rows with buy/sell data.')
-                fx_count_trade_transactions()
+                # fx_count_trade_transactions()
 
                 # transfxlst consists of only the open / closed transaction ids
                 transfxlst = []
@@ -508,20 +508,6 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
 
                 fx_create_trade_log_2(fxlog_lst_2)
 
-                ########################### print all rows #################################
-                def fxlog_add_records(lst):
-                    print("\n---------fx logs---------------")
-                    for log in lst:
-                        print(log)
-                # fxlog_add_records(fxlog_lst_2)
-                ########################### print all rows #################################
-
-                ########################### begin export records function #################################
-                # function exports the records into the import the log_metrics_app.py app
-                def fxlog_add_records():
-                    return fxlog_lst_2
-                ########################### end export records function #################################
-
                 # unmatched_fxlst contains rows with open transactionns only (no open and close)
                 unmatched_fxlst = []
 
@@ -745,22 +731,7 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                              unmatched_open, unmatched_close, unmatched_gross, unmatched_net, broker]
                             )
 
-                ############################ print unmatched rows #################################
-                def fxlog_add_unmatched_records(lst1):
-                    print("\n---------fx unmatched logs---------------")
-                    for log in lst1:
-                        print(log)
-                # fxlog_add_unmatched_records(unmatched_fxlog)
-                ########################### print unmatched rows #################################
-
-                ########################### begin export unmatched records function ######################
-                # function exports the records into the import the log_metrics_app.py app
-                def fx_unmatched_add_records():
-                    return unmatched_fxlog
-                ########################### end export unmatched records function ###########################
-
                 ################################# begin COMMISSIONS section #################################
-
                 # fx_comm_ymd_lst contains year-month-date formatted dates for the commissions logs
                 fx_comm_ymd_lst = []
 
@@ -885,21 +856,8 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                         comm_lst2.append([date,year,month,day,transid,comm_cost,broker,transnum])
 
                 fx_comm_format_logs()
-                ######################## print commission records ########################
-                def fx_comm_add_records(lst):
-                    print("------------fx commissions------------------")
-                    for log in lst:
-                        print(log)
-                # fx_comm_add_records(comm_lst2)
-                ###################### print commission records ########################
-                ######################## begin export commission records function ########################
-                def fx_comm_add_records():
-                    return comm_lst2
-                ###################### end export commission records function ########################
-                ################################# end COMMISSIONS section #################################
 
                 ################################# begin FINANCING section #################################
-
                 # fx_int_debit_ymd_lst contains the formatted YYYY-MM-DD for the debit interest logs
                 fx_int_debit_ymd_lst = []
 
@@ -1034,21 +992,8 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                         int_debit_lst.append([date,year,month,day,transid,int_debit,broker,transnum])
 
                 fx_int_debit_format_logs()
-                ######################## print debit interest records ########################
-                def fx_int_debit_add_records(lst):
-                    print("------------fx interest debit ------------------")
-                    for log in lst:
-                        print(log)
-                # fx_int_debit_add_records(int_debit_lst)
-                ######################## print debit interest records ########################
-                ###################### begin export debit interest records function ########################
-                def fx_int_debit_add_records():
-                    return int_debit_lst
-                ###################### end export debit interest records function ########################
 
-                ################################# end FINANCING section #################################
                 ################################# begin interest credit section #################################
-
                 # fx_int_credit_ymd_lst contains the formatted YYYY-MM-DD for the credit interest logs
                 fx_int_credit_ymd_lst = []
 
@@ -1186,22 +1131,7 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
 
                 fx_int_credit_format_logs()
 
-                ######################## print credit interest records ########################
-                def fx_int_credit_add_records(lst):
-                    print("------------fx interest credit ------------------")
-                    for log in lst:
-                        print(log)
-                # fx_int_credit_add_records(int_credit_lst)
-                ######################## print credit interest records ########################
-
-                ###################### begin export credit interest records function ###################
-                def fx_int_credit_add_records():
-                    return int_credit_lst
-                ###################### end export credit interest records function #####################
-                ################################# end interest credit section #################################
-
                 ################################# begin broker credit section #################################
-
                 # fx_bkr_credit_ymd_lst contains year-month-date formatted dates for the broker credit logs
                 fx_bkr_credit_ymd_lst = []
 
@@ -1317,18 +1247,74 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                         broker_credit_lst2.append([date,year,month,day,broker_credit,broker,transnum])
 
                 fx_broker_credit_format_logs()
-                ######################## print broker credit interest records ########################
-                def fx_broker_credit_add_records(lst):
+
+                # print matched trade transactions
+                def fxlog_print_records(lst):
+                    print("\n---------fx logs---------------")
+                    for log in lst:
+                        print(log)
+                # fxlog_print_records(fxlog_lst_2)
+
+                # print unmatched trade transactions
+                def fxlog_print_unmatched_records(lst1):
+                    print("\n---------fx unmatched logs---------------")
+                    for log in lst1:
+                        print(log)
+                # fxlog_print_unmatched_records(unmatched_fxlog)
+
+                # print commission records
+                def fx_comm_print_records(lst):
+                    print("------------fx commissions------------------")
+                    for log in lst:
+                        print(log)
+                # fx_comm_print_records(comm_lst2)
+
+                # print debit interest records
+                def fx_int_debit_print_records(lst):
+                    print("------------fx interest debit ------------------")
+                    for log in lst:
+                        print(log)
+                # fx_int_debit_print_records(int_debit_lst)
+
+                # print credit interest records
+                def fx_int_credit_print_records(lst):
+                    print("------------fx interest credit ------------------")
+                    for log in lst:
+                        print(log)
+                # fx_int_credit_print_records(int_credit_lst)
+
+                # print broker credit interest records
+                def fx_broker_credit_print_records(lst):
                     print("------------fx broker credit ------------------")
                     for log in lst:
                         print(log)
-                # fx_broker_credit_add_records(broker_credit_lst2)
-                ######################## print broker credit interest records ########################
+                # fx_broker_credit_print_records(broker_credit_lst2)
 
-                ###################### begin export broker credit interest records function ###################
-                def fx_broker_credit_add_records():
+                # function exports the trade transaction records to the log_metrics_app.py app
+                def fxlog_export_records():
+                    print("----------test: fxlog_export_records() func------------------")
+                    return fxlog_lst_2
+                fxlog_export_records()
+
+                # function exports unmatched trade transaction records to the log_metrics_app.py app
+                def fx_unmatched_export_records():
+                    return unmatched_fxlog
+
+                # function exports the commission transaction records to the log_metrics_app.py app
+                def fx_comm_export_records():
+                    return comm_lst2
+
+                # function exports the interest debit transaction records to the log_metrics_app.py app
+                def fx_int_debit_export_records():
+                    return int_debit_lst
+
+                # function exports the interest credit transaction records to the log_metrics_app.py app
+                def fx_int_credit_export_records():
+                    return int_credit_lst
+
+                # function exports the broker credit records to log_metrics_app.py app
+                def fx_broker_credit_export_records():
                     return broker_credit_lst2
-                ###################### end export broker credit interest records function #####################
 
             else:
                 print(f'{filename} is not a .csv file...')
