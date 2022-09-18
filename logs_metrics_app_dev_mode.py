@@ -2,8 +2,8 @@
 # this is the file that will interact with the database.py file
 import database_dev_mode
 import fx_dev_mode
-# import td_dev_mode
-# import ib_dev_mode
+import td_dev_mode
+import ib_dev_mode
 from datetime import date
 from datetime import datetime
 import itertools
@@ -87,11 +87,11 @@ def export_fx_log_records():
     for row in fx_log_data:
         fx_log_rows.append(row)
 
-    log_entry = fx_dev_mode.fxlog_add_records()
+    log_entry = fx_dev_mode.fxlog_export_records()
     for row in log_entry:
         row = tuple(row)
         if row in fx_log_rows:
-            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print("\n----------------UNIQUE CONSRAINT: duplicate row----------------------")
             print(row)
             pass
 
@@ -101,13 +101,13 @@ def export_fx_log_records():
     log_entry = export_fx_log_entry_lst
     database_dev_mode.fx_log_add_many(log_entry)
 
-# export_fx_log_records()
+export_fx_log_records()
 ################################# End add fx_log RECORDS ################################################
 
 ################################# Begin add fx_unmatched RECORDS ######################################
 # add fx_unmatched records to the database
 def export_unmatched_records():
-    log_entry = fx_dev_mode.fx_unmatched_add_records()
+    log_entry = fx_dev_mode.fx_unmatched_export_records()
     database_dev_mode.fx_unmatched_add_many(log_entry)
 # export_unmatched_records()
 ################################# End add fx_unmatched RECORDS ######################################
@@ -197,7 +197,7 @@ def export_matched_record():
 
     for entry in matched_rows_lst2:
         if entry in fx_log_data:
-            print("\n-------------TRUE TEST FOR UNIQUE CONSRAINT------------")
+            print("\n-------------UNIQUE CONSRAINT: duplicate row------------")
             print(entry)
             pass
         else:
@@ -220,13 +220,14 @@ export_fx_commission_entry_lst = []
 # export_fx_commissions_records() function exports fx_commissions transactions into the fx_commissions table
 def export_fx_commissions_records():
     fx_commission_data = cur.execute(''' SELECT * FROM fx_commissions''')
-    fx_commission_rows.append(row)
+    for row in fx_commission_data:
+        fx_commission_rows.append(row)
 
-    log_entry = fx_dev_mode.fx_comm_add_records()
+    log_entry = fx_dev_mode.fx_comm_export_records()
     for row in log_entry:
         row = tuple(row)
         if row in fx_commission_rows:
-            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print("\n----------------UNIQUE CONSRAINT: duplicate row----------------------")
             print(row)
             pass
 
@@ -253,11 +254,11 @@ def export_fx_interest_debit_records():
     for row in fx_int_debit_data:
         fx_int_debit_rows.append(row)
 
-    log_entry = fx_dev_mode.fx_int_debit_add_records()
+    log_entry = fx_dev_mode.fx_int_debit_export_records()
     for row in log_entry:
         row = tuple(row)
         if row in fx_int_debit_rows:
-            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print("\n----------------UNIQUE CONSRAINT: duplicate row----------------------")
             print(row)
             pass
 
@@ -282,11 +283,11 @@ def export_fx_interest_credit_records():
     for row in fx_int_credit_data:
         fx_int_credit_rows.append(row)
 
-    log_entry = fx_dev_mode.fx_int_credit_add_records()
+    log_entry = fx_dev_mode.fx_int_credit_export_records()
     for row in log_entry:
         row = tuple(row)
         if row in fx_int_credit_rows:
-            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print("\n----------------UNIQUE CONSRAINT: duplicate row----------------------")
             print(row)
             pass
 
@@ -311,11 +312,11 @@ def export_fx_broker_credit_records():
     for row in fx_broker_credit_data:
         fx_broker_credit_rows.append(row)
 
-    log_entry = fx_dev_mode.fx_broker_credit_add_records()
+    log_entry = fx_dev_mode.fx_broker_credit_export_records()
     for row in log_entry:
         row = tuple(row)
         if row in fx_broker_credit_rows:
-            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print("\n----------------UNIQUE CONSRAINT: duplicate row----------------------")
             print(row)
             pass
 
@@ -348,7 +349,7 @@ def export_td_options_log_records():
     for row in log_entry:
         row = tuple(row)
         if row in td_options_log_rows:
-            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print("\n----------------UNIQUE CONSRAINT: duplicate row----------------------")
             print(row)
             pass
 
@@ -381,7 +382,7 @@ def export_td_comm_log_records():
     for row in log_entry:
         row = tuple(row)
         if row in td_comm_log_rows:
-            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print("\n----------------UNIQUE CONSRAINT: duplicate row----------------------")
             print(row)
             pass
 
@@ -413,7 +414,7 @@ def export_td_reg_fee_log_records():
     for row in log_entry:
         row = tuple(row)
         if row in td_reg_fee_log_rows:
-            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print("\n----------------UNIQUE CONSRAINT: duplicate row----------------------")
             print(row)
             pass
 
@@ -445,7 +446,7 @@ def export_td_misc_income_log_records():
     for row in log_entry:
         row = tuple(row)
         if row in td_misc_income_log_rows:
-            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print("\n----------------UNIQUE CONSRAINT: duplicate row----------------------")
             print(row)
             pass
 
@@ -477,7 +478,7 @@ def export_td_misc_debit_log_records():
     for row in log_entry:
         row = tuple(row)
         if row in td_misc_debit_log_rows:
-            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print("\n----------------UNIQUE CONSRAINT: duplicate row----------------------")
             print(row)
             pass
 
@@ -510,7 +511,7 @@ def export_td_interest_income_log_records():
     for row in log_entry:
         row = tuple(row)
         if row in td_interest_income_log_rows:
-            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print("\n----------------UNIQUE CONSRAINT: duplicate row----------------------")
             print(row)
             pass
 
@@ -542,7 +543,7 @@ def export_td_interest_debit_log_records():
     for row in log_entry:
         row = tuple(row)
         if row in td_interest_debit_log_rows:
-            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print("\n----------------UNIQUE CONSRAINT: duplicate row----------------------")
             print(row)
             pass
 
@@ -574,7 +575,7 @@ def export_ib_options_log_records():
     for row in log_entry:
         row = tuple(row)
         if row in ib_options_log_rows:
-            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print("\n----------------UNIQUE CONSRAINT: duplicate row----------------------")
             print(row)
             pass
 
@@ -586,8 +587,6 @@ def export_ib_options_log_records():
 
 # export_ib_options_log_records()
 ################################## End add ib_options_log RECORDS ##############################################
-
-
 ################################## Begin add ib_commissions_fee log RECORDS ##############################################
 # add ib_commissions_fee log records
 
@@ -609,7 +608,7 @@ def export_ib_comm_fee_log_records():
     for row in log_entry:
         row = tuple(row)
         if row in ib_comm_fee_log_rows:
-            print("\n----------------TRUE TEST FOR UNIQUE CONSRAINT: duplicate row----------------------")
+            print("\n----------------UNIQUE CONSRAINT: duplicate row----------------------")
             print(row)
             pass
 
