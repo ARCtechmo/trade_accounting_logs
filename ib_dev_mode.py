@@ -5,7 +5,7 @@ import re
 import os.path
 from pathlib import Path
 
-print("This is the IB options broker app that formats and exports the .csv file")
+print("\nThis is the IB options broker app that formats and exports the .csv file")
 print("Make sure you are in the correct directory where all of your files are located.")
 print(Path.cwd())
 confirm_dir = input("Is this the correct directory: (Y/N): ")
