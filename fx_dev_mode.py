@@ -1294,7 +1294,6 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                 def fxlog_export_records():
                     print("----------test: fxlog_export_records() func------------------")
                     return fxlog_lst_2
-                fxlog_export_records()
 
                 # function exports unmatched trade transaction records to the log_metrics_app.py app
                 def fx_unmatched_export_records():
