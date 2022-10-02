@@ -633,6 +633,6 @@ export_ib_comm_fee_log_records()
 ################################## End add ib_commissions_fee log RECORDS ##############################################
 
 ############################## CLOSE THE DATABASE ##################################
-# print("app closed....")
-# conn.close()
+print("app closed....")
+conn.close()
 ############################## QUERY THE DATABASE ##################################
