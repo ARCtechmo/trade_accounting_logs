@@ -38,7 +38,9 @@ is not with my program but with the broker data
 9/5/2022 ib_dev_mode.py and td_dev_mode.py
 1. added user input and removed unnecessary comment and print lines
 
-
+10/2/2022 - logs_metrics_app_dev_mode.py
+1. successfully completed the first phase of control flow testing
+2. successfully exported all transaction data from all .csv files into the database with no errors or bugs
 
 
 
