@@ -1,5 +1,4 @@
-### This code is under development ###
-# this is the file that will interact with the database.py file
+### under development ###
 import database_dev_mode
 import fx_dev_mode
 import td_dev_mode
@@ -17,60 +16,6 @@ else:
 import sqlite3
 conn = sqlite3.connect('transactions_dev_mode.db')
 cur = conn.cursor()
-
-################################# BROKER / ACTIVITY TABLES #########################
-# bk_name = [
-#             (1, 'No_Broker'),
-#             (2, 'Archer_Daniel_Midland'),
-#             (3, 'FOREX_com'),
-#             (4, 'Interactive_Brokers'),
-#             (5, 'TD_Ameritrade'),
-#             (6, 'Tradestation'),
-#             (7, 'Tradingview')
-#           ]
-# activity_name = [ (1,'trading_analysis'),
-#                   (2,'accounting_logging'),
-#                   (3,'market_research'),
-#                   (4,'performance_review'),
-#                   (5,'business_plan_development'),
-#                   (6,'trade_plan_development'),
-#                   (7,'professional_development'),
-#                   (8,'backtesting')
-#                 ]
-# add broker records
-# database_dev_mode.broker_add_many(bk_name)
-# print("---------------successfully added records to the db------------------\n")
-# database_dev_mode.broker_show_all()
-
-# delete broker record
-# database_dev_mode.broker_delete_one(6)
-# print("---------------successfully deleted record to the db------------------\n")
-# database_dev_mode.broker_show_all()
-
-# add activity_log records
-# database_dev_mode.activity_add_many(activity_name)
-# print("---------------successfully added records to the db------------------\n")
-# database_dev_mode.activity_show_all()
-
-# delete activity_log record
-# database_dev_mode.activity_delete_one(9)
-# print("---------------successfully deleted record to the db------------------\n")
-# database_dev_mode.activity_show_all()
-################################# BROKER / ACTIVITY TABLES #########################
-
-################################ ADD time_log RECORDS #########################################
-### update this section with user input and pass user input to a variable ##
-# add records
-# log_entry = [
-#             ('2022-01-04 00:00','2022-00-00 00:00',2,2),
-#             ('2022-01-05 00:00','2022-00-00 00:00',3,3)
-#             ]
-
-
-# database_dev_mode.time_log_add_many(log_entry)
-# print("---------------successfully added records to the db------------------\n")
-# database_dev_mode.time_log_show_all()
-################################# Add time_log RECORDS #######################################
 
 ################################## Begin add fx_log RECORDS ################################################
 # add fx_log records
