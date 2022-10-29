@@ -42,7 +42,8 @@ is not with my program but with the broker data
 1. successfully completed the first phase of control flow testing
 2. successfully exported all transaction data from all .csv files into the database with no errors or bugs
 
-
+10/29/2022 - unittest completed
+1. successfully completed unittests on fx_dev_mode.py, td_dev_mode.py, ib_dev_mode.py, and log_metrics_app_dev_mode.py
 
 
 
