@@ -14,7 +14,7 @@ else:
 
 # connect to the database
 import sqlite3
-conn = sqlite3.connect('transactions_dev_mode.db')
+conn = sqlite3.connect('database.db')
 cur = conn.cursor()
 
 ################################## Begin add fx_log RECORDS ################################################
