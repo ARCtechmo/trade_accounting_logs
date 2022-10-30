@@ -1,7 +1,6 @@
 ### This code is under development ###
 # this file builds the database
 import sqlite3
-# conn = sqlite3.connect(":memory:")
 conn = sqlite3.connect('database.db')
 cur = conn.cursor()
 
