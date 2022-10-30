@@ -1,6 +1,6 @@
 ## Under Development ##
 # Use this file to create the time logs
-import database_dev_mode
+import database
 
 # connect to the database
 import sqlite3
@@ -16,10 +16,10 @@ if create_record == 'Y' or create_record == 'y' or create_record == 'Yes' or cre
                 ('2022-10-06 00:00','2022-10-06 00:00',2,2),
                 ('2022-10-07 00:00','2022-10-07 00:00',3,3)
                 ]
-    database_dev_mode.time_log_add_many(log_entry)
+    database.time_log_add_many(log_entry)
 else:
     pass
-############################## CLOSE THE DATABASE ##################################
+############################## Close the database ##################################
 print("app closed....")
 conn.close()
-############################## QUERY THE DATABASE ##################################
+############################## Close the database ##################################

@@ -1,7 +1,7 @@
 ## Under Development ##
 # Use this file to create the broker names and trading activity
 ## These are used as foreign keys ## 
-import database_dev_mode
+import database
 
 # connect to the database
 import sqlite3
@@ -32,7 +32,7 @@ create_bkr = input("Would you like to create a new broker foreign key?: ")
 if create_bkr == 'Y' or create_bkr == 'y' or create_bkr == 'Yes' or create_bkr == 'yes' \
    or create_bkr == 'YES' or create_bkr == 'YEs' or create_bkr == 'YeS' or create_bkr == 'yES' \
    or create_bkr == 'yeS' or create_bkr == 'yEs':
-   database_dev_mode.broker_add_many(bk_name)
+   database.broker_add_many(bk_name)
 else:
   pass
 
@@ -41,7 +41,7 @@ create_activity = input("Would you like to create a new activity foreign key?: "
 if create_activity == 'Y' or create_activity == 'y' or create_activity == 'Yes' or create_activity == 'yes' \
    or create_activity == 'YES' or create_activity == 'YEs' or create_activity == 'YeS' or create_activity == 'yES' \
    or create_activity == 'yeS' or create_activity == 'yEs':  
-   database_dev_mode.activity_add_many(activity_name)
+   database.activity_add_many(activity_name)
 else:
   pass
 
