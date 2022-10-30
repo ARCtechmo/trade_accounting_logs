@@ -1,9 +1,23 @@
-Section 1: Introduction
-The documentation provides a guide as to how to utilize the database and the set of python program files.
-This is not a completely automated system and the program is specifically designed to work with specific broker 
-data that is dowloaded and formatted in a specific manner.  
+*** DRAFT *** Under Development
 
-Section 2: How to use the fx_dev_mode.py 
+Section 1: Description
+The documentation is  a guideo to utilize the database and the set of python program files.
+This is not a completely automated system and the program is specifically designed to work with specific broker 
+data that must be dowloaded as .csv files directly from the broker's webseit.  This application is desiged for 
+FOREX.com, Interactive Brokers, and TD Ameritrade .csv files.    
+
+
+Section 2: Installation Requirements
+
+Section 3: Quickstart Guide
+1. Run the database.py file.
+
+2. Run the brokers.py file.  
+- The program will prompt you to create the broker key and the activity key. For the first time you run this program you need to select "Y." Selecting "Y" will  establish the foreign key relationships for your database.
+- Go into the brokers table and the activity tables in the databasee to check your foreign keys.
+- You will not need to run this file again unless you want to add a new broker or activity.     
+
+Section ...: How to use the fx_dev_mode.py 
 1. This is a python file that takes a .csv file from a forex broker.  
 2. The program cleans and formats the data then exports the data to the logs_metrics_app_dev_mode.py file.  
 
@@ -17,4 +31,4 @@ Here is the process to utilize the file:
      -  This number is tied to the foreign key relationships in the data and must be typed in correctly
      -  If you select the wrong number this will result in incorrect relations in the database
 
-Section 3:  
+Section :  
