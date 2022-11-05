@@ -1,22 +1,60 @@
-*** DRAFT *** Under Development
+*** Under Development ***
 
 Section 1: Description
-The documentation is  a guideo to utilize the database and the set of python program files.
+The documentation is  a guide to utilize the database and the set of python program files.
 This is not a completely automated system and the program is specifically designed to work with specific broker 
-data that must be dowloaded as .csv files directly from the broker's webseit.  This application is desiged for 
+data that must be dowloaded as .csv files directly from the broker's webseit.  This application is designed for 
 FOREX.com, Interactive Brokers, and TD Ameritrade .csv files.    
 
 
 Section 2: Installation Requirements
+-This application requires Python3 and sqlite3 to be installed on your machine.  
+-The sqlite DBbrowser is also recommended if you want to use a GUI. There are other sqlite GUIs available.   
+-A text editor such as VSCode or VIM or EMACS (there are many others available) is required.
 
 Section 3: Quickstart Guide
-1. Run the database.py file.
 
-2. Run the brokers.py file.  
+1. Create a directory (folder) where you will runn this application. 
+
+2. Download the python files to the folder you created (or clone the repository).
+-You need the following files: database.py, broker.py, database.py, export.py, fx.py, ib.py, td.py, time_logs.py
+-Either clone the entire repository or open each file and save it to the directory (folder) you created.
+
+3. Install python3.  
+-Ensure you have python3 installed on your machine.  
+-The method of installation varies depending on your system.  
+-Python3 installer may give you an option to set the file path automatically. 
+-Ensure that the $PATH is set so python will execute in the directory where you run this application. 
+
+4. Install sqlite3 and the DBbrowser.  
+-Again it is very important that you set your $PATH so sqlite3 and the DBbrowser will execute. 
+-For most Linux systems sqlite3 is already installed.  For Windows and MacOS you will need to download and install sqlite3.
+-For Windows ensure all of the python files and sqlite.exe files are in the same directory.
+-The following links provide download and installation instructions for sqlite3 and the DBbrowser:  
+-sqlite.org,sqlitetutorial.net, DBbrowser.org
+
+5. Run the database.py file.
+-This file creates the database upon initial use.
+-This file also executes the queries on the database and therefore must be opened each time you run the application. 
+-You must also manually close the database once you are finished.  It is not a good idea to leave the app open.
+-You must manually open the database each time you run this application. 
+-Open the database.py file in your text editor.
+-Scroll to the last line of code where it says "conn.close()" and comment out this line. 
+-Now tun the program in your terminal. 
+-Navigate to your directory:
+-For GNU/Linux systems  type "./python3 database.py"
+-For Windows systems type "python database.py" 
+-The database should now be open. 
+-Check to ensure the database was successfully created with the GUI or in the terminal.  
+-For GNU/Linus and Windows type "sqlite3" then type ".open database.db" then type .schema.  The db schema should appear.    
+-Use the GUI. Use the sqlite DBbrowser you installed to open the database.db file.  There is a tab called "open database."
+
+6. Run the brokers.py file.  
 - The program will prompt you to create the broker key and the activity key. For the first time you run this program you need to select "Y." Selecting "Y" will  establish the foreign key relationships for your database.
 - Go into the brokers table and the activity tables in the databasee to check your foreign keys.
 - You will not need to run this file again unless you want to add a new broker or activity.     
 
+7. Run the time_logs.py file
 Section ...: How to use the fx_dev_mode.py 
 1. This is a python file that takes a .csv file from a forex broker.  
 2. The program cleans and formats the data then exports the data to the logs_metrics_app_dev_mode.py file.  
