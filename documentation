@@ -79,3 +79,33 @@ Here is the process to utilize the file:
      -  If you select the wrong number this will result in incorrect relations in the database
 
 
+
+Bugs and workarounds
+fx.py file timestamps and dates
+-The fx.py files formats the dates.  
+-Alpha testing revealed the program may return a '[]' in the HH:MM section of the dates or other incorrect date formats primarily in the HH:MM part.
+-This is a minor bug that does not affect the ability of the program to run properly.  
+-This bug will be corrected in future updates. 
+
+fx.csv, fx.py and  export.py files
+-This bug applies only to the trade transactions NOT commissions, financing, etc...
+-The forex broker .csv files contain columns for close_id and open_id for the trade transactions. 
+-Complete trade transactions have both a close_id and open_id and a single row. Incomplete trade transactions only have an open_id.
+-The forex broker .csv files do not match the trade transactions so the functions in the fx.py and export.py files match the trade transactions.
+-The vast majority of trade transactions in the forex broekr .csv files have unique close_ids and unique open_ids.
+-However, there are some instances where two or more trade transactions may share an open_id.
+-Testing during development and alpha testing revealed a bug when two or more trade transactions share an open_id.
+-The program may fail to export some or even all rows of trade transactions that share an open_id.  
+-When you run your SQL queries and compare the queries to the broker statements and your numbers do not match this is most likely the cause. 
+-The problem is that the program will not export trade transactions that share an open_id with another row AND where there is no close_id.  
+-Here is a quick fix.
+-First, identify the missing trade transactions with the common open_ids (note it could be in two different months).
+-Second, if the two trade transactions with the same open_ids are in the same .csv file create a new .csv file with a 'save as' (don't modify the original).
+-Third, in the newly modified .csv file deelte all rows except the row with the missing close_id.
+-So now the modified .csv file should only contain a row with the trade transaction and only an open_id (not the one with the open_id and close_id).
+-Now run export.py on the modified .csv file.
+-Next, run export.py on the .csv for the next month that contains the close_id for the trade transactions so the program will match them.
+-There are other scenarios but basically it comes down to modifying the .csv file(s) to get the program to accept the data.  
+-This only happens on a small percentage of cases.  
+-This bug will be corrected in future updates.      
+
