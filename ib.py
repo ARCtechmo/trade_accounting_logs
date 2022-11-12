@@ -25,6 +25,9 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
 
         # contains a list of the trade data from the .csv file
         trade_data_lst = []
+        
+        # contains a list of 'other fees' from the .csv file
+        other_fee_data_lst = []
 
         # input the .csv filename
         filename = input("enter the entire .csv filename including the extension (example: test_file.csv): ")
@@ -38,14 +41,17 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                         if row[0] == 'trades' or row[0] == 'Trades':
                             trade_rows = row
                             trade_data_lst.append(trade_rows)
-
+                        elif row[2] == 'Other Fees' or row[2] == 'other fees' or row[2] == 'Other fees'\
+                            or row[2] == 'other Fees' or row[2] == 'OTHER FEES':
+                            other_fee_data_lst.append(row)
+                
                 # contains unformatted options data
                 options_lst1 = []
 
                 # contains the commission and fee data
                 comm_fee_lst1 = []
 
-                # create_options_comm_fee_lst extracts the options data and the commission / fee data from the trade_data_lst
+                # create_options_comm_fee_lst extracts the options data and the commission / fee  / other data from the trade_data_lst
                 def create_options_comm_fee_lst(lst1):
                     # remove the header line
                     i = len(lst1)
@@ -341,6 +347,19 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                         cf_row = list(cf_row)
                         cflst2.append(cf_row)
                 create_comm_fee_key(comm_fee_lst2,cf_index_lst1,comm_fee_lst3)
+
+                # contains the other fee data
+                other_fee_lst1 = []
+
+                # name the function - START HERE NEXT
+                # note to self- make two columns in the table for OPRA fee and the Data fee bundle
+                def create_options_other_fee_lst(lst1):
+                    # remove the header
+                    i = len(lst1)
+                    for row in lst1[2:i]:
+                        print(row)
+                create_options_other_fee_lst(other_fee_data_lst)
+
 
                 # export the options log data
                 def options_log_export_records():
