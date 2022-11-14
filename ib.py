@@ -63,17 +63,20 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                 # options_dates_lst contains the options dates
                 options_dates_lst = []
 
+                # options_time_lst contains a list of the HH:MM:SS (used to create a unique transaction id)
+                options_time_lst = []
+
                 # format_options_date() function formats the options date
-                def extract_options_date(lst1,lst2):
-                    date_lst = []
+                def extract_options_date(lst1,lst2,lst3):
                     for row in lst1:
                         date = row[0][1]
                         if date == '':
                             pass
                         else:
                             lst2.append(date[:10])
-                extract_options_date(options_lst1,options_dates_lst)
-
+                            lst3.append(date[12:])
+                extract_options_date(options_lst1,options_dates_lst,options_time_lst)
+    
                 # options_year_lst contains the options year
                 options_year_lst = []
 
@@ -254,74 +257,86 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
 
                 compile_options_fields()
 
+                # options_time_lst2 contains formatted HH:MM:SS (used to create a unique transaction id)
+                options_time_lst2 = []
+
+                def format_options_time(lst1,lst2):
+                    for row in lst1:
+                        # HH:MM:SS
+                        if row[2] == ':' and row[5] == ':' and len(row) == 8:
+                            time_id = f'{row[:2]}{row[3:5]}{row[6:]}'
+                            lst2.append(time_id)
+                        # H:MM:SS
+                        elif row[1] == ':' and row[4] == ':' and len(row) == 7:
+                            time_id = f'0{row[0]}{row[2:4]}{row[5:]}'
+                            lst2.append(time_id)
+                        # HH:M:SS
+                        elif row[2] == ':' and row[4] == ':' and len(row) == 7:
+                            time_id = f'{row[:2]}0{row[3]}{row[5:]}'
+                            lst2.append(time_id)
+                        # HH:MM
+                        elif row[2] == ':' and len(row) == 5:
+                            time_id = f'{row[:2]}{row[3:]}00'
+                            lst2.append(time_id)
+                        # HH:M
+                        elif row[2] == ':' and len(row) == 4:
+                            time_id = f'{row[:2]}0{row[3]}00'
+                            lst2.append(time_id)
+                        # H:MM
+                        elif row[1] == ':' and len(row) == 4:
+                            time_id = f'0{row[0]}{row[2:4]}00'
+                            lst2.append(time_id)
+                format_options_time(options_time_lst,options_time_lst2)
+
                 # key_lst1 contains a list of unque identifiers
                 key_lst1 = []
 
-                # key_lst2 contains all fields and rows for the options transaction data and a unique identifier
-                key_lst2 = []
-
                 # creates a unique identifier and adds it to key_lst2
-                def create_key(lst2,key_lst1,key_lst2):
-                    index_lst = []
-                    i = len(lst2)
-                    for row in lst2:
-                        row[5] = abs(row[5])
-                        trans_num = f'{row[0][2:4]}{row[0][5:7]}{row[0][8:10]}'
-                        key_lst1.append(trans_num)
+                def create_key(lst1,lst2,lst3):
+                    for row, num in zip(lst1,lst2):
+                        val1 = row[0][2:4]
+                        val2 = row[0][5:7]
+                        val3 = row[0][8:10]
+                        val4 = ord(row[4][0].upper())
+                        val5 = num
+                        trans_num = f'{val1}{val2}{val3}{val4}{val5}'
+                        trans_num = int(trans_num)
+                        lst3.append(trans_num)
 
-                    for num in range(i):
-                        if num < 10:
-                            num = (str(num))
-                            num = num.zfill(2)
-                            index_lst.append(num)
-                        else:
-                            num = str(num)
-                            index_lst.append(num)
-
-                    for index, id in zip(key_lst1,index_lst):
-                        key_lst2.append((f'{index}{id}'))
-
-                    for id in key_lst2:
-                        id = int(id)
-                create_key(options_lst2,key_lst1,key_lst2)
-
+                create_key(options_lst2,options_time_lst2,key_lst1)
+                
                 # options_lst3 contains all of the fields and the unique transaction id column
                 options_lst3 = []
 
-                def append_key(lst2,key_lst2,lst3):
-                    tmp_lst = []
-                    for col1, col2 in zip(lst2,key_lst2):
-                        col2 = int(col2)
-                        tmp_lst.append([col1,col2])
-
-                    i = len(tmp_lst)
-                    for row in tmp_lst[:i]:
-                        row = row[0][0],row[0][1],row[0][2],row[0][3],row[0][4],row[0][5], \
-                        row[0][6],row[0][7],row[0][8],row[0][9],row[0][10],row[0][11],row[1]
-                        row = list(row)
-                        lst3.append(row)
-
-                append_key(options_lst2,key_lst2,options_lst3)
+                def append_key(lst1,lst2,lst3):
+                    # tmp_lst = []
+                    for col1, col2 in zip(lst1,lst2):
+                            lst3.append([col1[0],col1[1],col1[2],col1[3],col1[4],
+                            col1[5],col1[6],col1[7],col1[8],
+                            col1[9],col1[10],col1[11],col2])
+                   
+                append_key(options_lst2,key_lst1,options_lst3)
 
                 # comm_fee_lst2 contains the formatted commission and fee transactions
                 comm_fee_lst2 = []
 
                 # add dates and format the commissions and fee transaction data list
-                def format_comm_fee_data():
-                    for line in comm_fee_lst1:
+                def format_comm_fee_data(lst1,lst2,lst3):
+                    for line, num in zip(lst1,lst2):
+                        line[1] = int(line[1])
                         if line[1] == '':
                             pass
                         else:
-                            line[1] = int(line[1])
                             if line[1] == 0:
                                 pass
                             else:
-                                trans_num = f'{line[0][2:4]}{line[0][5:7]}{line[0][8:10]}'
+                                val1 = ord('C')
+                                key = f'{num[12]}{val1}'
+                                trans_num = f'{key}'
                                 comm_data = line[0][:10],int(line[0][:4]),int(line[0][5:7]),int(line[0][8:10]),float(line[2]),broker_id,int(trans_num)
                                 comm_data = list(comm_data)
-                                comm_fee_lst2.append(comm_data)
-
-                format_comm_fee_data()
+                                lst3.append(comm_data)
+                format_comm_fee_data(comm_fee_lst1,options_lst3,comm_fee_lst2)
 
                 # contains list of comm_fee transactions with a unique transaction number identifier
                 comm_fee_lst3 = []
