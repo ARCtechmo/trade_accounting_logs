@@ -576,6 +576,40 @@ def export_ib_comm_fee_log_records():
         pass
 export_ib_comm_fee_log_records()
 ################################## End add ib_commissions_fee log RECORDS ##############################################
+################################## Begin add ib_other_fee log RECORDS ############################################
+# add ib_other_fee log records
+
+# ib_other_fee_log_rows contains a list of the rows in the ib_other_fee table
+ib_other_fee_log_rows = []
+
+# export_ib_other_fee_log_entry_lst contains a list of the rows that will be exported into the ib_other_fee table
+export_ib_other_fee_log_entry_lst = []
+
+# export_ib_other_fee_log_records function check for UNIQUE CONSTRANT ERRORS
+# exports the ib broker "other fee" log records into the ib_other_fee table
+def export_ib_other_fee_log_records():
+    ib_other_fee_log_data = cur.execute(''' SELECT * FROM ib_other_fee ''')
+    for row in ib_other_fee_log_data:
+        ib_other_fee_log_rows.append(row)
+    try:
+        log_entry = ib.other_fee_log_export_records()
+        for row in log_entry:
+            row = tuple(row)
+            if row in ib_other_fee_log_rows:
+                print("\n----------------UNIQUE CONSRAINT: duplicate row----------------------")
+                print(row)
+                pass
+            else:
+                export_ib_other_fee_log_entry_lst.append(row)
+
+        log_entry = export_ib_other_fee_log_entry_lst
+        database.ib_other_fee_log_add_many(log_entry)
+            
+    except:
+        pass
+export_ib_other_fee_log_records()
+################################## End add ib_other_fee log RECORDS ##############################################
+
 
 ############################## CLOSE THE DATABASE ##################################
 print("app closed....")
