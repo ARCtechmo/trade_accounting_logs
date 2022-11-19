@@ -3,14 +3,13 @@
 import sqlite3
 conn = sqlite3.connect('database.db')
 cur = conn.cursor()
-
 cur.executescript('''
 CREATE TABLE IF NOT EXISTS brokers(
     broker_id INTEGER NOT NULL PRIMARY KEY,
     broker TEXT NOT NULL UNIQUE
     );
 
-CREATE TABLE IF NOT EXISTS activity_log(
+CREATE TABLE IF NOT EXISTS activity(
     activity_id INTEGER NOT NULL PRIMARY KEY,
     activity TEXT NOT NULL UNIQUE
     );
@@ -20,11 +19,29 @@ CREATE TABLE IF NOT EXISTS time_log(
     end_time TEXT NOT NULL,
     activity_id INTEGER NOT NULL,
     broker_id INTEGER NOT NULL,
-    FOREIGN KEY(activity_id) REFERENCES activity_log (activity_id)
+    FOREIGN KEY(activity_id) REFERENCES activity (activity_id)
         ON UPDATE CASCADE,
     FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
         ON UPDATE CASCADE
     );
+
+CREATE TABLE IF NOT EXISTS non_trading_expense(
+    date TEXT,
+    year INTEGER NOT NULL,
+    month INTEGER,
+    day INTEGER,
+    description TEXT NOT NULL,
+    expense INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS non_trading_revenue(
+    date TEXT,
+    year INTEGER NOT NULL,
+    month INTEGER,
+    day INTEGER,
+    description TEXT NOT NULL,
+    revenue INTEGER NOT NULL
+);
 
 CREATE TABLE IF NOT EXISTS fx_log(
     entry_date TEXT NOT NULL,
@@ -281,18 +298,18 @@ def broker_show_all():
         for item in items:
             print(item)
 
-# activity_log_table_functions
+# activity table_functions
 def activity_add_many(activity_name):
     with conn:
-        cur.executemany("INSERT INTO activity_log VALUES(?,?)", (activity_name), )
+        cur.executemany("INSERT INTO activity VALUES(?,?)", (activity_name), )
         conn.commit()
 def activity_delete_one(id):
     with conn:
-        cur.execute("DELETE FROM activity_log WHERE rowid=? ",(id,) )
+        cur.execute("DELETE FROM activity WHERE rowid=? ",(id,) )
         conn.commit()
 def activity_show_all():
     with conn:
-        cur.execute("SELECT * FROM activity_log")
+        cur.execute("SELECT * FROM activity")
         items = cur.fetchall()
         for item in items:
             print(item)
@@ -312,6 +329,19 @@ def time_log_show_all():
         items = cur.fetchall()
         for item in items:
             print(item)
+
+# insert data into the non_trading_expense table
+def non_trading_expense_add_many(log_entry):
+    with conn:
+        cur.executemany("INSERT INTO non_trading_expense VALUES(?,?,?,?,?,?)", (log_entry), )
+        conn.commit
+
+# insert data into the non_trading_revenue table
+def non_trading_revenue_add_many(log_entry):
+    with conn:
+        cur.executemany("INSERT INTO non_trading_revenue VALUES(?,?,?,?,?,?)", (log_entry), )
+        conn.commit
+
 # insert data into the fx_log_table
 def fx_log_add_many(log_entry):
     with conn:
