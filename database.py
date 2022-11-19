@@ -253,6 +253,19 @@ CREATE TABLE IF NOT EXISTS ib_commissions_fee(
     transaction_number INTEGER NOT NULL UNIQUE,
     FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
         ON UPDATE CASCADE
+    );
+
+CREATE TABLE IF NOT EXISTS ib_other_fee(
+    date TEXT NOT NULL,
+    year INTEGER NOT NULL,
+    month INTEGER NOT NULL,
+    day INTEGER NOT NULL,
+    description TEXT NOT NULL,
+    fee REAL NOT NULL,
+    broker_id INTEGER NOT NULL,
+    transaction_number INTEGER NOT NULL UNIQUE,
+    FOREIGN KEY(broker_id) REFERENCES brokers (broker_id)
+        ON UPDATE CASCADE
     )
 
 ''')
@@ -261,17 +274,12 @@ def broker_add_many(bk_name):
     with conn:
         cur.executemany("INSERT INTO brokers VALUES(?,?)", (bk_name), )
         conn.commit()
-def broker_delete_one(id):
-    with conn:
-        cur.execute("DELETE FROM brokers WHERE rowid=? ",(id,) )
-        conn.commit()
 def broker_show_all():
     with conn:
         cur.execute("SELECT * FROM brokers")
         items = cur.fetchall()
         for item in items:
             print(item)
-conn.commit()
 
 # activity_log_table_functions
 def activity_add_many(activity_name):
@@ -483,6 +491,17 @@ def ib_comm_fee_log_show_all():
         for item in items:
             print(item)
 
+# insert data into the ib_other_fee log table
+def ib_other_fee_log_add_many(log_entry):
+    with conn:
+        cur.executemany("INSERT INTO ib_other_fee VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
+        conn.commit()
+def ib_other_fee_log_show_all():
+    with conn:
+        cur.execute("SELECT * FROM ib_other_fee")
+        items = cur.fetchall()
+        for item in items:
+            print(item)
 conn.commit()
 ############################# CLOSE THE DATABASE ##############################
 print("\n-------------database closed---------------------")
