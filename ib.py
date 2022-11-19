@@ -486,7 +486,7 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                 # append the key to other_fees_lst2
                 def append_fee_key(lst1,lst2,lst3):
                     for col1, col2 in zip(lst1,lst2):
-                        lst3.append([col1[0],col1[1],col1[2],col1[3],col1[4],col1[5],int(col2)])
+                        lst3.append([col1[0],col1[1],col1[2],col1[3],col1[4],col1[5],col1[6],int(col2)])
                 append_fee_key(other_fees_lst2,fee_key_lst1,other_fees_lst3)
 
                 # export the options log data
