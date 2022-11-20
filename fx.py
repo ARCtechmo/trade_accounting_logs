@@ -334,12 +334,6 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
 
                 fx_format_exit_date(fxlst3,fxlst5)
 
-                for entry in fxlst4:
-                    print(entry)
-
-                for exit in fxlst5:
-                    print(exit)
-
                 # marketlst contains the formatted market (e.g. EURUSD, AUDJPY, etc...)
                 marketlst = []
 
