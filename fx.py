@@ -569,63 +569,84 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                     for item in lst1:
                         if item[2] == '000000000':
                             for dmy in lst1:
+
+                                # DD/MM/YYY
                                 if dmy[0][2] == '/' and dmy [0][5] == '/':
                                     unmatched_entry_yr = dmy[0][6:10]
                                     unmatched_entry_mo = dmy[0][3:5]
                                     unmatched_entry_day = dmy[0][:2]
-                                    unmatched_entry_time = dmy[0][11:16]
-                                    if len(unmatched_entry_time) < 5:
-                                        unmatched_entry_time = f'0{[0][11:16]}'
+                                    unmatched_entry_time = dmy[0][11:]
+
+                                    # DD/MM/YYY H:MM
+                                    if len(unmatched_entry_time) == 4 and unmatched_entry_time[1] == ':':
+                                        unmatched_entry_time = f'0{[0][11:15]}'
                                         formatted_unmatched_entry_date = f'{unmatched_entry_yr}-{unmatched_entry_mo}-{unmatched_entry_day} {unmatched_entry_time}'
                                         lst2.append(formatted_unmatched_entry_date)
-                                    elif len(unmatched_entry_time) == 5:
+                                    
+                                    # DD/MM/YYY HH:MM
+                                    elif len(unmatched_entry_time) >= 5 and unmatched_entry_time[2] == ':':
                                         unmatched_entry_time = dmy[0][11:16]
                                         formatted_unmatched_entry_date = f'{unmatched_entry_yr}-{unmatched_entry_mo}-{unmatched_entry_day} {unmatched_entry_time}'
                                         lst2.append(formatted_unmatched_entry_date)
-                                
+
+                                # DD/M/YYYY
                                 elif dmy[0][2] == '/' and dmy[0][4] == '/':
                                     unmatched_entry_yr = dmy[0][5:9]
                                     unmatched_entry_mo = dmy[0][3]
                                     unmatched_entry_mo = f'0{unmatched_entry_mo}'
                                     unmatched_entry_day = dmy[0][:2]
-                                    unmatched_entry_time = dmy[0][10:15]
-                                    if len(unmatched_entry_time) < 5:
-                                        unmatched_entry_time = f'0{[0][10:15]}'
+                                    unmatched_entry_time = dmy[0][10:]
+
+                                    # DD/M/YYYY H:MM
+                                    if len(unmatched_entry_time) == 4 and unmatched_entry_time[1] == ':':
+                                        unmatched_entry_time = f'0{[0][10:14]}'
                                         formatted_unmatched_entry_date = f'{unmatched_entry_yr}-{unmatched_entry_mo}-{unmatched_entry_day} {unmatched_entry_time}'
                                         lst2.append(formatted_unmatched_entry_date)
-                                    elif len(unmatched_entry_time) == 5:
+                                    
+                                    # DD/M/YYYY HH:MM
+                                    elif len(unmatched_entry_time) >= 5 and unmatched_entry_time[2] == ':':
                                         unmatched_entry_time = dmy[0][10:15]
                                         formatted_unmatched_entry_date = f'{unmatched_entry_yr}-{unmatched_entry_mo}-{unmatched_entry_day} {unmatched_entry_time}'
                                         lst2.append(formatted_unmatched_entry_date)
-                                
+
+                                # D/MM/YYYY
                                 elif dmy[0][1] == '/' and dmy[0][4] == '/':
                                     unmatched_entry_yr = dmy[0][5:9]
                                     unmatched_entry_mo = dmy[0][2:4]
                                     unmatched_entry_day = dmy[0][0]
                                     unmatched_entry_day = f'0{unmatched_entry_day}'
-                                    unmatched_entry_time = dmy[0][10:14]
-                                    if len(unmatched_entry_time) < 5:
+                                    unmatched_entry_time = dmy[0][10:]
+
+                                    # D/MM/YYYY H:MM
+                                    if len(unmatched_entry_time) == 4 and unmatched_entry_time[1] == ':':
                                         unmatched_entry_time = f'0{[0][10:14]}'
                                         formatted_unmatched_entry_date = f'{unmatched_entry_yr}-{unmatched_entry_mo}-{unmatched_entry_day} {unmatched_entry_time}'
                                         lst2.append(formatted_unmatched_entry_date)
-                                    elif len(unmatched_entry_time) == 5:
-                                        unmatched_entry_time = dmy[0][10:14]
+                                    
+                                    # D/MM/YYYY HH:MM
+                                    elif len(unmatched_entry_time) >= 5 and unmatched_entry_time[2] ==':':
+                                        unmatched_entry_time = dmy[0][10:15]
                                         formatted_unmatched_entry_date = f'{unmatched_entry_yr}-{unmatched_entry_mo}-{unmatched_entry_day} {unmatched_entry_time}'
                                         lst2.append(formatted_unmatched_entry_date)
-                                
+
+                                # D/M/YYYY
                                 elif dmy[0][1] == '/' and dmy[0][3] == '/':
                                     unmatched_entry_yr = dmy[0][4:8]
                                     unmatched_entry_mo = dmy[0][2]
                                     unmatched_entry_mo = f'0{unmatched_entry_mo}'
                                     unmatched_entry_day = dmy[0][0]
                                     unmatched_entry_day = f'0{unmatched_entry_day}'
-                                    unmatched_entry_time = dmy[0][9:13]
-                                    if len(unmatched_entry_time) < 5:
+                                    unmatched_entry_time = dmy[0][9:]
+
+                                    # D/M/YYYY H:MM
+                                    if len(unmatched_entry_time) == 4 and unmatched_entry_time[1] == ':':
                                         unmatched_entry_time = f'0{[0][9:13]}'
                                         formatted_unmatched_entry_date = f'{unmatched_entry_yr}-{unmatched_entry_mo}-{unmatched_entry_day} {unmatched_entry_time}'
                                         lst2.append(formatted_unmatched_entry_date)
-                                    elif len(unmatched_entry_time) == 5:
-                                        unmatched_entry_time = dmy[0][9:13]
+                                    
+                                    # D/M/YYYY HH:MM
+                                    elif len(unmatched_entry_time) >= 5 and unmatched_entry_time[2] == ':':
+                                        unmatched_entry_time = dmy[0][9:14]
                                         formatted_unmatched_entry_date = f'{unmatched_entry_yr}-{unmatched_entry_mo}-{unmatched_entry_day} {unmatched_entry_time}'
                                         lst2.append(formatted_unmatched_entry_date)
                         else:
@@ -642,70 +663,91 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                     for item in lst1:
                         if item[2] != '000000000':
                             for dmy in lst1:
+
+                                # DD/MM/YYYY
                                 if dmy[0][2] == '/' and dmy [0][5] == '/':
                                     unmatched_exit_yr = dmy[0][6:10]
                                     unmatched_exit_mo = dmy[0][3:5]
                                     unmatched_exit_day = dmy[0][:2]
-                                    unmatched_exit_time = dmy[0][11:16]
-                                    if len(unmatched_exit_time) < 5:
-                                        unmatched_exit_time = f'0{[0][11:16]}'
+                                    unmatched_exit_time = dmy[0][11:]
+
+                                    # DD/MM/YYYY H:MM
+                                    if len(unmatched_exit_time) == 4 and unmatched_exit_time[1] ==':':
+                                        unmatched_exit_time = f'0{[0][11:15]}'
                                         formatted_unmatched_entry_date = f'{unmatched_exit_yr}-{unmatched_exit_mo}-{unmatched_exit_day} {unmatched_exit_time}'
                                         lst2.append(formatted_unmatched_entry_date)
-                                    elif len(unmatched_exit_time) == 5:
+                                    
+                                    # DD/MM/YYYY HH:MM
+                                    elif len(unmatched_exit_time) >= 5 and unmatched_exit_time[2] ==':':
                                         unmatched_exit_time = dmy[0][11:16]
                                         formatted_unmatched_entry_date = f'{unmatched_exit_yr}-{unmatched_exit_mo}-{unmatched_exit_day} {unmatched_exit_time}'
                                         lst2.append(formatted_unmatched_entry_date)
                                 
+                                # DD/M/YYYY
                                 elif dmy[0][2] == '/' and dmy[0][4] == '/':
                                     unmatched_exit_yr = dmy[0][5:9]
                                     unmatched_exit_mo = dmy[0][3]
                                     unmatched_exit_mo = f'0{unmatched_exit_mo}'
                                     unmatched_exit_day = dmy[0][:2]
-                                    unmatched_exit_time = dmy[0][10:15]
-                                    if len(unmatched_exit_time) < 5:
-                                        unmatched_exit_time = f'0{[0][10:15]}'
+                                    unmatched_exit_time = dmy[0][10:]
+
+                                    # DD/M/YYYY H:MM
+                                    if len(unmatched_exit_time) == 4 and unmatched_exit_time[1] == ':':
+                                        unmatched_exit_time = f'0{[0][10:14]}'
                                         formatted_unmatched_entry_date = f'{unmatched_exit_yr}-{unmatched_exit_mo}-{unmatched_exit_day} {unmatched_exit_time}'
                                         lst2.append(formatted_unmatched_entry_date)
-                                    elif len(unmatched_exit_time) == 5:
+                                    
+                                    # DD/M/YYYY HH:MM
+                                    elif len(unmatched_exit_time) >= 5 and unmatched_exit_time[2] ==':':
                                         unmatched_exit_time = dmy[0][10:15]
                                         formatted_unmatched_entry_date = f'{unmatched_exit_yr}-{unmatched_exit_mo}-{unmatched_exit_day} {unmatched_exit_time}'
                                         lst2.append(formatted_unmatched_entry_date)
                                 
+                                # D/MM/YYYY 
                                 elif dmy[0][1] == '/' and dmy[0][4] == '/':
                                     unmatched_exit_yr = dmy[0][5:9]
                                     unmatched_exit_mo = dmy[0][2:4]
                                     unmatched_exit_day = dmy[0][0]
                                     unmatched_exit_day = f'0{unmatched_exit_day}'
-                                    unmatched_exit_time = dmy[0][10:14]
-                                    if len(unmatched_exit_time) < 5:
+                                    unmatched_exit_time = dmy[0][10:]
+
+                                    # D/MM/YYYY H:MM
+                                    if len(unmatched_exit_time) == 4 and unmatched_exit_time[1] ==':':
                                         unmatched_exit_time = f'0{[0][10:14]}'
                                         formatted_unmatched_entry_date = f'{unmatched_exit_yr}-{unmatched_exit_mo}-{unmatched_exit_day} {unmatched_exit_time}'
                                         lst2.append(formatted_unmatched_entry_date)
-                                    elif len(unmatched_exit_time) == 5:
-                                        unmatched_exit_time = dmy[0][10:14]
+
+                                    # D/MM/YYYY HH:MM
+                                    elif len(unmatched_exit_time) >= 5 and unmatched_exit_time[2] ==':':
+                                        unmatched_exit_time = dmy[0][10:15]
                                         formatted_unmatched_entry_date = f'{unmatched_exit_yr}-{unmatched_exit_mo}-{unmatched_exit_day} {unmatched_exit_time}'
                                         lst2.append(formatted_unmatched_entry_date)
                                 
+                                # D/M/YYYY
                                 elif dmy[0][1] == '/' and dmy[0][3] == '/':
                                     unmatched_exit_yr = dmy[0][4:8]
                                     unmatched_exit_mo = dmy[0][2]
                                     unmatched_exit_mo = f'0{unmatched_exit_mo}'
                                     unmatched_exit_day = dmy[0][0]
                                     unmatched_exit_day = f'0{unmatched_exit_day}'
-                                    unmatched_exit_time = dmy[0][9:13]
-                                    if len(unmatched_exit_time) < 5:
+                                    unmatched_exit_time = dmy[0][9:]
+
+                                     # D/M/YYYY H:MM
+                                    if len(unmatched_exit_time) == 4 and unmatched_exit_time[1] == ':':
                                         unmatched_exit_time = f'0{[0][9:13]}'
                                         formatted_unmatched_entry_date = f'{unmatched_exit_yr}-{unmatched_exit_mo}-{unmatched_exit_day} {unmatched_exit_time}'
                                         lst2.append(formatted_unmatched_entry_date)
-                                    elif len(unmatched_exit_time) == 5:
-                                        unmatched_exit_time = dmy[0][9:13]
+                                    
+                                     # D/M/YYYY HH:MM
+                                    elif len(unmatched_exit_time) >= 5 and unmatched_exit_time[2] == ':':
+                                        unmatched_exit_time = dmy[0][9:14]
                                         formatted_unmatched_entry_date = f'{unmatched_exit_yr}-{unmatched_exit_mo}-{unmatched_exit_day} {unmatched_exit_time}'
                                         lst2.append(formatted_unmatched_entry_date)
                         else:
                             lst2.append('0000-00-00 00:00')
 
                 fx_unmatched_format_closed_dates(unmatched_fxlst,unmatched_close_date_lst)
-
+             
                 # unmatched_marketlst contains the currency pair
                 unmatched_marketlst = []
 
