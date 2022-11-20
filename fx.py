@@ -162,134 +162,183 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                 # extract and format the entry date to YYYY-MM-DD-HH:MM
                 def fx_format_entry_date(lst1,lst2):
                     for dmy in lst1:
+
+                        # DD/MM/YYYY
                         if dmy[0][2] == '/' and dmy[0][5] =='/':
                             entry_yr = dmy[0][6:10]
                             entry_mo = dmy[0][3:5]
                             entry_day = dmy[0][:2]
-                            entry_time = dmy[0][11:16]
-                            if len(entry_time) < 5:
-                                entry_time = f'0{dmy[0][11:16]}'
+                            entry_time = dmy[0][11:]
+
+                            # DD/MM/YYYY H:MM
+                            if len(entry_time) == 4 and entry_time[1] == ':':
+                                entry_time = f'0{dmy[0][11:15]}'
                                 formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
                                 lst2.append(formatted_entry_date)
-                            elif len(entry_time) == 5:
+                            
+                            # DD/MM/YYYY HH:MM
+                            elif len(entry_time) >= 5 and entry_time[2] == ':':
                                 entry_time = dmy[0][11:16]
                                 formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
                                 lst2.append(formatted_entry_date)
-
+                                                
+                        # DD/M/YYYY
                         elif dmy[0][2] == '/' and dmy[0][4] =='/':
                             entry_yr = dmy[0][5:9]
                             entry_mo = dmy[0][3]
                             entry_mo = f'0{entry_mo}'
                             entry_day = dmy[0][:2]
-                            entry_time = dmy[0][10:15]
-                            if len(entry_time) < 5:
-                                entry_time = f'0{dmy[0][10:15]}'
+                            entry_time = dmy[0][10:]
+
+                            # DD/M/YYYY H:MM
+                            if len(entry_time) == 4 and entry_time[1] == ':':
+                                entry_time = f'0{dmy[0][10:14]}'
                                 formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
                                 lst2.append(formatted_entry_date)
-                            elif len(entry_time) == 5:
+
+                            # DD/M/YYYY HH:MM
+                            elif len(entry_time) >= 5 and entry_time[2] == ':':
                                 entry_time = dmy[0][10:15]
                                 formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
                                 lst2.append(formatted_entry_date)
 
+                        # D/MM/YYYY
                         elif dmy[0][1] == '/' and dmy[0][4] =='/':
                             entry_yr = dmy[0][5:9]
                             entry_mo = dmy[0][2:4]
                             entry_day = dmy[0][0]
                             entry_day = f'0{entry_day}'
-                            entry_time = dmy[0][10:14]
-                            if len(entry_time) < 5:
+                            entry_time = dmy[0][10:]
+
+                            # D/MM/YYYY H:MM
+                            if len(entry_time) == 4 and entry_time[1] == ':':
                                 entry_time = f'0{dmy[0][10:14]}'
                                 formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
                                 lst2.append(formatted_entry_date)
-                            elif len(entry_time) == 5:
-                                entry_time = dmy[0][10:14]
+
+                            # D/MM/YYYY HH:MM
+                            elif len(entry_time) >= 5 and entry_time[2] == ':':
+                                entry_time = dmy[0][10:15]
                                 formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
                                 lst2.append(formatted_entry_date)
 
+                        # D/M/YYYY
                         elif dmy[0][1] == '/' and dmy[0][3] =='/':
                             entry_yr = dmy[0][4:8]
                             entry_mo = dmy[0][2]
                             entry_mo = f'0{entry_mo}'
                             entry_day = dmy[0][0]
                             entry_day = f'0{entry_day}'
-                            entry_time = dmy[0][9:13]
-                            if len(entry_time) < 5:
+                            entry_time = dmy[0][9:]
+
+                            # D/M/YYYY H:MM
+                            if len(entry_time) == 4 and entry_time[1] == ':':
                                 entry_time = f'0{dmy[0][9:13]}'
                                 formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
                                 lst2.append(formatted_entry_date)
-                            elif len(entry_time) == 5:
-                                entry_time = dmy[0][9:13]
+
+                            # D/M/YYYY HH:MM
+                            elif len(entry_time) >= 5 and entry_time[2] == ':':
+                                entry_time = dmy[0][9:14]
                                 formatted_entry_date = f'{entry_yr}-{entry_mo}-{entry_day} {entry_time}'
                                 lst2.append(formatted_entry_date)
 
                 fx_format_entry_date(fxlst3,fxlst4)
 
-                # fxlst5 contains the entry dates formatted to YYY-MM-DD-HH:MM
+                # fxlst5 contains the exit dates formatted to YYYY-MM-DD-HH:MM
                 fxlst5 = []
 
                 # extract and format the exit date to YYYY-MM-DD-HH:MM
                 def fx_format_exit_date(lst1,lst2):
                     for dmy in lst1:
+
+                        # DD/MM/YYYY
                         if dmy[1][0][2] == '/' and dmy[1][0][5] =='/':
                             exit_yr = dmy[1][0][6:10]
                             exit_mo = dmy[1][0][3:5]
                             exit_day = dmy[1][0][:2]
-                            exit_time = dmy[1][0][11:16]
-                            if len(exit_time) < 5:
-                                exit_time = f'0{dmy[1][0][11:16]}'
+                            exit_time = dmy[1][0][11:]
+
+                            # DD/MM/YYYY H:MM
+                            if len(exit_time) == 4 and exit_time[1] == ':':
+                                exit_time = f'0{dmy[1][0][11:15]}'
                                 formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
                                 lst2.append(formatted_exit_date)
-                            elif len(exit_time) == 5:
+                            
+                            # DD/MM/YYYY HH:MM
+                            elif len(exit_time) >= 5 and exit_time[2] == ':':
                                 exit_time = dmy[1][0][11:16]
                                 formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
                                 lst2.append(formatted_exit_date)
 
+                        # DD/M/YYYY    
                         elif dmy[1][0][2] == '/' and dmy[1][0][4] =='/':
                             exit_yr = dmy[1][0][5:9]
                             exit_mo = dmy[1][0][3]
                             exit_mo = f'0{exit_mo}'
                             exit_day = dmy[1][0][:2]
-                            exit_time = dmy[1][0][10:15]
-                            if len(exit_time) < 5:
-                                exit_time = f'0{dmy[1][0][10:15]}'
+                            exit_time = dmy[1][0][10:]
+
+                            # DD/M/YYYY H:MM
+                            if len(exit_time) == 4 and exit_time[1] == ':':
+                                exit_time = f'0{dmy[1][0][10:14]}'
                                 formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
                                 lst2.append(formatted_exit_date)
-                            elif len(exit_time) == 5:
+                            
+                            # DD/M/YYYY HH:MM
+                            elif len(exit_time) >= 5 and exit_time[2] == ':':
                                 exit_time = dmy[1][0][10:15]
                                 formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
                                 lst2.append(formatted_exit_date)
 
+                        # D/MM/YYYY
                         elif dmy[1][0][1] == '/' and dmy[1][0][4] =='/':
                             exit_yr = dmy[1][0][5:9]
                             exit_mo = dmy[1][0][2:4]
                             exit_day = dmy[1][0][0]
                             exit_day = f'0{exit_day}'
-                            exit_time = dmy[1][0][10:14]
-                            if len(exit_time) < 5:
+                            exit_time = dmy[1][0][10:]
+
+                            # D/MM/YYYY H:MM
+                            if len(exit_time) == 4 and exit_time[1] == ':':
                                 exit_time = f'0{dmy[1][0][10:14]}'
                                 formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
                                 lst2.append(formatted_exit_date)
-                            elif len(exit_time) == 5:
-                                exit_time = dmy[1][0][10:14]
+                            
+                            # D/MM/YYYY HH:MM
+                            elif len(exit_time) >= 5 and exit_time[2] == ':':
+                                exit_time = dmy[1][0][10:15]
                                 formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
                                 lst2.append(formatted_exit_date)
 
+                        # D/M/YYYY
                         elif dmy[1][0][1] == '/' and dmy[1][0][3] =='/':
                             exit_yr = dmy[1][0][4:8]
                             exit_mo = dmy[1][0][2]
                             exit_mo = f'0{exit_mo}'
                             exit_day = dmy[1][0][0]
                             exit_day = f'0{exit_day}'
-                            exit_time = dmy[1][0][9:13]
-                            if len(exit_time) < 5:
+                            exit_time = dmy[1][0][9:]
+
+                            # D/M/YYYY H:MM
+                            if len(exit_time) == 4 and exit_time[1] == ':':
                                 exit_time = f'0{dmy[1][0][9:13]}'
                                 formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
                                 lst2.append(formatted_exit_date)
-                            elif len(exit_time) == 5:
-                                exit_time = dmy[1][0][9:13]
+                            
+                            # D/M/YYYY HH:MM
+                            elif len(exit_time) >= 5 and exit_time[2] == ':':
+                                exit_time = dmy[1][0][9:14]
                                 formatted_exit_date = f'{exit_yr}-{exit_mo}-{exit_day} {exit_time}'
                                 lst2.append(formatted_exit_date)
+
                 fx_format_exit_date(fxlst3,fxlst5)
+
+                for entry in fxlst4:
+                    print(entry)
+
+                for exit in fxlst5:
+                    print(exit)
 
                 # marketlst contains the formatted market (e.g. EURUSD, AUDJPY, etc...)
                 marketlst = []
