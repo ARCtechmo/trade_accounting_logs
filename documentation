@@ -83,7 +83,7 @@ Here is the process to utilize the file:
 Bugs and workarounds
 fx.py file timestamps and dates
 -The fx.py files formats the dates.  
--Alpha testing revealed the program may return a '[]' in the HH:MM section of the dates or other incorrect date formats primarily in the HH:MM part.
+-Alpha testing revealed the program may return a '[]' in the HH:MM section of some of the entry_date and exit_date columns in the fx_log table. 
 -This is a minor bug that does not affect the ability of the program to run properly.  
 -This bug will be corrected in future updates. 
 
