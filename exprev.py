@@ -822,7 +822,7 @@ def export_expense(lst1,lst2,lst3):
 
     except:
         pass
-# export_expense(non_trading_expense_rows,expense_lst,export_expense_lst)
+export_expense(non_trading_expense_rows,expense_lst,export_expense_lst)
 
 
 # contains a list of the rows in the non_trading_expense table
@@ -848,12 +848,5 @@ def export_revenue(lst1,lst2,lst3):
 
     except:
         pass
-# export_revenue(non_trading_revenue_rows,revenue_lst,export_revenue_lst)
-
-print("--------------TEST: expense-----------------")
-for row in expense_lst:
-    print(row)
-
-print("--------------TEST: revenue-----------------")
-for row in revenue_lst:
-    print(row)
+export_revenue(non_trading_revenue_rows,revenue_lst,export_revenue_lst)
+conn.close()
