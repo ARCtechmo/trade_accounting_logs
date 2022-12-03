@@ -19,10 +19,7 @@ end_time_lst = []
 # time_log_lst
 time_log_lst = []
 
-### start here next ###
-# keep working on the entry start times and verify the loops work
-
-create_start_record = input("Would you like to create a new time log?: ")
+create_start_record = input("Would you like to create a new entry time log?: ")
 if create_start_record == 'Y' or create_start_record == 'y' or create_start_record == 'Yes' or create_start_record == 'yes' or \
     create_start_record == 'YES' or create_start_record == 'YEs' or create_start_record == 'YeS' or create_start_record == 'yES' or \
     create_start_record == 'yeS' or create_start_record == 'yEs':
@@ -38,7 +35,7 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
                 if int(hr) >= 1 and int(hr) <= 9:
                     print("\nYou entered",str(hr[1]),"AM.")
 
-                    verify_hr = input("If this is correct type 'Y' or just hit enter. Otherwise hit any other key to reenter the hour: ")
+                    verify_hr = input("If this is correct type 'Y' or just hit enter: ")
                     if verify_hr == '' or verify_hr == 'Y' or verify_hr == 'y' or verify_hr == 'Yes' or verify_hr == 'yes' or \
                         verify_hr == 'YES' or verify_hr == 'YEs' or verify_hr == 'YeS' or verify_hr == 'yES' or \
                         verify_hr == 'yeS' or verify_hr == 'yEs':
@@ -86,7 +83,7 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
                 elif int(hr) == 10 or int(hr) == 11:
                     print("\nYou entered",str(hr),"AM.")
 
-                    verify_hr = input("If this is correct type 'Y' or just hit enter. Otherwise hit any other key to reenter the hour: ")
+                    verify_hr = input("If this is correct type 'Y' or just hit enter: ")
                     if verify_hr == '' or verify_hr == 'Y' or verify_hr == 'y' or verify_hr == 'Yes' or verify_hr == 'yes' or \
                         verify_hr == 'YES' or verify_hr == 'YEs' or verify_hr == 'YeS' or verify_hr == 'yES' or \
                         verify_hr == 'yeS' or verify_hr == 'yEs':
@@ -134,8 +131,9 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
 
                 elif int(hr) == 12:
                     print("\nYou entered", hr, "noon.")
+                    pass
 
-                    verify_hr = input("If this is correct type 'Y' or just hit enter. Otherwise hit any other key to reenter the hour: ")
+                    verify_hr = input("If this is correct type 'Y' or just hit enter: ")
                     if verify_hr == '' or  verify_hr == 'Y' or verify_hr == 'y' or verify_hr == 'Yes' or verify_hr == 'yes' or \
                         verify_hr == 'YES' or verify_hr == 'YEs' or verify_hr == 'YeS' or verify_hr == 'yES' or \
                         verify_hr == 'yeS' or verify_hr == 'yEs':
@@ -184,7 +182,7 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
                     HHPM = int(hr) - 12
                     print("\nYou entered",HHPM,"PM.")
                     
-                    verify_hr = input("If this is correct type 'Y' or just hit enter. Otherwise hit any other key to reenter the hour: ")
+                    verify_hr = input("If this is correct type 'Y' or just hit enter: ")
                     if verify_hr == '' or verify_hr == 'Y' or verify_hr == 'y' or verify_hr == 'Yes' or verify_hr == 'yes' or \
                         verify_hr == 'YES' or verify_hr == 'YEs' or verify_hr == 'YeS' or verify_hr == 'yES' or \
                         verify_hr == 'yeS' or verify_hr == 'yEs':
@@ -232,7 +230,7 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
                 elif int(hr) == 0:
                     print("\nYou entered 12 'AM' midnight.")
                     
-                    verify_hr = input("If this is correct type 'Y' or just hit enter. Otherwise hit any other key to reenter the hour: ")
+                    verify_hr = input("If this is correct type 'Y' or just hit enter: ")
                     if verify_hr == '' or   verify_hr == 'Y' or verify_hr == 'y' or verify_hr == 'Yes' or verify_hr == 'yes' or \
                         verify_hr == 'YES' or verify_hr == 'YEs' or verify_hr == 'YeS' or verify_hr == 'yES' or \
                         verify_hr == 'yeS' or verify_hr == 'yEs':
@@ -277,7 +275,8 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
                         print("Incorrect hour Exiting...")
                         pass
             else:
-                print("\nIncorrect HH format Exiting...")
+                print("Incorrect HH format Exiting...")
+                print("\nUse 24hr format (e.g. 5am is 05, 10pm is 22, 12 midnight is 00, etc...")
                 pass
         
         elif create_date_today == 'N' or create_date_today == 'n' or create_date_today == 'No' or create_date_today == 'no' or \
