@@ -29,16 +29,16 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
             create_date_today == 'YES' or create_date_today == 'YEs' or create_date_today == 'YeS' or create_date_today == 'yES' or \
             create_date_today == 'yeS' or create_date_today == 'yEs':
 
-            hr = input("\nEnter the hour (HH) 0 <= HH <= 23 (e.g. 1:00 pm is '13'; 8:00 pm is '20'; 5:00 am is '05'): ")
-            if hr.isnumeric() and len(hr) == 2 and int(hr) >= 0 and int(hr) <= 23:
+            entry_hr = input("\nEnter the start hour (HH) 0 <= HH <= 23 (e.g. 1:00 pm is '13'; 8:00 pm is '20'; 5:00 am is '05'): ")
+            if entry_hr.isnumeric() and len(entry_hr) == 2 and int(entry_hr) >= 0 and int(entry_hr) <= 23:
 
-                if int(hr) >= 1 and int(hr) <= 9:
-                    print("\nYou entered",str(hr[1]),"AM.")
+                if int(entry_hr) >= 1 and int(entry_hr) <= 9:
+                    print("\nYou entered",str(entry_hr[1]),"AM.")
 
-                    verify_hr = input("If this is correct type 'Y' or just hit enter: ")
-                    if verify_hr == '' or verify_hr == 'Y' or verify_hr == 'y' or verify_hr == 'Yes' or verify_hr == 'yes' or \
-                        verify_hr == 'YES' or verify_hr == 'YEs' or verify_hr == 'YeS' or verify_hr == 'yES' or \
-                        verify_hr == 'yeS' or verify_hr == 'yEs':
+                    verify_entry_hr = input("If this is correct type 'Y' or just hit enter: ")
+                    if verify_entry_hr == '' or verify_entry_hr == 'Y' or verify_entry_hr == 'y' or verify_entry_hr == 'Yes' or verify_entry_hr == 'yes' or \
+                        verify_entry_hr == 'YES' or verify_entry_hr == 'YEs' or verify_entry_hr == 'YeS' or verify_entry_hr == 'yES' or \
+                        verify_entry_hr == 'yeS' or verify_entry_hr == 'yEs':
 
                         while True:
 
@@ -52,7 +52,7 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
                                 month = int(month)
                                 day = today_str[8:10]
                                 day = int(day)
-                                hr = int(hr)
+                                hr = int(entry_hr)
                                 min = int(min)
                                 entry_date = datetime(year,month,day,hr,min)
                                 start_time_lst.append(entry_date)
@@ -67,7 +67,7 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
                                 month = int(month)
                                 day = today_str[8:10]
                                 day = int(day)
-                                hr = int(hr)
+                                hr = int(entry_hr)
                                 min = int(min)
                                 entry_date = datetime(year,month,day,hr,min)
                                 start_time_lst.append(entry_date)
@@ -79,14 +79,14 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
                     else:
                         print("Incorrect hour. Exiting...")
                         pass
+            
+                elif int(entry_hr) == 10 or int(entry_hr) == 11:
+                    print("\nYou entered",str(entry_hr),"AM.")
 
-                elif int(hr) == 10 or int(hr) == 11:
-                    print("\nYou entered",str(hr),"AM.")
-
-                    verify_hr = input("If this is correct type 'Y' or just hit enter: ")
-                    if verify_hr == '' or verify_hr == 'Y' or verify_hr == 'y' or verify_hr == 'Yes' or verify_hr == 'yes' or \
-                        verify_hr == 'YES' or verify_hr == 'YEs' or verify_hr == 'YeS' or verify_hr == 'yES' or \
-                        verify_hr == 'yeS' or verify_hr == 'yEs':
+                    verify_entry_hr = input("If this is correct type 'Y' or just hit enter: ")
+                    if verify_entry_hr == '' or verify_entry_hr == 'Y' or verify_entry_hr == 'y' or verify_entry_hr == 'Yes' or verify_entry_hr == 'yes' or \
+                        verify_entry_hr == 'YES' or verify_entry_hr == 'YEs' or verify_entry_hr == 'YeS' or verify_entry_hr == 'yES' or \
+                        verify_entry_hr == 'yeS' or verify_entry_hr == 'yEs':
 
                         while True:
 
@@ -100,7 +100,7 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
                                 month = int(month)
                                 day = today_str[8:10]
                                 day = int(day)
-                                hr = int(hr)
+                                hr = int(entry_hr)
                                 min = int(min)
                                 entry_date = datetime(year,month,day,hr,min)
                                 start_time_lst.append(entry_date)
@@ -115,7 +115,7 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
                                 month = int(month)
                                 day = today_str[8:10]
                                 day = int(day)
-                                hr = int(hr)
+                                hr = int(entry_hr)
                                 min = int(min)
                                 entry_date = datetime(year,month,day,hr,min)
                                 start_time_lst.append(entry_date)
@@ -124,19 +124,17 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
                             else:
                                 print("Incorrect minutes format. Reenter the minutes.")
                                 continue
-
                     else:
                         print("Incorrect hour. Exiting...")
                         pass
 
-                elif int(hr) == 12:
-                    print("\nYou entered", hr, "noon.")
-                    pass
+                elif int(entry_hr) == 12:
+                    print("\nYou entered", entry_hr, "noon.")
 
-                    verify_hr = input("If this is correct type 'Y' or just hit enter: ")
-                    if verify_hr == '' or  verify_hr == 'Y' or verify_hr == 'y' or verify_hr == 'Yes' or verify_hr == 'yes' or \
-                        verify_hr == 'YES' or verify_hr == 'YEs' or verify_hr == 'YeS' or verify_hr == 'yES' or \
-                        verify_hr == 'yeS' or verify_hr == 'yEs':
+                    verify_entry_hr = input("If this is correct type 'Y' or just hit enter: ")
+                    if verify_entry_hr == '' or  verify_entry_hr == 'Y' or verify_entry_hr == 'y' or verify_entry_hr == 'Yes' or verify_entry_hr == 'yes' or \
+                        verify_entry_hr == 'YES' or verify_entry_hr == 'YEs' or verify_entry_hr == 'YeS' or verify_entry_hr == 'yES' or \
+                        verify_entry_hr == 'yeS' or verify_entry_hr == 'yEs':
 
                         while True:
 
@@ -150,7 +148,7 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
                                 month = int(month)
                                 day = today_str[8:10]
                                 day = int(day)
-                                hr = int(hr)
+                                hr = int(entry_hr)
                                 min = int(min)
                                 entry_date = datetime(year,month,day,hr,min)
                                 start_time_lst.append(entry_date)
@@ -165,7 +163,7 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
                                 month = int(month)
                                 day = today_str[8:10]
                                 day = int(day)
-                                hr = int(hr)
+                                hr = int(entry_hr)
                                 min = int(min)
                                 entry_date = datetime(year,month,day,hr,min)
                                 start_time_lst.append(entry_date)
@@ -178,14 +176,14 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
                         print("Incorrect hour. Exiting...")
                         pass
                 
-                elif int(hr) >= 13 and int(hr) <= 23:
-                    HHPM = int(hr) - 12
+                elif int(entry_hr) >= 13 and int(entry_hr) <= 23:
+                    HHPM = int(entry_hr) - 12
                     print("\nYou entered",HHPM,"PM.")
                     
-                    verify_hr = input("If this is correct type 'Y' or just hit enter: ")
-                    if verify_hr == '' or verify_hr == 'Y' or verify_hr == 'y' or verify_hr == 'Yes' or verify_hr == 'yes' or \
-                        verify_hr == 'YES' or verify_hr == 'YEs' or verify_hr == 'YeS' or verify_hr == 'yES' or \
-                        verify_hr == 'yeS' or verify_hr == 'yEs':
+                    verify_entry_hr = input("If this is correct type 'Y' or just hit enter: ")
+                    if verify_entry_hr == '' or verify_entry_hr == 'Y' or verify_entry_hr == 'y' or verify_entry_hr == 'Yes' or verify_entry_hr == 'yes' or \
+                        verify_entry_hr == 'YES' or verify_entry_hr == 'YEs' or verify_entry_hr == 'YeS' or verify_entry_hr == 'yES' or \
+                        verify_entry_hr == 'yeS' or verify_entry_hr == 'yEs':
 
                         while True:
 
@@ -199,7 +197,7 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
                                 month = int(month)
                                 day = today_str[8:10]
                                 day = int(day)
-                                hr = int(hr)
+                                hr = int(entry_hr)
                                 min = int(min)
                                 entry_date = datetime(year,month,day,hr,min)
                                 start_time_lst.append(entry_date)
@@ -214,7 +212,7 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
                                 month = int(month)
                                 day = today_str[8:10]
                                 day = int(day)
-                                hr = int(hr)
+                                hr = int(entry_hr)
                                 min = int(min)
                                 entry_date = datetime(year,month,day,hr,min)
                                 start_time_lst.append(entry_date)
@@ -227,13 +225,13 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
                         print("Incorrect hour. Exiting...")
                         pass
 
-                elif int(hr) == 0:
+                elif int(entry_hr) == 0:
                     print("\nYou entered 12 'AM' midnight.")
                     
-                    verify_hr = input("If this is correct type 'Y' or just hit enter: ")
-                    if verify_hr == '' or   verify_hr == 'Y' or verify_hr == 'y' or verify_hr == 'Yes' or verify_hr == 'yes' or \
-                        verify_hr == 'YES' or verify_hr == 'YEs' or verify_hr == 'YeS' or verify_hr == 'yES' or \
-                        verify_hr == 'yeS' or verify_hr == 'yEs':
+                    verify_entry_hr = input("If this is correct type 'Y' or just hit enter: ")
+                    if verify_entry_hr == '' or   verify_entry_hr == 'Y' or verify_entry_hr == 'y' or verify_entry_hr == 'Yes' or verify_entry_hr == 'yes' or \
+                        verify_entry_hr == 'YES' or verify_entry_hr == 'YEs' or verify_entry_hr == 'YeS' or verify_entry_hr == 'yES' or \
+                        verify_entry_hr == 'yeS' or verify_entry_hr == 'yEs':
 
                         while True:
 
@@ -247,7 +245,7 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
                                 month = int(month)
                                 day = today_str[8:10]
                                 day = int(day)
-                                hr = int(hr)
+                                hr = int(entry_hr)
                                 min = int(min)
                                 entry_date = datetime(year,month,day,hr,min)
                                 start_time_lst.append(entry_date)
@@ -262,7 +260,7 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
                                 month = int(month)
                                 day = today_str[8:10]
                                 day = int(day)
-                                hr = int(hr)
+                                hr = int(entry_hr)
                                 min = int(min)
                                 entry_date = datetime(year,month,day,hr,min)
                                 start_time_lst.append(entry_date)
@@ -278,6 +276,267 @@ if create_start_record == 'Y' or create_start_record == 'y' or create_start_reco
                 print("Incorrect HH format Exiting...")
                 print("\nUse 24hr format (e.g. 5am is 05, 10pm is 22, 12 midnight is 00, etc...")
                 pass
+            
+            length_start_time_lst = int(len(start_time_lst))
+            length_end_time_lst = int(len(end_time_lst))
+            if length_start_time_lst - length_end_time_lst == 1:
+                
+                exit_hr = input("\nEnter the exit hour (HH) 0 <= HH <= 23 (e.g. 1:00 pm is '13'; 8:00 pm is '20'; 5:00 am is '05'): ")
+                if exit_hr.isnumeric() and int(exit_hr) >= int(entry_hr) and len(exit_hr) == 2 and int(exit_hr) >= 0 and int(exit_hr) <= 23:
+                    print("exit hour", exit_hr)
+                    
+                    if int(exit_hr) >= 1 and int(exit_hr) <= 9:
+                        print("\nYou entered",str(exit_hr[1]),"AM.")
+
+                        verify_exit_hr = input("If this is correct type 'Y' or just hit enter: ")
+                        if verify_exit_hr == '' or verify_exit_hr == 'Y' or verify_exit_hr == 'y' or verify_exit_hr == 'Yes' or verify_exit_hr == 'yes' or \
+                            verify_exit_hr == 'YES' or verify_exit_hr == 'YEs' or verify_exit_hr == 'YeS' or verify_exit_hr == 'yES' or \
+                            verify_exit_hr == 'yeS' or verify_exit_hr == 'yEs':
+
+                            while True:
+
+                                exit_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                if exit_min.isnumeric() and len(exit_min) == 2 and int(exit_min) >= 0 and int(exit_min) <= 59:
+                                    today = date.today()
+                                    today_str = date.isoformat(today)
+                                    year = today_str[:4]
+                                    year = int(year)
+                                    month = today_str[5:7]
+                                    month = int(month)
+                                    day = today_str[8:10]
+                                    day = int(day)
+                                    hr = int(exit_hr)
+                                    min = int(exit_min)
+                                    exit_date = datetime(year,month,day,hr,min)
+                                    end_time_lst.append(exit_date)
+                                    break
+
+                                elif exit_min.isnumeric() and len(exit_min) == 1 and int(exit_min) >= 0 and int(exit_min) <= 9:
+                                    today = date.today()
+                                    today_str = date.isoformat(today)
+                                    year = today_str[:4]
+                                    year = int(year)
+                                    month = today_str[5:7]
+                                    month = int(month)
+                                    day = today_str[8:10]
+                                    day = int(day)
+                                    hr = int(exit_hr)
+                                    min = int(exit_min)
+                                    exit_date = datetime(year,month,day,hr,min)
+                                    end_time_lst.append(exit_date)
+                                    break
+
+                                else:
+                                    print("Incorrect minutes format. Reenter the minutes.")
+                                    continue
+                        else:
+                            print("Incorrect hour. Exiting...")
+                            pass
+
+                    elif int(exit_hr) == 10 or int(exit_hr) == 11:
+                        print("\nYou entered",str(exit_hr),"AM.")
+
+                        verify_exit_hr = input("If this is correct type 'Y' or just hit enter: ")
+                        if verify_exit_hr == '' or verify_exit_hr == 'Y' or verify_exit_hr == 'y' or verify_exit_hr == 'Yes' or verify_exit_hr == 'yes' or \
+                            verify_exit_hr == 'YES' or verify_exit_hr == 'YEs' or verify_exit_hr == 'YeS' or verify_exit_hr == 'yES' or \
+                            verify_exit_hr == 'yeS' or verify_exit_hr == 'yEs':
+
+                            while True:
+
+                                exit_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                if exit_min.isnumeric() and len(exit_min) == 2 and int(exit_min) >= 0 and int(exit_min) <= 59:
+                                    today = date.today()
+                                    today_str = date.isoformat(today)
+                                    year = today_str[:4]
+                                    year = int(year)
+                                    month = today_str[5:7]
+                                    month = int(month)
+                                    day = today_str[8:10]
+                                    day = int(day)
+                                    hr = int(exit_hr)
+                                    min = int(exit_min)
+                                    exit_date = datetime(year,month,day,hr,min)
+                                    end_time_lst.append(exit_date)
+                                    break
+
+                                elif exit_min.isnumeric() and len(exit_min) == 1 and int(exit_min) >= 0 and int(exit_min) <= 9:
+                                    today = date.today()
+                                    today_str = date.isoformat(today)
+                                    year = today_str[:4]
+                                    year = int(year)
+                                    month = today_str[5:7]
+                                    month = int(month)
+                                    day = today_str[8:10]
+                                    day = int(day)
+                                    hr = int(exit_hr)
+                                    min = int(exit_min)
+                                    exit_date = datetime(year,month,day,hr,min)
+                                    end_time_lst.append(exit_date)
+                                    break
+                                
+                                else:
+                                    print("Incorrect minutes format. Reenter the minutes.")
+                                    continue
+                        else:
+                            print("Incorrect hour. Exiting...")
+                            pass
+
+                    elif int(exit_hr) == 12:
+                        print("\nYou entered", exit_hr, "noon.")
+
+                        verify_exit_hr = input("If this is correct type 'Y' or just hit enter: ")
+                        if verify_exit_hr == '' or  verify_exit_hr == 'Y' or verify_exit_hr == 'y' or verify_exit_hr == 'Yes' or verify_exit_hr == 'yes' or \
+                            verify_exit_hr == 'YES' or verify_exit_hr == 'YEs' or verify_exit_hr == 'YeS' or verify_exit_hr == 'yES' or \
+                            verify_exit_hr == 'yeS' or verify_exit_hr == 'yEs':
+
+                            while True:
+
+                                exit_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                if exit_min.isnumeric() and len(exit_min) == 2 and int(exit_min) >= 0 and int(exit_min) <= 59:
+                                    today = date.today()
+                                    today_str = date.isoformat(today)
+                                    year = today_str[:4]
+                                    year = int(year)
+                                    month = today_str[5:7]
+                                    month = int(month)
+                                    day = today_str[8:10]
+                                    day = int(day)
+                                    hr = int(exit_hr)
+                                    min = int(exit_min)
+                                    exit_date = datetime(year,month,day,hr,min)
+                                    end_time_lst.append(exit_date)
+                                    break
+
+                                elif exit_min.isnumeric() and len(exit_min) == 1 and int(exit_min) >= 0 and int(exit_min) <= 9:
+                                    today = date.today()
+                                    today_str = date.isoformat(today)
+                                    year = today_str[:4]
+                                    year = int(year)
+                                    month = today_str[5:7]
+                                    month = int(month)
+                                    day = today_str[8:10]
+                                    day = int(day)
+                                    hr = int(exit_hr)
+                                    min = int(exit_min)
+                                    exit_date = datetime(year,month,day,hr,min)
+                                    end_time_lst.append(exit_date)
+                                    break
+                                
+                                else:
+                                    print("Incorrect minutes format. Reenter the minutes.")
+                                    continue
+                        else:
+                            print("Incorrect hour. Exiting...")
+                            pass
+
+                    elif int(exit_hr) >= 13 and int(exit_hr) <= 23:
+                        HHPM = int(exit_hr) - 12
+                        print("\nYou entered",HHPM,"PM.")
+                    
+                        verify_exit_hr = input("If this is correct type 'Y' or just hit enter: ")
+                        if verify_exit_hr == '' or verify_exit_hr == 'Y' or verify_exit_hr == 'y' or verify_exit_hr == 'Yes' or verify_exit_hr == 'yes' or \
+                            verify_exit_hr == 'YES' or verify_exit_hr == 'YEs' or verify_exit_hr == 'YeS' or verify_exit_hr == 'yES' or \
+                            verify_exit_hr == 'yeS' or verify_exit_hr == 'yEs':
+
+                            while True:
+
+                                exit_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                if exit_min.isnumeric() and len(exit_min) == 2 and int(exit_min) >= 0 and int(exit_min) <= 59:
+                                    today = date.today()
+                                    today_str = date.isoformat(today)
+                                    year = today_str[:4]
+                                    year = int(year)
+                                    month = today_str[5:7]
+                                    month = int(month)
+                                    day = today_str[8:10]
+                                    day = int(day)
+                                    hr = int(exit_hr)
+                                    min = int(exit_min)
+                                    exit_date = datetime(year,month,day,hr,min)
+                                    end_time_lst.append(exit_date)
+                                    break
+
+                                elif exit_min.isnumeric() and len(exit_min) == 1 and int(exit_min) >= 0 and int(exit_min) <= 9:
+                                    today = date.today()
+                                    today_str = date.isoformat(today)
+                                    year = today_str[:4]
+                                    year = int(year)
+                                    month = today_str[5:7]
+                                    month = int(month)
+                                    day = today_str[8:10]
+                                    day = int(day)
+                                    hr = int(exit_hr)
+                                    min = int(exit_min)
+                                    exit_date = datetime(year,month,day,hr,min)
+                                    end_time_lst.append(exit_date)
+                                    break
+
+                                else:
+                                    print("Incorrect minutes format. Reenter the minutes.")
+                                    continue                     
+                        else:
+                            print("Incorrect hour. Exiting...")
+                            pass
+
+                    elif int(exit_hr) == 0:
+                        print("\nYou entered 12 'AM' midnight.")
+                    
+                        verify_exit_hr = input("If this is correct type 'Y' or just hit enter: ")
+                        if verify_exit_hr == '' or   verify_exit_hr == 'Y' or verify_exit_hr == 'y' or verify_exit_hr == 'Yes' or verify_exit_hr == 'yes' or \
+                            verify_exit_hr == 'YES' or verify_exit_hr == 'YEs' or verify_exit_hr == 'YeS' or verify_exit_hr == 'yES' or \
+                            verify_exit_hr == 'yeS' or verify_exit_hr == 'yEs':
+
+                            while True:
+
+                                exit_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                if exit_min.isnumeric() and len(exit_min) == 2 and int(exit_min) >= 0 and int(exit_min) <= 59:
+                                    today = date.today()
+                                    today_str = date.isoformat(today)
+                                    year = today_str[:4]
+                                    year = int(year)
+                                    month = today_str[5:7]
+                                    month = int(month)
+                                    day = today_str[8:10]
+                                    day = int(day)
+                                    hr = int(exit_hr)
+                                    min = int(exit_min)
+                                    exit_date = datetime(year,month,day,hr,min)
+                                    end_time_lst.append(exit_date)
+                                    break
+
+                                elif exit_min.isnumeric() and len(exit_min) == 1 and int(exit_min) >= 0 and int(exit_min) <= 9:
+                                    today = date.today()
+                                    today_str = date.isoformat(today)
+                                    year = today_str[:4]
+                                    year = int(year)
+                                    month = today_str[5:7]
+                                    month = int(month)
+                                    day = today_str[8:10]
+                                    day = int(day)
+                                    hr = int(exit_hr)
+                                    min = int(exit_min)
+                                    exit_date = datetime(year,month,day,hr,min)
+                                    end_time_lst.append(exit_date)
+                                    break
+
+                                else:
+                                    print("Incorrect minutes format. Reenter the minutes.")
+                                    continue
+                        else:
+                            print("Incorrect hour Exiting...")
+                            pass
+                else:
+                    if len(exit_hr) < 2:
+                        print("\nIncorrect HH format Exiting...")
+                        print("Use 24hr format (e.g. 5am is 05, 10pm is 22, 12 midnight is 00, etc...")
+                        pass
+                    
+                    elif int(exit_hr) < int(entry_hr):
+                        print("\nThe end time hour must be >= start time hour")
+                        pass
+            else:
+                print("You must have an entry log to proceed. Exiting...")
+                pass
         
         elif create_date_today == 'N' or create_date_today == 'n' or create_date_today == 'No' or create_date_today == 'no' or \
         create_date_today == 'NO' or create_date_today == 'nO':
@@ -292,7 +551,6 @@ else:
     print("Exiting...")
     pass
 
-
 # verify_logs verifies the number of start and entry logs match
 def verify_logs(lst1,lst20):
     pass
@@ -303,6 +561,10 @@ def export_time_logs(lst1,lst2,lst3):
 
 print("\n--------Entry Times---------")
 for row in start_time_lst:
+    print(row)
+
+print("\n--------Exit Times---------")
+for row in end_time_lst:
     print(row)
 
 #     database.time_log_add_many(log_entry)
