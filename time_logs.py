@@ -1,5 +1,7 @@
 ## Under Development ##
 # Use this file to create the time logs
+
+# TASK: The only thing left to do is the manual entry for the dates. See the elif statement on line 912
 import database
 from datetime import datetime
 from datetime import date
@@ -909,7 +911,8 @@ while True:
                 else:
                     print("You must have an entry log to proceed. Redirecting...")
                     pass
-            
+
+            #### START HERE NEXT ####
             elif create_date_today == 'N' or create_date_today == 'n' or create_date_today == 'No' or create_date_today == 'no' or \
             create_date_today == 'NO' or create_date_today == 'nO':
                 print("Manual entry of date.....")
@@ -922,21 +925,45 @@ while True:
         print("Exiting...")
         break
 
-# verify_logs verifies the number of start and entry logs match
-def verify_logs(lst1,lst20):
-    pass
+# contains the activity foreign key 
+activity_id = []
+
+# contains the broker foreign key
+broker_id = []
+
+# append_keys function validates the length of the entry and exit lists and appends the foreign keys
+def append_keys(lst1,lst2,lst3):
+    
+    if len(lst1) == len(lst2):
+        
+        print("\nYou need to add the foreign keys for the activity and broker id. ")
+        print("***IMPORTANT***: Ensure you enter the correct foreign keys in the correct order.")
+        print("Check the broker.py file or your database .\n")
+        
+        for entry, exit, in zip(lst1,lst2):
+            print(entry,exit)
+            activity_id = input("Enter the activity foreign key for the time log above (e.g. 1,2,3, etc...): ")
+            broker_id = input("Enter the broker foreign key the time log above (e.g. 1, 2, 3,...): ")
+            print()
+
+            activity_id = int(activity_id)
+            broker_id = int(broker_id)
+            lst3.append([entry,exit,activity_id,broker_id])
+    else:
+        print("Entry and exit time log records should match.")
+        pass
+
+append_keys(start_time_lst,end_time_lst,time_log_lst)
 
 # export_time_logs matches and exports the time logs
 def export_time_logs(lst1,lst2,lst3):
-    pass
+    try:
+        log_entry = lst3
+        database.time_log_add_many(log_entry)
+        print("Time logs exported to the database.")
 
-print("\n--------Entry Times---------")
-for row in start_time_lst:
-    print(row)
+    except:
+        print("Export failure.")
 
-print("\n--------Exit Times---------")
-for row in end_time_lst:
-    print(row)
-
-#     database.time_log_add_many(log_entry)
+export_time_logs(start_time_lst,end_time_lst,time_log_lst)
 conn.close()
