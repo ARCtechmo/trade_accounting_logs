@@ -35,7 +35,7 @@ while True:
 
                 while True:
 
-                    entry_hr = input("\nEnter the start hour (HH) 0 <= HH <= 23 (e.g. 1:00 pm is '13'; 8:00 pm is '20'; 5:00 am is '05'): ")
+                    entry_hr = input("\nStart time\nEnter the hour (HH) 0 <= HH <= 23 (e.g. 1:00 pm is '13'; 8:00 pm is '20'; 5:00 am is '05'): ")
                     if entry_hr.isnumeric() and len(entry_hr) == 2 and int(entry_hr) >= 0 and int(entry_hr) <= 23:
 
                         if int(entry_hr) >= 1 and int(entry_hr) <= 9:
@@ -48,7 +48,7 @@ while True:
 
                                 while True:
 
-                                    entry_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                    entry_min = input("\nStart time\nEnter the minutes (MM) 0 <= MM <= 59: ")
                                     if entry_min.isnumeric() and len(entry_min) == 2 and int(entry_min) >= 0 and int(entry_min) <= 59:
 
                                         verify_entry_min = input("If this is correct type 'Y' or just hit enter: ")
@@ -110,7 +110,7 @@ while True:
 
                                 while True:
 
-                                    entry_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                    entry_min = input("\nStart time\nEnter the minutes (MM) 0 <= MM <= 59: ")
                                     if entry_min.isnumeric() and len(entry_min) == 2 and int(entry_min) >= 0 and int(entry_min) <= 59:
 
                                         verify_entry_min = input("If this is correct type 'Y' or just hit enter: ")
@@ -172,7 +172,7 @@ while True:
 
                                 while True:
 
-                                    entry_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                    entry_min = input("\nStart time\nEnter the minutes (MM) 0 <= MM <= 59: ")
                                     if entry_min.isnumeric() and len(entry_min) == 2 and int(entry_min) >= 0 and int(entry_min) <= 59:
 
                                         verify_entry_min = input("If this is correct type 'Y' or just hit enter: ")
@@ -235,7 +235,7 @@ while True:
 
                                 while True:
 
-                                    entry_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                    entry_min = input("\nStart time\nEnter the minutes (MM) 0 <= MM <= 59: ")
                                     if entry_min.isnumeric() and len(entry_min) == 2 and int(entry_min) >= 0 and int(entry_min) <= 59:
 
                                         verify_entry_min = input("If this is correct type 'Y' or just hit enter: ")
@@ -297,7 +297,7 @@ while True:
 
                                 while True:
 
-                                    entry_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                    entry_min = input("\nStart time\nEnter the minutes (MM) 0 <= MM <= 59: ")
                                     if entry_min.isnumeric() and len(entry_min) == 2 and int(entry_min) >= 0 and int(entry_min) <= 59:
 
                                         verify_entry_min = input("If this is correct type 'Y' or just hit enter: ")
@@ -360,7 +360,7 @@ while True:
 
                     while True:
                     
-                        exit_hr = input("\nEnter the exit hour (HH) 0 <= HH <= 23 (e.g. 1:00 pm is '13'; 8:00 pm is '20'; 5:00 am is '05'): ")
+                        exit_hr = input("\nEnd time\nEnter the hour (HH) 0 <= HH <= 23 (e.g. 1:00 pm is '13'; 8:00 pm is '20'; 5:00 am is '05'): ")
                         if exit_hr.isnumeric() and int(exit_hr) >= int(entry_hr) and len(exit_hr) == 2 and int(exit_hr) >= 0 and int(exit_hr) <= 23:
                             print("exit hour", exit_hr)
                             
@@ -374,7 +374,7 @@ while True:
 
                                     while True:
 
-                                        exit_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                        exit_min = input("\nEnd time\nEnter the minutes (MM) 0 <= MM <= 59: ")
                                         if int(exit_hr) == int(entry_hr):
                                             if exit_min.isnumeric() and len(exit_min) == 2 and int(exit_min) >= 0 and int(exit_min) <= 59 and int(exit_min) > int(entry_min):
 
@@ -481,7 +481,7 @@ while True:
 
                                     while True:
 
-                                        exit_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                        exit_min = input("\nEnd time\nEnter the minutes (MM) 0 <= MM <= 59: ")
                                         if int(exit_hr) == int(entry_hr):
                                             if exit_min.isnumeric() and len(exit_min) == 2 and int(exit_min) >= 0 and int(exit_min) <= 59 and int(exit_min) > int(entry_min):
 
@@ -587,7 +587,7 @@ while True:
 
                                     while True:
 
-                                        exit_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                        exit_min = input("\nEnd time\nEnter the minutes (MM) 0 <= MM <= 59: ")
                                         if int(exit_hr) == int(entry_hr):
                                             if exit_min.isnumeric() and len(exit_min) == 2 and int(exit_min) >= 0 and int(exit_min) <= 59 and int(exit_min) > int(entry_min):
 
@@ -694,7 +694,7 @@ while True:
 
                                     while True:
 
-                                        exit_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                        exit_min = input("\nEnd time\nEnter the minutes (MM) 0 <= MM <= 59: ")
                                         if int(exit_hr) == int(entry_hr):
                                             if exit_min.isnumeric() and len(exit_min) == 2 and int(exit_min) >= 0 and int(exit_min) <= 59 and int(exit_min) > int(entry_min):
 
@@ -800,7 +800,7 @@ while True:
 
                                     while True:
 
-                                        exit_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                        exit_min = input("\nEnd time\nEnter the minutes (MM) 0 <= MM <= 59: ")
                                         if int(exit_hr) == int(entry_hr):
                                             if exit_min.isnumeric() and len(exit_min) == 2 and int(exit_min) >= 0 and int(exit_min) <= 59 and int(exit_min) > int(entry_min):
 
@@ -916,12 +916,12 @@ while True:
             create_date_today == 'NO' or create_date_today == 'nO':
                 
                 while True:
-                    entry_yr = input("\nEnter the year YYYY: ")
+                    entry_yr = input("\nStart time\nEnter the year YYYY: ")
                     if entry_yr.isnumeric() and len(entry_yr) == 4 and entry_yr[:2] == '20': 
-                        entry_mo = input("\nEntry the month M or MM : ")
+                        entry_mo = input("\nStart time\nEnter the month M or MM: ")
 
                         if entry_mo.isnumeric() and len(entry_mo) >=1 and len(entry_mo) <= 2 and int(entry_mo) >= 1 and int(entry_mo) <= 12:
-                            entry_day = input("\nEnter the day: ")
+                            entry_day = input("\nStart time\nEnter the day: ")
 
                             if entry_day.isnumeric() and len(entry_day) >= 1 and len(entry_day) <= 2 and int(entry_day) >=1 and int(entry_day) <= 31:
                                 entry_date =f'{entry_yr}-{entry_mo}-{entry_day}'
@@ -933,7 +933,7 @@ while True:
                                     
                                     while True:
 
-                                        entry_hr = input("\nEnter the start hour (HH) 0 <= HH <= 23 (e.g. 1:00 pm is '13'; 8:00 pm is '20'; 5:00 am is '05'): ")
+                                        entry_hr = input("\nStart time\nEnter the hour (HH) 0 <= HH <= 23 (e.g. 1:00 pm is '13'; 8:00 pm is '20'; 5:00 am is '05'): ")
                                         if entry_hr.isnumeric() and len(entry_hr) == 2 and int(entry_hr) >= 0 and int(entry_hr) <= 23:
 
                                             if int(entry_hr) >= 1 and int(entry_hr) <= 9:
@@ -946,7 +946,7 @@ while True:
                                                     
                                                     while True:
                                                         
-                                                        entry_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                                        entry_min = input("\nStart time\nEnter the minutes (MM) 0 <= MM <= 59: ")
                                                         if entry_min.isnumeric() and len(entry_min) == 2 and int(entry_min) >= 0 and int(entry_min) <= 59:
 
                                                             verify_entry_min = input("If this is correct type 'Y' or just hit enter: ")
@@ -998,7 +998,7 @@ while True:
 
                                                     while True:
 
-                                                        entry_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                                        entry_min = input("\nStart time\nEnter the minutes (MM) 0 <= MM <= 59: ")
                                                         if entry_min.isnumeric() and len(entry_min) == 2 and int(entry_min) >= 0 and int(entry_min) <= 59:
 
                                                             verify_entry_min = input("If this is correct type 'Y' or just hit enter: ")
@@ -1050,7 +1050,7 @@ while True:
 
                                                     while True:
 
-                                                        entry_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                                        entry_min = input("\nStart time\nEnter the minutes (MM) 0 <= MM <= 59: ")
                                                         if entry_min.isnumeric() and len(entry_min) == 2 and int(entry_min) >= 0 and int(entry_min) <= 59:
 
                                                             verify_entry_min = input("If this is correct type 'Y' or just hit enter: ")
@@ -1103,7 +1103,7 @@ while True:
 
                                                     while True:
 
-                                                        entry_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                                        entry_min = input("\nStart time\nEnter the minutes (MM) 0 <= MM <= 59: ")
                                                         if entry_min.isnumeric() and len(entry_min) == 2 and int(entry_min) >= 0 and int(entry_min) <= 59:
 
                                                             verify_entry_min = input("If this is correct type 'Y' or just hit enter: ")
@@ -1158,7 +1158,7 @@ while True:
 
                                                     while True:
 
-                                                        entry_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                                        entry_min = input("\nStart time\nEnter the minutes (MM) 0 <= MM <= 59: ")
                                                         if entry_min.isnumeric() and len(entry_min) == 2 and int(entry_min) >= 0 and int(entry_min) <= 59:
 
                                                             verify_entry_min = input("If this is correct type 'Y' or just hit enter: ")
@@ -1213,14 +1213,14 @@ while True:
 
                                         while True:
                                         
-                                            exit_yr = input("\nEnter the year YYYY: ")
-                                            if exit_yr.isnumeric() and len(exit_yr) == 4 and exit_yr[:2] == '20':
-                                                exit_mo = input("\nEntry the month M or MM")
+                                            exit_yr = input("\nEnd time\nEnter the year YYYY: ")
+                                            if exit_yr.isnumeric() and len(exit_yr) == 4 and exit_yr[:2] == '20' and int(exit_yr) >= int(entry_yr):
+                                                exit_mo = input("\nEnd time\nEnter the month M or MM: ")
 
-                                                if exit_mo.isnumeric() and len(exit_mo) >=1 and len(exit_mo) <= 2 and int(exit_mo) >= 1 and int(exit_mo) <= 12:
-                                                    exit_day = input("\nEnter the day: ")
+                                                if exit_mo.isnumeric() and len(exit_mo) >=1 and len(exit_mo) <= 2 and int(exit_mo) >= 1 and int(exit_mo) <= 12 and int(exit_mo) >= int(entry_mo):
+                                                    exit_day = input("\nEnd time\nEnter the day: ")
 
-                                                    if exit_day.isnumeric() and len(exit_day) >= 1 and len(exit_day) <= 2 and int(exit_day) >=1 and int(exit_day) <= 31:
+                                                    if exit_day.isnumeric() and len(exit_day) >= 1 and len(exit_day) <= 2 and int(exit_day) >=1 and int(exit_day) <= 31 and int(exit_day) >= int(entry_day):
                                                         exit_date =f'{exit_yr}-{exit_mo}-{exit_day}'
 
                                                         verify_exit_date = input("\nIs the entry date correct: (Y/N) or hit enter to continue: ")
@@ -1230,7 +1230,7 @@ while True:
 
                                                             while True:
 
-                                                                exit_hr = input("\nEnter the exit hour (HH) 0 <= HH <= 23 (e.g. 1:00 pm is '13'; 8:00 pm is '20'; 5:00 am is '05'): ")
+                                                                exit_hr = input("\nEnd time\nEnter the hour (HH) 0 <= HH <= 23 (e.g. 1:00 pm is '13'; 8:00 pm is '20'; 5:00 am is '05'): ")
                                                                 if exit_hr.isnumeric() and int(exit_hr) >= int(entry_hr) and len(exit_hr) == 2 and int(exit_hr) >= 0 and int(exit_hr) <= 23:
                                                                     print("exit hour", exit_hr)
                                                                     
@@ -1244,9 +1244,9 @@ while True:
 
                                                                             while True:
 
-                                                                                exit_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                                                                exit_min = input("\nEnd time\nEnter the minutes (MM) 0 <= MM <= 59: ")
                                                                                 if int(exit_hr) == int(entry_hr):
-                                                                                    if exit_min.isnumeric() and len(exit_min) == 2 and int(exit_min) >= 0 and int(exit_min) <= 59 and int(exit_min) > int(entry_min):
+                                                                                    if exit_min.isnumeric() and len(exit_min) == 2 and int(exit_min) >= 0 and int(exit_min) <= 59:
 
                                                                                         verify_exit_min = input("If this is correct type 'Y' or just hit enter: ")
                                                                                         if verify_exit_min == '' or verify_exit_min == 'Y' or verify_exit_min == 'y' or verify_exit_min == 'Yes' or verify_exit_min == 'yes' or \
@@ -1331,7 +1331,7 @@ while True:
 
                                                                             while True:
 
-                                                                                exit_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                                                                exit_min = input("\nEnd time\nEnter the minutes (MM) 0 <= MM <= 59: ")
                                                                                 if int(exit_hr) == int(entry_hr):
                                                                                     if exit_min.isnumeric() and len(exit_min) == 2 and int(exit_min) >= 0 and int(exit_min) <= 59 and int(exit_min) > int(entry_min):
 
@@ -1417,7 +1417,7 @@ while True:
 
                                                                             while True:
 
-                                                                                exit_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                                                                exit_min = input("\nEnd time\nEnter the minutes (MM) 0 <= MM <= 59: ")
                                                                                 if int(exit_hr) == int(entry_hr):
                                                                                     if exit_min.isnumeric() and len(exit_min) == 2 and int(exit_min) >= 0 and int(exit_min) <= 59 and int(exit_min) > int(entry_min):
 
@@ -1504,7 +1504,7 @@ while True:
 
                                                                             while True:
 
-                                                                                exit_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                                                                exit_min = input("\nEnd time\nEnter the minutes (MM) 0 <= MM <= 59: ")
                                                                                 if int(exit_hr) == int(entry_hr):
                                                                                     if exit_min.isnumeric() and len(exit_min) == 2 and int(exit_min) >= 0 and int(exit_min) <= 59 and int(exit_min) > int(entry_min):
 
@@ -1591,7 +1591,7 @@ while True:
 
                                                                             while True:
 
-                                                                                exit_min = input("\nEnter the minutes (MM) 0 <= MM <= 59: ")
+                                                                                exit_min = input("\nEnd time\nEnter the minutes (MM) 0 <= MM <= 59: ")
                                                                                 if int(exit_hr) == int(entry_hr):
                                                                                     if exit_min.isnumeric() and len(exit_min) == 2 and int(exit_min) >= 0 and int(exit_min) <= 59 and int(exit_min) > int(entry_min):
 
@@ -1680,29 +1680,42 @@ while True:
                                                                     else:
                                                                         print("Incorrect hour format. Redirecting...")
                                                                         continue
+                                            # TEST PASS                            
+                                            break
 
+                                    # TEST ??
                                     else:
                                         print("You must have an entry log to proceed. Redirecting...")
-                                        pass                     
+                                        break
 
-                                else:
-                                    print("Reenter the exit YYYY-MM-DD")
+                                # TEST PASS
+                                else: 
+                                    print("Reenter the exit date YYYY-MM-DD")
                                     continue 
+
+                            # TEST PASS
                             else:
-                                print("Wrong day format.")
+                                print("Wrong day format. \nReenter the year, month, and date.")
                                 continue
+
+                        # TEST PASS    
                         else:
-                            print("Wrong month format.")
+                            print("Wrong month format. \nReenter the year and month.")
                             continue
+
+                    # TEST PASS    
                     else:
                         print("Wrong year format.")
                         continue  
 
+                    # TEST  - outermost while loop for below the elif statement for the manual entry
                     break
-                
+
+            # TEST PASS    
             else:
                 print("You chose not to create a date. Exiting...")
-                pass
+                break
+    # TEST PASS        
     else:
         print("Exiting...")
         break
