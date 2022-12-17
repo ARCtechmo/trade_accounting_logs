@@ -80,14 +80,21 @@ Here is the process to utilize the file:
 
 
 
-Bugs and workarounds
-fx.py file timestamps and dates
+Known Bugs and Workarounds
+
+Bug #1
+Files: fx.py file timestamps and dates
+Criticality: low
 -The fx.py files formats the dates.  
 -Alpha testing revealed the program may return a '[]' in the HH:MM section of some of the entry_date and exit_date columns in the fx_log table. 
 -This is a minor bug that does not affect the ability of the program to run properly.  
 -This bug will be corrected in future updates. 
 
-fx.csv, fx.py and  export.py files
+-Workaround: none
+
+Bug #2 
+Files: fx.csv, fx.py and export.py files
+-Criticality: medium - edge case
 -This bug applies only to the trade transactions NOT commissions, financing, etc...
 -The forex broker .csv files contain columns for close_id and open_id for the trade transactions. 
 -Complete trade transactions have both a close_id and open_id and a single row. Incomplete trade transactions only have an open_id.
@@ -98,7 +105,8 @@ fx.csv, fx.py and  export.py files
 -The program may fail to export some or even all rows of trade transactions that share an open_id.  
 -When you run your SQL queries and compare the queries to the broker statements and your numbers do not match this is most likely the cause. 
 -The problem is that the program will not export trade transactions that share an open_id with another row AND where there is no close_id.  
--Here is a quick fix.
+
+-Workaround: Yes. See below. 
 -First, identify the missing trade transactions with the common open_ids (note it could be in two different months).
 -Second, if the two trade transactions with the same open_ids are in the same .csv file create a new .csv file with a 'save as' (don't modify the original).
 -Third, in the newly modified .csv file deelte all rows except the row with the missing close_id.
@@ -109,3 +117,13 @@ fx.csv, fx.py and  export.py files
 -This only happens on a small percentage of cases.  
 -This bug will be corrected in future updates.      
 
+Possible Bug #3
+Files: time_logs.py file
+-Criticality: low 
+-This is not so much about bugs but, rather, about incomplete testing.
+-The program takes user input for entry time logs and exit time logs implemented via a long series of while loops and if-else statements.
+-While the program bascially works and accounts for most common user inputs and user errors I did not test every possible pathway.
+-Further refinements and testing is required.
+
+-Workaround: Yes. 
+-The user can easily delete the time log from the database and renter a new one. 
