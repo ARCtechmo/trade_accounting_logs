@@ -925,6 +925,7 @@ while True:
 
                             if entry_day.isnumeric() and len(entry_day) >= 1 and len(entry_day) <= 2 and int(entry_day) >=1 and int(entry_day) <= 31:
                                 entry_date =f'{entry_yr}-{entry_mo}-{entry_day}'
+                                print(entry_date)
 
                                 verify_entry_date = input("\nIs the entry date correct: (Y/N) or hit enter to continue: ")
                                 if verify_entry_date == '' or verify_entry_date == 'Y' or verify_entry_date == 'y' or verify_entry_date == 'Yes' or verify_entry_date == 'yes' or \
@@ -1222,8 +1223,9 @@ while True:
 
                                                     if exit_day.isnumeric() and len(exit_day) >= 1 and len(exit_day) <= 2 and int(exit_day) >=1 and int(exit_day) <= 31 and int(exit_day) >= int(entry_day):
                                                         exit_date =f'{exit_yr}-{exit_mo}-{exit_day}'
+                                                        print(exit_date)
 
-                                                        verify_exit_date = input("\nIs the entry date correct: (Y/N) or hit enter to continue: ")
+                                                        verify_exit_date = input("\nIs the exit date correct: (Y/N) or hit enter to continue: ")
                                                         if verify_exit_date == '' or verify_exit_date == 'Y' or verify_exit_date == 'y' or verify_exit_date == 'Yes' or verify_exit_date == 'yes' or \
                                                             verify_exit_date == 'YES' or verify_exit_date == 'YEs' or verify_exit_date == 'YeS' or verify_exit_date == 'yES' or \
                                                             verify_exit_date == 'yeS' or verify_exit_date == 'yEs':
@@ -1680,6 +1682,11 @@ while True:
                                                                     else:
                                                                         print("Incorrect hour format. Redirecting...")
                                                                         continue
+                                                                        
+                                                        # TEST PASS
+                                                        else: 
+                                                            print("Reenter the exit date: YYYY-MM-DD")
+                                                            continue 
                                             # TEST PASS                            
                                             break
 
@@ -1690,7 +1697,7 @@ while True:
 
                                 # TEST PASS
                                 else: 
-                                    print("Reenter the exit date YYYY-MM-DD")
+                                    print("Reenter the entry date YYYY-MM-DD")
                                     continue 
 
                             # TEST PASS
@@ -1720,8 +1727,16 @@ while True:
         print("Exiting...")
         break
 
-for line in start_time_lst:
-    print(line)
+def show_entries():
+    print("\n-----entries-----")
+    for line in start_time_lst:
+        print(line)
+
+    print("\n-----exits-----")
+    for line in end_time_lst:
+        print(line)
+
+show_entries()
 
 # contains the activity foreign key 
 activity_id = []
