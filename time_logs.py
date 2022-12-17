@@ -1768,7 +1768,7 @@ def append_keys(lst1,lst2,lst3):
 
 append_keys(start_time_lst,end_time_lst,time_log_lst)
 
-# export_time_logs matches and exports the time logs
+# export_time_logs function matches and exports the time logs
 def export_time_logs(lst1,lst2,lst3):
     try:
         log_entry = lst3
@@ -1777,6 +1777,8 @@ def export_time_logs(lst1,lst2,lst3):
 
     except:
         print("Export failure.")
+        print("Time entry and exit rows must match (even number).")
+        print("Did you make a manual change to the database? If so, be sure to click the 'write changes' button then rerrun the program.")
 
 export_time_logs(start_time_lst,end_time_lst,time_log_lst)
 conn.close()
