@@ -319,16 +319,6 @@ def time_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO time_log VALUES(?,?,?,?)", (log_entry), )
         conn.commit()
-def time_log_delete_one(log_entry):
-    with conn:
-        cur.execute("DELETE FROM time_log WHERE rowid=? ",(log_entry,) )
-        conn.commit()
-def time_log_show_all():
-    with conn:
-        cur.execute("SELECT * FROM time_log")
-        items = cur.fetchall()
-        for item in items:
-            print(item)
 
 # insert data into the non_trading_expense table
 def non_trading_expense_add_many(log_entry):
