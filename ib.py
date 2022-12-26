@@ -1,7 +1,6 @@
 ### UNDER DEVELOPMENT ###
 # this app imports and cleans .csv files from the equity options broker 
 import csv
-import re
 import os.path
 from pathlib import Path
 
@@ -515,7 +514,7 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                 
             else:
                 print(f'{filename} is not a .csv file...')
-                print("Exiting fx upload...\n")
+                print("Exiting ib options upload...\n")
                 pass
         else:
             print("No ib options .csv files uploaded.")
