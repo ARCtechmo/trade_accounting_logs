@@ -337,191 +337,97 @@ def fx_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO fx_log VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
-def fx_log_show_all():
-    with conn:
-        cur.execute("SELECT * FROM fx_log")
-        items = cur.fetchall()
-        for item in items:
-            print(item)
+
 # insert data into the fx_unmatched table
 def fx_unmatched_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO fx_unmatched VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
-def fx_unmatched_show_all():
-    with conn:
-        cur.execute("SELECT * FROM fx_unmatched")
-        items = cur.fetchall()
-        for item in items:
-            print(item)
 
 # insert data into the fx_commissions table
 def fx_commissions_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO fx_commissions VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
-def fx_commissions_show_all():
-    with conn:
-        cur.execute("SELECT * FROM fx_commissions")
-        items = cur.fetchall()
-        for item in items:
-            print(item)
 
 # insert data into the fx_interest_debit table
 def fx_interest_debit_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO fx_interest_debit VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
-def fx_interest_debit_show_all():
-    with conn:
-        cur.execute("SELECT * FROM fx_interest_debit")
-        items = cur.fetchall()
-        for item in items:
-            print(item)
 
 # insert data into the fx_interest_income table
 def fx_interest_credit_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO fx_interest_income VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
-def fx_interest_credit_show_all():
-    with conn:
-        cur.execute("SELECT * FROM fx_interest_income")
-        items = cur.fetchall()
-        for item in items:
-            print(item)
 
 # insert data into the fx_broker_credit_income table
 def fx_broker_credit_income_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO fx_broker_credit_income VALUES(?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
-def fx_broker_credit_income_add_many_show_all():
-    with conn:
-        cur.execute("SELECT * FROM fx_broker_credit_income")
-        items = cur.fetchall()
-        for item in items:
-            print(item)
 
 # insert data into the td_options log table
 def td_options_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO td_options_log VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
-def td_log_show_all():
-    with conn:
-        cur.execute("SELECT * FROM td_options_log")
-        items = cur.fetchall()
-        for item in items:
-            print(item)
 
 # insert data into the td_commissions log table
 def td_commissions_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO td_commissions VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
-def td_comm_log_show_all():
-    with conn:
-        cur.execute("SELECT * FROM td_commissions")
-        items = cur.fetchall()
-        for item in items:
-            print(item)
 
 # insert data into the td_regulation_fee log table
 def td_reg_fee_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO td_regulation_fee VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
-def td_reg_fee_log_show_all():
-    with conn:
-        cur.execute("SELECT * FROM td_regulation_fee")
-        items = cur.fetchall()
-        for item in items:
-            print(item)
 
 # insert data into the td_misc_income table
 def td_misc_income_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO td_misc_income VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
-def td_misc_income_log_show_all():
-    with conn:
-        cur.execute("SELECT * FROM td_misc_income")
-        items = cur.fetchall()
-        for item in items:
-            print(item)
 
 # insert data into the td_misc_debit table
 def td_misc_debit_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO td_misc_debit VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
-def td_misc_debit_log_show_all():
-    with conn:
-        cur.execute("SELECT * FROM td_misc_debit")
-        items = cur.fetchall()
-        for item in items:
-            print(item)
 
 # insert data into the td_interest_income table
 def td_interest_income_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO td_interest_income VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
-def td_interest_income_log_show_all():
-    with conn:
-        cur.execute("SELECT * FROM td_interest_income")
-        items = cur.fetchall()
-        for item in items:
-            print(item)
 
 # insert data into the td_interest_debit table
 def td_interest_debit_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO td_interest_debit VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
-def td_interest_debit_log_show_all():
-    with conn:
-        cur.execute("SELECT * FROM td_interest_debit")
-        items = cur.fetchall()
-        for item in items:
-            print(item)
 
 # insert data into the ib_options_log table
 def ib_options_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO ib_options_log VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
-def ib_log_show_all():
-    with conn:
-        cur.execute("SELECT * FROM ib_options_log")
-        items = cur.fetchall()
-        for item in items:
-            print(item)
 
 # insert data into the ib_commissions_fee log table
 def ib_commissions_fee_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO ib_commissions_fee VALUES(?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
-def ib_comm_fee_log_show_all():
-    with conn:
-        cur.execute("SELECT * FROM ib_commissions_fee")
-        items = cur.fetchall()
-        for item in items:
-            print(item)
 
 # insert data into the ib_other_fee log table
 def ib_other_fee_log_add_many(log_entry):
     with conn:
         cur.executemany("INSERT INTO ib_other_fee VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
-def ib_other_fee_log_show_all():
-    with conn:
-        cur.execute("SELECT * FROM ib_other_fee")
-        items = cur.fetchall()
-        for item in items:
-            print(item)
+
 conn.commit()
 ############################# CLOSE THE DATABASE ##############################
 print("\n-------------database closed---------------------")
