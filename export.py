@@ -3,9 +3,6 @@ import database
 import fx
 import td
 import ib
-from datetime import date
-from datetime import datetime
-import itertools
 
 if __name__ == "__main__":
     print('app module is being run directly')
@@ -538,6 +535,7 @@ def export_ib_options_log_records():
 
         log_entry = export_ib_options_log_entry_lst
         database.ib_options_log_add_many(log_entry)
+
     except:
         pass
 
@@ -572,8 +570,10 @@ def export_ib_comm_fee_log_records():
 
         log_entry = export_ib_comm_fee_log_entry_lst
         database.ib_commissions_fee_log_add_many(log_entry)
+
     except:
         pass
+
 export_ib_comm_fee_log_records()
 ################################## End add ib_commissions_fee log RECORDS ##############################################
 ################################## Begin add ib_other_fee log RECORDS ############################################
@@ -604,9 +604,10 @@ def export_ib_other_fee_log_records():
 
         log_entry = export_ib_other_fee_log_entry_lst
         database.ib_other_fee_log_add_many(log_entry)
-            
+
     except:
         pass
+    
 export_ib_other_fee_log_records()
 ################################## End add ib_other_fee log RECORDS ##############################################
 
