@@ -3,9 +3,6 @@ import database_dev_mode
 import fx_dev_mode
 import td_dev_mode
 import ib_dev_mode
-from datetime import date
-from datetime import datetime
-import itertools
 
 if __name__ == "__main__":
     print('app module is being run directly')
