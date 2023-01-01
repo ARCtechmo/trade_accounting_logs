@@ -535,8 +535,13 @@ def export_ib_options_log_records():
                 export_ib_options_log_entry_lst.append(row)
 
         log_entry = export_ib_options_log_entry_lst
-        for log in log_entry:
-            print(log)
+        # i = len(log_entry)
+        # for log in log_entry[:i]:
+        #     print(log)
+
+        # print("\n----------TEST: SELECT ROW-----------")
+        # for log in log_entry:
+        #     print(log)
 
         database.ib_options_log_add_many(log_entry)
 
@@ -578,7 +583,7 @@ def export_ib_comm_fee_log_records():
     except:
         pass
 
-export_ib_comm_fee_log_records()
+# export_ib_comm_fee_log_records()
 ################################## End add ib_commissions_fee log RECORDS ##############################################
 ################################## Begin add ib_other_fee log RECORDS ############################################
 # add ib_other_fee log records
@@ -613,7 +618,7 @@ def export_ib_other_fee_log_records():
     except:
         pass
     
-export_ib_other_fee_log_records()
+# export_ib_other_fee_log_records()
 ################################## End add ib_other_fee log RECORDS ##############################################
 
 
