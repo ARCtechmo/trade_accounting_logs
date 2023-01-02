@@ -516,7 +516,10 @@ ib_options_log_rows = []
 # export_ib_options_log_entry_lst contains a list of the rows that will be exported into the ib_options_log table
 export_ib_options_log_entry_lst = []
 
-# BUG not exporting any data .csv files 2020, 2019, 2018, 2017
+# FIXME: duplicate tranaction ids cause export failures in IB2020, IB2019, IB2018, IB2017
+# TASK: find a workaround the duplicates
+# TASK: the program skips to the try / except --- pass line when it encounters a duplicate (see your notes) 
+
 # export_ib_options_log_records function check for UNIQUE CONSTRANT ERRORS
 # exports the ib broker options log records into the ib_options_log table
 def export_ib_options_log_records():
@@ -594,7 +597,9 @@ ib_other_fee_log_rows = []
 # export_ib_other_fee_log_entry_lst contains a list of the rows that will be exported into the ib_other_fee table
 export_ib_other_fee_log_entry_lst = []
 
-# BUG not exporting any data .csv files 2020, 2019, 2018, 2017
+# FIXME: duplicate tranaction ids cause export failures in IB2020, IB2019, IB2018, IB2017
+# TASK: find a workaround the duplicates
+# TASK: the program skips to the try / except --- pass line when it encounters a duplicate (see your notes) 
 # export_ib_other_fee_log_records function check for UNIQUE CONSTRANT ERRORS
 # exports the ib broker "other fee" log records into the ib_other_fee table
 def export_ib_other_fee_log_records():
