@@ -538,15 +538,37 @@ def export_ib_options_log_records():
                 export_ib_options_log_entry_lst.append(row)
 
         log_entry = export_ib_options_log_entry_lst
-        # i = len(log_entry)
-        # for log in log_entry[:i]:
-        #     print(log)
 
-        # print("\n----------TEST: SELECT ROW-----------")
         # for log in log_entry:
         #     print(log)
 
-        database.ib_options_log_add_many(log_entry)
+        # 2020 duplicate id rows
+        # print()
+        # print(log_entry[25])
+        # print(log_entry[27])
+
+        # 2019 duplicate id rows
+        # print()
+        # print(log_entry[10])
+        # print(log_entry[11])
+
+        # 2018 duplicate id rows
+        # print()
+        # print(log_entry[25])
+        # print(log_entry[39])
+        # print(log_entry[52])
+        # print(log_entry[57])
+
+        # 2017 duplicate id rows
+        # print()
+        # print(log_entry[7])
+        # print(log_entry[17])
+        # print(log_entry[52])
+        # print(log_entry[54])
+        # print(log_entry[60])
+        # print(log_entry[62])
+
+        # database.ib_options_log_add_many(log_entry)
 
     except:
         pass
