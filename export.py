@@ -516,10 +516,7 @@ ib_options_log_rows = []
 # export_ib_options_log_entry_lst contains a list of the rows that will be exported into the ib_options_log table
 export_ib_options_log_entry_lst = []
 
-# FIXME: duplicate tranaction ids cause export failures in IB2020, IB2019, IB2018, IB2017
-# TASK: find a workaround the duplicates
-# TASK: the program skips to the try / except --- pass line when it encounters a duplicate (see your notes) 
-
+# FIXME: duplicate tranaction ids cause export failures (fix the key function in ib.py)
 # export_ib_options_log_records function check for UNIQUE CONSTRANT ERRORS
 # exports the ib broker options log records into the ib_options_log table
 def export_ib_options_log_records():
@@ -538,37 +535,7 @@ def export_ib_options_log_records():
                 export_ib_options_log_entry_lst.append(row)
 
         log_entry = export_ib_options_log_entry_lst
-
-        # for log in log_entry:
-        #     print(log)
-
-        # 2020 duplicate id rows
-        # print()
-        # print(log_entry[25])
-        # print(log_entry[27])
-
-        # 2019 duplicate id rows
-        # print()
-        # print(log_entry[10])
-        # print(log_entry[11])
-
-        # 2018 duplicate id rows
-        # print()
-        # print(log_entry[25])
-        # print(log_entry[39])
-        # print(log_entry[52])
-        # print(log_entry[57])
-
-        # 2017 duplicate id rows
-        # print()
-        # print(log_entry[7])
-        # print(log_entry[17])
-        # print(log_entry[52])
-        # print(log_entry[54])
-        # print(log_entry[60])
-        # print(log_entry[62])
-
-        # database.ib_options_log_add_many(log_entry)
+        database.ib_options_log_add_many(log_entry)
 
     except:
         pass
@@ -619,9 +586,7 @@ ib_other_fee_log_rows = []
 # export_ib_other_fee_log_entry_lst contains a list of the rows that will be exported into the ib_other_fee table
 export_ib_other_fee_log_entry_lst = []
 
-# FIXME: duplicate tranaction ids cause export failures in IB2020, IB2019, IB2018, IB2017
-# TASK: find a workaround the duplicates
-# TASK: the program skips to the try / except --- pass line when it encounters a duplicate (see your notes) 
+# FIXME: duplicate tranaction ids cause export failures (fix the key function in ib.py)
 # export_ib_other_fee_log_records function check for UNIQUE CONSTRANT ERRORS
 # exports the ib broker "other fee" log records into the ib_other_fee table
 def export_ib_other_fee_log_records():
