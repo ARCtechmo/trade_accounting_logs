@@ -290,31 +290,39 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                 # key_lst1 contains a list of unque identifiers
                 key_lst1 = []
 
-                # FIXME lenghtening the key values is not soliving the duplicate id problem
-                # TASK apply a counter as that is the only solution I see (see the old algorithm)
-                # task remove some of the variables as they will not be necessary
+               # key_lst2 contains all fields and rows for the options transaction data and a unique identifier
+                key_lst2 = []
+
                 # creates a unique identifier and adds it to key_lst2
-                def create_key(lst1,lst2,lst3):
-                    for row, num in zip(lst1,lst2):
+                def create_key(lst1,lst2,lst3,lst4):
+                    indxLst = []
+                    i = len(lst1)
+                    for row, timeNum in zip(lst1,lst2):
                         valYY = row[0][2:4]
                         valMM = row[0][5:7]
                         valDD = row[0][8:10]
                         valBS = ord(row[4][0].upper())
-                        valMKT = str(ord(row[6][0].upper()) + ord(row[6][1].upper()))
                         valCP = ord(row[7][0].upper())
-                        valCTR = abs(row[5])
-                        valCTR = str(valCTR)
-                        valCTR_i0 = valCTR[0]
-                        valPL = abs(row[10])
-                        valPL = str(valPL)
-                        valPL_i0 = valPL[0]
-                        val_CTR_PL = valCTR_i0 + valPL_i0
-                        valHHMMSS = num
-                        trans_num = f'{valYY}{valMM}{valDD}{valBS}{valMKT}{valCP}{val_CTR_PL}{valHHMMSS}'
-                        trans_num = int(trans_num)
+                        valHHMMSS = timeNum
+                        trans_num = f'{valYY}{valMM}{valDD}{valBS}{valCP}{valHHMMSS}'
                         lst3.append(trans_num)
+                    
+                    for num in range(i):
+                        if num < 10:
+                            num = (str(num))
+                            num = num.zfill(2)
+                            indxLst.append(num)
+                        else:
+                            num = str(num)
+                            indxLst.append(num)
 
-                create_key(options_lst2,options_time_lst2,key_lst1)
+                    for index, id in zip(lst3,indxLst):
+                        lst4.append((f'{index}{id}'))
+
+                    for id in lst4:
+                        id = int(id)
+                    
+                create_key(options_lst2,options_time_lst2,key_lst1,key_lst2)
                 
                 # options_lst3 contains all of the fields and the unique transaction id column
                 options_lst3 = []
@@ -326,7 +334,7 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                             col1[5],col1[6],col1[7],col1[8],
                             col1[9],col1[10],col1[11],col2])
                    
-                append_key(options_lst2,key_lst1,options_lst3)
+                append_key(options_lst2,key_lst2,options_lst3)
 
                 # comm_fee_lst2 contains the formatted commission and fee transactions
                 comm_fee_lst2 = []
@@ -355,6 +363,8 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                 # contains index values of each itme in the comm_fee_lst2
                 cf_index_lst1 = []
 
+
+                #task double check this and compare to the old alogrithm
                 # creates and appends a a unique transaction identifier to the comm_fee_lst2
                 def create_comm_fee_key(cflst1,cfk,cflst2):
                     i = len(cflst1)
