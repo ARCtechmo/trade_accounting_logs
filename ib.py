@@ -339,6 +339,8 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                 # comm_fee_lst2 contains the formatted commission and fee transactions
                 comm_fee_lst2 = []
 
+                # task double check to ensure there are no missing transactions
+                # task maybe shorten the key length
                 # add dates and format the commissions and fee transaction data list
                 def format_comm_fee_data(lst1,lst2,lst3):
                     for line, num in zip(lst1,lst2):
@@ -363,25 +365,24 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                 # contains index values of each itme in the comm_fee_lst2
                 cf_index_lst1 = []
 
-
                 #task double check this and compare to the old alogrithm
                 # creates and appends a a unique transaction identifier to the comm_fee_lst2
-                def create_comm_fee_key(cflst1,cfk,cflst2):
-                    i = len(cflst1)
+                def create_comm_fee_key(lst1,lst2,lst3):
+                    i = len(lst1)
                     for i in range(i):
                         if i < 10:
                             i = str(i)
                             i = i.zfill(2)
-                            cfk.append(i)
+                            lst2.append(i)
                         else:
                             i = str(i)
-                            cfk.append(i)
+                            lst2.append(i)
 
-                    for num, index in zip(cflst1, cfk):
+                    for num, index in zip(lst1, lst2):
                         trans_num = f'{num[6]}{index}'
                         cf_row = num[0],num[1],num[2],num[3],num[4],num[5],int(trans_num)
                         cf_row = list(cf_row)
-                        cflst2.append(cf_row)
+                        lst3.append(cf_row)
                 create_comm_fee_key(comm_fee_lst2,cf_index_lst1,comm_fee_lst3)
 
                 # contains fee dates
