@@ -339,33 +339,38 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                 # comm_fee_lst2 contains the formatted commission and fee transactions
                 comm_fee_lst2 = []
 
-                # task double check to ensure there are no missing transactions
-                # task maybe shorten the key length
                 # add dates and format the commissions and fee transaction data list
-                def format_comm_fee_data(lst1,lst2,lst3):
-                    for line, num in zip(lst1,lst2):
-                        line[1] = int(line[1])
-                        if line[1] == '':
+                def format_comm_fee_data(lst1,lst2):
+                    indxLst=[]
+                    for row in lst1:
+                        if row[1] == '':
+                            pass
+                        elif row[1] == '0':
                             pass
                         else:
-                            if line[1] == 0:
-                                pass
-                            else:
-                                val1 = ord('C')
-                                key = f'{num[12]}{val1}'
-                                trans_num = f'{key}'
-                                comm_data = line[0][:10],int(line[0][:4]),int(line[0][5:7]),int(line[0][8:10]),float(line[2]),broker_id,int(trans_num)
-                                comm_data = list(comm_data)
-                                lst3.append(comm_data)
-                format_comm_fee_data(comm_fee_lst1,options_lst3,comm_fee_lst2)
+                            indxLst.append(row)
+
+                    for line in indxLst:
+                        # print(line)
+                        comm_date = line[0][0:10]
+                        YY = comm_date[2:4]
+                        MM = comm_date[5:7]
+                        DD = comm_date[8:10]
+                        HHMM = line[0][12:14]+line[0][15:17]
+                        fee = line[2]
+                        entry = comm_date, YY, MM, DD, fee, broker_id, HHMM
+                        entry  = list(entry)
+                        lst2.append(entry)
+            
+                format_comm_fee_data(comm_fee_lst1,comm_fee_lst2)
 
                 # contains list of comm_fee transactions with a unique transaction number identifier
                 comm_fee_lst3 = []
 
-                # contains index values of each itme in the comm_fee_lst2
+                # contains index values of each item in the comm_fee_lst2
                 cf_index_lst1 = []
 
-                #task double check this and compare to the old alogrithm
+                #task Test the revised function on all .csv files and with the export.py function
                 # creates and appends a a unique transaction identifier to the comm_fee_lst2
                 def create_comm_fee_key(lst1,lst2,lst3):
                     i = len(lst1)
@@ -379,10 +384,13 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                             lst2.append(i)
 
                     for num, index in zip(lst1, lst2):
-                        trans_num = f'{num[6]}{index}'
-                        cf_row = num[0],num[1],num[2],num[3],num[4],num[5],int(trans_num)
-                        cf_row = list(cf_row)
-                        lst3.append(cf_row)
+                        trans_num = f'{num[1]}{num[2]}{num[3]}{index}'
+                        row  = num[0], num[1], num[2], num[3], num[4], num[5],trans_num
+                        row = list(row)
+                        lst3.append(row)
+                       
+                    for row in lst3:
+                        print(row)
                 create_comm_fee_key(comm_fee_lst2,cf_index_lst1,comm_fee_lst3)
 
                 # contains fee dates
