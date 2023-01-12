@@ -351,9 +351,8 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                             indxLst.append(row)
 
                     for line in indxLst:
-                        # print(line)
                         comm_date = line[0][0:10]
-                        YY = comm_date[2:4]
+                        YY = comm_date[:4]
                         MM = comm_date[5:7]
                         DD = comm_date[8:10]
                         HHMM = line[0][12:14]+line[0][15:17]
@@ -370,7 +369,6 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                 # contains index values of each item in the comm_fee_lst2
                 cf_index_lst1 = []
 
-                #task Test the revised function on all .csv files and with the export.py function
                 # creates and appends a a unique transaction identifier to the comm_fee_lst2
                 def create_comm_fee_key(lst1,lst2,lst3):
                     i = len(lst1)
@@ -384,13 +382,11 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                             lst2.append(i)
 
                     for num, index in zip(lst1, lst2):
-                        trans_num = f'{num[1]}{num[2]}{num[3]}{index}'
+                        trans_num = f'{num[1][2:4]}{num[2]}{num[3]}{index}'
                         row  = num[0], num[1], num[2], num[3], num[4], num[5],trans_num
                         row = list(row)
                         lst3.append(row)
                        
-                    for row in lst3:
-                        print(row)
                 create_comm_fee_key(comm_fee_lst2,cf_index_lst1,comm_fee_lst3)
 
                 # contains fee dates
@@ -491,21 +487,35 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                         other_fees_lst2.append([date,int(year),int(month),int(day),description,float(fee),broker])
                 compile_fees(options_fee_date_lst1,options_fee_year_lst1,options_fee_month_lst1,options_fee_day_lst1,other_fees_descriptions_lst2,other_fees_lst1,broker_id_lst)
                
+                # bug missing rows in ib2018.csv file
+                # task go back and check the other functions and verify all rows are picked up
+                for i in other_fees_lst2:
+                    print(i)
+                    
                 # contains a list of unique identifiers for the fees
                 fee_key_lst1 = [] 
 
                 # create a unique identifier for each fee transaction
                 def create_fee_key(lst1,lst2):
                     for row in lst1:
+                        xVar = row[4][-9::]
+                        mo = xVar[1:4]
+                        mo_fval = ord(mo[0].upper())
+                        mo_fval = str(mo_fval)
+                        mo_mval = ord(mo[1].upper())
+                        mo_mval = str(mo_mval)
+                        mo_lval = ord(mo[2].upper())
+                        mo_lval = str(mo_lval)
                         val1 = ord(row[4][0].upper())
                         val2 = ord(row[4][1].upper())
+                        val3 = mo_fval+mo_mval+mo_lval
                         if len(row[0][5:7]) == 1:
-                            trans_num = f'{row[0][2:4]}{row[0][5:7]}0{row[0][8]}{str(val1)}{str(val2)}'
+                            trans_num = f'{row[0][2:4]}{row[0][5:7]}0{row[0][8]}{str(val1)}{str(val2)}{val3}'
                             int(trans_num)
                             lst2.append(trans_num)
                         
                         elif len(row[0][5:7]) == 2:
-                            trans_num = f'{row[0][2:4]}{row[0][5:7]}{row[0][8]}{str(val1)}{str(val2)}'
+                            trans_num = f'{row[0][2:4]}{row[0][5:7]}{row[0][8]}{str(val1)}{str(val2)}{val3}'
                             int(trans_num)
                             lst2.append(trans_num)
                 create_fee_key(other_fees_lst2,fee_key_lst1)
