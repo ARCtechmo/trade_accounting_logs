@@ -422,15 +422,16 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                 options_fee_month_lst1 = []
 
                 # extract the M or MM from the fee_dates_lst1
+                # MM/DD/YYYY or M/DD/YYYY
                 def extract_options_fee_month(lst1,lst2):
                     i = len(lst1)
                     for row in lst1[:i]:
-                        if len(row) == 8:
-                            mo = row[0]
+                        if row[2] == '/':
+                            mo = row[:2]
                             lst2.append(mo)
                 
-                        elif len(row) == 9:
-                            mo = row[:2]
+                        elif row[1] == '/':
+                            mo = row[0]
                             lst2.append(mo)
                 extract_options_fee_month(fee_dates_lst1,options_fee_month_lst1)
 
@@ -438,15 +439,23 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                 options_fee_day_lst1 = []
 
                 # extract the D or DD from the fee_dates_lst1
+                # MM/DD/YYYY or MM/D/YYYY or M/DD/YYYY or M/D/YYYY
                 def extract_options_fee_day(lst1,lst2):
                     i = len(lst1)
                     for row in lst1[:i]:
-                        if len(row) == 8:
-                            day = row[2]
+                        if row[2] == '/' and len(row) == 10:
+                            day = row[3:5]
                             lst2.append(day)
 
-                        elif len(row) == 9:
+                        elif row[2] == '/' and len(row) == 9:
                             day = row[3]
+                            lst2.append(day)
+
+                        elif row[1] == '/' and len(row) == 9:
+                            day = row[2:4]
+                            lst2.append(day)
+                        elif row[1] == '/' and len(row) == 8:
+                            day = row[2]
                             lst2.append(day)
                 extract_options_fee_day(fee_dates_lst1,options_fee_day_lst1)
 
@@ -454,11 +463,21 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                 options_fee_date_lst1 = []
 
                 # compile and format the options fee dates
+                # MM/DD/YYYY or MM/D/YYYY or M/DD/YYYY or M/D/YYYY
                 def create_options_fee_dates(lst1,lst2,lst3,lst4):
                     for year,month,day in zip(lst1,lst2,lst3):
-                        if len(month) == 1:
+                        if len(month) == 1 and len(day) == 1:
+                            date = f'{year}-0{month}-0{day}'
+                            lst4.append(date)
+                        
+                        elif len(month) == 1 and len(day) == 2:
                             date = f'{year}-0{month}-{day}'
                             lst4.append(date)
+
+                        elif len(month) == 2 and len(day) == 1:
+                            date = f'{year}-{month}-0{day}'
+                            lst4.append(date)
+                        
                         else:
                             date = f'{year}-{month}-{day}'
                             lst4.append(date)
@@ -475,50 +494,70 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                             other_fees_descriptions_lst2.append(row[10:])
                         elif row[:7] == 'Balance' or row[:7] == 'balance':
                             other_fees_descriptions_lst2.append(row)
+                        elif row[:4] == 'AMEX' or row[:4] == 'amex':
+                            other_fees_descriptions_lst2.append(row)
+                        elif row[:2] == 'US' or row[:2] == 'us':
+                            other_fees_descriptions_lst2.append(row)
+                        elif row[:12] == 'Professional' or row[:12] == 'professional':
+                            other_fees_descriptions_lst2.append(row)
                 format_fee_descriptions(other_fees_descriptions_lst1,other_fees_descriptions_lst2)
             
                 # contains the formatted fee fields
                 other_fees_lst2 = []
 
                 # compile and format the fee fields
-                def compile_fees(lst1,lst2,lst3,lst4,lst5,lst6,lst7):
+                def compile_fees(lst1,lst2,lst3,lst4,lst5,lst6,lst7,lst8):
                     for date,year,month,day,description,fee,broker in zip(lst1,lst2,lst3,lst4,lst5,lst6,lst7):
                         lst7.append(broker_id)
-                        other_fees_lst2.append([date,int(year),int(month),int(day),description,float(fee),broker])
-                compile_fees(options_fee_date_lst1,options_fee_year_lst1,options_fee_month_lst1,options_fee_day_lst1,other_fees_descriptions_lst2,other_fees_lst1,broker_id_lst)
-               
-                # bug missing rows in ib2018.csv file
-                # task go back and check the other functions and verify all rows are picked up
-                for i in other_fees_lst2:
-                    print(i)
-                    
+                        lst8.append([date,int(year),int(month),int(day),description,float(fee),broker])
+                compile_fees(options_fee_date_lst1,options_fee_year_lst1,options_fee_month_lst1,options_fee_day_lst1,other_fees_descriptions_lst2,other_fees_lst1,broker_id_lst,other_fees_lst2)
+
                 # contains a list of unique identifiers for the fees
                 fee_key_lst1 = [] 
 
+                # contains index values of each item in the other_fees_lst2
+                of_index_lst1 = []
+
                 # create a unique identifier for each fee transaction
-                def create_fee_key(lst1,lst2):
-                    for row in lst1:
-                        xVar = row[4][-9::]
-                        mo = xVar[1:4]
+                def create_fee_key(lst1,lst2,lst3):
+                    i = len(lst1)
+                    for i in range(i):
+                        if i < 10:
+                            i = str(i)
+                            i = i.zfill(2)
+                            lst2.append(i)
+                        else:
+                            i = str(i)
+                            lst2.append(i)
+
+                    for row, index in zip(lst1,lst2):
+                        description = row[4][-9::]
+                        # desc_letsym = row[4]
+                        # des_num = ord(desc_letsym[3])
+                        mo = description[1:4]
                         mo_fval = ord(mo[0].upper())
                         mo_fval = str(mo_fval)
                         mo_mval = ord(mo[1].upper())
                         mo_mval = str(mo_mval)
                         mo_lval = ord(mo[2].upper())
                         mo_lval = str(mo_lval)
+                        fee_amt = str(row[5])
+                        fee_amt = ord(fee_amt[0])
                         val1 = ord(row[4][0].upper())
                         val2 = ord(row[4][1].upper())
                         val3 = mo_fval+mo_mval+mo_lval
+                        val4 = fee_amt
+                        # val5 = des_num
                         if len(row[0][5:7]) == 1:
-                            trans_num = f'{row[0][2:4]}{row[0][5:7]}0{row[0][8]}{str(val1)}{str(val2)}{val3}'
+                            trans_num = f'{row[0][2:4]}{row[0][5:7]}0{row[0][8]}{str(val1)}{str(val2)}{val3}{val4}{index}'
                             int(trans_num)
-                            lst2.append(trans_num)
+                            lst3.append(trans_num)
                         
                         elif len(row[0][5:7]) == 2:
-                            trans_num = f'{row[0][2:4]}{row[0][5:7]}{row[0][8]}{str(val1)}{str(val2)}{val3}'
+                            trans_num = f'{row[0][2:4]}{row[0][5:7]}{row[0][8]}{str(val1)}{str(val2)}{val3}{val4}{index}'
                             int(trans_num)
-                            lst2.append(trans_num)
-                create_fee_key(other_fees_lst2,fee_key_lst1)
+                            lst3.append(trans_num)
+                create_fee_key(other_fees_lst2,of_index_lst1,fee_key_lst1)
 
                 # contains the other fee list with all fields and the unique transaction number
                 other_fees_lst3 = []
