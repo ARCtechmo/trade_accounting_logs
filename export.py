@@ -539,7 +539,7 @@ def export_ib_options_log_records():
     except:
         pass
 
-# export_ib_options_log_records()
+export_ib_options_log_records()
 ################################## End add ib_options_log RECORDS ##############################################
 ################################## Begin add ib_commissions_fee log RECORDS ##############################################
 # add ib_commissions_fee log records
@@ -550,7 +550,6 @@ ib_comm_fee_log_rows = []
 # export_ib_comm_fee_log_entry_lst contains a list of the rows that will be exported into the ib_commissions_fee table
 export_ib_comm_fee_log_entry_lst = []
 
-#TASK double check this function in the ib.py file (use the old algorithm)
 # export_ib_comm_fee_log_records function check for UNIQUE CONSTRANT ERRORS
 # exports the ib broker commissions log records into the ib_commissions_fee table
 def export_ib_comm_fee_log_records():
@@ -585,7 +584,6 @@ ib_other_fee_log_rows = []
 # export_ib_other_fee_log_entry_lst contains a list of the rows that will be exported into the ib_other_fee table
 export_ib_other_fee_log_entry_lst = []
 
-# FIXME: duplicate tranaction ids cause export failures (fix the key function in ib.py)
 # export_ib_other_fee_log_records function check for UNIQUE CONSTRANT ERRORS
 # exports the ib broker "other fee" log records into the ib_other_fee table
 def export_ib_other_fee_log_records():
@@ -609,7 +607,7 @@ def export_ib_other_fee_log_records():
     except:
         pass
     
-# export_ib_other_fee_log_records()
+export_ib_other_fee_log_records()
 ################################## End add ib_other_fee log RECORDS ##############################################
 
 
