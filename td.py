@@ -502,7 +502,6 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                 # options_add_trans_num() formats the log, adds the broker id, and creates a unique transaction number for each options log record
                 def format_options_log():
                     for row in options_lst2:
-                        # print(row)
                         trans_date = row[0]
                         row[1] = str(row[1])
                         trans_num = f'{row[0][2:4]}{row[0][5:7]}{row[0][8:10]}{row[1][-6:]}'
@@ -517,8 +516,19 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                         gross = float(row[6])
 
                         if row[2][:6] == 'Bought':
-                            # print(row)
-                            if row[4][3] == ' ' and row[4][-4:] == 'Call':
+                            if row[4][1] == ' ' and row[4][-4:] == 'Call':
+                                mkt = row[4][:1]
+                                call = row[4][-4:]
+                                trans_bought = row[2][:6]
+                                options_lst3.append([trans_date,trans_yr,trans_mo,trans_day,trans_id,trans_bought,trade_size,mkt,call,ctr,price,gross,broker_id,trans_num])
+
+                            elif row[4][2] == ' ' and row[4][-4:] == 'Call':
+                                mkt = row[4][:2]
+                                call = row[4][-4:]
+                                trans_bought = row[2][:6]
+                                options_lst3.append([trans_date,trans_yr,trans_mo,trans_day,trans_id,trans_bought,trade_size,mkt,call,ctr,price,gross,broker_id,trans_num])
+
+                            elif row[4][3] == ' ' and row[4][-4:] == 'Call':
                                 mkt = row[4][:3]
                                 call = row[4][-4:]
                                 trans_bought = row[2][:6]
@@ -530,6 +540,18 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                                 trans_bought = row[2][:6]
                                 options_lst3.append([trans_date,trans_yr,trans_mo,trans_day,trans_id,trans_bought,trade_size,mkt,call,ctr,price,gross,broker_id,trans_num])
 
+                            elif row[4][1] == ' ' and row[4][-3:] == 'Put':
+                                mkt = row[4][:1]
+                                put = row[4][-3:]
+                                trans_bought = row[2][:6]
+                                options_lst3.append([trans_date,trans_yr,trans_mo,trans_day,trans_id,trans_bought,trade_size,mkt,put,ctr,price,gross,broker_id,trans_num])
+
+                            elif row[4][2] == ' ' and row[4][-3:] == 'Put':
+                                mkt = row[4][:2]
+                                put = row[4][-3:]
+                                trans_bought = row[2][:6]
+                                options_lst3.append([trans_date,trans_yr,trans_mo,trans_day,trans_id,trans_bought,trade_size,mkt,put,ctr,price,gross,broker_id,trans_num])
+                            
                             elif row[4][3] == ' ' and row[4][-3:] == 'Put':
                                 mkt = row[4][:3]
                                 put = row[4][-3:]
@@ -543,7 +565,20 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                                 options_lst3.append([trans_date,trans_yr,trans_mo,trans_day,trans_id,trans_bought,trade_size,mkt,put,ctr,price,gross,broker_id,trans_num])
 
                         elif row[2][:4] == 'Sold':
-                            if row[4][3] == ' ' and row[4][-4:] == 'Call':
+
+                            if row[4][1] == ' ' and row[4][-4:] == 'Call':
+                                mkt = row[4][:1]
+                                call = row[4][-4:]
+                                trans_sold = row[2][:4]
+                                options_lst3.append([trans_date,trans_yr,trans_mo,trans_day,trans_id,trans_sold,trade_size,mkt,call,ctr,price,gross,broker_id,trans_num])
+                            
+                            elif row[4][2] == ' ' and row[4][-4:] == 'Call':
+                                mkt = row[4][:2]
+                                call = row[4][-4:]
+                                trans_sold = row[2][:4]
+                                options_lst3.append([trans_date,trans_yr,trans_mo,trans_day,trans_id,trans_sold,trade_size,mkt,call,ctr,price,gross,broker_id,trans_num])
+
+                            elif row[4][3] == ' ' and row[4][-4:] == 'Call':
                                 mkt = row[4][:3]
                                 call = row[4][-4:]
                                 trans_sold = row[2][:4]
@@ -554,6 +589,18 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                                 call = row[4][-4:]
                                 trans_sold = row[2][:4]
                                 options_lst3.append([trans_date,trans_yr,trans_mo,trans_day,trans_id,trans_sold,trade_size,mkt,call,ctr,price,gross,broker_id,trans_num])
+
+                            elif row[4][1] == ' ' and row[4][-3:] == 'Put':
+                                mkt = row[4][:1]
+                                put = row[4][-3:]
+                                trans_sold = row[2][:4]
+                                options_lst3.append([trans_date,trans_yr,trans_mo,trans_day,trans_id,trans_sold,trade_size,mkt,put,ctr,price,gross,broker_id,trans_num])
+
+                            elif row[4][2] == ' ' and row[4][-3:] == 'Put':
+                                mkt = row[4][:2]
+                                put = row[4][-3:]
+                                trans_sold = row[2][:4]
+                                options_lst3.append([trans_date,trans_yr,trans_mo,trans_day,trans_id,trans_sold,trade_size,mkt,put,ctr,price,gross,broker_id,trans_num])
 
                             elif row[4][3] == ' ' and row[4][-3:] == 'Put':
                                 mkt = row[4][:3]
