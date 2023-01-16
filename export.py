@@ -44,15 +44,19 @@ def export_fx_log_records():
     
     except:
         pass
-export_fx_log_records()
+# export_fx_log_records()
 ################################# End add fx_log RECORDS ################################################
 
 ################################# Begin add fx_unmatched RECORDS ######################################
+
+## fixme edge case not capturing all rows (6JUN2020_test.csv); problem likely in fx_unmatched_export_records() in fx.py
 # add fx_unmatched records to the database
 def export_unmatched_records():
     try:
         log_entry = fx.fx_unmatched_export_records()
-        database.fx_unmatched_add_many(log_entry)
+        # for row in log_entry:
+        #     print(row)
+        # database.fx_unmatched_add_many(log_entry)
     except:
         pass
 export_unmatched_records()
@@ -65,6 +69,7 @@ matched_lst = []
 # function combines rows in fx_unmatched table with the same open_id into a single row
 def match():
     data = cur.execute(''' SELECT * FROM fx_unmatched GROUP BY open_id, close_id ''' )
+
     # entry_lst contains rows with only open_ids
     # exit_lst contains rows with only close_id
     entry_lst = []
@@ -84,7 +89,6 @@ def match():
             item[1][15],item[1][16],item[1][17],item[1][18],item[1][19])
             )
     return matched_lst
-
 
 # function exports the matched transactions from fx_unmatched table to fx_log table
 # function removes duplicates to avoid a UNIQUE CONSTRAINT ERROR
@@ -143,14 +147,14 @@ def export_matched_record():
 
     for entry in matched_rows_lst2:
         if entry in fx_log_data:
-            print("\n-------------UNIQUE CONSRAINT: duplicate row------------")
-            print(entry)
+            # print("\n-------------UNIQUE CONSRAINT: duplicate row------------")
+            # print(entry)
             pass
         else:
             export_matched_rows_lst.append(entry)
 
     log_entry = export_matched_rows_lst
-    database.fx_log_add_many(log_entry)
+    # database.fx_log_add_many(log_entry)
 
 export_matched_record()
 ############################ End add matched records to fx_log table #########################
@@ -183,7 +187,7 @@ def export_fx_commissions_records():
         database.fx_commissions_add_many(log_entry)
     except:
         pass
-export_fx_commissions_records()
+# export_fx_commissions_records()
 ############################ End add records to fx_commissions table #########################
 
 ############################ Begin add records to interest_debit table #######################
@@ -214,7 +218,7 @@ def export_fx_interest_debit_records():
         database.fx_interest_debit_add_many(log_entry)
     except:
         pass
-export_fx_interest_debit_records()
+# export_fx_interest_debit_records()
 ############################ End add records to interest_debit table #########################
 
 ############################ Begin add records to fx_interest_income table #######################
@@ -243,7 +247,7 @@ def export_fx_interest_credit_records():
         database.fx_interest_credit_add_many(log_entry)
     except:
         pass
-export_fx_interest_credit_records()
+# export_fx_interest_credit_records()
 ############################ End add records to fx_interest_income table #########################
 
 ############################ Begin add records to fx_broker_credit_income table ###################
@@ -272,7 +276,7 @@ def export_fx_broker_credit_records():
         database.fx_broker_credit_income_add_many(log_entry)
     except:
         pass
-export_fx_broker_credit_records()
+# export_fx_broker_credit_records()
 ############################ End add records to broker_credit_income table #####################
 
 ################################## Begin add td_options_log RECORDS ##############################################
