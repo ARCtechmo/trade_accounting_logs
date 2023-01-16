@@ -119,6 +119,18 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
 
                 fx_create_dict_open_close_trans_ids(transfxlst,unmatched_lst,matched_lst)
 
+                # task use this to test the matched_lst
+                for row in matched_lst:
+                    print(row)
+                
+                print("\n")
+                # bug not capturing all rows (see your notes) - test on 6JUN2020_text.csv
+                # bug the open id is not captured in the original unmatched_lst
+                # task use this to test if all unmatched rows are captured in unmatched_lst list
+                print("----------TEST: unmatched_lst----------")
+                for row in unmatched_lst:
+                    print(row)
+
                 # fxlst2 contains rows only with open and closed /  open transactions
                 fxlst2 = []
 
@@ -553,7 +565,7 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
 
                 # unmatched_fxlst contains rows with open transactionns only (no open and close)
                 unmatched_fxlst = []
-
+                
                 def fx_unmatched_get_open_trans_id(lst1,lst2,lst3):
                     for row in lst1:
                         unmatched_open_id = row[3]
@@ -921,7 +933,7 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                              unmatched_market, unmatched_close_id, unmatched_open_id,
                              unmatched_buy_sell, unmatched_trade_size,
                              unmatched_open, unmatched_close, unmatched_gross, unmatched_net, broker]
-                            )
+                            )       
                 ################################# begin COMMISSIONS section #################################
                 # fx_comm_ymd_lst contains year-month-date formatted dates for the commissions logs
                 fx_comm_ymd_lst = []
