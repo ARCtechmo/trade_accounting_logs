@@ -131,27 +131,20 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
 
                 fx_remove_missing_open_close_trans_ids(fxlst,fxlst2)
 
-
-                # bug not capturing all rows (see your notes) - test on 6JUN2020_text.csv
-                # fixme possible solution:  matched rows transactions with close and open should have quantity remaining 0
-                # task finish working on this function - it works
-                def new_function(lst1,lst2):
+                # unmatched_lst2 contains additional open ids without matches (edge case)
+                # NOTE: new function added for an edge case that causes a missing row 
+                unmatched_lst2 = []
+                def fx_get_open_id(lst1,lst2,lst3):
                     for row in lst1:
                         quant = row[7]
                         quant = int(quant)
                         openid = row[3]
                         openid = int(openid)
                         if (quant > 0 and row[5] == 'No') or (quant > 0 and row[5] == 'no') or (quant > 0 and row[5] == 'NO'):
-                            lst2.append(openid)
-                    
-                    # test the modified unmatched_lst
-                    for id in lst2:
-                        print(id)
-
-                # task look at the fx_unmatched_get_open_trans_id function and test it
-                    
-                # task give this function a name
-                new_function(fxlst,unmatched_lst)
+                            lst3.append(openid)
+                        elif str(openid) in lst2:
+                            lst3.append(openid)
+                fx_get_open_id(fxlst,unmatched_lst,unmatched_lst2)
 
                 # open_trans_lst contains tuples with the open dates and open transaction ids
                 open_trans_lst = []
@@ -169,7 +162,7 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                 # fxlst3 contains all trade transaction rows with the needed data ready for formatting
                 fxlst3 = []
 
-                # step 5 matches inserts the opening date to the row with the matching closed date
+                # match inserts the opening date to the row with the matching closed date
                 def fx_match_insert_open_close_dates(lst1,lst2):
                     for x in lst1:
                         for tup in open_trans_lst:
@@ -576,13 +569,15 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                 # unmatched_fxlst contains rows with open transactionns only (no open and close)
                 unmatched_fxlst = []
                 
-                # task test this function becuase the new function addresses any edge cases for a missing row
+                # NOTE: modifications to this function addresses edge cases for a missing row
+                # NOTE: new function added for an edge case that causes a missing row 
                 def fx_unmatched_get_open_trans_id(lst1,lst2,lst3):
                     for row in lst1:
                         unmatched_open_id = row[3]
-                        if unmatched_open_id in lst2:
+                        unmatched_open_id = int(unmatched_open_id)
+                        if unmatched_open_id in lst2 and row[2] == '000000000':
                             lst3.append(row)
-                fx_unmatched_get_open_trans_id(fxlst,unmatched_lst,unmatched_fxlst)
+                fx_unmatched_get_open_trans_id(fxlst,unmatched_lst2,unmatched_fxlst)
 
                 # unmatched_open_date_lst contains the open date in YYYY-MM-DD HH:MM format
                 unmatched_open_date_lst = []
@@ -944,7 +939,7 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                              unmatched_market, unmatched_close_id, unmatched_open_id,
                              unmatched_buy_sell, unmatched_trade_size,
                              unmatched_open, unmatched_close, unmatched_gross, unmatched_net, broker]
-                            )       
+                            )                 
                 ################################# begin COMMISSIONS section #################################
                 # fx_comm_ymd_lst contains year-month-date formatted dates for the commissions logs
                 fx_comm_ymd_lst = []
