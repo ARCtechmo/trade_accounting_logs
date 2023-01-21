@@ -145,7 +145,7 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                         elif str(openid) in lst2:
                             lst3.append(openid)
                 fx_get_open_id(fxlst,unmatched_lst,unmatched_lst2)
-
+               
                 # open_trans_lst contains tuples with the open dates and open transaction ids
                 open_trans_lst = []
 
@@ -575,8 +575,13 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                     for row in lst1:
                         unmatched_open_id = row[3]
                         unmatched_open_id = int(unmatched_open_id)
+                        # capture duplicate open id with no closing_id rows in 6JUN2020_test
                         if unmatched_open_id in lst2 and row[2] == '000000000':
                             lst3.append(row)
+                        # capture close-open id rows in 7JUL2020_test
+                        elif unmatched_open_id in lst2 and int(row[2]) > 0 and row[5] == 'No' and int(row[7]) == 0:
+                            lst3.append(row)
+
                 fx_unmatched_get_open_trans_id(fxlst,unmatched_lst2,unmatched_fxlst)
 
                 # unmatched_open_date_lst contains the open date in YYYY-MM-DD HH:MM format
