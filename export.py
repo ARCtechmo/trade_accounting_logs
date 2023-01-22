@@ -44,12 +44,10 @@ def export_fx_log_records():
     
     except:
         pass
-# export_fx_log_records()
+export_fx_log_records()
 ################################# End add fx_log RECORDS ################################################
 
 ################################# Begin add fx_unmatched RECORDS ######################################
-# TASK test to see if records are matched and exported
-# task test all of 2020
 # add fx_unmatched records to the database
 def export_unmatched_records():
     try:
@@ -64,7 +62,6 @@ export_unmatched_records()
 # matched_lst contains the combined matched entry and exit into one row
 matched_lst = []
 
-# TASK test to see if records are matched and exported correctly
 # function combines rows in fx_unmatched table with the same open_id into a single row
 def match():
     data = cur.execute(''' SELECT * FROM fx_unmatched GROUP BY open_id, close_id ''' )
@@ -146,18 +143,16 @@ def export_matched_record():
 
     for entry in matched_rows_lst2:
         if entry in fx_log_data:
-            # print("\n-------------UNIQUE CONSRAINT: duplicate row------------")
-            # print(entry)
+            print("\n-------------UNIQUE CONSRAINT: duplicate row------------")
+            print(entry)
             pass
         else:
             export_matched_rows_lst.append(entry)
 
     log_entry = export_matched_rows_lst
-    for row in log_entry:
-        print(row)
-    # database.fx_log_add_many(log_entry)
+    database.fx_log_add_many(log_entry)
 
-# export_matched_record()
+export_matched_record()
 ############################ End add matched records to fx_log table #########################
 
 ############################ Begin add records to fx_commissions table #######################
