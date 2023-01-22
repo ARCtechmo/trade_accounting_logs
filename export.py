@@ -183,7 +183,7 @@ def export_fx_commissions_records():
         database.fx_commissions_add_many(log_entry)
     except:
         pass
-# export_fx_commissions_records()
+export_fx_commissions_records()
 ############################ End add records to fx_commissions table #########################
 
 ############################ Begin add records to interest_debit table #######################
@@ -214,10 +214,10 @@ def export_fx_interest_debit_records():
         database.fx_interest_debit_add_many(log_entry)
     except:
         pass
-# export_fx_interest_debit_records()
+export_fx_interest_debit_records()
 ############################ End add records to interest_debit table #########################
 
-############################ Begin add records to fx_interest_income table #######################
+############################ Begin add records to fx_interest_income table ###################
 # fx_int_credit_rows contains a list of the rows in the fx_interest_income table
 fx_int_credit_rows = []
 
@@ -243,7 +243,7 @@ def export_fx_interest_credit_records():
         database.fx_interest_credit_add_many(log_entry)
     except:
         pass
-# export_fx_interest_credit_records()
+export_fx_interest_credit_records()
 ############################ End add records to fx_interest_income table #########################
 
 ############################ Begin add records to fx_broker_credit_income table ###################
@@ -272,7 +272,7 @@ def export_fx_broker_credit_records():
         database.fx_broker_credit_income_add_many(log_entry)
     except:
         pass
-# export_fx_broker_credit_records()
+export_fx_broker_credit_records()
 ############################ End add records to broker_credit_income table #####################
 
 ################################## Begin add td_options_log RECORDS ##############################################
@@ -407,7 +407,7 @@ def export_td_misc_income_log_records():
 export_td_misc_income_log_records()
 ################################## End add td_misc_income log RECORDS ############################################
 
-################################## Begin add td_misc_debit log RECORDS ############################################
+################################## Begin add td_misc_debit log RECORDS ###########################################
 # add td_misc_debit log records
 
 # td_misc_debit_log_rows contains a list of the rows in the td_misc_debit table
@@ -440,8 +440,7 @@ def export_td_misc_debit_log_records():
 export_td_misc_debit_log_records()
 ################################## End add td_misc_debit log RECORDS ############################################
 
-
-################################## Begin add td_interest_income log RECORDS ############################################
+################################## Begin add td_interest_income log RECORDS #####################################
 # add td_interest_income log records
 
 # td_interest_income_log_rows contains a list of the rows in the td_interest_income table
@@ -505,7 +504,7 @@ def export_td_interest_debit_log_records():
     except:
         pass
 export_td_interest_debit_log_records()
-################################## End add td_interest_debit log RECORDS ############################################
+################################## End add td_interest_debit log RECORDS ########################################
 
 ################################# Begin add ib_options_log RECORDS ##############################################
 # add ib_options_log records
@@ -541,7 +540,8 @@ def export_ib_options_log_records():
 
 export_ib_options_log_records()
 ################################## End add ib_options_log RECORDS ##############################################
-################################## Begin add ib_commissions_fee log RECORDS ##############################################
+
+################################## Begin add ib_commissions_fee log RECORDS ####################################
 # add ib_commissions_fee log records
 
 # ib_comm_fee_log_rows contains a list of the rows in the ib_commissions_fee table
@@ -574,7 +574,7 @@ def export_ib_comm_fee_log_records():
         pass
 
 export_ib_comm_fee_log_records()
-################################## End add ib_commissions_fee log RECORDS ##############################################
+################################## End add ib_commissions_fee log RECORDS ########################################
 ################################## Begin add ib_other_fee log RECORDS ############################################
 # add ib_other_fee log records
 
@@ -609,7 +609,6 @@ def export_ib_other_fee_log_records():
     
 export_ib_other_fee_log_records()
 ################################## End add ib_other_fee log RECORDS ##############################################
-
 
 ############################## CLOSE THE DATABASE ##################################
 print("app closed....")
