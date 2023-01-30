@@ -3,7 +3,7 @@
 Section 1: Description
 The documentation is  a guide to utilize the database and the set of python program files.
 This is not a completely automated system and the program is specifically designed to work with specific broker 
-data that must be dowloaded as .csv files directly from the broker's webseit.  This application is designed for 
+data that must be dowloaded as .csv files directly from the broker's website.  This application is designed for 
 FOREX.com, Interactive Brokers, and TD Ameritrade .csv files.    
 
 
@@ -14,10 +14,10 @@ Section 2: Installation Requirements
 
 Section 3: Quickstart Guide
 
-1. Create a directory (folder) where you will runn this application. 
+1. Create a directory (folder) where you will run this application. 
 
 2. Download the python files to the folder you created (or clone the repository).
--You need the following files: database.py, broker.py, database.py, export.py, fx.py, ib.py, td.py, time_logs.py
+-You need the following files: database.py, broker.py, export.py, fx.py, ib.py, td.py, exprev.py, and time_logs.py.
 -Either clone the entire repository or open each file and save it to the directory (folder) you created.
 
 3. Install python3.  
@@ -46,7 +46,7 @@ Section 3: Quickstart Guide
 -For Windows systems type "python database.py" 
 -The database should now be open. 
 -Check to ensure the database was successfully created with the GUI or in the terminal.  
--For GNU/Linus and Windows type "sqlite3" then type ".open database.db" then type .schema.  The db schema should appear.    
+-For GNU/Linux and Windows type "sqlite3" then type ".open database.db" then type .schema.  The db schema should appear.    
 -Use the GUI. Use the sqlite DBbrowser you installed to open the database.db file.  There is a tab called "open database."
 
 6. View / Modify the brokers.py file.  
@@ -58,22 +58,22 @@ Section 3: Quickstart Guide
 -For instance, (3,FOREX_com) will assign the foreign key "3" to "FOREX_com" in the broker_id table.
 -**Important** If you change a foreign key number then you will need to go into the corresponding python file to reflect that change.
 -For example, if you change (3, "FOREX_com) to (1,"FORE_COM") then open the fx.py file, find the broker_id varialbe and change it (broker_id = 3 to broker_id = 2).
--You can alos modify the "activity_name" array in the brokers.py file by adding categories and / or modifying the numbers.  
+-You can also modify the "activity_name" array in the brokers.py file by adding categories and / or modifying the numbers.  
 -The FK relationships in the "activity_name" array are tied to the time_logs.py file.  You will need these foreign keys when you create time logs. 
 -Now go to the terminal and run the "brokers.py" file.  
 -In GNU / Linux type "python3 brokers.py".
 -In Windows type "python brokers.py" .
--It it will prompt the user to establish the foreign key relatiionships.  select "y" for both.  
--Open the GUI and check the activity_log and brokers tables to ensure they tables conatain the foreign keys.     
+-It will prompt the user to establish the foreign key relatiionships.  select "y" or "yes" for both.  
+-Open the GUI and check the activity_log and brokers tables to ensure they tables contain the foreign keys.     
      
 7. Run the export.py file.   
 
 Here is the process to utilize the file:
 1. Log on to your broker account.
 2. Select the the month and range (first day to last day) and get the data.
-3. ***IMPORTANT*** Select the first and last day of the month.  Do not vary the data range.
+3. ***IMPORTANT*** Select the first and last day of the month / year.  Do not vary the data range.
 4. Select .csv format and download the file to the same directory as the fx_dev_mode.py file.
-5. ***IMPORTANT*** Select the broker number
+5. ***IMPORTANT*** Select the broker number (this is programmed into the code as 3) 
      -  This number should match the foreign key in the "brokers" table of the database
      -  This number is tied to the foreign key relationships in the data and must be typed in correctly
      -  If you select the wrong number this will result in incorrect relations in the database
@@ -92,32 +92,8 @@ Criticality: low
 
 -Workaround: none
 
-Bug #2 
-Files: fx.csv, fx.py and export.py files
--Criticality: medium - edge case
--This bug applies only to the trade transactions NOT commissions, financing, etc...
--The forex broker .csv files contain columns for close_id and open_id for the trade transactions. 
--Complete trade transactions have both a close_id and open_id and a single row. Incomplete trade transactions only have an open_id.
--The forex broker .csv files do not match the trade transactions so the functions in the fx.py and export.py files match the trade transactions.
--The vast majority of trade transactions in the forex broekr .csv files have unique close_ids and unique open_ids.
--However, there are some instances where two or more trade transactions may share an open_id.
--Testing during development and alpha testing revealed a bug when two or more trade transactions share an open_id.
--The program may fail to export some or even all rows of trade transactions that share an open_id.  
--When you run your SQL queries and compare the queries to the broker statements and your numbers do not match this is most likely the cause. 
--The problem is that the program will not export trade transactions that share an open_id with another row AND where there is no close_id.  
-
--Workaround: Yes. See below. 
--First, identify the missing trade transactions with the common open_ids (note it could be in two different months).
--Second, if the two trade transactions with the same open_ids are in the same .csv file create a new .csv file with a 'save as' (don't modify the original).
--Third, in the newly modified .csv file deelte all rows except the row with the missing close_id.
--So now the modified .csv file should only contain a row with the trade transaction and only an open_id (not the one with the open_id and close_id).
--Now run export.py on the modified .csv file.
--Next, run export.py on the .csv for the next month that contains the close_id for the trade transactions so the program will match them.
--There are other scenarios but basically it comes down to modifying the .csv file(s) to get the program to accept the data.  
--This only happens on a small percentage of cases.  
--This bug will be corrected in future updates.      
-
-Possible Bug #3
+  
+Possible Bug #2
 Files: time_logs.py file
 -Criticality: low 
 -This is not so much about bugs but, rather, about incomplete testing.
