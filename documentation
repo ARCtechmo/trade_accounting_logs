@@ -11,8 +11,36 @@ Section 2: Installation Requirements
 -This application requires Python3 and sqlite3 to be installed on your machine.  
 -The sqlite DBbrowser is also recommended if you want to use a GUI. There are other sqlite GUIs available.   
 -A text editor such as VSCode or VIM or EMACS (there are many others available) is required.
+-**Critically Important: This application only works using .csv files in the 
 
-Section 3: Quickstart Guide
+Section 3: .csv files
+***Critically Important***
+-This application only works using .csv files injested into the database.  
+-The user must download the monthly and / or yearly .csv files from the broker website.
+-Each .csv file must contain the following parameters: Separated by tab, comma, and semicolon.
+-Download each .csv file to the same directory as the the other files for the application (database.py. export.py, fx.py, ib.py, td.py, etc...).
+
+FOREX.com .csv files
+-The user can obtain the monthly or yearly .csv files from the "Trade History" tab in the trading platform. 
+-Go to the "Trade History" tab then click the "Get Detailed History" tab.
+-Select the timeframe: "History Start Date" and "History End Date" by month or year.
+-Click search then select "export to .csv."
+
+Interactive Brokers .csv files
+-Go to the "Performance & Reports" tab then click "Statements."
+-Select the arrow (run) on the "Activity" row. 
+-For the "Activity Period" select monthly or annually.
+-Select CSV for the format. 
+
+TD Ameritrade
+-Select the "My Account" tab then click on "History & Statements."
+-Under "History & Statements" click on "Transactions."
+-On the "Type" drop down menu select "Trades."
+-In the "View dates" drop down options select a monthly or yearly range. 
+-Click download. 
+  
+
+Section 4: Quickstart Guide
 
 1. Create a directory (folder) where you will run this application. 
 
@@ -36,8 +64,8 @@ Section 3: Quickstart Guide
 5. Run the database.py file.
 -The database.py file creates the database upon initial use.
 -The database.py file also executes the queries on the database and therefore must be opened each time you run the application. 
--You must also manually close the database once you are finished.  It is not a good idea to leave the app open.
--You must manually open the database each time you run this application. 
+-**You must also manually close the database once you are finished.  It is not a good idea to leave the app open.
+-**You must manually open the database each time you run this application. 
 -Open the database.py file in your text editor.
 -Scroll to the last line of code where it says "conn.close()" and comment out this line. 
 -Now tun the program in your terminal. 
@@ -49,8 +77,11 @@ Section 3: Quickstart Guide
 -For GNU/Linux and Windows type "sqlite3" then type ".open database.db" then type .schema.  The db schema should appear.    
 -Use the GUI. Use the sqlite DBbrowser you installed to open the database.db file.  There is a tab called "open database."
 
-6. View / Modify the brokers.py file.  
+6. View / Modify the brokers.py file and Set the Foreign Key Relationships.  
+***Critically Important***
 -The brokers.py  file creates the foreign key relationships for the brokers and the activity types (e.g. trading, accounting, etc...).
+-**Ensure the database is open (see the instructions for the database.py file).
+-Run the application in the same directory as the .py and database.db files.
 -The first time you run this program you need to view and accept the defaults or modify them. 
 -Use your text editor to open the brokers.py file.  
 -There are two arrays (or lists) in the brokers.py file called "bk_name" and "activity_name".
@@ -66,18 +97,19 @@ Section 3: Quickstart Guide
 -It will prompt the user to establish the foreign key relatiionships.  select "y" or "yes" for both.  
 -Open the GUI and check the activity_log and brokers tables to ensure they tables contain the foreign keys.     
      
-7. Run the export.py file.   
+7. Run the export.py file.
+-The export.py file exports the transaction records into the database. 
+-**Ensure the database is open (see the instructions for the database.py file).
+-Make sure you are in the correct directory (folder where you saved the .py and database.db files). 
+-For linux type the following in the terminal: python3 export.py.
+-In a windows terminal type the following: python export.py
+-Follow the prompt instructions.    
 
-Here is the process to utilize the file:
-1. Log on to your broker account.
-2. Select the the month and range (first day to last day) and get the data.
-3. ***IMPORTANT*** Select the first and last day of the month / year.  Do not vary the data range.
-4. Select .csv format and download the file to the same directory as the fx_dev_mode.py file.
-5. ***IMPORTANT*** Select the broker number (this is programmed into the code as 3) 
-     -  This number should match the foreign key in the "brokers" table of the database
-     -  This number is tied to the foreign key relationships in the data and must be typed in correctly
-     -  If you select the wrong number this will result in incorrect relations in the database
-
+8. Run the exprev.py file
+-Use the exprev.py file to manually enter other income and expense items.
+-This is manual entry.
+-For Linux type the following: python3 exprev.py (python exprev.py for Windows). 
+-Follow the prompt. 
 
 
 Known Bugs and Workarounds
