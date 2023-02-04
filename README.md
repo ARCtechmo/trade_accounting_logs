@@ -1,1 +1,1 @@
-This will be the README.md file
+This application is in alpha testing.
