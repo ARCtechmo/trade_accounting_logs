@@ -288,10 +288,15 @@ CREATE TABLE IF NOT EXISTS ib_other_fee(
 ''')
 # brokers_table_functions
 def broker_add_many(bk_name):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.executemany("INSERT INTO brokers VALUES(?,?)", (bk_name), )
         conn.commit()
+
 def broker_show_all():
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.execute("SELECT * FROM brokers")
         items = cur.fetchall()
@@ -300,14 +305,22 @@ def broker_show_all():
 
 # activity table_functions
 def activity_add_many(activity_name):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.executemany("INSERT INTO activity VALUES(?,?)", (activity_name), )
         conn.commit()
+
 def activity_delete_one(id):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.execute("DELETE FROM activity WHERE rowid=? ",(id,) )
         conn.commit()
+
 def activity_show_all():
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.execute("SELECT * FROM activity")
         items = cur.fetchall()
@@ -316,120 +329,158 @@ def activity_show_all():
 
 # insert data into the time_log_table
 def time_log_add_many(log_entry):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.executemany("INSERT INTO time_log VALUES(?,?,?,?)", (log_entry), )
         conn.commit()
 
 # insert data into the non_trading_expense table
 def non_trading_expense_add_many(log_entry):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.executemany("INSERT INTO non_trading_expense VALUES(?,?,?,?,?,?)", (log_entry), )
         conn.commit
 
 # insert data into the non_trading_revenue table
 def non_trading_revenue_add_many(log_entry):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.executemany("INSERT INTO non_trading_revenue VALUES(?,?,?,?,?,?)", (log_entry), )
         conn.commit
 
 # insert data into the fx_log_table
 def fx_log_add_many(log_entry):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.executemany("INSERT INTO fx_log VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
 
 # insert data into the fx_unmatched table
 def fx_unmatched_add_many(log_entry):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.executemany("INSERT INTO fx_unmatched VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
 
 # insert data into the fx_commissions table
 def fx_commissions_add_many(log_entry):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.executemany("INSERT INTO fx_commissions VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
 
 # insert data into the fx_interest_debit table
 def fx_interest_debit_add_many(log_entry):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.executemany("INSERT INTO fx_interest_debit VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
 
 # insert data into the fx_interest_income table
 def fx_interest_credit_add_many(log_entry):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.executemany("INSERT INTO fx_interest_income VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
 
 # insert data into the fx_broker_credit_income table
 def fx_broker_credit_income_add_many(log_entry):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.executemany("INSERT INTO fx_broker_credit_income VALUES(?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
 
 # insert data into the td_options log table
 def td_options_log_add_many(log_entry):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.executemany("INSERT INTO td_options_log VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
 
 # insert data into the td_commissions log table
 def td_commissions_log_add_many(log_entry):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.executemany("INSERT INTO td_commissions VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
 
 # insert data into the td_regulation_fee log table
 def td_reg_fee_log_add_many(log_entry):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.executemany("INSERT INTO td_regulation_fee VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
 
 # insert data into the td_misc_income table
 def td_misc_income_log_add_many(log_entry):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.executemany("INSERT INTO td_misc_income VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
 
 # insert data into the td_misc_debit table
 def td_misc_debit_log_add_many(log_entry):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.executemany("INSERT INTO td_misc_debit VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
 
 # insert data into the td_interest_income table
 def td_interest_income_log_add_many(log_entry):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.executemany("INSERT INTO td_interest_income VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
 
 # insert data into the td_interest_debit table
 def td_interest_debit_log_add_many(log_entry):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.executemany("INSERT INTO td_interest_debit VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
 
 # insert data into the ib_options_log table
 def ib_options_log_add_many(log_entry):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.executemany("INSERT INTO ib_options_log VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
 
 # insert data into the ib_commissions_fee log table
 def ib_commissions_fee_log_add_many(log_entry):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.executemany("INSERT INTO ib_commissions_fee VALUES(?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
 
 # insert data into the ib_other_fee log table
 def ib_other_fee_log_add_many(log_entry):
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     with conn:
         cur.executemany("INSERT INTO ib_other_fee VALUES(?,?,?,?,?,?,?,?)", (log_entry), )
         conn.commit()
 
 conn.commit()
 ############################# CLOSE THE DATABASE ##############################
-print("\n-------------database closed---------------------")
+# print("\n-------------database closed---------------------")
 conn.close()
 ############################# CLOSE THE DATABASE ##############################
