@@ -6,7 +6,6 @@ This is not a completely automated system and the program is specifically design
 data that must be dowloaded as .csv files directly from the broker's website.  This application is designed for 
 FOREX.com, Interactive Brokers, and TD Ameritrade .csv files.    
 
-
 Section 2: Installation Requirements
 -This application requires Python3 and sqlite3 to be installed on your machine.  
 -The sqlite DBbrowser is also recommended if you want to use a GUI. There are other sqlite GUIs available.   
@@ -94,7 +93,7 @@ Section 4: Quickstart Guide
 -Now go to the terminal and run the "brokers.py" file.  
 -In GNU / Linux type "python3 brokers.py".
 -In Windows type "python brokers.py" .
--It will prompt the user to establish the foreign key relatiionships.  select "y" or "yes" for both.  
+-It will prompt the user to establish the foreign key relatiionships.  Select "y" or "yes" for both.  
 -Open the GUI and check the activity_log and brokers tables to ensure they tables contain the foreign keys.     
      
 7. Run the export.py file.
@@ -111,7 +110,11 @@ Section 4: Quickstart Guide
 -For Linux type the following: python3 exprev.py (python exprev.py for Windows). 
 -Follow the prompt. 
 
-
+9. time_logs.py file
+-The time_logs.py is exactly what is sounds like. The user can run this file to capture dates and times of each activity. 
+-This is an optional program for the user to enter log data. 
+- ****FINISH DOCUMENTATION ON THIS SECTION****
+ 
 Known Bugs and Workarounds
 
 Bug #1
