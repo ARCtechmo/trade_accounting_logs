@@ -137,7 +137,7 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                 def fx_get_open_id(lst1,lst2,lst3):
                     for row in lst1:
                         quant = row[7]
-                        quant = int(quant)
+                        quant = float(quant) # NOTE: chaged to float to solve an error message
                         openid = row[3]
                         openid = int(openid)
                         if (quant > 0 and row[5] == 'No') or (quant > 0 and row[5] == 'no') or (quant > 0 and row[5] == 'NO'):
@@ -579,7 +579,8 @@ if confirm_dir == "Y" or confirm_dir  == "y" or confirm_dir == "Yes" or \
                         if unmatched_open_id in lst2 and row[2] == '000000000':
                             lst3.append(row)
                         # capture close-open id rows in 7JUL2020_test
-                        elif unmatched_open_id in lst2 and int(row[2]) > 0 and row[5] == 'No' and int(row[7]) == 0:
+                        # NOTE: changed int to float type for 'float(row[7]) == 0:' to correct an error
+                        elif unmatched_open_id in lst2 and int(row[2]) > 0 and row[5] == 'No' and float(row[7]) == 0:
                             lst3.append(row)
 
                 fx_unmatched_get_open_trans_id(fxlst,unmatched_lst2,unmatched_fxlst)
