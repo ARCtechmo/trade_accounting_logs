@@ -10,8 +10,67 @@ cur = conn.cursor()
 
 # create the root widget and a title
 root = Tk()
-root.title("Database Query GUI App")
+root.title("Root:-----Database Query GUI App-----")
 root.geometry("50x50")
+
+# eliminate tear-off menus from the app
+root.option_add('*tearOff', FALSE)
+
+# create a mainframe window inside the root widget
+mainframe = ttk.Frame(root, padding="3 3 12 12")
+mainframe.grid(column=0, row=0, sticky=(N,W,E,S))
+
+# expand the frame to fit window resizing
+root.columnconfigure(0, weight=1)
+root.rowconfigure(0, weight=1)
+
+# create a menubar
+menubar = Menu(mainframe)
+
+# TASK: place within a function
+# same as root.option_add('*tearOff, False)
+file = Menu(menubar, tearoff=0) 
+edit = Menu(menubar, tearoff=0)
+view = Menu(menubar, tearoff=0)
+query = Menu(menubar, tearoff=0)
+help = Menu(menubar, tearoff=0)
+
+# TASK: place within a function
+# add menu items
+menubar.add_cascade(label='File', menu=file)
+menubar.add_cascade(label='Edit', menu=edit)
+menubar.add_cascade(label='View', menu=view)
+menubar.add_cascade(label='Query',menu=query)
+menubar.add_cascade(label='Help', menu=help)
+
+# TASK: place within a function
+# add file menu commands
+file.add_command(label='New File', command= None)
+file.add_command(label='Open...', command= None)
+file.add_command(label='Save', command= None)
+file.add_separator()
+file.add_command(label='Exit', command= root.destroy)
+
+# TASK: place within a function
+# add edit menu commands
+edit.add_command(label='Create', command=None)
+edit.add_command(label='Read',command=None)
+edit.add_command(label='Update', command=None)
+edit.add_command(label='Delete', command=None)
+
+# Start Here Next
+# TASK: place within a function
+# add view table_view submenus and commands
+table_view = Menu(view)
+view.add_cascade(menu=table_view, label='View Table')
+# task: add a function to show tables
+# select * from sqlite_schema
+view.add_command(command='Select tbl_name FROM sqlite_schema')
+view.add_command(command=database.broker_show_all)  # send output to a query result box
+
+# TASK: place within a function
+# add help menu command
+help.add_command(label='Link to github documentation', command=None)
 
 
 # use the gui to run the export.py program 
@@ -20,39 +79,25 @@ def func():
     pass
 
 # model to query the database
-def query():
-    conn = sqlite3.connect('database.db')
-    cur = conn.cursor()
-    with conn:
-        cur.execute("SELECT * FROM ib_options_log")
-        records = cur.fetchall()
-        print_records = ''
-        for record in records:
-            print_records += str(record) + "\n"
-        query_label = Label(root, text=print_records)
-        query_label.grid(row=1,column=0,columnspan=7)
-    conn.commit()
-
-
-# table selections
-
-# display tables function 
-
-# use radio button selection to feed into the query 
-
-
-
-# dropdown box selection
-
-# query button
-
-
-# quit button
-
+# def query():
+#     conn = sqlite3.connect('database.db')
+#     cur = conn.cursor()
+#     with conn:
+#         cur.execute("SELECT * FROM ib_options_log")
+#         records = cur.fetchall()
+#         print_records = ''
+#         for record in records:
+#             print_records += str(record) + "\n"
+#         query_label = Label(root, text=print_records)
+#         query_label.grid(row=1,column=0,columnspan=7)
+#     conn.commit()
 
 
 # close the database
 conn.close()
+
+# display menu
+root.config(menu=menubar)
 
  # create the main loop of the program
 root.mainloop()
