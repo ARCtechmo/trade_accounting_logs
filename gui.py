@@ -11,7 +11,7 @@ cur = conn.cursor()
 # create the root widget and a title
 root = Tk()
 root.title("Root:-----Database Query GUI App-----")
-root.geometry("50x50")
+root.geometry("25x25")
 
 # eliminate tear-off menus from the app
 root.option_add('*tearOff', FALSE)
@@ -34,6 +34,7 @@ edit = Menu(menubar, tearoff=0)
 view = Menu(menubar, tearoff=0)
 query = Menu(menubar, tearoff=0)
 help = Menu(menubar, tearoff=0)
+table_view = Menu(view, tearoff=0)
 
 # TASK: place within a function
 # add menu items
@@ -58,15 +59,17 @@ edit.add_command(label='Read',command=None)
 edit.add_command(label='Update', command=None)
 edit.add_command(label='Delete', command=None)
 
-# Start Here Next
 # TASK: place within a function
 # add view table_view submenus and commands
 table_view = Menu(view)
-view.add_cascade(menu=table_view, label='View Table')
-# task: add a function to show tables
-# select * from sqlite_schema
-view.add_command(command='Select tbl_name FROM sqlite_schema')
-view.add_command(command=database.broker_show_all)  # send output to a query result box
+view.add_command(label='Show Tables', command=database.tables_show_all)  
+view.add_command(label='Show brokers', command=database.broker_show_all)
+
+# START HERE NEXT 
+# add label to print output of view results
+results = StringVar()
+query_label = ttk.Label(mainframe, text="Query Results").grid(column=0, columnspan=5, row=15, sticky=(W,E,N,S))
+query_label = ttk.Label(mainframe, textvariable=results).grid(column=0, columnspan=5, row=5)
 
 # TASK: place within a function
 # add help menu command
