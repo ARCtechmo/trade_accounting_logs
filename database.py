@@ -286,6 +286,18 @@ CREATE TABLE IF NOT EXISTS ib_other_fee(
     )
 
 ''')
+# show all tables
+def tables_show_all():
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
+    with conn:
+        cur.execute("SELECT tbl_name FROM sqlite_schema")
+        records = cur.fetchall()
+        print_records = ''
+        for record in records:
+            print_records += str(record) + "\n"
+        print(print_records)
+
 # brokers_table_functions
 def broker_add_many(bk_name):
     conn = sqlite3.connect('database.db')
