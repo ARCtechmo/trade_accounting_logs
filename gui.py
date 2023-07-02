@@ -7,50 +7,43 @@ from tkinter import messagebox
 from tkinter import ttk
 import sqlite3
 
-####################### Begin: ChatGpt code ###########################
-# function to query the database and display the results
-def query_database(sql_statement):
+# function to query the database and display the results in a separate window
+# TASK THE FUNCTIONN WORKS!!  Next add a scroll bar.  
+def td_comm_show_all(table_name):
 
     # connect to the database
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
 
-    # execute the query
-    cur.execute(f"SELECT * FROM {sql_statement}")
+    # create and name a new window 
+    window = Toplevel(root)
+    window.title(f'Show All Query Results for {table_name}')
 
-    # fetch all rows
-    rows = cur.fetchall()
+    # create the SQL statement
+    SQL = f"SELECT * FROM {table_name}"
 
-    # close the database connection
+    # run the query and format the string output with one record on each line
+    with conn:
+        cur.execute(SQL)
+        records = cur.fetchall()
+        print_records = ''
+        for record in records:
+            print_records += str(record) + "\n"
+
+        # create a label widget box with the output
+        # place the output of the SQL statement into the child window
+        label = ttk.Label(window, text=print_records)
+        label.grid(column=0, row=0, columnspan=5)
+
+    # display the window
+    window.mainloop()
+
+    # close the cursor and database connections
     cur.close()
     conn.close()
 
-    # display the rows in a messagebox
-    messagebox.showinfo('Query Results', str(rows))
-####################### End: ChatGpt code ###########################
-
-##### TEST #####
-def query_database2(sql_statement):
-    return messagebox.showinfo("Query results", str(sql_statement))
-##### TEST #####
-
-# potential model to query the database
-# def query():
-#     conn = sqlite3.connect('database.db')
-#     cur = conn.cursor()
-#     with conn:
-#         cur.execute("SELECT * FROM ib_options_log")
-#         records = cur.fetchall()
-#         print_records = ''
-#         for record in records:
-#             print_records += str(record) + "\n"
-#         query_label = Label(root, text=print_records)
-#         query_label.grid(row=1,column=0,columnspan=7)
-#     conn.commit()
-
-
 # use the gui to run the export.py program 
-# task see the lambda function examples in radio buttons
+# NOTE: see the lambda function examples in radio buttons
 def func():
     pass
 
@@ -82,7 +75,7 @@ root.rowconfigure(0, weight=1)
 
 # FIXME option menus are detatching  
 # eliminate tear-off menus from the app
-# root.option_add('*tearOff', FALSE)
+root.option_add('*tearOff', FALSE)
 
 # create a mainframe window inside the root widget
 mainframe = ttk.Frame(root, padding="3 3 12 12")
@@ -125,11 +118,12 @@ menubar.add_cascade(label='Help', menu=help_menu)
 # display menu
 root.config(menu=menubar)
 
-################ Begin: chatGPT code #####################
-# create a button to trigger the qeury
-button = ttk.Button(mainframe, text='Query Database', command=lambda: query_database2(database.tables_show_all()))
+
+### TASK THIS WORKS!!  Use the model to create buttons for all of the other tables ####
+### TASK Think about a more efficient method instead of creating a button for each table (e.g. a dropdown box or radio buttons)
+# create a button to show all rows in the  td_commissions table
+button = ttk.Button(mainframe, text='Show All TD Commissions', command=lambda: td_comm_show_all('td_commissions'))
 button.grid(column=1, row=2, sticky=(W,E))
-################ End: chatGPT code #######################
 
 
 # create the main loop of the program
