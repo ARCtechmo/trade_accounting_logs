@@ -3,9 +3,13 @@
 import database
 import sqlite3
 from tkinter import *
-from tkinter import messagebox
 from tkinter import ttk
 import sqlite3
+
+# clear the previoius query results before adding new ones
+def clear_results():
+    return print('------------------TEST: clear previous results---------------------')
+
 
 # function to query the database and display the results in a separate window
 # TASK THE FUNCTIONN WORKS!!  Next add a scroll bar.  
@@ -15,9 +19,13 @@ def td_comm_show_all(table_name):
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
 
+    # clear the previous results
+    clear_results()
+
     # create and name a new window 
     window = Toplevel(root)
     window.title(f'Show All Query Results for {table_name}')
+
 
     # create the SQL statement
     SQL = f"SELECT * FROM {table_name}"
@@ -35,12 +43,53 @@ def td_comm_show_all(table_name):
         label = ttk.Label(window, text=print_records)
         label.grid(column=0, row=0, columnspan=5)
 
+
+        #TASK: get the scrollbar to work
+        ######## Begin: partial solution 1 ############
+        # create a text widget
+        # text = Text(window, width=10, height=10)
+        # text.grid(row=1, column=0, sticky=(E,W))
+
+        # create a scrollbar
+        # set scrollbar command to the text widget
+        # scrollbar = Scrollbar(window, orient='vertical', command=text.yview)
+        # scrollbar.grid(row=0,column=5, sticky=(N,S))
+
+        # communicate back to the scrollbar
+        # text['yscrollcommand'] = scrollbar.set
+        ######## End: partial solution 1 ############
+
+
+        #TASK: get the scrollbar to work
+        ######## Begin: partial solution 2 ############
+
+        # create a frame to hold the query results
+        results_frame = Frame(window)
+        results_frame.grid(row=1,column=0,columnspan=5)
+
+        # create a scrollbar
+        # set scrollbar command to the text widget
+        scrollbar = Scrollbar(results_frame, orient='vertical')
+        scrollbar.grid(row=1,column=1, sticky=(N,S))
+
+        # create a listbox to display the results
+        results_listbox = Listbox(results_frame, yscrollcommand=scrollbar.set)
+        results_listbox.grid(row=0,column=0,sticky=(N,S,E,W))
+        
+        # configure the scrollbar to scroll the listbox
+        scrollbar.config(command=results_listbox.yview)
+
+        ######## End: partial solution 2 ############
+
+       
+
     # display the window
     window.mainloop()
 
     # close the cursor and database connections
     cur.close()
     conn.close()
+
 
 # use the gui to run the export.py program 
 # NOTE: see the lambda function examples in radio buttons
