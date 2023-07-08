@@ -4,12 +4,10 @@ import database
 import sqlite3
 from tkinter import *
 from tkinter import ttk
-import sqlite3
 
 # clear the previoius query results before adding new ones
 def clear_results():
     return print('------------------TEST: clear previous results---------------------')
-
 
 # function to query the database and display the results in a separate window
 # TASK THE FUNCTIONN WORKS!!  Next add a scroll bar.  
@@ -26,7 +24,6 @@ def td_comm_show_all(table_name):
     window = Toplevel(root)
     window.title(f'Show All Query Results for {table_name}')
 
-
     # create the SQL statement
     SQL = f"SELECT * FROM {table_name}"
 
@@ -38,58 +35,35 @@ def td_comm_show_all(table_name):
         for record in records:
             print_records += str(record) + "\n"
 
-        # create a label widget box with the output
-        # place the output of the SQL statement into the child window
-        label = ttk.Label(window, text=print_records)
-        label.grid(column=0, row=0, columnspan=5)
+        # create a text widget to display the results
+        text_widget = Text(window, width=40, height=10)
+        text_widget.insert(END, print_records)
+        text_widget.grid(row=0,column=0, sticky=(N,S,E,W))
 
-
-        #TASK: get the scrollbar to work
-        ######## Begin: partial solution 1 ############
-        # create a text widget
-        # text = Text(window, width=10, height=10)
-        # text.grid(row=1, column=0, sticky=(E,W))
-
-        # create a scrollbar
-        # set scrollbar command to the text widget
-        # scrollbar = Scrollbar(window, orient='vertical', command=text.yview)
-        # scrollbar.grid(row=0,column=5, sticky=(N,S))
-
-        # communicate back to the scrollbar
-        # text['yscrollcommand'] = scrollbar.set
-        ######## End: partial solution 1 ############
-
-
-        #TASK: get the scrollbar to work
-        ######## Begin: partial solution 2 ############
-
-        # create a frame to hold the query results
-        results_frame = Frame(window)
-        results_frame.grid(row=1,column=0,columnspan=5)
-
-        # create a scrollbar
-        # set scrollbar command to the text widget
-        scrollbar = Scrollbar(results_frame, orient='vertical')
-        scrollbar.grid(row=1,column=1, sticky=(N,S))
-
-        # create a listbox to display the results
-        results_listbox = Listbox(results_frame, yscrollcommand=scrollbar.set)
-        results_listbox.grid(row=0,column=0,sticky=(N,S,E,W))
-        
-        # configure the scrollbar to scroll the listbox
-        scrollbar.config(command=results_listbox.yview)
-
-        ######## End: partial solution 2 ############
-
-       
-
-    # display the window
-    window.mainloop()
+        # create a scrollbar and associate it with the text widget
+        my_scrollbar = Scrollbar(window, command=text_widget.yview)
+        my_scrollbar.grid(row=0, column=1, sticky=((N,S)))
+        text_widget.config(yscrollcommand=my_scrollbar.set)
+    
+    # Configure the grid to expand with window resizing
+    window.grid_rowconfigure(0, weight=1)
+    window.grid_columnconfigure(0, weight=1)
 
     # close the cursor and database connections
     cur.close()
     conn.close()
 
+
+# Root Widget Method 1: create the root widget, a title, and eliminate tear-off menus from the app
+# Note: The 'tearoff' feature may or may not work depending on the operating system
+root = Tk()
+root.title("Root:-----Database Query GUI App-----")
+root.geometry("25x25") 
+root.option_add('*tearOff', FALSE)
+
+# expand the frame to fit window resizing
+root.columnconfigure(0, weight=1)
+root.rowconfigure(0, weight=1)
 
 # use the gui to run the export.py program 
 # NOTE: see the lambda function examples in radio buttons
@@ -113,19 +87,6 @@ def view_query_functionality():
 def help_functionality():
     pass # add help menu functionality
 
-# create the root widget and a title
-root = Tk()
-root.title("Root:-----Database Query GUI App-----")
-root.geometry("25x25")
-
-# expand the frame to fit window resizing
-root.columnconfigure(0, weight=1)
-root.rowconfigure(0, weight=1)
-
-# FIXME option menus are detatching  
-# eliminate tear-off menus from the app
-root.option_add('*tearOff', FALSE)
-
 # create a mainframe window inside the root widget
 mainframe = ttk.Frame(root, padding="3 3 12 12")
 mainframe.grid(column=0, row=0, sticky=(N,W,E,S))
@@ -133,13 +94,21 @@ mainframe.grid(column=0, row=0, sticky=(N,W,E,S))
 # create a menubar
 menubar = Menu(mainframe)
 
+############### Begin: No tear off model ##################
+# menubar = Menu(root)
+# notearoff = Menu(menubar, tearoff=0)
+# notearoff.add_command(label="No Tearoff")
+# menubar.add_cascade(label="No Tearoff", menu=notearoff)
+############### End: No tear off model ##################
+
 # create the 'File' and its options
-file_menu = Menu(menubar, tearoff=0) 
+file_menu = Menu(menubar, tearoff=0)
 file_menu.add_command(label='New File', command=file_functionality)
 file_menu.add_command(label='Open...', command=file_functionality)
 file_menu.add_command(label='Save', command=file_functionality)
 file_menu.add_separator()
 file_menu.add_command(label='Exit', command=root.destroy)
+# menubar.add_cascade(label='File', menu=file_menu)
 menubar.add_cascade(label='File', menu=file_menu)
 
 # create the 'Edit' and its options
