@@ -5,13 +5,12 @@ import sqlite3
 from tkinter import *
 from tkinter import ttk
 
-# clear the previoius query results before adding new ones
+# clear the previous query results before adding new ones
 def clear_results():
     return print('------------------TEST: clear previous results---------------------')
 
 # function to query the database and display the results in a separate window
-# TASK THE FUNCTIONN WORKS!!  Next add a scroll bar.  
-def td_comm_show_all(table_name):
+def show_all_rows(table_name):
 
     # connect to the database
     conn = sqlite3.connect('database.db')
@@ -70,20 +69,20 @@ root.rowconfigure(0, weight=1)
 def func():
     pass
 
-# function to hanlde the "File" menu options
+# function to handle the "File" menu options
 def file_functionality():
     pass # add file menu functionality
 
-# function to hanlde the "Edit" menu options
+# function to handle the "Edit" menu options
 def edit_functionality():
     pass # add edit menu functionality
 
-# function to hanlde the "View Query" menu options
+# function to handle the "View Query" menu options
 def view_query_functionality():
     pass # add view query menu functionality
 
 
-# function to hanlde the "Help" menu options
+# function to handle the "Help" menu options
 def help_functionality():
     pass # add help menu functionality
 
@@ -94,13 +93,6 @@ mainframe.grid(column=0, row=0, sticky=(N,W,E,S))
 # create a menubar
 menubar = Menu(mainframe)
 
-############### Begin: No tear off model ##################
-# menubar = Menu(root)
-# notearoff = Menu(menubar, tearoff=0)
-# notearoff.add_command(label="No Tearoff")
-# menubar.add_cascade(label="No Tearoff", menu=notearoff)
-############### End: No tear off model ##################
-
 # create the 'File' and its options
 file_menu = Menu(menubar, tearoff=0)
 file_menu.add_command(label='New File', command=file_functionality)
@@ -108,7 +100,6 @@ file_menu.add_command(label='Open...', command=file_functionality)
 file_menu.add_command(label='Save', command=file_functionality)
 file_menu.add_separator()
 file_menu.add_command(label='Exit', command=root.destroy)
-# menubar.add_cascade(label='File', menu=file_menu)
 menubar.add_cascade(label='File', menu=file_menu)
 
 # create the 'Edit' and its options
@@ -121,10 +112,11 @@ edit_menu.add_command(label='Paste Selection', command=edit_functionality)
 edit_menu.add_command(label='Undo', command=edit_functionality)
 menubar.add_cascade(label='Edit', menu=edit_menu)
 
+
+### TASK The lambda function works - add submenu items for each table
 # create the 'View' and its options
-# FIXME work on getting the output of the lamda function to display in a separate messagebox
 view_query_menu = Menu(menubar, tearoff=0)
-view_query_menu.add_command(label="All Rows", command=lambda: view_query_functionality(database.broker_show_all))
+view_query_menu.add_command(label="All Rows", command=lambda: show_all_rows('brokers'))
 menubar.add_cascade(label='View Query', menu=view_query_menu)
 
 # create the 'Help' and its options
@@ -137,12 +129,13 @@ menubar.add_cascade(label='Help', menu=help_menu)
 root.config(menu=menubar)
 
 
-### TASK THIS WORKS!!  Use the model to create buttons for all of the other tables ####
-### TASK Think about a more efficient method instead of creating a button for each table (e.g. a dropdown box or radio buttons)
+### NOTE: You could replicate buttons for each table and pass them through the show_all func but this is not efficient
 # create a button to show all rows in the  td_commissions table
-button = ttk.Button(mainframe, text='Show All TD Commissions', command=lambda: td_comm_show_all('td_commissions'))
+button = ttk.Button(mainframe, text='Show All TD Commissions', command=lambda: show_all_rows('td_commissions'))
 button.grid(column=1, row=2, sticky=(W,E))
 
+### TASK A more efficient method to select tables with combination of a dropdown box / radio button ###
+# NOTE: See the tkinter 'country selector listbox' example in the section on "More Widgets" 
 
 # create the main loop of the program
 root.mainloop()
