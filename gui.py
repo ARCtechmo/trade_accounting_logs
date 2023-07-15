@@ -53,6 +53,9 @@ def show_all_rows(table_name):
     conn.close()
 
 
+def displayResults(table_name):
+    pass
+
 # Root Widget Method 1: create the root widget, a title, and eliminate tear-off menus from the app
 # Note: The 'tearoff' feature may or may not work depending on the operating system
 root = Tk()
@@ -136,6 +139,55 @@ button.grid(column=1, row=2, sticky=(W,E))
 
 ### TASK A more efficient method to select tables with combination of a dropdown box / radio button ###
 # NOTE: See the tkinter 'country selector listbox' example in the section on "More Widgets" 
+
+# create a list of items for the listbox
+table_items = ['table 1', 'table 2', 'table 3','table 4', 'table 5', 'table 6']
+
+
+# set the font style and size for the listbox and labels
+listbox_font = ("Arial", 15)
+label_font = ("Arial",15)
+
+# create the listbox and place it on the grid
+listbox = Listbox(mainframe,height=5, font=listbox_font)
+listbox.grid(column=1,row=3,sticky=(W,E))
+
+# create the scrollbar and place it on the grid
+scrollbar = Scrollbar(mainframe, orient=VERTICAL, command=listbox.yview)
+scrollbar.grid(column=2, row=3, sticky=(N,S))
+listbox.config(yscrollcommand=scrollbar.set)
+
+
+# task fix the radiobutton so it is an actual button
+# fixme
+# radio_style = ttk.Style(root)
+# radio_style.configure("Custom.TRadiobutton", indicatorsize=15, indicatorshape="oval")
+
+# Insert the items into the Listbox
+for item in table_items:
+    listbox_frame = ttk.Frame(listbox)
+    listbox_frame.grid(sticky=(W,E))
+
+    table_label = ttk.Label(listbox_frame, text=item, font=label_font)
+    table_label.grid(column=0, row=0, sticky=(W))
+
+    # fixme
+    radio_style = ttk.Style(root)
+    # radio_style.configure("Custom.TRadiobutton", indicatorsize=15, indicatorshape="oval")
+    # radio_style.map("TRadiobutton", inidcatorshape=[("selected", "oval"),("!selected","oval")])
+    radio_style.map("Custom.TRadiobutton", indicatorshape=[('selected',"oval")])
+    radio_style.configure("TRadiobutton", indicatorsize=15)
+    
+    radio_var = StringVar()
+    radio_button = ttk.Radiobutton(listbox_frame, variable=radio_var, value=item, style="Custom.TRadiobutton")
+    radio_button.grid(column=1, row=0, padx=20, sticky=(W))
+
+    text_label = ttk.Label(listbox_frame, text='text to the right', font=15)
+    text_label.grid(column=2, row=0, padx=20, sticky=(W))
+
+    # insert new items at the bottmom of the Listbox
+    listbox.insert(END, listbox_frame)
+   
 
 # create the main loop of the program
 root.mainloop()
