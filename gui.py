@@ -69,6 +69,7 @@ root.rowconfigure(0, weight=1)
 
 # use the gui to run the export.py program 
 # NOTE: see the lambda function examples in radio buttons
+# NOTE: see Dialog Windows https://tkdocs.com/tutorial/windows.html
 def func():
     pass
 
@@ -137,57 +138,73 @@ root.config(menu=menubar)
 button = ttk.Button(mainframe, text='Show All TD Commissions', command=lambda: show_all_rows('td_commissions'))
 button.grid(column=1, row=2, sticky=(W,E))
 
-### TASK A more efficient method to select tables with combination of a dropdown box / radio button ###
-# NOTE: See the tkinter 'country selector listbox' example in the section on "More Widgets" 
-
 # create a list of items for the listbox
 table_items = ['table 1', 'table 2', 'table 3','table 4', 'table 5', 'table 6']
 
+def create_listbox():
 
-# set the font style and size for the listbox and labels
-listbox_font = ("Arial", 15)
-label_font = ("Arial",15)
+    # set the font style and size for the listbox and labels
+    listbox_font = ("Arial", 15)
+    label_font = ("Arial",15)
 
-# create the listbox and place it on the grid
-listbox = Listbox(mainframe,height=5, font=listbox_font)
-listbox.grid(column=1,row=3,sticky=(W,E))
+    # create the listbox and place it on the grid
+    listbox = Listbox(mainframe,height=5, font=listbox_font)
+    listbox.grid(column=1,row=3,sticky=(W,E))
 
-# create the scrollbar and place it on the grid
-scrollbar = Scrollbar(mainframe, orient=VERTICAL, command=listbox.yview)
-scrollbar.grid(column=2, row=3, sticky=(N,S))
-listbox.config(yscrollcommand=scrollbar.set)
+    # create the scrollbar and place it on the grid
+    scrollbar = Scrollbar(mainframe, orient=VERTICAL, command=listbox.yview)
+    scrollbar.grid(column=2, row=3, sticky=(N,S))
+    listbox.config(yscrollcommand=scrollbar.set)
 
+    # create a counter variable
+    count = 0
 
-# task fix the radiobutton so it is an actual button
-# fixme
-# radio_style = ttk.Style(root)
-# radio_style.configure("Custom.TRadiobutton", indicatorsize=15, indicatorshape="oval")
+    # Insert the tables into the Listbox
+    for item in table_items:
+        listbox_frame = ttk.Frame(listbox)
+        listbox_frame.grid(sticky=(W,E))
 
-# Insert the items into the Listbox
-for item in table_items:
-    listbox_frame = ttk.Frame(listbox)
-    listbox_frame.grid(sticky=(W,E))
+        table_label = ttk.Label(listbox_frame, text=item, font=label_font)
+        table_label.grid(column=0, row=0, sticky=(W))
 
-    table_label = ttk.Label(listbox_frame, text=item, font=label_font)
-    table_label.grid(column=0, row=0, sticky=(W))
+        # insert new items at the bottmom of the Listbox
+        listbox.insert(END, listbox_frame)
 
-    # fixme
-    radio_style = ttk.Style(root)
-    # radio_style.configure("Custom.TRadiobutton", indicatorsize=15, indicatorshape="oval")
-    # radio_style.map("TRadiobutton", inidcatorshape=[("selected", "oval"),("!selected","oval")])
-    radio_style.map("Custom.TRadiobutton", indicatorshape=[('selected',"oval")])
-    radio_style.configure("TRadiobutton", indicatorsize=15)
-    
-    radio_var = StringVar()
-    radio_button = ttk.Radiobutton(listbox_frame, variable=radio_var, value=item, style="Custom.TRadiobutton")
-    radio_button.grid(column=1, row=0, padx=20, sticky=(W))
+        # insert RadioButtons
+        # limit the number of RadioButton options to your preference
+        if count == 0:
+            radio_var = StringVar(listbox_frame, '1')
+            btn1 = Radiobutton(listbox_frame, 
+                            text='RadioButton1',
+                            value='some value',
+                            variable=radio_var,
+                            font=("Arial",15),
+                            height=2,
+                            indicatoron=TRUE)
+            btn1.grid(column=1, row=0, padx=20, sticky=(W))
 
-    text_label = ttk.Label(listbox_frame, text='text to the right', font=15)
-    text_label.grid(column=2, row=0, padx=20, sticky=(W))
-
-    # insert new items at the bottmom of the Listbox
-    listbox.insert(END, listbox_frame)
-   
+        elif count == 2:
+            btn2 = Radiobutton(listbox_frame, 
+                            text='RadioButton2',
+                            value='some value',
+                            variable=radio_var,
+                            font=("Arial",15),
+                            height=2,
+                            indicatoron=TRUE)
+            btn2.grid(column=1, row=1, padx=20, sticky=(W))
+        elif count == 4:
+            btn3 = Radiobutton(listbox_frame, 
+                            text='RadioButton3',
+                            value='some value',
+                            variable=radio_var,
+                            font=("Arial",15),
+                            height=2,
+                            indicatoron=TRUE)
+            btn3.grid(column=1, row=2, padx=20, sticky=(W))
+        
+        count +=1
+            
+create_listbox()
 
 # create the main loop of the program
 root.mainloop()
