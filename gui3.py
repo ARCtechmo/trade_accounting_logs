@@ -66,19 +66,17 @@ def display_tables():
     # return the tables
     return table_names
 
-# clear the previous query results before adding new ones
-def clear_results():
-    return print('------------------TEST: clear previous results---------------------')
+# function queries the database and displays the results in a separate window
+# add event parameter to show_all_rows function
+# accept events triggered from listbox selection/double-clicks
+def show_all_rows(event=None):
 
-# function to query the database and display the results in a separate window
-def show_all_rows(table_name):
+    # get selected table name from the listbox
+    table_name = lbox.get(ACTIVE)
 
     # connect to the database
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
-
-    # clear the previous results
-    clear_results()
 
     # create and name a new window 
     window = Toplevel(root)
@@ -91,20 +89,34 @@ def show_all_rows(table_name):
     with conn:
         cur.execute(SQL)
         records = cur.fetchall()
-        print_records = ''
-        for record in records:
-            print_records += str(record) + "\n"
+        # print_records = ''
+        # for record in records:
+        #     print_records += str(record) + "\n"
+
+        # create a text widget to display the results
+        # text_widget = Text(window, width=40, height=10)
+        # text_widget.insert(END, print_records)
+        # text_widget.grid(row=0,column=0, sticky=(N,S,E,W))
 
         # create a text widget to display the results
         text_widget = Text(window, width=40, height=10)
-        text_widget.insert(END, print_records)
+
+        # Configure tags for odd and even rows
+        text_widget.tag_configure('odd', background='white')
+        text_widget.tag_configure('even', background='#e6f2f0')
+
+        # Insert records with appropriate tag (odd or even)
+        for i, record in enumerate(records):
+            tag = 'odd' if i % 2 == 0 else 'even'
+            text_widget.insert(END, str(record) + "\n", tag)
+        
         text_widget.grid(row=0,column=0, sticky=(N,S,E,W))
 
         # create a scrollbar and associate it with the text widget
         my_scrollbar = Scrollbar(window, command=text_widget.yview)
         my_scrollbar.grid(row=0, column=1, sticky=((N,S)))
         text_widget.config(yscrollcommand=my_scrollbar.set)
-    
+
     # Configure the grid to expand with window resizing
     window.grid_rowconfigure(0, weight=1)
     window.grid_columnconfigure(0, weight=1)
@@ -121,10 +133,43 @@ query_names = {
 # variables
 query_name = StringVar()
 
-# function return the query values
-def run_query():
+# function returns values by year selection
+def show_by_year(table_name):
     pass
 
+# function returns the query values
+# when user click on the query button
+def run_query():
+
+    # get table name from selected listbox item
+    table_name = lbox.get(ACTIVE)
+
+    # get radio button value
+    query_type = query_name.get()
+
+    # select function to run based on radio button value
+    if query_type == 'show all':
+        show_all_rows(table_name)
+
+    elif query_type == 'by year':
+        show_by_year(table_name)
+
+# function returns the table value when the user double clicks  
+# output is based on user's radiobutton selection
+def on_double_click(event):
+    
+    # get table name from selected listbox item
+    table_name = lbox.get(ACTIVE)
+
+    # get radio button value
+    query_type = query_name.get()
+
+    # select function to run based on radio button value
+    if query_type == 'show all':
+        show_all_rows(table_name)
+
+    elif query_type == 'by year':
+        show_by_year(table_name)
 
 # create the frame for the tables and place on the grid
 tbl_frm = ttk.Frame(root, padding=(5,5,12,0))
@@ -161,13 +206,12 @@ b2 = ttk.Radiobutton(tbl_frm,
                      value='by year'
                      )  
 
-# create a button to run the query 
+# create a button to run the query
+# link the show_all_rows function to the "Run Query" button 
 run_query_btn = ttk.Button(tbl_frm, 
                          text='Run Query',
-                         command=show_all_rows,
+                         command=run_query,
                          default='active' )
-
-
 
 # grid all the widgets
 lbox.grid(column=0, row=0, rowspan=6, sticky=(N,S,E,W))
@@ -181,12 +225,22 @@ run_query_btn.grid(column=2, row=5, sticky=E, padx=5, pady=5)
 tbl_frm.grid_columnconfigure(0, weight=1)
 tbl_frm.grid_rowconfigure(5, weight=1)
 
-# set event bindings for when the selection in the listbox changes,
-# when the user double clicks the list, and when they hit the Return key
-lbox.bind('<<ListboxSelect>>',show_all_rows)
-lbox.bind('<Double-1>', show_all_rows)
-root.bind('<Return>', show_all_rows)
+# set event bindings 
+# events fire when the selection in the listbox changes,
+# when the user double clicks the list,
+# when the user hits the Return key
+# lbox.bind('<<ListboxSelect>>', show_all_rows) 
+# root.bind('<Return>', show_all_rows)
+lbox.bind('<Double-1>', on_double_click)
 
+# set the starting state of the interface
+# Select the first table in the listbox and the first radio button as the default
+lbox.selection_set(0)
+query_name.set('show all')
+
+# colorize alternating lines of the Listbox
+for i in range(0,len(lbox.get(0, END)),2):
+    lbox.itemconfigure(i, background='#f0f0ff')
 
 # create the main loop of the program
 root.mainloop()
