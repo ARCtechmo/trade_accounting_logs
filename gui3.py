@@ -134,8 +134,53 @@ query_names = {
 query_name = StringVar()
 
 # function returns values by year selection
-def show_by_year(table_name):
-    pass
+def show_by_year(table_name, year):
+
+    # get selected table name from the listbox
+    # table_name = lbox.get(ACTIVE)
+
+    # connect to the database
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
+
+    # create and name a new window 
+    window = Toplevel(root)
+    window.title(f'Show All Query Results for {table_name} in {year}')
+
+    # create the SQL statement
+    SQL = f"SELECT * FROM {table_name} WHERE year={year}"
+
+    # run the query and format the string output with one record on each line
+    with conn:
+        cur.execute(SQL)
+        records = cur.fetchall()
+      
+        # create a text widget to display the results
+        text_widget = Text(window, width=40, height=10)
+
+        # Configure tags for odd and even rows
+        text_widget.tag_configure('odd', background='white')
+        text_widget.tag_configure('even', background='#e6f2f0')
+
+        # Insert records with appropriate tag (odd or even)
+        for i, record in enumerate(records):
+            tag = 'odd' if i % 2 == 0 else 'even'
+            text_widget.insert(END, str(record) + "\n", tag)
+        
+        text_widget.grid(row=0,column=0, sticky=(N,S,E,W))
+
+        # create a scrollbar and associate it with the text widget
+        my_scrollbar = Scrollbar(window, command=text_widget.yview)
+        my_scrollbar.grid(row=0, column=1, sticky=((N,S)))
+        text_widget.config(yscrollcommand=my_scrollbar.set)
+
+    # Configure the grid to expand with window resizing
+    window.grid_rowconfigure(0, weight=1)
+    window.grid_columnconfigure(0, weight=1)
+
+    # close the cursor and database connections
+    cur.close()
+    conn.close()
 
 # function returns the query values
 # when user click on the query button
@@ -143,16 +188,14 @@ def run_query():
 
     # get table name from selected listbox item
     table_name = lbox.get(ACTIVE)
-
-    # get radio button value
-    query_type = query_name.get()
-
-    # select function to run based on radio button value
-    if query_type == 'show all':
+   
+    # return results based on user selection
+    if query_name.get() == 'show all':
         show_all_rows(table_name)
-
-    elif query_type == 'by year':
-        show_by_year(table_name)
+    
+    elif query_name.get() == 'by year':
+        year = year_entry.get()
+        show_by_year(table_name, year)
 
 # function returns the table value when the user double clicks  
 # output is based on user's radiobutton selection
@@ -193,6 +236,11 @@ scrollbar.config(command=lbox.yview)
 # create a label for the query options and place on the grid
 lbl = ttk.Label(tbl_frm, text="Select a query option:")
 
+##### begin new code ######
+year_label = ttk.Label(tbl_frm, text="Enter Year:")
+year_entry = ttk.Entry(tbl_frm)
+##### end new code ######
+
 # create the radio buttons for the query options
 b1 = ttk.Radiobutton(tbl_frm, 
                      text=query_names["show all"],
@@ -221,6 +269,11 @@ b1.grid(column=2, row=2, sticky=W, padx=20)
 b2.grid(column=2, row=3, sticky=W, padx=20)
 run_query_btn.grid(column=2, row=5, sticky=E, padx=5, pady=5)
 
+###### begin new code ########
+year_label.grid(column=2, row=4, sticky=E, padx=5, pady=5)
+year_entry.grid(column=3, row=4, sticky=W, padx=5, pady=5)
+###### end new code #########
+
 # frame expands as the window expands and fixes row in place  
 tbl_frm.grid_columnconfigure(0, weight=1)
 tbl_frm.grid_rowconfigure(5, weight=1)
@@ -241,6 +294,11 @@ query_name.set('show all')
 # colorize alternating lines of the Listbox
 for i in range(0,len(lbox.get(0, END)),2):
     lbox.itemconfigure(i, background='#f0f0ff')
+
+
+# TASK add more functionality
+# display column headers
+# return total gross ( see the sql statements for 2022 )
 
 # create the main loop of the program
 root.mainloop()
