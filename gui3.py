@@ -66,6 +66,24 @@ def display_tables():
     # return the tables
     return table_names
 
+def format_records(column_names, records):
+    # get the maximum width of each column
+    column_widths = [len(name) for name in column_names]
+    for record in records:
+        for i, cell in enumerate(record):
+            column_widths[i] = max(column_widths[i], len(str(cell)))
+
+    # create format string with appropriate width for each column
+    format_string = " | ".join("{:<" + str(width) + "}" for width in column_widths)
+
+    # format each row
+    formatted_records = [format_string.format(*record) for record in records]
+    
+    # format column names and add them at the start
+    formatted_records.insert(0, format_string.format(*column_names))
+
+    return formatted_records
+
 # function queries the database and displays the results in a separate window
 # add event parameter to show_all_rows function
 # accept events triggered from listbox selection/double-clicks
@@ -89,26 +107,25 @@ def show_all_rows(event=None):
     with conn:
         cur.execute(SQL)
         records = cur.fetchall()
-        # print_records = ''
-        # for record in records:
-        #     print_records += str(record) + "\n"
+
+        # get column names
+        column_names = [desc[0] for desc in cur.description]
+        formatted_records = format_records(column_names, records)
 
         # create a text widget to display the results
-        # text_widget = Text(window, width=40, height=10)
-        # text_widget.insert(END, print_records)
-        # text_widget.grid(row=0,column=0, sticky=(N,S,E,W))
-
-        # create a text widget to display the results
-        text_widget = Text(window, width=40, height=10)
+        text_widget = Text(window, width=40, height=10, font='Courier')
 
         # Configure tags for odd and even rows
         text_widget.tag_configure('odd', background='white')
         text_widget.tag_configure('even', background='#e6f2f0')
+        text_widget.tag_configure('bold', font=('Arial', 10, 'bold'))
 
+        # *** DO NOT DELETE THIS BLOCK OF CODE ***
         # Insert records with appropriate tag (odd or even)
-        for i, record in enumerate(records):
+        for i, record in enumerate(formatted_records):
             tag = 'odd' if i % 2 == 0 else 'even'
-            text_widget.insert(END, str(record) + "\n", tag)
+            text_widget.insert(END, record + "\n", tag)
+        # *** DO NOT DELETE THIS BLOCK OF CODE ***
         
         text_widget.grid(row=0,column=0, sticky=(N,S,E,W))
 
@@ -133,11 +150,10 @@ query_names = {
 # variables
 query_name = StringVar()
 
+
+# FIXME  TD and IB logs work great but gets all other tables that do not have a 'year' field
 # function returns values by year selection
 def show_by_year(table_name, year):
-
-    # get selected table name from the listbox
-    # table_name = lbox.get(ACTIVE)
 
     # connect to the database
     conn = sqlite3.connect('database.db')
@@ -148,24 +164,31 @@ def show_by_year(table_name, year):
     window.title(f'Show All Query Results for {table_name} in {year}')
 
     # create the SQL statement
-    SQL = f"SELECT * FROM {table_name} WHERE year={year}"
+    SQL = f"SELECT * FROM {table_name} WHERE year={year}"  # fixme may need to two SQL statements FX field is 'entry_year'
 
     # run the query and format the string output with one record on each line
     with conn:
         cur.execute(SQL)
         records = cur.fetchall()
-      
+
+        # get column names
+        column_names = [desc[0] for desc in cur.description]
+        formatted_records = format_records(column_names, records)
+
         # create a text widget to display the results
-        text_widget = Text(window, width=40, height=10)
+        text_widget = Text(window, width=40, height=10, font='Courier')
 
         # Configure tags for odd and even rows
         text_widget.tag_configure('odd', background='white')
         text_widget.tag_configure('even', background='#e6f2f0')
+        text_widget.tag_configure('bold', font=('Arial', 10, 'bold'))
 
+        # *** DO NOT DELETE THIS BLOCK OF CODE ***
         # Insert records with appropriate tag (odd or even)
-        for i, record in enumerate(records):
+        for i, record in enumerate(formatted_records):
             tag = 'odd' if i % 2 == 0 else 'even'
-            text_widget.insert(END, str(record) + "\n", tag)
+            text_widget.insert(END, record + "\n", tag)
+        # *** DO NOT DELETE THIS BLOCK OF CODE ***
         
         text_widget.grid(row=0,column=0, sticky=(N,S,E,W))
 
