@@ -84,6 +84,13 @@ def format_records(column_names, records):
 
     return formatted_records
 
+# error message for invalid entries when selecting tables and fields
+def show_error(message):
+    error_window = Toplevel(root)
+    error_window.title("Error")
+    error_label = Label(error_window, text=message, wraplength=250, justify="left")
+    error_label.grid(row=0, column=0, padx=20, pady=10)
+
 # function queries the database and displays the results in a separate window
 # add event parameter to show_all_rows function
 # accept events triggered from listbox selection/double-clicks
@@ -150,8 +157,6 @@ query_names = {
 # variables
 query_name = StringVar()
 
-
-# FIXME  TD and IB logs work great but gets all other tables that do not have a 'year' field
 # function returns values by year selection
 def show_by_year(table_name, year):
 
@@ -159,47 +164,58 @@ def show_by_year(table_name, year):
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
 
-    # create and name a new window 
-    window = Toplevel(root)
-    window.title(f'Show All Query Results for {table_name} in {year}')
+    # Determine if the table has 'year' or 'entry_year' field
+    SQL_check_year_field = f"PRAGMA table_info({table_name})"
+    cur.execute(SQL_check_year_field)
+    columns = [column[1] for column in cur.fetchall()]
+    year_field = 'year' if 'year' in columns else 'entry_year' if 'entry_year' in columns else None
 
-    # create the SQL statement
-    SQL = f"SELECT * FROM {table_name} WHERE year={year}"  # fixme may need to two SQL statements FX field is 'entry_year'
+    if year_field:
 
-    # run the query and format the string output with one record on each line
-    with conn:
-        cur.execute(SQL)
-        records = cur.fetchall()
-
-        # get column names
-        column_names = [desc[0] for desc in cur.description]
-        formatted_records = format_records(column_names, records)
-
-        # create a text widget to display the results
-        text_widget = Text(window, width=40, height=10, font='Courier')
-
-        # Configure tags for odd and even rows
-        text_widget.tag_configure('odd', background='white')
-        text_widget.tag_configure('even', background='#e6f2f0')
-        text_widget.tag_configure('bold', font=('Arial', 10, 'bold'))
-
-        # *** DO NOT DELETE THIS BLOCK OF CODE ***
-        # Insert records with appropriate tag (odd or even)
-        for i, record in enumerate(formatted_records):
-            tag = 'odd' if i % 2 == 0 else 'even'
-            text_widget.insert(END, record + "\n", tag)
-        # *** DO NOT DELETE THIS BLOCK OF CODE ***
+        # create and name a new window 
+        window = Toplevel(root)
+        window.title(f'Show All Query Results for {table_name} in {year}')
         
-        text_widget.grid(row=0,column=0, sticky=(N,S,E,W))
+        # create the SQL statement
+        SQL = f"SELECT * FROM {table_name} WHERE {year_field}={year}"
 
-        # create a scrollbar and associate it with the text widget
-        my_scrollbar = Scrollbar(window, command=text_widget.yview)
-        my_scrollbar.grid(row=0, column=1, sticky=((N,S)))
-        text_widget.config(yscrollcommand=my_scrollbar.set)
+        # run the query and format the string output with one record on each line
+        with conn:
+            cur.execute(SQL)
+            records = cur.fetchall()
 
-    # Configure the grid to expand with window resizing
-    window.grid_rowconfigure(0, weight=1)
-    window.grid_columnconfigure(0, weight=1)
+            # get column names
+            column_names = [desc[0] for desc in cur.description]
+            formatted_records = format_records(column_names, records)
+
+            # create a text widget to display the results
+            text_widget = Text(window, width=40, height=10, font='Courier')
+
+            # Configure tags for odd and even rows
+            text_widget.tag_configure('odd', background='white')
+            text_widget.tag_configure('even', background='#e6f2f0')
+            text_widget.tag_configure('bold', font=('Arial', 10, 'bold'))
+
+            # *** DO NOT DELETE THIS BLOCK OF CODE ***
+            # Insert records with appropriate tag (odd or even)
+            for i, record in enumerate(formatted_records):
+                tag = 'odd' if i % 2 == 0 else 'even'
+                text_widget.insert(END, record + "\n", tag)
+            # *** DO NOT DELETE THIS BLOCK OF CODE ***
+            
+            text_widget.grid(row=0,column=0, sticky=(N,S,E,W))
+
+            # create a scrollbar and associate it with the text widget
+            my_scrollbar = Scrollbar(window, command=text_widget.yview)
+            my_scrollbar.grid(row=0, column=1, sticky=((N,S)))
+            text_widget.config(yscrollcommand=my_scrollbar.set)
+
+        # Configure the grid to expand with window resizing
+        window.grid_rowconfigure(0, weight=1)
+        window.grid_columnconfigure(0, weight=1)
+
+    else:
+        show_error(f"Table {table_name} does not contain 'year' or 'entry_year' field")
 
     # close the cursor and database connections
     cur.close()
@@ -235,7 +251,13 @@ def on_double_click(event):
         show_all_rows(table_name)
 
     elif query_type == 'by year':
-        show_by_year(table_name)
+
+        # get the year from the entry field
+        year = year_entry.get()
+        if year.isdigit():
+            show_by_year(table_name, year)
+        else:
+            show_error("Year must be a number.")
 
 # create the frame for the tables and place on the grid
 tbl_frm = ttk.Frame(root, padding=(5,5,12,0))
@@ -317,11 +339,6 @@ query_name.set('show all')
 # colorize alternating lines of the Listbox
 for i in range(0,len(lbox.get(0, END)),2):
     lbox.itemconfigure(i, background='#f0f0ff')
-
-
-# TASK add more functionality
-# display column headers
-# return total gross ( see the sql statements for 2022 )
 
 # create the main loop of the program
 root.mainloop()
