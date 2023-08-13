@@ -1,3 +1,6 @@
+# TASK: test all of the functions and the conditionals to ensure error messages reutrn correctly 
+# TASK: added more functions for sql queries (see the sql file in the downloads directory)
+
 from tkinter import *
 from tkinter import ttk
 import database
@@ -49,9 +52,12 @@ query_names = {
                 'show all':'return all columns and rows',
                 'by year': 'return selected columns by year'
                }
-# variables
+# variable converts the queries into a string
 query_name = StringVar()
-select_columns = []
+
+# variables to store the selected columns
+selected_columns = []
+checkboxes = []
 
 # display all tables
 def display_tables():
@@ -120,30 +126,6 @@ def get_columns(table_name):
 
     return columns
 
-# Create checkboxes  for the columns 
-def select_columns(event):
-    global checkboxes, selected_columns
-    
-    # Store the selected columns in a variable.
-    checkboxes = []
-    selected_columns = []
-
-    # retrieve column names
-    table_name = lbox.get(ACTIVE)
-    columns = get_columns(table_name)
-
-    select_columns_window = Toplevel(root)
-    select_columns_window.title(f'Select Columns for {table_name}')
-
-    for column in columns:
-        column_var = BooleanVar()
-        checkbox = Checkbutton(select_columns_window, text=column, variable=column_var)
-        checkbox.grid(sticky=W)
-        checkboxes.append((column, column_var))
-
-    apply_button = Button(select_columns_window, text="Apply", command=apply_selected_columns)
-    apply_button.grid()
-
 # function queries the database and displays the results in a separate window
 # add event parameter to show_all_rows function
 # accept events triggered from listbox selection/double-clicks
@@ -202,26 +184,12 @@ def show_all_rows(event=None):
     cur.close()
     conn.close()
 
-# apply selected column
-def apply_selected_columns():
-    selected_columns.clear()
-    for column, column_var in checkboxes:
-        if column_var.get():
-            selected_columns.append(column)
-    year = year_entry.get()
-    table_name = lbox.get(ACTIVE)
-    if year.isdigit():
-        show_by_year(table_name, year)
-    else:
-        show_error("Year must be a number.")
-
 # function returns values by year selection
 def show_by_year(table_name, year):
 
     if not selected_columns:
-        show_error("Please select at least one column.")
-        return
-
+        return show_error("Please select at least one column.")
+        
     # connect to the database
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
@@ -286,50 +254,67 @@ def show_by_year(table_name, year):
     cur.close()
     conn.close()
 
-# function returns the query values
-# when user clicks on the query button
+# apply selected column
+def apply_selected_columns():
+    selected_columns.clear()
+    for column, column_var in checkboxes:
+        if column_var.get():
+            selected_columns.append(column)
+    year = year_entry.get()
+    table_name = lbox.get(ACTIVE)
+    if not year:
+        return show_error("apply_selected_columns() func:------Enter a year.-----.")
+    if year and not year.isdigit():
+        return show_error("apply_selected_columns() func:------Year must be a number-----.")
+    else:
+        return show_by_year(table_name, year)
+
+# NOTE: FUNCTION MUST BE BELOW THE FUNCTION apply_selected_columns()
+# NOTE: FUNCTION MUST BE BELOW THE FUNCTION get_columns()
+# Create checkboxes for the columns 
+def select_columns(event):
+
+    # retrieve column names
+    table_name = lbox.get(ACTIVE)
+    columns = get_columns(table_name)
+
+    select_columns_window = Toplevel(root)
+    select_columns_window.title(f'Select Columns for {table_name}')
+
+    for column in columns:
+        column_var = BooleanVar()
+        checkbox = Checkbutton(select_columns_window, text=column, variable=column_var)
+        checkbox.grid(sticky=W)
+        checkboxes.append((column, column_var))
+
+    apply_button = Button(select_columns_window, text="Apply", command=apply_selected_columns)
+    apply_button.grid()
+
+# return the query values when user clicks on the query button
 def run_query():
 
     # get table name from selected listbox item
     table_name = lbox.get(ACTIVE)
-   
-    # Check if at least one column is selected
-    if query_name.get() == 'by year' and not any(column_var.get() for _, column_var in checkboxes):
-        show_error("Please select at least one column.")
-        return
 
-    # Return results based on user selection
-    if query_name.get() == 'show all':
-        show_all_rows(table_name)
-    
-    elif query_name.get() == 'by year':
+    # get radio button value
+    query_type = query_name.get()
+
+    # select function to run based on radio button value
+    if query_type == 'show all':
+        return show_all_rows(table_name)
+        
+    elif query_type == 'by year':
         year = year_entry.get()
-        if year.isdigit():
-            apply_selected_columns()
-        else:
-            show_error("Year must be a number")
+        if not year:
+            return show_error("run_query() func:----Please enter a year.----")
+        if not year.isdigit():
+            return show_error("run_query() func:----Year must be a number.----")
+        if not any (column_var.get() for _, column_var in checkboxes):
+            return show_error("run_query() func:----Please select at least one column.----")
+    else:
+        year = year_entry.get()
+        return show_by_year(table_name, year)
 
-#### BEGIN: Old function  ##########
-# function returns the query values
-# when user click on the query button
-# def run_query():
-
-    # get table name from selected listbox item
-    # table_name = lbox.get(ACTIVE)
-   
-    # return results based on user selection
-    # if query_name.get() == 'show all':
-    #     show_all_rows(table_name)
-    
-    # elif query_name.get() == 'by year':
-    #     year = year_entry.get()
-    #     if year.isdigit():
-    #         show_by_year(table_name, year, select_columns)
-    #     else:
-    #         show_error("Year must be a number")
-#### END old function ###########
-
-##### BEGIN: Modified function 2 #####
 # function executed when user double-clicks on a table in the listbox
 def on_double_click(event):
 
@@ -339,78 +324,21 @@ def on_double_click(event):
     # get radio button value
     query_type = query_name.get()
 
-    # Check if "by year" radio button is selected
-    if query_type == 'by year':
-        year = year_entry.get()
-        if not year:
-            show_error("Please enter a year.")
-            return
-        if not year.isdigit():
-            show_error("Year must be a number.")
-            return
-        if not any(column_var.get() for _, column_var in checkboxes):
-            show_error("Please select at least one column.")
-            return
-
     # select function to run based on radio button value
     if query_type == 'show all':
-        show_all_rows(table_name)
+        return show_all_rows(table_name)
+        
     elif query_type == 'by year':
-        show_by_year(table_name, year)
-######## END: Modified function 2 ###########
-
-#### BEGIN: Modified function 1  ##########
-# function executed when user double-clicks on a table in the listbox
-# def on_double_click(event):
-
-    # get table name from selected listbox item
-    # table_name = lbox.get(ACTIVE)
-
-    # get radio button value
-    # query_type = query_name.get()
-
-    # Check if "by year" radio button is selected and any column is selected
-    # if query_type == 'by year' and not any(column_var.get() for _, column_var in checkboxes):
-    #     show_error("Please select at least one column.")
-    #     return
-
-    # select function to run based on radio button value
-    # if query_type == 'show all':
-    #     show_all_rows(table_name)
-    # elif query_type == 'by year':
-
-        # get the year from the entry field
-        # year = year_entry.get()
-        # if year.isdigit():
-        #     show_by_year(table_name, year)
-        # else:
-        #     show_error("Year must be a number.")
-#### End: Modified function 1  ##########
-
-#### BEGIN: original function  ##########
-# function returns the table value when the user double clicks  
-# output is based on user's radiobutton selection
-# def on_double_click(event):
-    
-    # get table name from selected listbox item
-    # table_name = lbox.get(ACTIVE)
-
-    # get radio button value
-    # query_type = query_name.get()
-
-    # select function to run based on radio button value
-    # if query_type == 'show all':
-    #     show_all_rows(table_name)
-
-    # elif query_type == 'by year':
-
-        # get the year from the entry field
-        # year = year_entry.get()
-        # if year.isdigit():
-        #     show_by_year(table_name, year)
-        # else:
-        #     show_error("Year must be a number.")
-#### END original function ###########
+        year = year_entry.get()
+        if not year:
+            return show_error("on_double_click() func:----Please enter a year.----")
+        if not year.isdigit():
+            return show_error("on_double_click() func:----Year must be a number.----")
+        if not any (column_var.get() for _, column_var in checkboxes):
+            return show_error("on_double_click() func:----Please select at least one column.----")
+    else:
+        year = year_entry.get()
+        return show_by_year(table_name, year)
 
 # create the frame for the tables and place on the grid
 tbl_frm = ttk.Frame(root, padding=(5,5,12,0))
@@ -462,7 +390,7 @@ run_query_btn = ttk.Button(tbl_frm,
 # grid all the widgets
 lbox.grid(column=0, row=0, rowspan=6, sticky=(N,S,E,W))
 scrollbar.grid(column=1, row=0, rowspan=6, sticky=(N,S))
-lbl.grid(column=2, row=1, padx=10, pady=5)
+lbl.grid(column=2, row=1, padx=10, pady=5, sticky=W)
 b1.grid(column=2, row=2, sticky=W, padx=20)
 b2.grid(column=2, row=3, sticky=W, padx=20)
 run_query_btn.grid(column=2, row=7, sticky=E, padx=5, pady=5)
@@ -494,5 +422,3 @@ for i in range(0,len(lbox.get(0, END)),2):
 # create the main loop of the program
 root.mainloop()
 
-# task added more functions for sql queries (see the sql file in the downloads directory)
-# use the show_all() function as a model
