@@ -1,5 +1,7 @@
-# TASK: test all of the functions and the conditionals to ensure error messages reutrn correctly 
+
+# FIXME Security: Using string formats to create SQL statements (e.g., f"SELECT * FROM {table_name}") exposes the application to SQL injection attacks 
 # TASK: added more functions for sql queries (see the sql file in the downloads directory)
+
 
 from tkinter import *
 from tkinter import ttk
@@ -273,6 +275,9 @@ def apply_selected_columns():
 # NOTE: FUNCTION MUST BE BELOW THE FUNCTION get_columns()
 # Create checkboxes for the columns 
 def select_columns(event):
+
+    # clear previous checkboxes
+    checkboxes.clear()
 
     # retrieve column names
     table_name = lbox.get(ACTIVE)
