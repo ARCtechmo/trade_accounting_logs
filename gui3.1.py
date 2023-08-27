@@ -1,6 +1,6 @@
 
 # FIXME Security: Using string formats to create SQL statements (e.g., f"SELECT * FROM {table_name}") exposes the application to SQL injection attacks 
-# TASK: added more functions for sql queries (see the sql file in the downloads directory)
+# TASK: add more functions for sql queries
 
 
 from tkinter import *
