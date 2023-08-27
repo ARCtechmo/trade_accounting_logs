@@ -1,6 +1,8 @@
 
 # FIXME Security: Using string formats to create SQL statements (e.g., f"SELECT * FROM {table_name}") exposes the application to SQL injection attacks 
-# TASK: add more functions for sql queries
+# TASK: add more functions for sql queries - Try a new approach.  No new buttons because this is not working.  
+# Use the query menu item to return the gross (see the chatGPT history for the the function)
+# the output will be right in the table frame.  
 
 
 from tkinter import *
