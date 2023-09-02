@@ -42,8 +42,8 @@ editMenu.add_command(label="Paste", command=menuItemSelected)
 # Create view menu
 viewMenu = Menu(menubar)
 menubar.add_cascade(label="View Query", menu=viewMenu)
-viewMenu.add_command(label="Query 1", command=menuItemSelected)
-viewMenu.add_command(label="Query 2", command=menuItemSelected)
+viewMenu.add_command(label="Gross P/L", command=menuItemSelected)
+viewMenu.add_command(label="Commissions", command=menuItemSelected)
 
 # Create help menu
 helpMenu = Menu(menubar)
