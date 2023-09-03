@@ -1,9 +1,10 @@
 
 # FIXME Security: Using string formats to create SQL statements (e.g., f"SELECT * FROM {table_name}") exposes the application to SQL injection attacks 
-# TASK: add more functions for sql queries - Try a new approach.  No new buttons because this is not working.  
-# Use the query menu item to return the gross (see the chatGPT history for the the function)
-# the output will be right in the table frame.  
-
+# TASK: Use the display_commissions() function as a model:
+# 1) Add functions for ineterest debit and credit
+# 2) Add functions for broker credit / misc credit
+# 3) Add functions for fees
+# 4) Add functions for roundtrip trades
 
 from tkinter import *
 from tkinter import ttk
@@ -21,6 +22,9 @@ def display_gross_pl():
     global query_output_frame
     if query_output_frame:
         query_output_frame.destroy()
+    
+    # Retrieve year from entry
+    year = year_entry.get()
 
     # Create a new frame to hold the labels
     query_output_frame = Frame(bg="white")
@@ -32,26 +36,25 @@ def display_gross_pl():
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
     
-    # fixme: need a label to change the year
     # SQL statement to fetch Gross P/L
-    SQL_fx = "SELECT SUM(gross) FROM fx_log WHERE entry_year = 2022;"
-    SQL_ib = "SELECT SUM(gross) FROM ib_options_log WHERE year = 2022;"
-    SQL_td = "SELECT SUM(gross) FROM td_options_log WHERE year = 2022;"
+    SQL_fx = "SELECT SUM(gross) FROM fx_log WHERE entry_year = ?;"
+    SQL_ib = "SELECT SUM(gross) FROM ib_options_log WHERE year = ?;"
+    SQL_td = "SELECT SUM(gross) FROM td_options_log WHERE year = ?;"
     
     # Execute the queries and fetch the results
     with conn:
 
-        cur.execute(SQL_fx)
+        cur.execute(SQL_fx, (year,))
         records_fx = cur.fetchall()
         sum_fx = records_fx[0][0] if records_fx and records_fx[0][0] is not None else 0
         formatted_fx = "{:.2f}".format(sum_fx)
 
-        cur.execute(SQL_ib)
+        cur.execute(SQL_ib, (year,))
         records_ib = cur.fetchall()
         sum_ib = records_ib[0][0] if records_ib and records_ib[0][0] is not None else 0
         formatted_ib = "{:.2f}".format(sum_ib)
 
-        cur.execute(SQL_td)
+        cur.execute(SQL_td, (year,))
         records_td = cur.fetchall()
         sum_td = records_td[0][0] if records_td and records_td[0][0] is not None else 0
         formatted_td = "{:.2f}".format(sum_td)
@@ -86,6 +89,9 @@ def display_commissions():
     global query_output_frame
     if query_output_frame:
         query_output_frame.destroy()
+    
+    # Retrieve year from entry
+    year = year_entry.get()
 
     # Create a new frame to hold the labels
     query_output_frame = Frame(bg="white")
@@ -96,26 +102,25 @@ def display_commissions():
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
     
-    # fixme: need a label to change the year
     # SQL statement to fetch Gross P/L
-    SQL_fx = "SELECT SUM(commissions_cost) FROM fx_commissions WHERE entry_year = 2022;"
-    SQL_ib = "SELECT SUM(comm_cost) FROM ib_commissions_fee WHERE year = 2022;"
-    SQL_td = "SELECT SUM(comm_cost) FROM td_commissions WHERE year = 2022;"
+    SQL_fx = "SELECT SUM(commissions_cost) FROM fx_commissions WHERE entry_year = ?;"
+    SQL_ib = "SELECT SUM(comm_cost) FROM ib_commissions_fee WHERE year = ?;"
+    SQL_td = "SELECT SUM(comm_cost) FROM td_commissions WHERE year = ?;"
     
     # Execute the queries and fetch the results
     with conn:
 
-        cur.execute(SQL_fx)
+        cur.execute(SQL_fx,(year,))
         records_fx = cur.fetchall()
         sum_fx = records_fx[0][0] if records_fx and records_fx[0][0] is not None else 0
         formatted_fx = "{:.2f}".format(sum_fx)
 
-        cur.execute(SQL_ib)
+        cur.execute(SQL_ib,(year,))
         records_ib = cur.fetchall()
         sum_ib = records_ib[0][0] if records_ib and records_ib[0][0] is not None else 0
         formatted_ib = "{:.2f}".format(sum_ib)
         
-        cur.execute(SQL_td)
+        cur.execute(SQL_td,(year,))
         records_td = cur.fetchall()
         sum_td = records_td[0][0] if records_td and records_td[0][0] is not None else 0
         formatted_td = "{:.2f}".format(sum_td)
