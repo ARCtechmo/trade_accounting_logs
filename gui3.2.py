@@ -10,17 +10,29 @@ from tkinter import ttk
 import database
 import sqlite3
 
+
+# Global variable to keep track of the query_output_frame
+query_output_frame = None
+
 # Function to display Gross P/L data within the tbl_frm
 def display_gross_pl():
+    
+    # clear the current content
+    global query_output_frame
+    if query_output_frame:
+        query_output_frame.destroy()
 
     # Create a new frame to hold the labels
-    output_frame = Frame(bg="white")
-    output_frame.grid(row=6, column=0, columnspan=4) 
+    query_output_frame = Frame(bg="white")
+    query_output_frame.grid(
+        row=6, column=0, columnspan=4, sticky=W, pady=10, padx=10
+        ) 
 
     # connect to the database
     conn = sqlite3.connect('database.db')
     cur = conn.cursor()
     
+    # fixme: need a label to change the year
     # SQL statement to fetch Gross P/L
     SQL_fx = "SELECT SUM(gross) FROM fx_log WHERE entry_year = 2022;"
     SQL_ib = "SELECT SUM(gross) FROM ib_options_log WHERE year = 2022;"
@@ -51,26 +63,101 @@ def display_gross_pl():
         formatted_gross_pl = "{:.2f}".format(total_gross_pl)
 
         # Create labels inside the output frame to display individual Gross P/L
-        fx_label = Label(output_frame, text=f"FX Gross P/L: {formatted_fx}", bg="white", wraplength=250, justify="left")
-        fx_label.grid(row=0, column=0, padx=20, pady=10)
+        fx_label = Label(query_output_frame, text=f"FX Gross P/L: {formatted_fx}", bg="white", wraplength=250, justify="left",font='bold')
+        fx_label.grid(row=0, column=0, padx=10, pady=10, sticky=W)
 
-        ib_label = Label(output_frame, text=f"IB Options Gross P/L: {formatted_ib}", bg="white", wraplength=250, justify="left")
-        ib_label.grid(row=1, column=0, padx=20, pady=10)
+        ib_label = Label(query_output_frame, text=f"IB Options Gross P/L: {formatted_ib}", bg="white", wraplength=250, justify="left",font='bold')
+        ib_label.grid(row=1, column=0, padx=10, pady=10,sticky=W)
 
-        td_label = Label(output_frame, text=f"TD Options Gross P/L: {formatted_td}", bg="white", wraplength=250, justify="left")
-        td_label.grid(row=2, column=0, padx=20, pady=10)
+        td_label = Label(query_output_frame, text=f"TD Options Gross P/L: {formatted_td}", bg="white", wraplength=250, justify="left",font='bold')
+        td_label.grid(row=2, column=0, padx=10, pady=10,sticky=W)
 
-        gross_pl_label = Label(output_frame, text=f"Total Gross P/L: {formatted_gross_pl}", bg="white", wraplength=250, justify="left")
-        gross_pl_label.grid(row=3, column=0, padx=20, pady=10)  
+        gross_pl_label = Label(query_output_frame, text=f"Total Gross P/L: {formatted_gross_pl}", bg="white", wraplength=250, justify="left",font='bold')
+        gross_pl_label.grid(row=3, column=0, padx=10, pady=10,sticky=W)  
+
+    # close the cursor and database connections
+    cur.close()
+    conn.close()
+
+# Function to display Gross P/L data within the tbl_frm
+def display_commissions():
+
+    # clear the current content
+    global query_output_frame
+    if query_output_frame:
+        query_output_frame.destroy()
+
+    # Create a new frame to hold the labels
+    query_output_frame = Frame(bg="white")
+    query_output_frame.grid(
+        row=6, column=0, columnspan=4, sticky=W, pady=10, padx=10
+        ) 
+    # connect to the database
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
     
+    # fixme: need a label to change the year
+    # SQL statement to fetch Gross P/L
+    SQL_fx = "SELECT SUM(commissions_cost) FROM fx_commissions WHERE entry_year = 2022;"
+    SQL_ib = "SELECT SUM(comm_cost) FROM ib_commissions_fee WHERE year = 2022;"
+    SQL_td = "SELECT SUM(comm_cost) FROM td_commissions WHERE year = 2022;"
+    
+    # Execute the queries and fetch the results
+    with conn:
+
+        cur.execute(SQL_fx)
+        records_fx = cur.fetchall()
+        sum_fx = records_fx[0][0] if records_fx and records_fx[0][0] is not None else 0
+        formatted_fx = "{:.2f}".format(sum_fx)
+
+        cur.execute(SQL_ib)
+        records_ib = cur.fetchall()
+        sum_ib = records_ib[0][0] if records_ib and records_ib[0][0] is not None else 0
+        formatted_ib = "{:.2f}".format(sum_ib)
+        
+        cur.execute(SQL_td)
+        records_td = cur.fetchall()
+        sum_td = records_td[0][0] if records_td and records_td[0][0] is not None else 0
+        formatted_td = "{:.2f}".format(sum_td)
+
+        # Calculate the total Gross P/L
+        total_gross_pl = sum_fx + sum_ib + sum_td
+
+        # Format the Gross P/L value to two decimal places
+        formatted_gross_pl = "{:.2f}".format(total_gross_pl)
+
+        # Create labels inside the output frame to display individual Gross P/L
+        fx_label = Label(query_output_frame, text=f"FX comm: {formatted_fx}", bg="white", wraplength=250, justify="left",font='bold')
+        fx_label.grid(row=0, column=0, padx=10, pady=10, sticky=W)
+
+        ib_label = Label(query_output_frame, text=f"IB Options comm: {formatted_ib}", bg="white", wraplength=250, justify="left",font='bold')
+        ib_label.grid(row=1, column=0, padx=10, pady=10,sticky=W, columnspan=3)
+
+        td_label = Label(query_output_frame, text=f"TD Options comm: {formatted_td}", bg="white", wraplength=250, justify="left",font='bold')
+        td_label.grid(row=2, column=0, padx=10, pady=10,sticky=W)
+
+        gross_pl_label = Label(query_output_frame, text=f"Total comm: {formatted_gross_pl}", bg="white", wraplength=250, justify="left",font='bold')
+        gross_pl_label.grid(row=3, column=0, padx=10, pady=10,sticky=W)  
+
     # close the cursor and database connections
     cur.close()
     conn.close()
 
 # Function to handle menu item selection
 def menuItemSelected(option=None):
+
+    # clear the current content
+    global query_output_frame
+    if query_output_frame:
+        query_output_frame.destroy()
+
     if option == "Gross P/L":
         display_gross_pl()
+    elif option == "Commissions":
+        display_commissions()
+    elif option == "Clear Results":
+        if query_output_frame:
+            query_output_frame.destroy()
     else:
         print('Other options selected')
 
@@ -99,11 +186,12 @@ editMenu.add_command(label="Cut", command=menuItemSelected)
 editMenu.add_command(label="Copy", command=menuItemSelected)
 editMenu.add_command(label="Paste", command=menuItemSelected)
 
-# Create view menu
+# Create view query menu
 viewMenu = Menu(menubar)
 menubar.add_cascade(label="View Query", menu=viewMenu)
 viewMenu.add_command(label="Gross P/L", command=lambda: menuItemSelected("Gross P/L"))
-viewMenu.add_command(label="Commissions", command=menuItemSelected)
+viewMenu.add_command(label="Commissions", command=lambda: menuItemSelected("Commissions"))
+viewMenu.add_command(label="Clear Results", command=lambda: menuItemSelected("Clear Results"))
 
 
 # Create help menu
@@ -446,14 +534,16 @@ b2 = ttk.Radiobutton(tbl_frm,
 
 select_columns_btn = ttk.Button(tbl_frm, 
                                 text='Select columns and enter year.',
-                                command=lambda: select_columns(None))
+                                command=lambda: select_columns(None)
+                                )
 
 # create a button to run the query
 # link the show_all_rows function to the "Run Query" button 
-run_query_btn = ttk.Button(tbl_frm, 
+run_query_btn = ttk.Button(root, 
                          text='Run Query',
                          command=run_query,
-                         default='active' )
+                         default='active',
+                         width=10)
 
 # grid all the widgets
 lbox.grid(column=0, row=0, rowspan=6, sticky=(N,S,E,W))
@@ -461,13 +551,13 @@ scrollbar.grid(column=1, row=0, rowspan=6, sticky=(N,S))
 lbl.grid(column=2, row=1, padx=10, pady=5, sticky=W)
 b1.grid(column=2, row=2, sticky=W, padx=20)
 b2.grid(column=2, row=3, sticky=W, padx=20)
-run_query_btn.grid(column=2, row=7, sticky=E, padx=5, pady=5)
 
 # place the year entry label on the grid
 # place the select column button below the year entry label
 # year_label.grid(column=2, row=4, sticky=E, padx=5, pady=5)
 year_entry.grid(column=3, row=4, sticky=W, padx=5, pady=5)
 select_columns_btn.grid(column=2, row=4, sticky=E, padx=5, pady=5)
+run_query_btn.grid(column=2, row=6, sticky=(S,E), padx=5, pady=5)
 
 # frame expands as the window expands and fixes row in place  
 tbl_frm.grid_columnconfigure(0, weight=1)
