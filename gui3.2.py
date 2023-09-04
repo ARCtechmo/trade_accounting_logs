@@ -1,10 +1,6 @@
 
 # FIXME Security: Using string formats to create SQL statements (e.g., f"SELECT * FROM {table_name}") exposes the application to SQL injection attacks 
-# TASK: Use the display_commissions() function as a model:
-# 1) Add functions for ineterest debit and credit
-# 2) Add functions for broker credit / misc credit
-# 3) Add functions for fees
-# 4) Add functions for roundtrip trades
+# TASK: Finish the query menu item functions
 
 from tkinter import *
 from tkinter import ttk
@@ -82,7 +78,7 @@ def display_gross_pl():
     cur.close()
     conn.close()
 
-# Function to display Gross P/L data within the tbl_frm
+# Function to display commissions  data within the tbl_frm
 def display_commissions():
 
     # clear the current content
@@ -125,13 +121,13 @@ def display_commissions():
         sum_td = records_td[0][0] if records_td and records_td[0][0] is not None else 0
         formatted_td = "{:.2f}".format(sum_td)
 
-        # Calculate the total Gross P/L
+        # Calculate the total commissions
         total_gross_pl = sum_fx + sum_ib + sum_td
 
-        # Format the Gross P/L value to two decimal places
+        # Format commissions value to two decimal places
         formatted_gross_pl = "{:.2f}".format(total_gross_pl)
 
-        # Create labels inside the output frame to display individual Gross P/L
+        # Create labels inside the output frame to display individual commissions
         fx_label = Label(query_output_frame, text=f"FX comm: {formatted_fx}", bg="white", wraplength=250, justify="left",font='bold')
         fx_label.grid(row=0, column=0, padx=10, pady=10, sticky=W)
 
@@ -148,6 +144,196 @@ def display_commissions():
     cur.close()
     conn.close()
 
+# Function to display interest data within the tbl_frm
+def interest():
+    
+    # clear the current content
+    global query_output_frame
+    if query_output_frame:
+        query_output_frame.destroy()
+    
+    # Retrieve year from entry
+    year = year_entry.get()
+
+    # Create a new frame to hold the labels
+    query_output_frame = Frame(bg="white")
+    query_output_frame.grid(
+        row=6, column=0, columnspan=4, sticky=W, pady=10, padx=10
+        ) 
+
+    # connect to the database
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
+    
+    # SQL statement to fetch Gross P/L
+    SQL_fx_debit = "SELECT SUM(interest_debit) FROM fx_interest_debit WHERE entry_year = ?;"
+    SQL_fx_income = "SELECT SUM(interest_credit) FROM fx_interest_income WHERE entry_year = ?;"
+    SQL_td_debit = "SELECT SUM(int_adj_debit) FROM td_interest_debit WHERE year = ?;"
+    SQL_td_credit = "SELECT SUM(int_adj_income) FROM td_interest_income WHERE year = ?;"
+    
+    # Execute the queries and fetch the results
+    with conn:
+
+        cur.execute(SQL_fx_debit, (year,))
+        records_fx_int_debit = cur.fetchall()
+        sum_fx_int_debit = records_fx_int_debit[0][0] if records_fx_int_debit and records_fx_int_debit[0][0] is not None else 0
+        formatted_fx_int_debit = "{:.2f}".format(sum_fx_int_debit)
+
+        cur.execute(SQL_fx_income, (year,))
+        records_fx_int_income = cur.fetchall()
+        sum_fx_int_income = records_fx_int_income[0][0] if records_fx_int_income and records_fx_int_income[0][0] is not None else 0
+        formatted_fx_int_credit = "{:.2f}".format(sum_fx_int_income)
+       
+        cur.execute(SQL_td_debit, (year,))
+        records_td_int_debit = cur.fetchall()
+        sum_td_int_debit = records_td_int_debit[0][0] if records_td_int_debit and records_td_int_debit[0][0] is not None else 0
+        formatted_td_int_debit = "{:.2f}".format(sum_td_int_debit)
+
+        cur.execute(SQL_td_credit, (year,))
+        records_td_int_credit = cur.fetchall()
+        sum_td_int_income = records_td_int_credit[0][0] if records_td_int_credit and records_td_int_credit[0][0] is not None else 0
+        formatted_td_int_credit = "{:.2f}".format(sum_td_int_income)
+
+        # Calculate the total net interest
+        fx_net_int = sum_fx_int_debit + sum_fx_int_income 
+        td_net_int = sum_td_int_debit + sum_td_int_income
+
+        # Format the net interest value to two decimal places
+        formatted_fx_net_int = "{:.2f}".format(fx_net_int)
+        formatted_td_net_int = "{:.2f}".format(td_net_int)
+
+        # Create labels inside the output frame to display interest
+        fx_label_debit = Label(query_output_frame, text=f"FX_interest_debit: {formatted_fx_int_debit}", bg="white", wraplength=250, justify="left",font='bold')
+        fx_label_debit.grid(row=0, column=0, padx=10, pady=0, sticky=W)
+        fx_label_income = Label(query_output_frame, text=f"FX_interest_income: {formatted_fx_int_credit}", bg="white", wraplength=250, justify="left",font='bold')
+        fx_label_income.grid(row=1, column=0, padx=10, pady=0, sticky=W)
+        net_fx_int_label = Label(query_output_frame, text=f"Net_FX_interest: {formatted_fx_net_int}", bg="white", wraplength=250, justify="left",font='bold')
+        net_fx_int_label.grid(row=2, column=0, padx=10, pady=0,sticky=W)  
+        td_label_int_debit = Label(query_output_frame, text=f"\nTD_interest_debit: {formatted_td_int_debit}", bg="white", wraplength=250, justify="left",font='bold')
+        td_label_int_debit.grid(row=3, column=0, padx=10, pady=0,sticky=W)
+        td_label_int_credit = Label(query_output_frame, text=f"TD_interest_income: {formatted_td_int_credit}", bg="white", wraplength=250, justify="left",font='bold')
+        td_label_int_credit.grid(row=4, column=0, padx=10, pady=0,sticky=W)
+        net_td_int_label = Label(query_output_frame, text=f"Net_TD_interest: {formatted_td_net_int}", bg="white", wraplength=250, justify="left",font='bold')
+        net_td_int_label.grid(row=5, column=0, padx=10, pady=0,sticky=W)  
+
+    # close the cursor and database connections
+    cur.close()
+    conn.close()
+
+# Function to display fees data within the tbl_frm
+def fees():
+
+    # clear the current content
+    global query_output_frame
+    if query_output_frame:
+        query_output_frame.destroy()
+    
+    # Retrieve year from entry
+    year = year_entry.get()
+
+    # Create a new frame to hold the labels
+    query_output_frame = Frame(bg="white")
+    query_output_frame.grid(
+        row=6, column=0, columnspan=4, sticky=W, pady=10, padx=10
+        ) 
+    # connect to the database
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
+    
+    # SQL statement to fetch fees
+    SQL_ib = "SELECT SUM(fee) FROM ib_other_fee WHERE year = ?;"
+    SQL_td = "SELECT SUM(reg_fee) FROM td_regulation_fee WHERE year = ?;"
+    
+    # Execute the queries and fetch the results
+    with conn:
+
+        cur.execute(SQL_ib,(year,))
+        records_ib = cur.fetchall()
+        sum_ib = records_ib[0][0] if records_ib and records_ib[0][0] is not None else 0
+        formatted_ib = "{:.2f}".format(sum_ib)
+        
+        cur.execute(SQL_td,(year,))
+        records_td = cur.fetchall()
+        sum_td = records_td[0][0] if records_td and records_td[0][0] is not None else 0
+        formatted_td = "{:.2f}".format(sum_td)
+
+        # Calculate the total fees
+        total_fees = sum_ib + sum_td
+
+        # Format fee values to two decimal places
+        formatted_fees = "{:.2f}".format(total_fees)
+
+        # Create labels inside the output frame to display individual fees
+        ib_label = Label(query_output_frame, text=f"IB Fees: {formatted_ib}", bg="white", wraplength=250, justify="left",font='bold')
+        ib_label.grid(row=0, column=0, padx=10, pady=10,sticky=W, columnspan=3)
+
+        td_label = Label(query_output_frame, text=f"TD Fees: {formatted_td}", bg="white", wraplength=250, justify="left",font='bold')
+        td_label.grid(row=1, column=0, padx=10, pady=10,sticky=W)
+
+        gross_fee_label = Label(query_output_frame, text=f"Total Fees: {formatted_fees}", bg="white", wraplength=250, justify="left",font='bold')
+        gross_fee_label.grid(row=2, column=0, padx=10, pady=10,sticky=W)  
+
+    # close the cursor and database connections
+    cur.close()
+    conn.close()
+
+# Function to display commissions  data within the tbl_frm
+def misc_debit_credit():
+
+    # clear the current content
+    global query_output_frame
+    if query_output_frame:
+        query_output_frame.destroy()
+    
+    # Retrieve year from entry
+    year = year_entry.get()
+
+    # Create a new frame to hold the labels
+    query_output_frame = Frame(bg="white")
+    query_output_frame.grid(
+        row=6, column=0, columnspan=4, sticky=W, pady=10, padx=10
+        ) 
+    # connect to the database
+    conn = sqlite3.connect('database.db')
+    cur = conn.cursor()
+    
+    # SQL statement to fetch Gross P/L
+    SQL_fx = "SELECT SUM(broker_credit) FROM fx_broker_credit_income WHERE entry_year = ?;"
+    SQL_td_misc_debit = "SELECT SUM(misc_debit) FROM td_misc_debit WHERE year = ?;"
+    SQL_td_misc_income = "SELECT SUM(misc_credit) FROM td_misc_income WHERE year = ?;"
+    
+    # Execute the queries and fetch the results
+    with conn:
+
+        cur.execute(SQL_fx,(year,))
+        records_fx = cur.fetchall()
+        sum_fx = records_fx[0][0] if records_fx and records_fx[0][0] is not None else 0
+        formatted_fx = "{:.2f}".format(sum_fx)
+        
+        cur.execute(SQL_td_misc_debit,(year,))
+        records_td_misc_debit = cur.fetchall()
+        sum_td_misc_debit = records_td_misc_debit[0][0] if records_td_misc_debit and records_td_misc_debit[0][0] is not None else 0
+        formatted_td_misc_debit = "{:.2f}".format(sum_td_misc_debit)
+
+        cur.execute(SQL_td_misc_income,(year,))
+        records_td_misc_income = cur.fetchall()
+        sum_td_misc_income = records_td_misc_income[0][0] if records_td_misc_income and records_td_misc_income[0][0] is not None else 0
+        formatted_td_misc_income = "{:.2f}".format(sum_td_misc_income)
+
+        # Create labels inside the output frame to display individual commissions
+        fx_label = Label(query_output_frame, text=f"FX Broker Credit: {formatted_fx}", bg="white", wraplength=250, justify="left",font='bold')
+        fx_label.grid(row=0, column=0, padx=10, pady=10, sticky=W)
+
+        td_label_misc_debit = Label(query_output_frame, text=f"TD Misc Debit: {formatted_td_misc_debit}", bg="white", wraplength=250, justify="left",font='bold')
+        td_label_misc_debit.grid(row=1, column=0, padx=10, pady=10,sticky=W)
+
+        td_label_misc_income = Label(query_output_frame, text=f"TD Misc Credit: {formatted_td_misc_income}", bg="white", wraplength=250, justify="left",font='bold')
+        td_label_misc_income.grid(row=1, column=0, padx=10, pady=10,sticky=W)
+
+    # close the cursor and database connections
+    cur.close()
+    conn.close()
+
 # Function to handle menu item selection
 def menuItemSelected(option=None):
 
@@ -158,8 +344,19 @@ def menuItemSelected(option=None):
 
     if option == "Gross P/L":
         display_gross_pl()
+
     elif option == "Commissions":
         display_commissions()
+
+    elif option == "Interest":
+        interest()
+
+    elif option == "Fees":
+        fees()
+
+    elif option == "Misc Credits/Debits":
+        misc_debit_credit()
+
     elif option == "Clear Results":
         if query_output_frame:
             query_output_frame.destroy()
@@ -196,8 +393,13 @@ viewMenu = Menu(menubar)
 menubar.add_cascade(label="View Query", menu=viewMenu)
 viewMenu.add_command(label="Gross P/L", command=lambda: menuItemSelected("Gross P/L"))
 viewMenu.add_command(label="Commissions", command=lambda: menuItemSelected("Commissions"))
+viewMenu.add_command(label="Interest", command=lambda: menuItemSelected("Interest"))
+viewMenu.add_command(label="Fees", command=lambda: menuItemSelected("Fees"))
+viewMenu.add_command(label="Misc Credits/Debits", command=lambda: menuItemSelected("Misc Credits/Debits"))
+viewMenu.add_command(label="Non Trading Revenue", command=lambda: menuItemSelected("Non Trading Revenue"))
+viewMenu.add_command(label="Non Trading Expense", command=lambda: menuItemSelected("Non Trading Expense"))
+viewMenu.add_command(label="Roundtrip Trades", command=lambda: menuItemSelected("Roundtrip Trades"))
 viewMenu.add_command(label="Clear Results", command=lambda: menuItemSelected("Clear Results"))
-
 
 # Create help menu
 helpMenu = Menu(menubar)
